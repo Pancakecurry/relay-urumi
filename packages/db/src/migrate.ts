@@ -29,8 +29,9 @@ try {
     }
     await c.query('BEGIN');
     await c.query(readFileSync('packages/db/migrations/0001_m3.sql', 'utf8'));
+    await c.query(readFileSync('packages/db/migrations/0002_m4.sql', 'utf8'));
     await c.query('COMMIT');
-    console.log(JSON.stringify({ migration: '0001_m3', roles: ['relay_migrator', 'relay_auth', 'relay_app'], runtimeRlsBypass: false, status: 'applied' }));
+    console.log(JSON.stringify({ migrations: ['0001_m3', '0002_m4'], roles: ['relay_migrator', 'relay_auth', 'relay_app'], runtimeRlsBypass: false, status: 'applied' }));
     }finally{await c.query('ROLLBACK').catch(()=>{});await c.query('SELECT pg_advisory_unlock(73303)').catch(()=>{});c.release();}
 }
 finally { await p.end(); }

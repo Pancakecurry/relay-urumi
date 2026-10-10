@@ -7,7 +7,7 @@ persistence:
   databaseSize: 10Gi
   contentSize: 5Gi
 site:
-  url: https://store.example.invalid
+  url: http://store.example.invalid
 ingress:
   hostname: store.example.invalid
-  tlsSecret: store-tls
+  tlsSecret: ""

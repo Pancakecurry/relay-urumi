@@ -5,7 +5,7 @@ import { parseEnv } from 'node:util';
 const git = args => execFileSync('git',args,{encoding:'utf8',stdio:['ignore','pipe','pipe']});
 const files=git(['diff','--cached','--name-only','--diff-filter=ACMR','-z']).split('\0').filter(Boolean);
 const secrets=[];
-for(const path of ['.local/m0-token','.local/gemini.env']){
+for(const path of ['.local/m0-token','.local/gemini.env','.local/m4-admin-key']){
   try {const raw=readFileSync(path,'utf8');const value=path.endsWith('.env')?parseEnv(raw).GEMINI_API_KEY:raw.trim();if(value?.length>=8)secrets.push(value);}
   catch(error){if(error.code!=='ENOENT')throw error;}
 }
@@ -15,6 +15,9 @@ for(const file of readdirSync('.local').filter(x=>x.endsWith('-credentials.json'
 }
 for(const file of ['.local/m3-runtime-secrets.json','.local/m3-acceptance-identity.json']){
  try{const data=JSON.parse(readFileSync(file,'utf8'));const values=file.includes('runtime')?Object.values(data):[data.adminKey,data.memberKey,data.adminCookie,data.memberCookie,...Object.values(data.passwords??{})];for(const value of values)if(typeof value==='string'&&value.length>=8)secrets.push(value,Buffer.from(value).toString('base64'));}catch(error){if(error.code!=='ENOENT')throw error;}
+}
+for(const file of ['.local/m4-acceptance-identity.json','.local/console-owner.json']){
+ try{const d=JSON.parse(readFileSync(file,'utf8'));for(const value of [d.password,d.A?.password,d.B?.password,d.memberKey,d.previousMemberKey,d.adminCookie,d.memberCookie])if(typeof value==='string'&&value.length>=8)secrets.push(value,Buffer.from(value).toString('base64'));}catch(error){if(error.code!=='ENOENT')throw error;}
 }
 const violations=[];
 try {

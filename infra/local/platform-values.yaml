@@ -3,3 +3,7 @@ platformHost: relay.localhost
 publicOrigin: http://relay.localhost:18080
 kubeApiCidr: 172.24.0.3/32
 additionalMcpHosts: [localhost]
+
+# Console is core; model traffic stays opt-in through console-deploy.sh.
+dashboardEnabled: true
+modelEnabled: false

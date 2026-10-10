@@ -44,7 +44,7 @@ The automatic v2 client uses modern `server/discover` and protocol `2026-07-28`.
 
 `pnpm deploy --legacy` in the Dockerfile selects pnpm's workspace packaging mode. It does not select an older MCP SDK or protocol.
 
-## Not installed / not yet locked
+## Historical M0: not installed / not yet locked
 
 React/Vite/TanStack Query, PostgreSQL/Drizzle, production k3s configuration and any local model runtime are future milestones. Pin their exact packages/images when implemented and verify them at the corresponding gate. M0's Better Auth SQLite database is an isolated test; PostgreSQL remains the application baseline.
 
@@ -83,3 +83,13 @@ Primary references reviewed: [official v2 Fastify server API](https://ts.sdk.mod
 - Platform runtime source fingerprint includes `.ts`, `.sql`, package manifests, Dockerfiles, root config and the frozen lock. Actual tag/image ID and Pod image IDs: `evidence/m3/image.txt`, `evidence/m3/inventory.json`.
 
 Documentation checked during M3: [Better Auth 1.7.7 Drizzle](https://better-auth.com/docs/adapters/drizzle), [Fastify integration](https://better-auth.com/docs/integrations/fastify), [sessions](https://better-auth.com/docs/concepts/session-management), [Drizzle PostgreSQL](https://orm.drizzle.team/docs/get-started-postgresql), [PostgreSQL 18 RLS](https://www.postgresql.org/docs/current/ddl-rowsecurity.html), [PostgreSQL image](https://hub.docker.com/_/postgres), [Redis image](https://hub.docker.com/_/redis), [ioredis guidance](https://redis.io/docs/latest/develop/clients/ioredis/), [node-postgres pools](https://node-postgres.com/features/pooling), [Ajv security](https://ajv.js.org/security.html). Installed v2 declarations were inspected for Standard Schema, client request options, per-request factories and cancellation; no v1 tutorial APIs were substituted.
+
+## M4 exact additions — October 11, 2026
+
+React/React DOM **19.3.0**; React Router DOM **7.18.4**; TanStack Query **5.104.1**; Radix Dialog **1.2.0**; Lucide React **1.53.0**; react-markdown **10.1.0** (MIT); Vite **8.3.4**; @vitejs/plugin-react **6.1.2**; @types/react and @types/react-dom **19.3.0**; TypeScript **6.0.3**; Prettier **3.9.9**. Direct versions and complete resolved graph are frozen in package manifests/pnpm-lock.yaml. Existing Node **24.16.0**, pnpm **11.25.0**, official MCP v2 **2.3.1**, Fastify **5.12.5**, Better Auth **1.7.7**, Drizzle **0.45.4**, PostgreSQL **18.6**, Redis **8.2.10** and store versions are retained.
+
+AI SDK **7.0.135** and @ai-sdk/google **4.0.93** execute Gemini **gemini-3.5-flash-lite**, a stable ID, not immutable model weights. Actual model/provider events are in m4/chat-create.json, chat-orders.json and external-agent.json. The initial gemini-2.5-flash-lite request failed before tool execution and remains recorded. No costly automatic model fallback exists. Fixed official HTTPS endpoint, request/output bounds and conservative prepaid reservation precede every request. See ADR 0009 and [official thinking limits](https://ai.google.dev/gemini-api/docs/thinking), [pricing](https://ai.google.dev/gemini-api/docs/pricing), [AI SDK Google adapter](https://ai-sdk.dev/providers/ai-sdk-providers/google-generative-ai).
+
+Self-hosted Geist Sans/Mono assets originate from **geist 1.7.2**, retained with the SIL Open Font License under apps/dashboard/src/assets. No Next.js runtime is required. Safe CommonMark rendering uses the [pinned react-markdown README](https://github.com/remarkjs/react-markdown/tree/10.1.0), rejects HTML, and permits safe links with opener isolation.
+
+Runtime fingerprint additionally covers TSX/CSS/HTML/font/static-server inputs. Exact current image, native architecture, digest/image IDs and Kubernetes references: m4/image.txt and m4/inventory.json. Final source reproduction must match that fingerprint. Helm platform chart version is recorded in charts/platform/Chart.yaml. Playwright **1.64.0** uses the installed Chrome channel; screenshots record genuine browser output.

@@ -14,6 +14,8 @@ COPY --from=build --chown=node:node /build/dist/apps ./dist/apps
 COPY --from=build --chown=node:node /build/dist/packages ./dist/packages
 COPY --from=build --chown=node:node /build/packages/mcp-runtime/package.json ./package.json
 COPY --from=build --chown=node:node /build/packages/db/migrations ./packages/db/migrations
+COPY --from=build --chown=node:node /build/apps/dashboard/dist ./public
+COPY --from=build --chown=node:node /build/apps/dashboard/static.mjs ./static.mjs
 USER node
 EXPOSE 3000
 CMD ["node", "dist/apps/api/src/server.js"]

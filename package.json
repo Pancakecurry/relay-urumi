@@ -9,8 +9,8 @@
     "pnpm": "11.25.0"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -p tsconfig.json && node apps/dashboard/node_modules/vite/bin/vite.js build apps/dashboard",
+    "typecheck": "tsc -p tsconfig.json --noEmit && node node_modules/typescript/bin/tsc -p apps/dashboard/tsconfig.json --noEmit",
     "lint": "eslint apps packages tests",
     "test": "vitest run",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
@@ -27,7 +27,12 @@
     "mcp:acceptance": "node scripts/mcp-acceptance.mjs",
     "mcp:network": "node scripts/mcp-network.mjs",
     "platform:deploy": "bash scripts/platform-deploy.sh",
-    "platform:acceptance": "node scripts/platform-acceptance.mjs"
+    "platform:acceptance": "node scripts/platform-acceptance.mjs",
+    "dashboard:build": "node apps/dashboard/node_modules/vite/bin/vite.js build apps/dashboard",
+    "console:deploy": "bash scripts/console-deploy.sh",
+    "console:bootstrap": "node scripts/console-bootstrap.mjs",
+    "console:browser": "node scripts/console-browser.mjs",
+    "console:regression": "node scripts/console-regression.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
@@ -38,16 +43,19 @@
     "@types/pg": "8.15.6",
     "better-auth": "1.7.7",
     "eslint": "10.12.0",
+    "prettier": "3.9.9",
     "typescript": "6.0.3",
     "typescript-eslint": "8.71.1",
     "vitest": "5.0.3"
   },
   "dependencies": {
+    "@ai-sdk/google": "4.0.93",
     "@better-auth/drizzle-adapter": "1.7.7",
     "@js-temporal/polyfill": "0.5.1",
     "@modelcontextprotocol/fastify": "2.0.1",
     "@modelcontextprotocol/node": "2.1.1",
     "@modelcontextprotocol/server": "2.3.1",
+    "ai": "7.0.135",
     "ajv": "8.20.0",
     "drizzle-orm": "0.45.4",
     "fastify": "5.12.5",

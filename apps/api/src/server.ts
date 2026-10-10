@@ -1,4 +1,5 @@
 import Fastify from 'fastify';
+import { installConsole } from './console.js';
 import { fromNodeHeaders } from 'better-auth/node';
 import * as z from 'zod/v4';
 import { randomUUID } from 'node:crypto';
@@ -53,7 +54,7 @@ async function identity(headers: Parameters<typeof fromNodeHeaders>[0]): Promise
 async function event(tx: Tx, i: Identity, action: string, target?: string) { await tx.query('INSERT INTO app.management_events(id,team_id,user_id,action,target) VALUES($1,$2,$3,$4,$5)', [randomUUID(), i.team, i.user, action, target ?? null]); }
 app.get('/api/teams', async (req) => { const s = await login(req.headers); return { teams: (await store.pool.query('SELECT * FROM app.my_teams($1)', [s.user.id])).rows }; });
 app.post('/api/teams', async (req) => { const s = await login(req.headers); const b = z.strictObject({ name: z.string().trim().min(1).max(80) }).parse(req.body); const team = randomUUID(); return store.tenant(team, async (tx) => { await tx.query('INSERT INTO app.teams(id,name) VALUES($1,$2)', [team, b.name]); await tx.query("INSERT INTO app.memberships(team_id,user_id,role) VALUES($1,$2,'admin')", [team, s.user.id]); return { id: team, name: b.name, role: 'admin' }; }); });
-app.get('/api/members', async (req) => { const i = await identity(req.headers); admin(i); return store.tenant(i.team, async (tx) => ({ members: (await tx.query('SELECT user_id,role,active,created_at FROM app.memberships ORDER BY created_at')).rows })); });
+app.get('/api/members', async (req) => { const i = await identity(req.headers); admin(i); return store.tenant(i.team, async (tx) => ({ members: (await tx.query('SELECT m.user_id,m.role,m.active,m.created_at,d.name,d.email FROM app.memberships m LEFT JOIN app.member_directory() d ON d.user_id=m.user_id ORDER BY m.created_at')).rows })); });
 app.patch('/api/members/:id', async (req) => { const i = await identity(req.headers); admin(i); const id = z.string().min(1).max(128).parse((req.params as {
     id: string;
 }).id); const b = z.strictObject({ active: z.boolean().optional(), role: z.enum(['admin', 'member']).optional() }).refine(v => Object.keys(v).length > 0).parse(req.body); return store.tenant(i.team, async (tx) => { await tx.query('SELECT id FROM app.teams WHERE id=$1 FOR UPDATE', [i.team]); const r = (await tx.query<{
@@ -133,6 +134,7 @@ app.get('/api/tools', async (req) => { await identity(req.headers); const h = ne
     token: string;
 }; const response = await fetch('http://relay-gateway:3000/internal/tools', { headers: { authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(3000) }); if (!response.ok)
     throw new Rejection('CATALOG_UNAVAILABLE', 503); return await response.json(); });
+installConsole(app, store, identity, login);
 await app.listen({ host: '0.0.0.0', port: 3001 });
 for (const signal of ['SIGTERM', 'SIGINT'] as const)
     process.once(signal, () => { void app.close().then(() => Promise.all([store.pool.end(), authPool.end()])); });

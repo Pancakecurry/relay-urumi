@@ -26,6 +26,6 @@ export class Store {
             c.release();
         }
     }
-    async ready() { if (!(await this.pool.query("SELECT 1 FROM app.schema_migrations WHERE version='0001_m3'")).rowCount)
+    async ready() { if ((await this.pool.query("SELECT 1 FROM app.schema_migrations WHERE version IN ('0001_m3','0002_m4')")).rowCount !== 2)
         throw new Error('Migrations unavailable'); }
 }

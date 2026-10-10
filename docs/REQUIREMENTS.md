@@ -1,6 +1,6 @@
 # Requirement and acceptance ledger
 
-Authority: [employer brief](https://docs.google.com/document/d/1wE4j9_Y_iydrkiMu7p9N_Kd4ltFztUqjssyBd4tSwkU/view), research baseline dated 2026-10-09, and the owner’s milestone execution directives. All core, multi-store and nine differentiator areas remain in scope. Internal submission target: October 25; deadline: October 26, 2026, 11:59 PM IST.
+Authority: [employer brief](https://docs.google.com/document/d/1wE4j9_Y_iydrkiMu7p9N_Kd4ltFztUqjssyBd4tSwkU/view), research baseline dated 2026-10-09, and the owner’s milestone execution directives. All core, multi-store, nine differentiator areas and C1–C10 remain in scope. Internal submission target: October 25; deadline: October 26, 2026, 11:59 PM IST.
 
 Allowed feature statuses: planned / implemented / tested locally / verified on VPS / demonstrated. A proof of a transport is not a completed WooCommerce gateway. Evidence below is the required future evidence until replaced with an actual file/run path.
 
@@ -104,3 +104,33 @@ W01–W04 are tested locally for the M2 handwritten/private upstream scope. G06'
 ## M3 status boundary
 
 G01–G06 and T03 backend features are tested locally. T01/T02/T04 backend portions are tested but retain implemented status while their required dashboard/user walkthrough remains M4. Trusted chat delegation is tested supporting evidence for A02, not completed product chat. D02/D06/D07 have foundational negative-test support; all full optional gates remain planned. Every original ID and all expansion scope remain preserved.
+
+## M4 local Gate A tracking
+
+M4 live integration is tested. The final exact-source empty-cluster installation is pending until m4/clean-install.json exists with passed:true. Do not infer a VPS/video/submission from local tests. All K/W/G/T/U/A/E requirement IDs are retained; final status promotion follows that gate.
+
+| Acceptance area | Evidence | Status / limitation |
+|---|---|---|
+| Real A product → COD/admin → today's orders | m4/chat-create.json; m4/checkout.json; m4/chat-orders.json; m4/persistence.json | tested locally; product42/order43; wrong-date first attempt preserved and repaired |
+| B external model prompt / 3 upstreams / Inspector | m4/external-agent.json; m4/inspector.json | tested locally; Relay CLI host, not a branded desktop host claim |
+| UI management, failure, membership/key enforcement, audit correlation | m4/browser.json; m4/operations.json; m4/business-regression.json | tested locally; revoked keys stay revoked |
+| Security and network boundaries | m4/security.json; m4/network.json; m4/regression.json | tested locally; internal HTTP/operator privilege residual limits remain |
+| All-screen desktop/mobile formatting | m4/visual/review.json; design/REVIEW.md | tested locally;49 post-repair desktop/mobile states pass |
+| Clean source + empty cluster | m4/clean-install.json | planned final gate, no new provider traffic |
+
+## Product expansion scope — retained C1–C10
+
+These are additional full-product gates, not replacement names for M4 features. Each remains planned, with its original acceptance specification in the authoritative research baseline.
+
+| ID | Product expansion | Implementation path | Milestone/status | Required evidence / limitations |
+|---|---|---|---|---|
+| C1 | Complete Gateway Flight Recorder | telemetry, gateway, dashboard | post-core / planned | Real policy/identity/routing timeline, safe replay, redaction and unknown writes; M4 inspector is supporting work only |
+| C2 | Explainable policy and action preview | auth, gateway, dashboard | post-core / planned | Same-engine dry-run explanations and exact expiring actor/tool/argument-bound approvals |
+| C3 | Store/connection Doctor | provisioner, gateway, dashboard | post-core / planned | Correct diagnosis of DNS/TLS/readiness/credentials/PVC failures; authorized audited remediation |
+| C4 | Workflow studio | API, gateway, dashboard | post-core / planned | Versioned typed playbooks, per-step policy/provenance/retry/approval boundaries |
+| C5 | Integration registry | hosted-mcp, contracts, dashboard | post-core / planned | Capability/schema/image review, compatibility and safe upgrades |
+| C6 | Enterprise organization | auth, DB, API, dashboard | post-core / planned | MFA/SSO/service accounts, tenant export/retention/deletion gates |
+| C7 | Reliable operating platform | infra, DB, runbooks | post-core / planned | Actual backup/PITR/HA/disaster drill RPO/RTO; independent failure domains may require external capacity |
+| C8 | Scale and efficiency | gateway, telemetry, infra | post-core / planned | Measured scaling/fair scheduling/caches/revocation/backpressure; no synthetic scale claims |
+| C9 | Hardened public hosting | hosted-mcp, infra, security | post-core / planned | Hostile workload sandbox/signature/egress/abuse/rotation tests; namespaces alone insufficient |
+| C10 | Developer/product experience | SDK/CLI/docs/dashboard | post-core / planned | Connector templates, complete onboarding, screen-reader/accessibility and export compatibility report |

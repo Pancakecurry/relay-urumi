@@ -3,9 +3,10 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { api, secret, site, namespace } from './client.mjs';
 const existing=process.argv.includes('--verify-existing');
 const evidenceDir=process.env.STORE_EVIDENCE_DIR || 'docs/evidence/m1';
-const products=await api('products?sku=RELAY-DEMO-MUG&per_page=1');
+const sku=process.env.STORE_PRODUCT_SKU || 'RELAY-DEMO-MUG';
+const products=await api(`products?sku=${encodeURIComponent(sku)}&per_page=1`);
 if(products.status!==200)throw new Error(`Authenticated products status ${products.status}; code ${products.body.code}`);
-const product=products.body.find(x=>x.sku==='RELAY-DEMO-MUG');
+const product=products.body.find(x=>x.sku===sku);
 if(!product)throw new Error('Synthetic product missing');
 const unauthorized=await api('orders',false);
 if(unauthorized.status!==401)throw new Error('Unauthenticated order access not rejected');
@@ -14,7 +15,7 @@ try{
  const context=await browser.newContext({viewport:{width:1280,height:900}});
  const page=await context.newPage();
  let orderId;
- if(existing){orderId=JSON.parse(readFileSync('docs/evidence/m1/checkout.json','utf8')).orderId;}
+ if(existing){orderId=JSON.parse(readFileSync(process.env.STORE_EXISTING_EVIDENCE || 'docs/evidence/m1/checkout.json','utf8')).orderId;}
  else{
   await page.goto(product.permalink,{waitUntil:'domcontentloaded'});
   await page.getByRole('button',{name:'Add to cart',exact:true}).click();

@@ -1,6 +1,12 @@
+# HTTP k3s lab baseline. Public TLS is the separately verified M9 gate.
 mode: core
 platformHost: relay.example.invalid
-publicOrigin: https://relay.example.invalid
+publicOrigin: http://relay.example.invalid
+platformTlsSecret: ""
 storageClass: local-path
 # Operator must set the real API endpoint /32 for this environment before deployment.
 kubeApiCidr: 192.0.2.1/32
+
+dashboardEnabled: true
+modelEnabled: false
+storefrontUrl: http://store.example.invalid/shop/

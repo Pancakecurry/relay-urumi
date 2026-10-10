@@ -2,7 +2,7 @@
 # No cloud/VPS is provisioned by these values. This is an HTTP k3s lab example.
 # Production TLS/mTLS requires a verified TLS store endpoint and corresponding egress.
 kind: woocommerce
-image: ""
+image: registry.example.invalid/relay/upstreams@sha256:REPLACE_WITH_PUBLISHED_DIGEST
 credentialSecret: woo-mcp-auth
 gatewayNamespace: relay-platform
 store:

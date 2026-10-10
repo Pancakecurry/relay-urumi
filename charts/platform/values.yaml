@@ -16,6 +16,7 @@ resources:
 platformImage: relay/platform:unbuilt
 publicOrigin: http://relay.localhost:18080
 platformHost: relay.localhost
+platformTlsSecret: ""
 pgImage: postgres:18.6-alpine3.23@sha256:885cf05d376c7cf27afef02073e6bdac3841252537f16e244fd1c1e6a7c99fb1
 redisImage: redis:8.2.10-alpine3.22@sha256:b51665e66f00759be7c3152ad5ac3c66fb2f619c13ef62dea7cc1f9914524635
 storageClass: local-path
@@ -31,3 +32,8 @@ platformResources:
   limits: {cpu: 500m, memory: 256Mi}
 
 additionalMcpHosts: []
+
+dashboardEnabled: false
+modelEnabled: false
+modelSecretName: relay-model
+storefrontUrl: http://store.relay.localhost:18080/shop/

@@ -14,4 +14,4 @@ const afterVolumes=JSON.parse(kube(['get','pvc','-n',namespace,'-o','json'])).it
 if(JSON.stringify(volumes)!==JSON.stringify(afterVolumes))throw new Error('PVC identity changed');
 execFileSync(process.execPath,['tests/store/checkout.mjs','--verify-existing'],{stdio:'inherit'});
 const result={at:new Date().toISOString(),before,after,volumes,pvcIdentitiesUnchanged:true,existingOrderProductAndContentVerified:true};
-writeFileSync('docs/evidence/m1/persistence.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));
+writeFileSync(`${process.env.STORE_EVIDENCE_DIR || 'docs/evidence/m1'}/persistence.json`,JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));
