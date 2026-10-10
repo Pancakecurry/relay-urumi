@@ -9,7 +9,9 @@ const destination=mkdtempSync(join(homedir(),'Library/Caches/relay-m4-clean-'));
 const platformImage=readFileSync(join(evidence,'image.txt'),'utf8').trim();let created=false;
 const run=(file,args,cwd=destination,extra={})=>{log.push(`$ ${file} ${args.join(' ')}`);try{const output=execFileSync(file,args,{cwd,encoding:'utf8',maxBuffer:33554432,timeout:900000,env:{...process.env,...extra},stdio:['ignore','pipe','pipe']});log.push(output);writeFileSync(join(evidence,'clean-install.txt'),log.join('\n'));return output;}catch(e){log.push(e.stdout?.toString()??'',e.stderr?.toString()??'');writeFileSync(join(evidence,'clean-install.txt'),log.join('\n'));throw new Error(`Clean installation failed during ${file} ${args.slice(0,2).join(' ')}`);}};
 const disk=statfsSync(root);assert(disk.bavail*disk.bsize>2.5*1024**3,'Need 2.5 GiB free before a second local cluster; preserve current core');
-const existing=JSON.parse(run(join(root,'.tools/bin/k3d'),['cluster','list','-o','json'],root));assert(!existing.some(c=>c.name===cluster),'Existing acceptance cluster retained; review it instead of overwriting');
+// Raw k3d JSON includes join tokens in node labels/env. Read privately; log safe names/counts only.
+const existing=JSON.parse(execFileSync(join(root,'.tools/bin/k3d'),['cluster','list','-o','json'],{cwd:root,encoding:'utf8',stdio:['ignore','pipe','pipe']}));
+log.push('Existing cluster names/counts: '+JSON.stringify(existing.map(c=>({name:c.name,servers:c.serversCount,agents:c.agentsCount}))));assert(!existing.some(c=>c.name===cluster),'Existing acceptance cluster retained; review it instead of overwriting');
 const archive=execFileSync('git',['archive','--format=tar',sourceCommit],{cwd:root,maxBuffer:67108864});execFileSync('tar',['-xf','-','-C',destination],{input:archive});
 mkdirSync(join(destination,'.local'),{mode:0o700});symlinkSync(join(root,'.tools'),join(destination,'.tools'),'dir');run(process.execPath,['scripts/local-cache.mjs']);run('pnpm',['install','--frozen-lockfile']);const check=run('pnpm',['check']);assert(/Tests\s+24 passed/.test(check));const fingerprint=run(process.execPath,['scripts/mcp-image-tag.mjs']).trim().replace(/^m2-/,'m4-');assert.equal(platformImage,`relay/platform:${fingerprint}`);
 let config=readFileSync(join(destination,'infra/local/k3d.yaml'),'utf8').replace('name: relay-m0','name: '+cluster).replace('18080:80','19080:80');writeFileSync(join(destination,'.local/clean-k3d.yaml'),config);
@@ -19,6 +21,8 @@ try{
  writeFileSync(join(destination,'.local/kubeconfig'),execFileSync(join(root,'.tools/bin/k3d'),['kubeconfig','get',cluster],{encoding:'utf8',stdio:['ignore','pipe','pipe']}),{mode:0o600});const env={KUBECONFIG:join(destination,'.local/kubeconfig')};
  const kube=(args)=>run(join(root,'.tools/bin/kubectl'),args,destination,env);const helm=(args)=>run(join(root,'.tools/bin/helm'),args,destination,env);
  kube(['wait','--for=condition=Ready','node','--all','--timeout=120s']);
+ run(process.execPath,['scripts/cluster-token-rotation.mjs'],destination,{RELAY_ROTATION_CLUSTER:cluster,RELAY_ROTATION_KUBECONFIG:join(destination,'.local/kubeconfig'),RELAY_ROTATION_EVIDENCE:'docs/evidence/m4-clean/token-rotation.json'});
+ copyFileSync(join(destination,'docs/evidence/m4-clean/token-rotation.json'),join(evidence,'clean-token-rotation.json'));
  const nodeIp=run('docker',['inspect','k3d-'+cluster+'-server-0','--format','{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}']).trim();
  // Reuse immutable tested images; independent upstream programs are present in the same runtime image.
  for(const image of [platformImage,'relay/store:m1-2374b9c0c5f86c48','mariadb:11.8.9-noble','postgres:18.6-alpine3.23','redis:8.2.10-alpine3.22']){

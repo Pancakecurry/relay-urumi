@@ -19,6 +19,7 @@ for(const file of ['.local/m3-runtime-secrets.json','.local/m3-acceptance-identi
 for(const file of ['.local/m4-acceptance-identity.json','.local/console-owner.json']){
  try{const d=JSON.parse(readFileSync(file,'utf8'));for(const value of [d.password,d.A?.password,d.B?.password,d.memberKey,d.previousMemberKey,d.adminCookie,d.memberCookie])if(typeof value==='string'&&value.length>=8)secrets.push(value,Buffer.from(value).toString('base64'));}catch(error){if(error.code!=='ENOENT')throw error;}
 }
+try{const d=JSON.parse(readFileSync('.local/m4-cluster-token-exposure.json','utf8'));for(const value of d.values)secrets.push(value,Buffer.from(value).toString('base64'));}catch(error){if(error.code!=='ENOENT')throw error;}
 const violations=[];
 try {
  const tokens=JSON.parse(readFileSync('.local/m2-upstream-tokens.json','utf8'));
