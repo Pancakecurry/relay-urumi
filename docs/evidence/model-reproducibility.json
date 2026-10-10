@@ -1,0 +1,15 @@
+{
+  "sourceCommit": "70902cbe1dbd43dd3a76d694ec3e6f2b7b5fbdbc",
+  "checkout": "[LOCAL_HOME]/Library/Caches/relay-m0-reproduction/model-checkout-1791623723194",
+  "at": "2026-10-10T09:26:52.338Z",
+  "install": "pnpm install --frozen-lockfile --offline",
+  "installExitCode": 0,
+  "check": "pnpm check",
+  "checkExitCode": 0,
+  "testsPassed": 9,
+  "checkoutClean": true,
+  "providerTrafficDuringChecks": false,
+  "secretsCopied": false,
+  "existingPackageStoreUsed": true,
+  "independentClusterRecreation": false
+}
