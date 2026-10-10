@@ -1,11 +1,11 @@
 {
-  "at": "2026-10-10T08:36:39.990Z",
+  "at": "2026-10-10T08:47:29.745Z",
   "platform": "darwin",
   "architecture": "arm64",
   "cpus": 8,
   "ramBytes": 17179869184,
-  "availableRamBytes": 209059840,
-  "freeDiskBytes": 13513793536,
+  "availableRamBytes": 287653888,
+  "freeDiskBytes": 13466566656,
   "node": "v24.16.0",
   "pnpm": "11.25.0",
   "docker": {

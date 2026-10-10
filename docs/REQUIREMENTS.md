@@ -72,7 +72,7 @@ See [M0 report](evidence/M0_REPORT.md) for actual acceptance results. No complet
 | Environment/external limitations recorded | tested locally | `architecture/feasibility.md`, `evidence/resources.json`, `evidence/model-feasibility.json`; no provider traffic/VPS |
 | Unrelated resources preserved | tested locally | `evidence/resources.json`, ownership guards in `scripts/cluster-capabilities.mjs`; no system cleanup |
 | Requirement/evidence tracking files | implemented | This ledger, architecture/decisions/runbooks/demo/worklog/evidence |
-| Reproducible fresh-checkout installation | planned | Run remains pending before M0 completion |
-| Tested Git checkpoint | planned | `m0-verified` will be created only after checks and credential scan |
+| Reproducible fresh-checkout installation | tested locally | `evidence/reproducibility.json`, `evidence/reproducibility.txt`; frozen offline install and full checks pass in clean clone |
+| Tested Git checkpoint | tested locally | Implementation `6ef47d4593fa437281b545d7dce30e98e4d72713`; final evidence checkpoint tagged `m0-verified`, credential/whitespace scans pass |
 
 M0 evidence supports K01/K02/K05/K06/K07/W02/D06, but their full feature scope still requires M1–M4 or bonus acceptance. The Better Auth/header feasibility spikes support the future T01–T04/U02 path; they do not implement team roles, hashed personal keys or the two-user workflow.

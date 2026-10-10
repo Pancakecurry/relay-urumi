@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-10T08:45:46.090Z",
+  "sourceCommit": "6ef47d4593fa437281b545d7dce30e98e4d72713",
+  "checkout": "[LOCAL_HOME]/Library/Caches/relay-m0-reproduction/checkout-1791621945989",
+  "checkedAt": "2026-10-10T08:47:27.317Z",
+  "install": "pnpm install --frozen-lockfile --offline",
+  "installExitCode": 0,
+  "check": "pnpm check",
+  "checkExitCode": 0,
+  "checkoutClean": true,
+  "usesExistingPackageStore": true,
+  "secretsCopied": false,
+  "independentClusterRecreation": false,
+  "limitation": "Clean code/dependency checkout verified; integration evidence is from the primary local cluster, not an independently rebuilt cluster."
+}
