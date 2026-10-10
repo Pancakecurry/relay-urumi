@@ -1,0 +1,87 @@
+{
+  "at": "2026-10-10T09:08:38.904Z",
+  "model": "gemini-3.5-flash-lite",
+  "approvedAllowanceINR": 200,
+  "creditVerification": "Owner confirmed existing Gemini API prepaid credit on 2026-10-10",
+  "policy": {
+    "model": "gemini-3.5-flash-lite",
+    "maxRequests": 2,
+    "maxBodyBytes": 4096,
+    "maxOutputTokens": 512,
+    "documentedOutputCeiling": 65536,
+    "inputUSDPerMillion": 0.3,
+    "outputUSDPerMillion": 2.5,
+    "inrPerUSDGuard": 200,
+    "billingMargin": 1.5,
+    "reservationINR": 50,
+    "maxReservedINR": 100
+  },
+  "currencyGuardNote": "INR 200/USD is a conservative cost guard, not an observed exchange rate or billing amount; includes 50% margin.",
+  "identity": "M0 Secret bearer credential; logged-in user identity is not implemented",
+  "gatewayURL": "http://127.0.0.1:18080/mcp",
+  "providerRequests": [
+    {
+      "number": 1,
+      "bodyBytes": 651,
+      "reservationINR": 50,
+      "state": "response-received-reservation-retained",
+      "status": 200,
+      "usage": {
+        "promptTokenCount": 100,
+        "candidatesTokenCount": 30,
+        "thoughtsTokenCount": 0,
+        "totalTokenCount": 130
+      },
+      "estimatedStandardUSD": 0.000105,
+      "modelVersion": "gemini-3.5-flash-lite",
+      "finishReason": "STOP"
+    },
+    {
+      "number": 2,
+      "bodyBytes": 1100,
+      "reservationINR": 50,
+      "state": "response-received-reservation-retained",
+      "status": 200,
+      "usage": {
+        "promptTokenCount": 184,
+        "candidatesTokenCount": 61,
+        "thoughtsTokenCount": 0,
+        "totalTokenCount": 245
+      },
+      "estimatedStandardUSD": 0.00020769999999999998,
+      "modelVersion": "gemini-3.5-flash-lite",
+      "finishReason": "STOP"
+    }
+  ],
+  "wire": [
+    {
+      "method": "server/discover",
+      "status": 200,
+      "protocol": "2026-07-28"
+    },
+    {
+      "method": "tools/list",
+      "status": 200,
+      "protocol": "2026-07-28"
+    },
+    {
+      "method": "tools/call",
+      "status": 200,
+      "protocol": "2026-07-28"
+    }
+  ],
+  "passed": true,
+  "scope": "Isolated M0 spike, not product chat",
+  "runtimeCredentialSource": "Kubernetes Secret relay-m0/relay-m0-gemini (key); bootstrap file excluded from Git/Docker",
+  "toolCall": {
+    "name": "ping",
+    "arguments": {
+      "message": "relay-model-1791623319190"
+    },
+    "result": {
+      "pong": "relay-model-1791623319190",
+      "pod": "relay-m0-proof-b9f4968f6-gvg4s"
+    }
+  },
+  "answer": "The `ping` function returned the pong message **`relay-model-1791623319190`** and the exact pod name is **`relay-m0-proof-b9f4968f6-gvg4s`**."
+}

@@ -21,7 +21,7 @@ The exact installed dependency graph, including transitives and package integrit
 | TypeScript / Node types | 6.0.3 / `@types/node` 24.19.1 | strict typecheck/build |
 | ESLint / JS preset | 10.12.0 / `@eslint/js` 10.0.1 | lint |
 | typescript-eslint | 8.71.1 | compatible TypeScript peer range; lint |
-| Vitest | 5.0.3 | six executed tests |
+| Vitest | 5.0.3 | nine executed tests including three budget guard tests |
 | Platform chart / proof app | 0.0.1 / 0.0.0 | initial proof only; not a full platform release |
 
 k3d's `version` command reports its default k3s 1.35.5-k3s1; this deployment explicitly uses 1.37.1-k3s1. The pre-existing global kubectl was 1.34.1 and was preserved; scripts use the project-local 1.37.1 client. A bundled Node 24.19.0 launcher was observed during initial tool inspection; the final `pnpm exec node` resolves 24.16.0. No compatibility claim for unexecuted OS/CPU combinations is made.
@@ -48,4 +48,4 @@ The automatic v2 client uses modern `server/discover` and protocol `2026-07-28`.
 
 React/Vite/TanStack Query, PostgreSQL/Drizzle, WordPress/WooCommerce/MariaDB, production k3s configuration and any local model runtime are future milestones. Pin their exact packages/images when implemented and verify them at the corresponding gate. M0's Better Auth SQLite database is an isolated test; PostgreSQL remains the application baseline.
 
-The proposed low-cost Gemini model is `gemini-3.5-flash-lite`, a current stable model ID, not a package pin or immutable weight revision. It has not yet been called. No Gemini SDK was installed. Provider credit eligibility, bounded usage and model access remain separately tracked in [model-feasibility.json](evidence/model-feasibility.json) and [Gemini runbook](runbooks/gemini-setup.md). Official [model documentation](https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite) and [standard pricing](https://ai.google.dev/gemini-api/docs/pricing) were checked on 2026-10-10.
+The tested Gemini model is `gemini-3.5-flash-lite`, a stable model ID rather than an immutable weight revision; both actual responses report that `modelVersion`. The isolated spike uses the official REST `v1beta/models/...:generateContent` contract, with no new Gemini SDK dependency. See [model-feasibility.json](evidence/model-feasibility.json), [actual loop evidence](evidence/gemini-spike.json) and [Gemini runbook](runbooks/gemini-setup.md). Official [model documentation](https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite), [REST reference](https://ai.google.dev/api/generate-content), [thinking configuration](https://ai.google.dev/gemini-api/docs/thinking) and [standard pricing](https://ai.google.dev/gemini-api/docs/pricing) were checked on 2026-10-10. Provider billing totals remain unverified.

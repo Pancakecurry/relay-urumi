@@ -1,0 +1,1 @@
+{"passed":true,"model":"gemini-3.5-flash-lite","requests":2,"reservedINR":100,"tool":{"pong":"relay-model-1791623319190","pod":"relay-m0-proof-b9f4968f6-gvg4s"}}

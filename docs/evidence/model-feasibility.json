@@ -1,11 +1,17 @@
 {
-  "at": "2026-10-10T08:40:24.004Z",
+  "at": "2026-10-10T09:10:06.373Z",
   "keyFilePresent": true,
   "keyValuePresent": true,
-  "creditEligibilityVerified": false,
+  "creditEligibilityVerified": true,
+  "verificationBasis": "Owner confirmation of Gemini API prepaid credit on 2026-10-10; no billing account accessed",
   "approvedAllowanceINR": 200,
-  "proposedModel": "gemini-3.5-flash-lite",
-  "providerRequestsMade": 0,
-  "status": "blocked pending owner confirmation of Gemini-eligible prepaid credit and bounded spike policy",
-  "accountAccessPerformed": false
+  "model": "gemini-3.5-flash-lite",
+  "providerRequestsMade": 2,
+  "status": "passed real Gemini function-call -> official MCP client -> Kubernetes Ingress -> real ping -> Gemini answer",
+  "estimatedStandardUSD": 0.00031269999999999996,
+  "reservedINR": 100,
+  "actualBillingVerified": false,
+  "accountAccessPerformed": false,
+  "evidence": "gemini-spike.json",
+  "productionModelAdapterImplemented": false
 }

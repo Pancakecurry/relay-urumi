@@ -69,10 +69,12 @@ See [M0 report](evidence/M0_REPORT.md) for actual acceptance results. No complet
 | Cluster healthy; Ingress/network/Secret/storage capabilities | tested locally | `evidence/cluster-capabilities.json`; retained marker after pod replacement, allowed/denied traffic, both host ports loopback |
 | Real MCP ping through Ingress | tested locally | `evidence/official-client.txt`, `evidence/inspector-client.json`; modern and legacy |
 | Request path and actual protocol understood | tested locally | `architecture/overview.md`, `versions.md`, wire trace; stateless optional GET 405 documented |
-| Environment/external limitations recorded | tested locally | `architecture/feasibility.md`, `evidence/resources.json`, `evidence/model-feasibility.json`; no provider traffic/VPS |
+| Environment/external limitations recorded | tested locally | `architecture/feasibility.md`, `evidence/resources.json`, `evidence/model-feasibility.json`; two bounded model requests verified, VPS unverified |
 | Unrelated resources preserved | tested locally | `evidence/resources.json`, ownership guards in `scripts/cluster-capabilities.mjs`; no system cleanup |
 | Requirement/evidence tracking files | implemented | This ledger, architecture/decisions/runbooks/demo/worklog/evidence |
 | Reproducible fresh-checkout installation | tested locally | `evidence/reproducibility.json`, `evidence/reproducibility.txt`; frozen offline install and full checks pass in clean clone |
 | Tested Git checkpoint | tested locally | Implementation `6ef47d4593fa437281b545d7dce30e98e4d72713`; final evidence checkpoint tagged `m0-verified`, credential/whitespace scans pass |
 
 M0 evidence supports K01/K02/K05/K06/K07/W02/D06, but their full feature scope still requires M1–M4 or bonus acceptance. The Better Auth/header feasibility spikes support the future T01–T04/U02 path; they do not implement team roles, hashed personal keys or the two-user workflow.
+
+The real Gemini loop is locally tested supporting evidence for A01/A02 (`evidence/gemini-spike.json`). Both full features remain planned: the spike uses the M0 Secret identity and one ping tool, with no dashboard chat, logged-in user, WooCommerce or durable audit. Its runtime key is stored in a Kubernetes Secret. The filesystem budget guard is an isolated spike control, not a product-wide distributed quota.

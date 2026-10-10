@@ -8,6 +8,5 @@ The full scope remains working single-store core → multi-store → all nine op
 
 The same platform chart currently deploys only the proof. Local values are tested; production values are an explicit unverified example. Store and hosted-MCP charts, checkout/client/chat product instructions and VPS deployment are later acceptance items.
 
-Use existing/free local tools only. Gemini provider traffic stays disabled until verified eligible prepaid allowance and a bounded usage policy exist. No cloud account is accessed or provisioned by the M0 scripts. Keep `.local/`, `.tools/`, credentials and private assessment correspondence out of Git.
 
 The owner’s next gate is M0 review. Do not start M1 without authorization.
