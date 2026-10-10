@@ -1,0 +1,2022 @@
+{
+  "at": "2026-10-10T14:54:09.146Z",
+  "passed": true,
+  "events": [
+    {
+      "test": "identities",
+      "users": {
+        "A": "rfrWHbGN32WKszSZy1RG2uN7etpvgb5e",
+        "B": "5AGeFQ6hT96jaYNVywGcavTyXl5r6hmL",
+        "C": "7p14HdtDfkNS8cVfTByMDfftWMcT9GlK"
+      },
+      "team": "c0b5585d-7037-4014-b7ac-dc5087f4ef25",
+      "emailA": "m3-a-8fd54f9f@example.invalid",
+      "emailB": "m3-b-8fd54f9f@example.invalid"
+    },
+    {
+      "test": "invitation.race-single-use"
+    },
+    {
+      "test": "member-management-denied"
+    },
+    {
+      "test": "last-admin-preserved"
+    },
+    {
+      "test": "admin-and-self-key-paths"
+    },
+    {
+      "test": "ssrf-denied"
+    },
+    {
+      "test": "catalog",
+      "tools": [
+        {
+          "alias": "t_7mrFlr00YKFmbd9CRBa9RWcFr0qwJ0pmkKWuca7XtDs",
+          "upstreamId": "416c9fcd-78ba-4bb4-baa7-c7a588e056ac",
+          "upstreamName": "woocommerce",
+          "name": "info",
+          "description": "Identify the independent relay-woocommerce upstream.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {},
+            "additionalProperties": false
+          },
+          "outputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "service",
+              "version",
+              "purpose"
+            ],
+            "properties": {
+              "purpose": {
+                "type": "string"
+              },
+              "service": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string",
+                "const": "0.0.0"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "alias": "t_3CZcwItLdjBEy5YgYmKdc_2XdS9Uc62j49pUCQD1cT4",
+          "upstreamId": "416c9fcd-78ba-4bb4-baa7-c7a588e056ac",
+          "upstreamName": "woocommerce",
+          "name": "list_products",
+          "description": "A single explicit page of WooCommerce products, ordered by ID. Follow next_page to collect more. Prices are store-currency decimal strings.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+              "sku": {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              "page": {
+                "type": "integer",
+                "default": 1,
+                "maximum": 10000,
+                "minimum": 1
+              },
+              "status": {
+                "enum": [
+                  "publish",
+                  "draft",
+                  "pending",
+                  "private",
+                  "any"
+                ],
+                "type": "string",
+                "default": "publish"
+              },
+              "per_page": {
+                "type": "integer",
+                "default": 25,
+                "maximum": 100,
+                "minimum": 1
+              }
+            },
+            "additionalProperties": false
+          },
+          "outputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "products",
+              "pagination"
+            ],
+            "properties": {
+              "products": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "name",
+                    "sku",
+                    "status",
+                    "price",
+                    "regular_price",
+                    "currency",
+                    "permalink",
+                    "catalog_visibility"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "maximum": 9007199254740991,
+                      "exclusiveMinimum": 0
+                    },
+                    "sku": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "price": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                        },
+                        {
+                          "type": "string",
+                          "const": ""
+                        }
+                      ]
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "currency": {
+                      "enum": [
+                        "INR",
+                        "USD",
+                        "EUR",
+                        "GBP",
+                        "JPY",
+                        "KWD"
+                      ],
+                      "type": "string"
+                    },
+                    "permalink": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "regular_price": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                        },
+                        {
+                          "type": "string",
+                          "const": ""
+                        }
+                      ]
+                    },
+                    "catalog_visibility": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "maxItems": 100
+              },
+              "pagination": {
+                "type": "object",
+                "required": [
+                  "page",
+                  "per_page",
+                  "total",
+                  "total_pages",
+                  "next_page"
+                ],
+                "properties": {
+                  "page": {
+                    "type": "integer",
+                    "maximum": 9007199254740991,
+                    "exclusiveMinimum": 0
+                  },
+                  "total": {
+                    "type": "integer",
+                    "maximum": 9007199254740991,
+                    "minimum": 0
+                  },
+                  "per_page": {
+                    "type": "integer",
+                    "maximum": 9007199254740991,
+                    "exclusiveMinimum": 0
+                  },
+                  "next_page": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "maximum": 9007199254740991,
+                        "exclusiveMinimum": 0
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "total_pages": {
+                    "type": "integer",
+                    "maximum": 9007199254740991,
+                    "minimum": 0
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "alias": "t_7sk0giB-i6mRCWtbu3_2ljarMDKImM0bliUDJNx3mug",
+          "upstreamId": "416c9fcd-78ba-4bb4-baa7-c7a588e056ac",
+          "upstreamName": "woocommerce",
+          "name": "create_product",
+          "description": "Create one simple product. Defaults to published/visible, decimal price in configured store currency. Require a unique SKU; never automatically retry a timed-out write. Reconcile unknown outcomes by listing that SKU.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "name",
+              "sku",
+              "regular_price"
+            ],
+            "properties": {
+              "sku": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1,100}$"
+              },
+              "name": {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              "status": {
+                "enum": [
+                  "publish",
+                  "draft",
+                  "pending",
+                  "private"
+                ],
+                "type": "string",
+                "default": "publish"
+              },
+              "virtual": {
+                "type": "boolean",
+                "default": true
+              },
+              "regular_price": {
+                "type": "string",
+                "pattern": "^(?:0|[1-9]\\d{0,9})(?:\\.\\d{1,3})?$"
+              },
+              "catalog_visibility": {
+                "enum": [
+                  "visible",
+                  "catalog",
+                  "search",
+                  "hidden"
+                ],
+                "type": "string",
+                "default": "visible"
+              }
+            },
+            "additionalProperties": false
+          },
+          "outputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "product"
+            ],
+            "properties": {
+              "product": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "name",
+                  "sku",
+                  "status",
+                  "price",
+                  "regular_price",
+                  "currency",
+                  "permalink",
+                  "catalog_visibility"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "maximum": 9007199254740991,
+                    "exclusiveMinimum": 0
+                  },
+                  "sku": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "price": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                      },
+                      {
+                        "type": "string",
+                        "const": ""
+                      }
+                    ]
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "currency": {
+                    "enum": [
+                      "INR",
+                      "USD",
+                      "EUR",
+                      "GBP",
+                      "JPY",
+                      "KWD"
+                    ],
+                    "type": "string"
+                  },
+                  "permalink": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "regular_price": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                      },
+                      {
+                        "type": "string",
+                        "const": ""
+                      }
+                    ]
+                  },
+                  "catalog_visibility": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "alias": "t_nnIqvZ6FQwqb8bO-C1gzG_OCWhuWQCoStwW5HGxvKTA",
+          "upstreamId": "416c9fcd-78ba-4bb4-baa7-c7a588e056ac",
+          "upstreamName": "woocommerce",
+          "name": "list_orders",
+          "description": "A single explicit page of orders (ID ascending). Optional UTC second-precision after/before form a half-open interval [after,before). Use Calendar day_range; follow next_page. Omits customer/private metadata.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+              "page": {
+                "type": "integer",
+                "default": 1,
+                "maximum": 10000,
+                "minimum": 1
+              },
+              "after": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+              },
+              "before": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+              },
+              "status": {
+                "anyOf": [
+                  {
+                    "enum": [
+                      "pending",
+                      "processing",
+                      "on-hold",
+                      "completed",
+                      "cancelled",
+                      "refunded",
+                      "failed"
+                    ],
+                    "type": "string"
+                  },
+                  {
+                    "type": "string",
+                    "const": "any"
+                  }
+                ],
+                "default": "any"
+              },
+              "per_page": {
+                "type": "integer",
+                "default": 25,
+                "maximum": 100,
+                "minimum": 1
+              }
+            },
+            "additionalProperties": false
+          },
+          "outputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "orders",
+              "pagination"
+            ],
+            "properties": {
+              "orders": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "status",
+                    "currency",
+                    "total",
+                    "date_created_gmt",
+                    "line_items"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "maximum": 9007199254740991,
+                      "exclusiveMinimum": 0
+                    },
+                    "total": {
+                      "type": "string",
+                      "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "currency": {
+                      "enum": [
+                        "INR",
+                        "USD",
+                        "EUR",
+                        "GBP",
+                        "JPY",
+                        "KWD"
+                      ],
+                      "type": "string"
+                    },
+                    "line_items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "product_id",
+                          "name",
+                          "quantity",
+                          "total"
+                        ],
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "total": {
+                            "type": "string",
+                            "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "maximum": 9007199254740991,
+                            "minimum": 0
+                          },
+                          "product_id": {
+                            "type": "integer",
+                            "maximum": 9007199254740991,
+                            "minimum": 0
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    },
+                    "date_created_gmt": {
+                      "type": "string",
+                      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "maxItems": 100
+              },
+              "pagination": {
+                "type": "object",
+                "required": [
+                  "page",
+                  "per_page",
+                  "total",
+                  "total_pages",
+                  "next_page"
+                ],
+                "properties": {
+                  "page": {
+                    "type": "integer",
+                    "maximum": 9007199254740991,
+                    "exclusiveMinimum": 0
+                  },
+                  "total": {
+                    "type": "integer",
+                    "maximum": 9007199254740991,
+                    "minimum": 0
+                  },
+                  "per_page": {
+                    "type": "integer",
+                    "maximum": 9007199254740991,
+                    "exclusiveMinimum": 0
+                  },
+                  "next_page": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "maximum": 9007199254740991,
+                        "exclusiveMinimum": 0
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "total_pages": {
+                    "type": "integer",
+                    "maximum": 9007199254740991,
+                    "minimum": 0
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "alias": "t_UsKu-_AVmfs3jme12A9rgaNTbq0wCAfPy7OhNrXzuHM",
+          "upstreamId": "416c9fcd-78ba-4bb4-baa7-c7a588e056ac",
+          "upstreamName": "woocommerce",
+          "name": "get_order",
+          "description": "Get one order by its positive ID. Money and creation time are exact; customer/private metadata is omitted.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "order_id"
+            ],
+            "properties": {
+              "order_id": {
+                "type": "integer",
+                "maximum": 9007199254740991,
+                "exclusiveMinimum": 0
+              }
+            },
+            "additionalProperties": false
+          },
+          "outputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "order"
+            ],
+            "properties": {
+              "order": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "status",
+                  "currency",
+                  "total",
+                  "date_created_gmt",
+                  "line_items"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "maximum": 9007199254740991,
+                    "exclusiveMinimum": 0
+                  },
+                  "total": {
+                    "type": "string",
+                    "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "currency": {
+                    "enum": [
+                      "INR",
+                      "USD",
+                      "EUR",
+                      "GBP",
+                      "JPY",
+                      "KWD"
+                    ],
+                    "type": "string"
+                  },
+                  "line_items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "product_id",
+                        "name",
+                        "quantity",
+                        "total"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "total": {
+                          "type": "string",
+                          "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                        },
+                        "quantity": {
+                          "type": "integer",
+                          "maximum": 9007199254740991,
+                          "minimum": 0
+                        },
+                        "product_id": {
+                          "type": "integer",
+                          "maximum": 9007199254740991,
+                          "minimum": 0
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "date_created_gmt": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "alias": "t_dOzdo8LCtrZakg_WzU7myxPC5j8qNYjkfxbAC51aGyM",
+          "upstreamId": "416c9fcd-78ba-4bb4-baa7-c7a588e056ac",
+          "upstreamName": "woocommerce",
+          "name": "update_order_status",
+          "description": "Set one order to a supported WooCommerce status. Status assignment is repeatable but Woo hooks may have effects. Never automatically retry an ambiguous write; reconcile with get_order.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "order_id",
+              "status"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "pending",
+                  "processing",
+                  "on-hold",
+                  "completed",
+                  "cancelled",
+                  "refunded",
+                  "failed"
+                ],
+                "type": "string"
+              },
+              "order_id": {
+                "type": "integer",
+                "maximum": 9007199254740991,
+                "exclusiveMinimum": 0
+              }
+            },
+            "additionalProperties": false
+          },
+          "outputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "order"
+            ],
+            "properties": {
+              "order": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "status",
+                  "currency",
+                  "total",
+                  "date_created_gmt",
+                  "line_items"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "maximum": 9007199254740991,
+                    "exclusiveMinimum": 0
+                  },
+                  "total": {
+                    "type": "string",
+                    "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "currency": {
+                    "enum": [
+                      "INR",
+                      "USD",
+                      "EUR",
+                      "GBP",
+                      "JPY",
+                      "KWD"
+                    ],
+                    "type": "string"
+                  },
+                  "line_items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "product_id",
+                        "name",
+                        "quantity",
+                        "total"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "total": {
+                          "type": "string",
+                          "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                        },
+                        "quantity": {
+                          "type": "integer",
+                          "maximum": 9007199254740991,
+                          "minimum": 0
+                        },
+                        "product_id": {
+                          "type": "integer",
+                          "maximum": 9007199254740991,
+                          "minimum": 0
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "date_created_gmt": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "alias": "t_vacG1LsOZn7a2ABiqj0FAHLLFm0xgxner5VAtZ412ko",
+          "upstreamId": "669b5af1-0a74-462d-81b3-f8bfefc8f3bd",
+          "upstreamName": "calendar",
+          "name": "info",
+          "description": "Identify the independent relay-calendar upstream.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {},
+            "additionalProperties": false
+          },
+          "outputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "service",
+              "version",
+              "purpose"
+            ],
+            "properties": {
+              "purpose": {
+                "type": "string"
+              },
+              "service": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string",
+                "const": "0.0.0"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "alias": "t_Wbam27LRr2G1VEC7S6o-z98gPas8Ts8sQIKl524mxFw",
+          "upstreamId": "669b5af1-0a74-462d-81b3-f8bfefc8f3bd",
+          "upstreamName": "calendar",
+          "name": "now",
+          "description": "Actual current UTC instant and local time in an explicit IANA timezone.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "timezone"
+            ],
+            "properties": {
+              "timezone": {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          },
+          "outputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "instant",
+              "local",
+              "timezone"
+            ],
+            "properties": {
+              "local": {
+                "type": "string"
+              },
+              "instant": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+              },
+              "timezone": {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "alias": "t_VqWbCxo3BAcxZRqOrlP9dTE4NJnO6v7xLcovj77juNM",
+          "upstreamId": "669b5af1-0a74-462d-81b3-f8bfefc8f3bd",
+          "upstreamName": "calendar",
+          "name": "day_range",
+          "description": "Half-open UTC bounds [start,end) for a local calendar date (or today). Handles DST; pass bounds to list_orders.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "timezone"
+            ],
+            "properties": {
+              "date": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              },
+              "timezone": {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          },
+          "outputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "date",
+              "timezone",
+              "start_inclusive",
+              "end_exclusive",
+              "seconds"
+            ],
+            "properties": {
+              "date": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              },
+              "seconds": {
+                "type": "integer",
+                "maximum": 9007199254740991,
+                "minimum": 0
+              },
+              "timezone": {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              "end_exclusive": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+              },
+              "start_inclusive": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "alias": "t_-YbmRqzyTymILMZlp-6oP3mYwCOifz0yvpmz61SS7HM",
+          "upstreamId": "6be58a66-a5cc-4f22-9256-3ad982831f65",
+          "upstreamName": "totals",
+          "name": "info",
+          "description": "Identify the independent relay-totals upstream.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {},
+            "additionalProperties": false
+          },
+          "outputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "service",
+              "version",
+              "purpose"
+            ],
+            "properties": {
+              "purpose": {
+                "type": "string"
+              },
+              "service": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string",
+                "const": "0.0.0"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "alias": "t_GZ-vrwnAvpxpuApsdJEF8N2oRD0QmeZlS6wUnXjd5ZQ",
+          "upstreamId": "6be58a66-a5cc-4f22-9256-3ad982831f65",
+          "upstreamName": "totals",
+          "name": "sum_amounts",
+          "description": "Exact sum of up to 1000 decimal strings. Never uses floating point; precision must match the declared currency.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "currency",
+              "amounts"
+            ],
+            "properties": {
+              "amounts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                },
+                "maxItems": 1000
+              },
+              "currency": {
+                "enum": [
+                  "INR",
+                  "USD",
+                  "EUR",
+                  "GBP",
+                  "JPY",
+                  "KWD"
+                ],
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "outputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "currency",
+              "total",
+              "minor_units",
+              "count"
+            ],
+            "properties": {
+              "count": {
+                "type": "integer",
+                "maximum": 9007199254740991,
+                "minimum": 0
+              },
+              "total": {
+                "type": "string",
+                "pattern": "^-?\\d{1,21}(?:\\.\\d{1,3})?$"
+              },
+              "currency": {
+                "enum": [
+                  "INR",
+                  "USD",
+                  "EUR",
+                  "GBP",
+                  "JPY",
+                  "KWD"
+                ],
+                "type": "string"
+              },
+              "minor_units": {
+                "type": "string",
+                "pattern": "^-?\\d+$"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "alias": "t_qdGstYCZmPBpZcF9g37JolXMwwxNMGfFiGgN6Qclb1U",
+          "upstreamId": "6be58a66-a5cc-4f22-9256-3ad982831f65",
+          "upstreamName": "totals",
+          "name": "sum_orders",
+          "description": "Exact sum of unique order IDs from explicitly collected pages. Rejects mixed currencies and duplicates. This is a submitted-data total, not a claim that all orders were fetched.",
+          "inputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "currency",
+              "orders"
+            ],
+            "properties": {
+              "orders": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "currency",
+                    "total"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "maximum": 9007199254740991,
+                      "exclusiveMinimum": 0
+                    },
+                    "total": {
+                      "type": "string",
+                      "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                    },
+                    "currency": {
+                      "enum": [
+                        "INR",
+                        "USD",
+                        "EUR",
+                        "GBP",
+                        "JPY",
+                        "KWD"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "maxItems": 1000
+              },
+              "currency": {
+                "enum": [
+                  "INR",
+                  "USD",
+                  "EUR",
+                  "GBP",
+                  "JPY",
+                  "KWD"
+                ],
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "outputSchema": {
+            "type": "object",
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "required": [
+              "currency",
+              "total",
+              "minor_units",
+              "count"
+            ],
+            "properties": {
+              "count": {
+                "type": "integer",
+                "maximum": 9007199254740991,
+                "minimum": 0
+              },
+              "total": {
+                "type": "string",
+                "pattern": "^-?\\d{1,21}(?:\\.\\d{1,3})?$"
+              },
+              "currency": {
+                "enum": [
+                  "INR",
+                  "USD",
+                  "EUR",
+                  "GBP",
+                  "JPY",
+                  "KWD"
+                ],
+                "type": "string"
+              },
+              "minor_units": {
+                "type": "string",
+                "pattern": "^-?\\d+$"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      ]
+    },
+    {
+      "test": "tool.call",
+      "alias": "t_7mrFlr00YKFmbd9CRBa9RWcFr0qwJ0pmkKWuca7XtDs",
+      "durationMs": 84,
+      "isError": false,
+      "data": {
+        "service": "relay-woocommerce",
+        "version": "0.0.0",
+        "purpose": "Private Relay MCP upstream"
+      },
+      "auditId": "35fa7a5a-d357-4f39-8805-a5b123c15239"
+    },
+    {
+      "test": "tool.call",
+      "alias": "t_vacG1LsOZn7a2ABiqj0FAHLLFm0xgxner5VAtZ412ko",
+      "durationMs": 23,
+      "isError": false,
+      "data": {
+        "service": "relay-calendar",
+        "version": "0.0.0",
+        "purpose": "Private Relay MCP upstream"
+      },
+      "auditId": "5a9b3702-8375-48ab-84f2-c2137d0be797"
+    },
+    {
+      "test": "tool.call",
+      "alias": "t_-YbmRqzyTymILMZlp-6oP3mYwCOifz0yvpmz61SS7HM",
+      "durationMs": 27,
+      "isError": false,
+      "data": {
+        "service": "relay-totals",
+        "version": "0.0.0",
+        "purpose": "Private Relay MCP upstream"
+      },
+      "auditId": "44e32d4f-5f40-4a73-b5c8-02064dfcfb5f"
+    },
+    {
+      "test": "three-collisions-routed"
+    },
+    {
+      "test": "tool.call",
+      "alias": "t_Wbam27LRr2G1VEC7S6o-z98gPas8Ts8sQIKl524mxFw",
+      "durationMs": 74,
+      "isError": false,
+      "data": {
+        "instant": "2026-10-10T14:54:06Z",
+        "local": "2026-10-10T20:24:06+05:30[Asia/Kolkata]",
+        "timezone": "Asia/Kolkata"
+      },
+      "auditId": "60105d4f-5612-4b81-a33a-931341e8efcf"
+    },
+    {
+      "test": "tool.call",
+      "alias": "t_VqWbCxo3BAcxZRqOrlP9dTE4NJnO6v7xLcovj77juNM",
+      "durationMs": 30,
+      "isError": false,
+      "data": {
+        "date": "2026-10-10",
+        "timezone": "Asia/Kolkata",
+        "start_inclusive": "2026-10-09T18:30:00Z",
+        "end_exclusive": "2026-10-10T18:30:00Z",
+        "seconds": 86400
+      },
+      "auditId": "4d131b87-b8b5-49c6-8e3b-d7e1176df954"
+    },
+    {
+      "test": "tool.call",
+      "alias": "t_nnIqvZ6FQwqb8bO-C1gzG_OCWhuWQCoStwW5HGxvKTA",
+      "durationMs": 171,
+      "isError": false,
+      "data": {
+        "orders": [
+          {
+            "id": 16,
+            "status": "processing",
+            "currency": "INR",
+            "total": "199.00",
+            "date_created_gmt": "2026-10-10T09:46:33Z",
+            "line_items": [
+              {
+                "product_id": 13,
+                "name": "[SYNTHETIC DEMO] Relay Mug",
+                "quantity": 1,
+                "total": "199.00"
+              }
+            ]
+          },
+          {
+            "id": 17,
+            "status": "processing",
+            "currency": "INR",
+            "total": "199.00",
+            "date_created_gmt": "2026-10-10T09:47:40Z",
+            "line_items": [
+              {
+                "product_id": 13,
+                "name": "[SYNTHETIC DEMO] Relay Mug",
+                "quantity": 1,
+                "total": "199.00"
+              }
+            ]
+          },
+          {
+            "id": 19,
+            "status": "processing",
+            "currency": "INR",
+            "total": "199.00",
+            "date_created_gmt": "2026-10-09T18:30:00Z",
+            "line_items": [
+              {
+                "product_id": 13,
+                "name": "[SYNTHETIC DEMO] Relay Mug",
+                "quantity": 1,
+                "total": "199.00"
+              }
+            ]
+          },
+          {
+            "id": 20,
+            "status": "processing",
+            "currency": "INR",
+            "total": "199.00",
+            "date_created_gmt": "2026-10-10T18:29:59Z",
+            "line_items": [
+              {
+                "product_id": 13,
+                "name": "[SYNTHETIC DEMO] Relay Mug",
+                "quantity": 1,
+                "total": "199.00"
+              }
+            ]
+          },
+          {
+            "id": 22,
+            "status": "processing",
+            "currency": "INR",
+            "total": "199.00",
+            "date_created_gmt": "2026-10-10T10:55:05Z",
+            "line_items": [
+              {
+                "product_id": 13,
+                "name": "[SYNTHETIC DEMO] Relay Mug",
+                "quantity": 1,
+                "total": "199.00"
+              }
+            ]
+          },
+          {
+            "id": 23,
+            "status": "processing",
+            "currency": "INR",
+            "total": "199.00",
+            "date_created_gmt": "2026-10-09T18:30:00Z",
+            "line_items": [
+              {
+                "product_id": 13,
+                "name": "[SYNTHETIC DEMO] Relay Mug",
+                "quantity": 1,
+                "total": "199.00"
+              }
+            ]
+          },
+          {
+            "id": 24,
+            "status": "processing",
+            "currency": "INR",
+            "total": "199.00",
+            "date_created_gmt": "2026-10-10T18:29:59Z",
+            "line_items": [
+              {
+                "product_id": 13,
+                "name": "[SYNTHETIC DEMO] Relay Mug",
+                "quantity": 1,
+                "total": "199.00"
+              }
+            ]
+          },
+          {
+            "id": 27,
+            "status": "processing",
+            "currency": "INR",
+            "total": "199.00",
+            "date_created_gmt": "2026-10-09T18:30:00Z",
+            "line_items": [
+              {
+                "product_id": 13,
+                "name": "[SYNTHETIC DEMO] Relay Mug",
+                "quantity": 1,
+                "total": "199.00"
+              }
+            ]
+          },
+          {
+            "id": 28,
+            "status": "processing",
+            "currency": "INR",
+            "total": "199.00",
+            "date_created_gmt": "2026-10-10T18:29:59Z",
+            "line_items": [
+              {
+                "product_id": 13,
+                "name": "[SYNTHETIC DEMO] Relay Mug",
+                "quantity": 1,
+                "total": "199.00"
+              }
+            ]
+          },
+          {
+            "id": 31,
+            "status": "processing",
+            "currency": "INR",
+            "total": "199.00",
+            "date_created_gmt": "2026-10-09T18:30:00Z",
+            "line_items": [
+              {
+                "product_id": 13,
+                "name": "[SYNTHETIC DEMO] Relay Mug",
+                "quantity": 1,
+                "total": "199.00"
+              }
+            ]
+          },
+          {
+            "id": 32,
+            "status": "processing",
+            "currency": "INR",
+            "total": "199.00",
+            "date_created_gmt": "2026-10-10T18:29:59Z",
+            "line_items": [
+              {
+                "product_id": 13,
+                "name": "[SYNTHETIC DEMO] Relay Mug",
+                "quantity": 1,
+                "total": "199.00"
+              }
+            ]
+          }
+        ],
+        "pagination": {
+          "page": 1,
+          "per_page": 100,
+          "total": 11,
+          "total_pages": 1,
+          "next_page": null
+        }
+      },
+      "auditId": "94014856-ae58-4f8f-bd3c-6b1f0dfdcdda"
+    },
+    {
+      "test": "tool.call",
+      "alias": "t_qdGstYCZmPBpZcF9g37JolXMwwxNMGfFiGgN6Qclb1U",
+      "durationMs": 27,
+      "isError": false,
+      "data": {
+        "currency": "INR",
+        "total": "2189.00",
+        "minor_units": "218900",
+        "count": 11
+      },
+      "auditId": "a554af9c-b773-4388-b24a-1fa21fb11f56"
+    },
+    {
+      "test": "tool.call",
+      "alias": "t_GZ-vrwnAvpxpuApsdJEF8N2oRD0QmeZlS6wUnXjd5ZQ",
+      "durationMs": 100,
+      "isError": false,
+      "data": {
+        "currency": "INR",
+        "total": "0.30",
+        "minor_units": "30",
+        "count": 2
+      },
+      "auditId": "9167e8f2-8d21-464a-b0e6-fa7da409e318"
+    },
+    {
+      "test": "real-three-server-sequence"
+    },
+    {
+      "test": "tool.call",
+      "alias": "t_7sk0giB-i6mRCWtbu3_2ljarMDKImM0bliUDJNx3mug",
+      "durationMs": 126,
+      "isError": false,
+      "data": {
+        "product": {
+          "id": 41,
+          "name": "Synthetic M3 gateway product 8fd54f9f",
+          "sku": "RELAY-M3-8fd54f9f",
+          "status": "publish",
+          "price": "15.75",
+          "regular_price": "15.75",
+          "currency": "INR",
+          "permalink": "http://store.relay.localhost:18080/product/synthetic-m3-gateway-product-8fd54f9f/",
+          "catalog_visibility": "visible"
+        }
+      },
+      "auditId": "ca3d1647-68a9-4a0c-b35e-0148ee007dd3"
+    },
+    {
+      "test": "tool.call",
+      "alias": "t_7sk0giB-i6mRCWtbu3_2ljarMDKImM0bliUDJNx3mug",
+      "durationMs": 51,
+      "isError": true,
+      "data": {
+        "error": {
+          "code": "UPSTREAM_REJECTED",
+          "retryable": false,
+          "outcome": "rejected",
+          "status": 400
+        }
+      },
+      "auditId": "e4921558-af7a-4b15-8422-a2286e12eb62"
+    },
+    {
+      "test": "tool.call",
+      "alias": "t_3CZcwItLdjBEy5YgYmKdc_2XdS9Uc62j49pUCQD1cT4",
+      "durationMs": 67,
+      "isError": false,
+      "data": {
+        "products": [
+          {
+            "id": 41,
+            "name": "Synthetic M3 gateway product 8fd54f9f",
+            "sku": "RELAY-M3-8fd54f9f",
+            "status": "publish",
+            "price": "15.75",
+            "regular_price": "15.75",
+            "currency": "INR",
+            "permalink": "http://store.relay.localhost:18080/product/synthetic-m3-gateway-product-8fd54f9f/",
+            "catalog_visibility": "visible"
+          }
+        ],
+        "pagination": {
+          "page": 1,
+          "per_page": 25,
+          "total": 1,
+          "total_pages": 1,
+          "next_page": null
+        }
+      },
+      "auditId": "9da50e9f-3a1e-430d-bfff-a003e080cc16"
+    },
+    {
+      "test": "tool.call",
+      "alias": "t_UsKu-_AVmfs3jme12A9rgaNTbq0wCAfPy7OhNrXzuHM",
+      "durationMs": 55,
+      "isError": false,
+      "data": {
+        "order": {
+          "id": 22,
+          "status": "processing",
+          "currency": "INR",
+          "total": "199.00",
+          "date_created_gmt": "2026-10-10T10:55:05Z",
+          "line_items": [
+            {
+              "product_id": 13,
+              "name": "[SYNTHETIC DEMO] Relay Mug",
+              "quantity": 1,
+              "total": "199.00"
+            }
+          ]
+        }
+      },
+      "auditId": "3101abc0-eae6-4d67-891a-b2ece8c6f8f9"
+    },
+    {
+      "test": "tool.call",
+      "alias": "t_dOzdo8LCtrZakg_WzU7myxPC5j8qNYjkfxbAC51aGyM",
+      "durationMs": 86,
+      "isError": false,
+      "data": {
+        "order": {
+          "id": 22,
+          "status": "completed",
+          "currency": "INR",
+          "total": "199.00",
+          "date_created_gmt": "2026-10-10T10:55:05Z",
+          "line_items": [
+            {
+              "product_id": 13,
+              "name": "[SYNTHETIC DEMO] Relay Mug",
+              "quantity": 1,
+              "total": "199.00"
+            }
+          ]
+        }
+      },
+      "auditId": "b9a8b094-d940-46ce-8bd0-9d6398f35401"
+    },
+    {
+      "test": "tool.call",
+      "alias": "t_UsKu-_AVmfs3jme12A9rgaNTbq0wCAfPy7OhNrXzuHM",
+      "durationMs": 51,
+      "isError": false,
+      "data": {
+        "order": {
+          "id": 22,
+          "status": "completed",
+          "currency": "INR",
+          "total": "199.00",
+          "date_created_gmt": "2026-10-10T10:55:05Z",
+          "line_items": [
+            {
+              "product_id": 13,
+              "name": "[SYNTHETIC DEMO] Relay Mug",
+              "quantity": 1,
+              "total": "199.00"
+            }
+          ]
+        }
+      },
+      "auditId": "9ea09026-e4e2-4927-96db-5d449c60812d"
+    },
+    {
+      "test": "tool.call",
+      "alias": "t_dOzdo8LCtrZakg_WzU7myxPC5j8qNYjkfxbAC51aGyM",
+      "durationMs": 62,
+      "isError": false,
+      "data": {
+        "order": {
+          "id": 22,
+          "status": "processing",
+          "currency": "INR",
+          "total": "199.00",
+          "date_created_gmt": "2026-10-10T10:55:05Z",
+          "line_items": [
+            {
+              "product_id": 13,
+              "name": "[SYNTHETIC DEMO] Relay Mug",
+              "quantity": 1,
+              "total": "199.00"
+            }
+          ]
+        }
+      },
+      "auditId": "6459b798-6506-4a9d-90a3-22bbda0b681f"
+    },
+    {
+      "test": "tool.call",
+      "alias": "t_UsKu-_AVmfs3jme12A9rgaNTbq0wCAfPy7OhNrXzuHM",
+      "durationMs": 8,
+      "isError": true,
+      "data": {
+        "error": {
+          "code": "INVALID_TOOL_ARGUMENTS"
+        }
+      },
+      "auditId": "8f527109-a66d-446d-ba4c-e9133bd9b01d"
+    },
+    {
+      "test": "real-product-order-mutations",
+      "productId": 41,
+      "orderId": 22,
+      "restored": true
+    },
+    {
+      "test": "tool.call",
+      "alias": "t_7sk0giB-i6mRCWtbu3_2ljarMDKImM0bliUDJNx3mug",
+      "durationMs": 24,
+      "isError": true,
+      "data": {
+        "error": {
+          "code": "TOOL_NOT_AVAILABLE"
+        }
+      },
+      "auditId": "b3757637-9939-4fe7-ab6d-8f5ffb43d7ce"
+    },
+    {
+      "test": "deny-precedence-discovery-and-cached-call"
+    },
+    {
+      "test": "tool.call",
+      "alias": "t_vacG1LsOZn7a2ABiqj0FAHLLFm0xgxner5VAtZ412ko",
+      "durationMs": 18,
+      "isError": true,
+      "data": {
+        "error": {
+          "code": "TOOL_NOT_AVAILABLE"
+        }
+      },
+      "auditId": "a3298924-4f39-4802-826f-a28f3795aa99"
+    },
+    {
+      "test": "disable-stale-call-revision-rename"
+    },
+    {
+      "test": "audit-member-filter-and-key-nondisclosure"
+    },
+    {
+      "test": "cross-team-management-and-audit-denied"
+    },
+    {
+      "test": "membership-next-call-denied"
+    },
+    {
+      "test": "revoked-next-existing-client-call-denied"
+    },
+    {
+      "test": "durable-audit-outcomes",
+      "calls": [
+        {
+          "id": "c856fcc4-ccb4-42ad-b4e1-f8d589d6e3dd",
+          "user_id": "5AGeFQ6hT96jaYNVywGcavTyXl5r6hmL",
+          "key_id": "becab1b3-7a2e-4ba2-a5e0-9bbdb076fd29",
+          "auth_kind": "key",
+          "upstream_id": "6be58a66-a5cc-4f22-9256-3ad982831f65",
+          "tool_name": "info",
+          "alias": "t_-YbmRqzyTymILMZlp-6oP3mYwCOifz0yvpmz61SS7HM",
+          "started_at": "2026-10-10T14:54:07.981Z",
+          "finished_at": "2026-10-10T14:54:07.981Z",
+          "duration_ms": 1,
+          "status": "rejected",
+          "code": "KEY_REVOKED"
+        },
+        {
+          "id": "a0b6fd77-be09-4baf-b27e-653b01e0aa6b",
+          "user_id": "5AGeFQ6hT96jaYNVywGcavTyXl5r6hmL",
+          "key_id": "becab1b3-7a2e-4ba2-a5e0-9bbdb076fd29",
+          "auth_kind": "key",
+          "upstream_id": "6be58a66-a5cc-4f22-9256-3ad982831f65",
+          "tool_name": "info",
+          "alias": "t_-YbmRqzyTymILMZlp-6oP3mYwCOifz0yvpmz61SS7HM",
+          "started_at": "2026-10-10T14:54:07.967Z",
+          "finished_at": "2026-10-10T14:54:07.969Z",
+          "duration_ms": 0,
+          "status": "rejected",
+          "code": "MEMBERSHIP_INACTIVE"
+        },
+        {
+          "id": "a3298924-4f39-4802-826f-a28f3795aa99",
+          "user_id": "5AGeFQ6hT96jaYNVywGcavTyXl5r6hmL",
+          "key_id": "becab1b3-7a2e-4ba2-a5e0-9bbdb076fd29",
+          "auth_kind": "key",
+          "upstream_id": "669b5af1-0a74-462d-81b3-f8bfefc8f3bd",
+          "tool_name": "info",
+          "alias": "t_vacG1LsOZn7a2ABiqj0FAHLLFm0xgxner5VAtZ412ko",
+          "started_at": "2026-10-10T14:54:07.877Z",
+          "finished_at": "2026-10-10T14:54:07.880Z",
+          "duration_ms": 2,
+          "status": "rejected",
+          "code": "TOOL_NOT_AVAILABLE"
+        },
+        {
+          "id": "b3757637-9939-4fe7-ab6d-8f5ffb43d7ce",
+          "user_id": "5AGeFQ6hT96jaYNVywGcavTyXl5r6hmL",
+          "key_id": "becab1b3-7a2e-4ba2-a5e0-9bbdb076fd29",
+          "auth_kind": "key",
+          "upstream_id": "416c9fcd-78ba-4bb4-baa7-c7a588e056ac",
+          "tool_name": "create_product",
+          "alias": "t_7sk0giB-i6mRCWtbu3_2ljarMDKImM0bliUDJNx3mug",
+          "started_at": "2026-10-10T14:54:07.840Z",
+          "finished_at": "2026-10-10T14:54:07.843Z",
+          "duration_ms": 3,
+          "status": "rejected",
+          "code": "TOOL_NOT_AVAILABLE"
+        },
+        {
+          "id": "8f527109-a66d-446d-ba4c-e9133bd9b01d",
+          "user_id": "5AGeFQ6hT96jaYNVywGcavTyXl5r6hmL",
+          "key_id": "becab1b3-7a2e-4ba2-a5e0-9bbdb076fd29",
+          "auth_kind": "key",
+          "upstream_id": "416c9fcd-78ba-4bb4-baa7-c7a588e056ac",
+          "tool_name": "get_order",
+          "alias": "t_UsKu-_AVmfs3jme12A9rgaNTbq0wCAfPy7OhNrXzuHM",
+          "started_at": "2026-10-10T14:54:07.797Z",
+          "finished_at": "2026-10-10T14:54:07.799Z",
+          "duration_ms": 2,
+          "status": "rejected",
+          "code": "INVALID_TOOL_ARGUMENTS"
+        },
+        {
+          "id": "6459b798-6506-4a9d-90a3-22bbda0b681f",
+          "user_id": "rfrWHbGN32WKszSZy1RG2uN7etpvgb5e",
+          "key_id": "63efe4c8-18c0-4600-ae71-7f1983f2c380",
+          "auth_kind": "key",
+          "upstream_id": "416c9fcd-78ba-4bb4-baa7-c7a588e056ac",
+          "tool_name": "update_order_status",
+          "alias": "t_dOzdo8LCtrZakg_WzU7myxPC5j8qNYjkfxbAC51aGyM",
+          "started_at": "2026-10-10T14:54:07.736Z",
+          "finished_at": "2026-10-10T14:54:07.791Z",
+          "duration_ms": 55,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "9ea09026-e4e2-4927-96db-5d449c60812d",
+          "user_id": "5AGeFQ6hT96jaYNVywGcavTyXl5r6hmL",
+          "key_id": "becab1b3-7a2e-4ba2-a5e0-9bbdb076fd29",
+          "auth_kind": "key",
+          "upstream_id": "416c9fcd-78ba-4bb4-baa7-c7a588e056ac",
+          "tool_name": "get_order",
+          "alias": "t_UsKu-_AVmfs3jme12A9rgaNTbq0wCAfPy7OhNrXzuHM",
+          "started_at": "2026-10-10T14:54:07.685Z",
+          "finished_at": "2026-10-10T14:54:07.730Z",
+          "duration_ms": 45,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "b9a8b094-d940-46ce-8bd0-9d6398f35401",
+          "user_id": "rfrWHbGN32WKszSZy1RG2uN7etpvgb5e",
+          "key_id": "63efe4c8-18c0-4600-ae71-7f1983f2c380",
+          "auth_kind": "key",
+          "upstream_id": "416c9fcd-78ba-4bb4-baa7-c7a588e056ac",
+          "tool_name": "update_order_status",
+          "alias": "t_dOzdo8LCtrZakg_WzU7myxPC5j8qNYjkfxbAC51aGyM",
+          "started_at": "2026-10-10T14:54:07.598Z",
+          "finished_at": "2026-10-10T14:54:07.677Z",
+          "duration_ms": 79,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "3101abc0-eae6-4d67-891a-b2ece8c6f8f9",
+          "user_id": "5AGeFQ6hT96jaYNVywGcavTyXl5r6hmL",
+          "key_id": "becab1b3-7a2e-4ba2-a5e0-9bbdb076fd29",
+          "auth_kind": "key",
+          "upstream_id": "416c9fcd-78ba-4bb4-baa7-c7a588e056ac",
+          "tool_name": "get_order",
+          "alias": "t_UsKu-_AVmfs3jme12A9rgaNTbq0wCAfPy7OhNrXzuHM",
+          "started_at": "2026-10-10T14:54:07.543Z",
+          "finished_at": "2026-10-10T14:54:07.592Z",
+          "duration_ms": 48,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "9da50e9f-3a1e-430d-bfff-a003e080cc16",
+          "user_id": "5AGeFQ6hT96jaYNVywGcavTyXl5r6hmL",
+          "key_id": "becab1b3-7a2e-4ba2-a5e0-9bbdb076fd29",
+          "auth_kind": "key",
+          "upstream_id": "416c9fcd-78ba-4bb4-baa7-c7a588e056ac",
+          "tool_name": "list_products",
+          "alias": "t_3CZcwItLdjBEy5YgYmKdc_2XdS9Uc62j49pUCQD1cT4",
+          "started_at": "2026-10-10T14:54:07.476Z",
+          "finished_at": "2026-10-10T14:54:07.536Z",
+          "duration_ms": 60,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "e4921558-af7a-4b15-8422-a2286e12eb62",
+          "user_id": "rfrWHbGN32WKszSZy1RG2uN7etpvgb5e",
+          "key_id": "63efe4c8-18c0-4600-ae71-7f1983f2c380",
+          "auth_kind": "key",
+          "upstream_id": "416c9fcd-78ba-4bb4-baa7-c7a588e056ac",
+          "tool_name": "create_product",
+          "alias": "t_7sk0giB-i6mRCWtbu3_2ljarMDKImM0bliUDJNx3mug",
+          "started_at": "2026-10-10T14:54:07.425Z",
+          "finished_at": "2026-10-10T14:54:07.469Z",
+          "duration_ms": 45,
+          "status": "failed",
+          "code": "UPSTREAM_REJECTED"
+        },
+        {
+          "id": "ca3d1647-68a9-4a0c-b35e-0148ee007dd3",
+          "user_id": "rfrWHbGN32WKszSZy1RG2uN7etpvgb5e",
+          "key_id": "63efe4c8-18c0-4600-ae71-7f1983f2c380",
+          "auth_kind": "key",
+          "upstream_id": "416c9fcd-78ba-4bb4-baa7-c7a588e056ac",
+          "tool_name": "create_product",
+          "alias": "t_7sk0giB-i6mRCWtbu3_2ljarMDKImM0bliUDJNx3mug",
+          "started_at": "2026-10-10T14:54:07.320Z",
+          "finished_at": "2026-10-10T14:54:07.413Z",
+          "duration_ms": 91,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "9167e8f2-8d21-464a-b0e6-fa7da409e318",
+          "user_id": "5AGeFQ6hT96jaYNVywGcavTyXl5r6hmL",
+          "key_id": "becab1b3-7a2e-4ba2-a5e0-9bbdb076fd29",
+          "auth_kind": "key",
+          "upstream_id": "6be58a66-a5cc-4f22-9256-3ad982831f65",
+          "tool_name": "sum_amounts",
+          "alias": "t_GZ-vrwnAvpxpuApsdJEF8N2oRD0QmeZlS6wUnXjd5ZQ",
+          "started_at": "2026-10-10T14:54:07.199Z",
+          "finished_at": "2026-10-10T14:54:07.293Z",
+          "duration_ms": 94,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "a554af9c-b773-4388-b24a-1fa21fb11f56",
+          "user_id": "5AGeFQ6hT96jaYNVywGcavTyXl5r6hmL",
+          "key_id": "becab1b3-7a2e-4ba2-a5e0-9bbdb076fd29",
+          "auth_kind": "key",
+          "upstream_id": "6be58a66-a5cc-4f22-9256-3ad982831f65",
+          "tool_name": "sum_orders",
+          "alias": "t_qdGstYCZmPBpZcF9g37JolXMwwxNMGfFiGgN6Qclb1U",
+          "started_at": "2026-10-10T14:54:07.173Z",
+          "finished_at": "2026-10-10T14:54:07.193Z",
+          "duration_ms": 20,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "94014856-ae58-4f8f-bd3c-6b1f0dfdcdda",
+          "user_id": "5AGeFQ6hT96jaYNVywGcavTyXl5r6hmL",
+          "key_id": "becab1b3-7a2e-4ba2-a5e0-9bbdb076fd29",
+          "auth_kind": "key",
+          "upstream_id": "416c9fcd-78ba-4bb4-baa7-c7a588e056ac",
+          "tool_name": "list_orders",
+          "alias": "t_nnIqvZ6FQwqb8bO-C1gzG_OCWhuWQCoStwW5HGxvKTA",
+          "started_at": "2026-10-10T14:54:07.000Z",
+          "finished_at": "2026-10-10T14:54:07.165Z",
+          "duration_ms": 164,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "4d131b87-b8b5-49c6-8e3b-d7e1176df954",
+          "user_id": "5AGeFQ6hT96jaYNVywGcavTyXl5r6hmL",
+          "key_id": "becab1b3-7a2e-4ba2-a5e0-9bbdb076fd29",
+          "auth_kind": "key",
+          "upstream_id": "669b5af1-0a74-462d-81b3-f8bfefc8f3bd",
+          "tool_name": "day_range",
+          "alias": "t_VqWbCxo3BAcxZRqOrlP9dTE4NJnO6v7xLcovj77juNM",
+          "started_at": "2026-10-10T14:54:06.972Z",
+          "finished_at": "2026-10-10T14:54:06.995Z",
+          "duration_ms": 22,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "60105d4f-5612-4b81-a33a-931341e8efcf",
+          "user_id": "5AGeFQ6hT96jaYNVywGcavTyXl5r6hmL",
+          "key_id": "becab1b3-7a2e-4ba2-a5e0-9bbdb076fd29",
+          "auth_kind": "key",
+          "upstream_id": "669b5af1-0a74-462d-81b3-f8bfefc8f3bd",
+          "tool_name": "now",
+          "alias": "t_Wbam27LRr2G1VEC7S6o-z98gPas8Ts8sQIKl524mxFw",
+          "started_at": "2026-10-10T14:54:06.928Z",
+          "finished_at": "2026-10-10T14:54:06.964Z",
+          "duration_ms": 35,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "44e32d4f-5f40-4a73-b5c8-02064dfcfb5f",
+          "user_id": "5AGeFQ6hT96jaYNVywGcavTyXl5r6hmL",
+          "key_id": "becab1b3-7a2e-4ba2-a5e0-9bbdb076fd29",
+          "auth_kind": "key",
+          "upstream_id": "6be58a66-a5cc-4f22-9256-3ad982831f65",
+          "tool_name": "info",
+          "alias": "t_-YbmRqzyTymILMZlp-6oP3mYwCOifz0yvpmz61SS7HM",
+          "started_at": "2026-10-10T14:54:06.869Z",
+          "finished_at": "2026-10-10T14:54:06.889Z",
+          "duration_ms": 20,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "5a9b3702-8375-48ab-84f2-c2137d0be797",
+          "user_id": "5AGeFQ6hT96jaYNVywGcavTyXl5r6hmL",
+          "key_id": "becab1b3-7a2e-4ba2-a5e0-9bbdb076fd29",
+          "auth_kind": "key",
+          "upstream_id": "669b5af1-0a74-462d-81b3-f8bfefc8f3bd",
+          "tool_name": "info",
+          "alias": "t_vacG1LsOZn7a2ABiqj0FAHLLFm0xgxner5VAtZ412ko",
+          "started_at": "2026-10-10T14:54:06.846Z",
+          "finished_at": "2026-10-10T14:54:06.863Z",
+          "duration_ms": 15,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "35fa7a5a-d357-4f39-8805-a5b123c15239",
+          "user_id": "5AGeFQ6hT96jaYNVywGcavTyXl5r6hmL",
+          "key_id": "becab1b3-7a2e-4ba2-a5e0-9bbdb076fd29",
+          "auth_kind": "key",
+          "upstream_id": "416c9fcd-78ba-4bb4-baa7-c7a588e056ac",
+          "tool_name": "info",
+          "alias": "t_7mrFlr00YKFmbd9CRBa9RWcFr0qwJ0pmkKWuca7XtDs",
+          "started_at": "2026-10-10T14:54:06.764Z",
+          "finished_at": "2026-10-10T14:54:06.837Z",
+          "duration_ms": 73,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "a5e44df9-65e4-4dc2-8861-7cf57a558b98",
+          "user_id": "5AGeFQ6hT96jaYNVywGcavTyXl5r6hmL",
+          "key_id": "becab1b3-7a2e-4ba2-a5e0-9bbdb076fd29",
+          "auth_kind": "key",
+          "upstream_id": null,
+          "tool_name": "unknown",
+          "alias": "unknown",
+          "started_at": "2026-10-10T14:54:06.738Z",
+          "finished_at": "2026-10-10T14:54:06.742Z",
+          "duration_ms": 0,
+          "status": "rejected",
+          "code": "HTTP_405"
+        }
+      ]
+    },
+    {
+      "test": "csrf-and-private-ingress-denied"
+    },
+    {
+      "test": "protocol",
+      "modernWire": [
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        }
+      ],
+      "legacyWire": [
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": null,
+          "sessionIssued": false
+        },
+        {
+          "status": 202,
+          "method": "POST",
+          "protocol": "2025-11-25",
+          "sessionIssued": false
+        },
+        {
+          "status": 405,
+          "method": "GET",
+          "protocol": "2025-11-25",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2025-11-25",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2025-11-25",
+          "sessionIssued": false
+        }
+      ]
+    }
+  ]
+}

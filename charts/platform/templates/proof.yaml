@@ -1,3 +1,4 @@
+{{- if eq .Values.mode "proof" }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -69,4 +70,5 @@ spec:
               service:
                 name: {{ .Release.Name }}-proof
                 port: {number: 3000}
+{{- end }}
 {{- end }}

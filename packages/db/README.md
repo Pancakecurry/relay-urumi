@@ -1,3 +1,3 @@
 # packages/db
 
-Planned component; unimplemented at M0. No runtime behavior is provided here.
+Implemented M3: PostgreSQL pools, Drizzle-owned identity definitions and explicit versioned migration SQL with isolated roles/RLS.

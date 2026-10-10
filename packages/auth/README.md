@@ -1,3 +1,3 @@
 # packages/auth
 
-Planned component; unimplemented at M0. No runtime behavior is provided here.
+Implemented M3: identity/key/delegation verification, session integration, Secret manager, reviewed destinations and shared admission limits.

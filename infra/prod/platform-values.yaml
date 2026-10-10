@@ -1,0 +1,6 @@
+mode: core
+platformHost: relay.example.invalid
+publicOrigin: https://relay.example.invalid
+storageClass: local-path
+# Operator must set the real API endpoint /32 for this environment before deployment.
+kubeApiCidr: 192.0.2.1/32

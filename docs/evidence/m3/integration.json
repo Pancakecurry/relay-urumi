@@ -1,0 +1,125 @@
+{
+  "at": "2026-10-10T14:54:36.079Z",
+  "passed": true,
+  "results": [
+    {
+      "test": "no-auth-and-no-caller-headers",
+      "data": {
+        "authorization_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "cookie_received": false,
+        "user_header_received": false
+      }
+    },
+    {
+      "test": "static-header-isolation",
+      "data": {
+        "authorization_sha256": "a20c46860764b6adae67dc1fb0b9e7b04a889062e439921341a71f66623f9a92",
+        "cookie_received": false,
+        "user_header_received": false
+      }
+    },
+    {
+      "test": "gateway-real-tool-deadline",
+      "durationMs": 532,
+      "data": {
+        "error": {
+          "code": "UPSTREAM_TIMEOUT"
+        }
+      }
+    },
+    {
+      "test": "cancel-propagates-to-upstream-and-audit"
+    },
+    {
+      "test": "upstream-concurrency-bound",
+      "results": [
+        {
+          "durationMs": 1102,
+          "error": null
+        },
+        {
+          "durationMs": 1104,
+          "error": null
+        },
+        {
+          "durationMs": 1107,
+          "error": null
+        },
+        {
+          "durationMs": 1103,
+          "error": null
+        },
+        {
+          "durationMs": 99,
+          "error": "CONCURRENCY_LIMIT"
+        }
+      ]
+    },
+    {
+      "test": "removal-denies-cached-alias"
+    },
+    {
+      "test": "dead-upstream-independent",
+      "catalogDurationMs": 288,
+      "healthyCallMs": 59,
+      "ready": true
+    },
+    {
+      "test": "trusted-session-delegation-attributed-to-B"
+    },
+    {
+      "test": "database-role-rls-and-context-reset",
+      "roles": [
+        {
+          "rolname": "relay_migrator",
+          "rolsuper": false,
+          "rolbypassrls": false
+        },
+        {
+          "rolname": "relay_auth",
+          "rolsuper": false,
+          "rolbypassrls": false
+        },
+        {
+          "rolname": "relay_app",
+          "rolsuper": false,
+          "rolbypassrls": false
+        }
+      ],
+      "rls": [
+        "BEGIN",
+        "SET",
+        "0",
+        "c0b5585d-7037-4014-b7ac-dc5087f4ef25",
+        "t",
+        "ROLLBACK",
+        "BEGIN",
+        "SET",
+        "0",
+        "ROLLBACK"
+      ],
+      "identitySecretTablesReadable": false
+    },
+    {
+      "test": "audit-storage-failure-prevents-mutation",
+      "sku": "RELAY-AUDIT-BLOCK-bf2e6f7a",
+      "productCount": 0
+    },
+    {
+      "test": "database-replacement-persists-audit-identity-registry",
+      "before": 34,
+      "after": 34,
+      "pvcUid": "c3fed7a0-d0c7-4608-bc0e-ef02e58d1182"
+    },
+    {
+      "test": "shared-key-rate-bound",
+      "successfulLists": 119
+    },
+    {
+      "test": "unknown-key-anonymous-security-event"
+    },
+    {
+      "test": "delegation-session-signout-immediate-rejection"
+    }
+  ]
+}

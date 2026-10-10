@@ -1,0 +1,184 @@
+{{- if eq .Values.mode "core" }}
+{{- range $role := list "api" "gateway" }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: relay-{{ $role }}}
+spec:
+  replicas: 1
+  selector: {matchLabels: {relay.role: {{ $role }}}}
+  template:
+    metadata: {labels: {relay.role: {{ $role }}}}
+    spec:
+      {{- if eq $role "api" }}
+      serviceAccountName: relay-secret-manager
+      automountServiceAccountToken: true
+      {{- else }}
+      automountServiceAccountToken: false
+      {{- end }}
+      securityContext: {runAsNonRoot: true, runAsUser: 1000, runAsGroup: 1000, fsGroup: 1000, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: {{ $role }}
+          image: {{ $.Values.platformImage | quote }}
+          imagePullPolicy: IfNotPresent
+          command: [node, {{ printf "dist/apps/%s/src/server.js" $role | quote }}]
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          ports: [{name: http, containerPort: {{ if eq $role "api" }}3001{{ else }}3000{{ end }}}]
+          env:
+            - {name: PUBLIC_ORIGIN, value: {{ $.Values.publicOrigin | quote }}}
+            - {name: ALLOWED_UPSTREAM_URLS, value: {{ join "," $.Values.allowedUpstreamUrls | quote }}}
+          resources: {{ $.Values.platformResources | toJson }}
+          readinessProbe: {httpGet: {path: /health/ready, port: http, httpHeaders: [{name: Host, value: localhost}]}, initialDelaySeconds: 3, periodSeconds: 5}
+          livenessProbe: {httpGet: {path: /health/live, port: http, httpHeaders: [{name: Host, value: localhost}]}, initialDelaySeconds: 5, periodSeconds: 10}
+          volumeMounts: [{name: secrets, mountPath: /run/platform, readOnly: true}]
+      volumes: [{name: secrets, secret: {secretName: {{ printf "platform-%s" $role }}, defaultMode: 0440}}]
+---
+apiVersion: v1
+kind: Service
+metadata: {name: relay-{{ $role }}}
+spec:
+  selector: {relay.role: {{ $role }}}
+  ports: [{port: {{ if eq $role "api" }}3001{{ else }}3000{{ end }}, targetPort: http}]
+{{- end }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata: {name: relay-secret-manager}
+automountServiceAccountToken: false
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata: {name: relay-secret-manager}
+rules:
+  - apiGroups: [""]
+    resources: [secrets]
+    resourceNames: [gateway-upstream-credentials]
+    verbs: [get, update]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata: {name: relay-secret-manager}
+subjects: [{kind: ServiceAccount, name: relay-secret-manager, namespace: {{ .Release.Namespace }}}]
+roleRef: {apiGroup: rbac.authorization.k8s.io, kind: Role, name: relay-secret-manager}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata: {name: relay-postgres}
+spec:
+  serviceName: relay-postgres
+  replicas: 1
+  selector: {matchLabels: {relay.role: postgres}}
+  template:
+    metadata: {labels: {relay.role: postgres}}
+    spec:
+      automountServiceAccountToken: false
+      securityContext: {runAsNonRoot: true, runAsUser: 70, runAsGroup: 70, fsGroup: 70, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: postgres
+          image: {{ .Values.pgImage | quote }}
+          args: [-c, shared_buffers=32MB, -c, max_connections=40, -c, log_statement=none, -c, log_min_error_statement=panic, -c, log_parameter_max_length_on_error=0]
+          env:
+            - {name: POSTGRES_DB, value: relay}
+            - name: POSTGRES_PASSWORD
+              valueFrom: {secretKeyRef: {name: platform-db-admin, key: pg-postgres}}
+          ports: [{name: pg, containerPort: 5432}]
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          resources: {requests: {cpu: 50m, memory: 64Mi}, limits: {cpu: 500m, memory: 256Mi}}
+          readinessProbe: {exec: {command: [pg_isready, -U, postgres, -d, relay]}, periodSeconds: 5}
+          livenessProbe: {exec: {command: [pg_isready, -U, postgres, -d, relay]}, initialDelaySeconds: 15, periodSeconds: 10}
+          volumeMounts:
+            - {name: data, mountPath: /var/lib/postgresql}
+            - {name: tmp, mountPath: /tmp}
+            - {name: socket, mountPath: /var/run/postgresql}
+      volumes: [{name: tmp, emptyDir: {sizeLimit: 64Mi}}, {name: socket, emptyDir: {sizeLimit: 16Mi}}]
+  volumeClaimTemplates:
+    - metadata: {name: data}
+      spec: {accessModes: [ReadWriteOnce], storageClassName: {{ .Values.storageClass | quote }}, resources: {requests: {storage: {{ .Values.pgStorage }}}}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: relay-postgres}
+spec: {selector: {relay.role: postgres}, ports: [{port: 5432, targetPort: pg}]}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata: {name: relay-redis}
+spec:
+  serviceName: relay-redis
+  replicas: 1
+  selector: {matchLabels: {relay.role: redis}}
+  template:
+    metadata: {labels: {relay.role: redis}}
+    spec:
+      automountServiceAccountToken: false
+      securityContext: {runAsNonRoot: true, runAsUser: 999, runAsGroup: 999, fsGroup: 999, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: redis
+          image: {{ .Values.redisImage | quote }}
+          command: [redis-server, /run/redis/redis.conf]
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          ports: [{name: redis, containerPort: 6379}]
+          resources: {requests: {cpu: 20m, memory: 24Mi}, limits: {cpu: 250m, memory: 96Mi}}
+          readinessProbe:
+            exec: {command: [sh, -c, 'REDISCLI_AUTH="$(cat /run/redis/password)" redis-cli ping | grep -q PONG']}
+            periodSeconds: 5
+          livenessProbe:
+            exec: {command: [sh, -c, 'REDISCLI_AUTH="$(cat /run/redis/password)" redis-cli ping | grep -q PONG']}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          volumeMounts: [{name: data, mountPath: /data}, {name: config, mountPath: /run/redis, readOnly: true}]
+      volumes: [{name: config, secret: {secretName: platform-redis-config, defaultMode: 0440}}]
+  volumeClaimTemplates:
+    - metadata: {name: data}
+      spec: {accessModes: [ReadWriteOnce], storageClassName: {{ .Values.storageClass | quote }}, resources: {requests: {storage: {{ .Values.redisStorage }}}}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: relay-redis}
+spec: {selector: {relay.role: redis}, ports: [{port: 6379, targetPort: redis}]}
+---
+apiVersion: batch/v1
+kind: Job
+metadata: {name: relay-migrate-{{ .Release.Revision }}}
+spec:
+  backoffLimit: 6
+  activeDeadlineSeconds: 240
+  template:
+    metadata: {labels: {relay.role: migration}}
+    spec:
+      restartPolicy: OnFailure
+      automountServiceAccountToken: false
+      securityContext: {runAsNonRoot: true, runAsUser: 1000, runAsGroup: 1000, fsGroup: 1000, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: migration
+          image: {{ .Values.platformImage | quote }}
+          command: [node, dist/packages/db/src/migrate.js]
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          resources: {requests: {cpu: 25m, memory: 64Mi}, limits: {cpu: 500m, memory: 192Mi}}
+          volumeMounts: [{name: secrets, mountPath: /run/platform, readOnly: true}]
+      volumes: [{name: secrets, secret: {secretName: platform-db-admin, defaultMode: 0440}}]
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata: {name: relay-core}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    - host: {{ .Values.platformHost | quote }}
+      http:
+        paths:
+          - path: /mcp
+            pathType: Exact
+            backend: {service: {name: relay-gateway, port: {number: 3000}}}
+          - path: /api
+            pathType: Prefix
+            backend: {service: {name: relay-api, port: {number: 3001}}}
+    {{- range .Values.additionalMcpHosts }}
+    - host: {{ . | quote }}
+      http:
+        paths:
+          - path: /mcp
+            pathType: Exact
+            backend: {service: {name: relay-gateway, port: {number: 3000}}}
+    {{- end }}
+{{- end }}

@@ -1,0 +1,61 @@
+{
+  "at": "2026-10-10T14:55:09.125Z",
+  "passed": true,
+  "results": [
+    {
+      "test": "allowed-browser-origin",
+      "status": 200
+    },
+    {
+      "test": "foreign-origin-denied",
+      "status": 403
+    },
+    {
+      "test": "body-limit-before-dispatch",
+      "status": 413
+    },
+    {
+      "test": "invalid-protocol-envelope",
+      "status": 400
+    },
+    {
+      "test": "forged-session-denied",
+      "status": 401
+    },
+    {
+      "test": "real-sign-in-http-only-no-json-session-token",
+      "status": 200
+    },
+    {
+      "test": "invitation-expired-denied",
+      "status": 403
+    },
+    {
+      "test": "invitation-revoked-denied",
+      "status": 403
+    },
+    {
+      "test": "parser-origin-protocol-rejections-durably-attributed",
+      "rows": [
+        {
+          "id": "94932614-1875-4e62-a8d9-c5a3c7fb2ec3",
+          "user_id": "5AGeFQ6hT96jaYNVywGcavTyXl5r6hmL",
+          "status": "rejected",
+          "code": "PROTOCOL_REJECTED"
+        },
+        {
+          "id": "28818e51-dabd-4712-ac30-eba615b5e5b7",
+          "user_id": "5AGeFQ6hT96jaYNVywGcavTyXl5r6hmL",
+          "status": "rejected",
+          "code": "HTTP_413"
+        },
+        {
+          "id": "b3c3410d-5052-4920-8a1a-9922b836f0e7",
+          "user_id": "5AGeFQ6hT96jaYNVywGcavTyXl5r6hmL",
+          "status": "rejected",
+          "code": "HTTP_403"
+        }
+      ]
+    }
+  ]
+}

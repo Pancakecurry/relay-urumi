@@ -1,0 +1,543 @@
+{
+  "at": "2026-10-10T14:55:23.406Z",
+  "platformImage": "relay/platform:m3-003fd779f067d576",
+  "workloads": [
+    {
+      "kind": "Deployment",
+      "name": "relay-api",
+      "replicas": 1,
+      "serviceAccount": "relay-secret-manager",
+      "tokenMounted": true,
+      "security": {
+        "fsGroup": 1000,
+        "runAsGroup": 1000,
+        "runAsNonRoot": true,
+        "runAsUser": 1000,
+        "seccompProfile": {
+          "type": "RuntimeDefault"
+        }
+      },
+      "containers": [
+        {
+          "name": "api",
+          "image": "relay/platform:m3-003fd779f067d576",
+          "security": {
+            "allowPrivilegeEscalation": false,
+            "capabilities": {
+              "drop": [
+                "ALL"
+              ]
+            },
+            "readOnlyRootFilesystem": true
+          },
+          "resources": {
+            "limits": {
+              "cpu": "500m",
+              "memory": "256Mi"
+            },
+            "requests": {
+              "cpu": "50m",
+              "memory": "96Mi"
+            }
+          },
+          "probes": {
+            "ready": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "httpHeaders": [
+                  {
+                    "name": "Host",
+                    "value": "localhost"
+                  }
+                ],
+                "path": "/health/ready",
+                "port": "http",
+                "scheme": "HTTP"
+              },
+              "initialDelaySeconds": 3,
+              "periodSeconds": 5,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            },
+            "live": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "httpHeaders": [
+                  {
+                    "name": "Host",
+                    "value": "localhost"
+                  }
+                ],
+                "path": "/health/live",
+                "port": "http",
+                "scheme": "HTTP"
+              },
+              "initialDelaySeconds": 5,
+              "periodSeconds": 10,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            }
+          },
+          "secretReferences": [
+            {
+              "name": "platform-api"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "Deployment",
+      "name": "relay-gateway",
+      "replicas": 1,
+      "serviceAccount": "default",
+      "tokenMounted": false,
+      "security": {
+        "fsGroup": 1000,
+        "runAsGroup": 1000,
+        "runAsNonRoot": true,
+        "runAsUser": 1000,
+        "seccompProfile": {
+          "type": "RuntimeDefault"
+        }
+      },
+      "containers": [
+        {
+          "name": "gateway",
+          "image": "relay/platform:m3-003fd779f067d576",
+          "security": {
+            "allowPrivilegeEscalation": false,
+            "capabilities": {
+              "drop": [
+                "ALL"
+              ]
+            },
+            "readOnlyRootFilesystem": true
+          },
+          "resources": {
+            "limits": {
+              "cpu": "500m",
+              "memory": "256Mi"
+            },
+            "requests": {
+              "cpu": "50m",
+              "memory": "96Mi"
+            }
+          },
+          "probes": {
+            "ready": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "httpHeaders": [
+                  {
+                    "name": "Host",
+                    "value": "localhost"
+                  }
+                ],
+                "path": "/health/ready",
+                "port": "http",
+                "scheme": "HTTP"
+              },
+              "initialDelaySeconds": 3,
+              "periodSeconds": 5,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            },
+            "live": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "httpHeaders": [
+                  {
+                    "name": "Host",
+                    "value": "localhost"
+                  }
+                ],
+                "path": "/health/live",
+                "port": "http",
+                "scheme": "HTTP"
+              },
+              "initialDelaySeconds": 5,
+              "periodSeconds": 10,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            }
+          },
+          "secretReferences": [
+            {
+              "name": "platform-gateway"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "StatefulSet",
+      "name": "relay-postgres",
+      "replicas": 1,
+      "serviceAccount": "default",
+      "tokenMounted": false,
+      "security": {
+        "fsGroup": 70,
+        "runAsGroup": 70,
+        "runAsNonRoot": true,
+        "runAsUser": 70,
+        "seccompProfile": {
+          "type": "RuntimeDefault"
+        }
+      },
+      "containers": [
+        {
+          "name": "postgres",
+          "image": "postgres:18.6-alpine3.23@sha256:885cf05d376c7cf27afef02073e6bdac3841252537f16e244fd1c1e6a7c99fb1",
+          "security": {
+            "allowPrivilegeEscalation": false,
+            "capabilities": {
+              "drop": [
+                "ALL"
+              ]
+            },
+            "readOnlyRootFilesystem": true
+          },
+          "resources": {
+            "limits": {
+              "cpu": "500m",
+              "memory": "256Mi"
+            },
+            "requests": {
+              "cpu": "50m",
+              "memory": "64Mi"
+            }
+          },
+          "probes": {
+            "ready": {
+              "exec": {
+                "command": [
+                  "pg_isready",
+                  "-U",
+                  "postgres",
+                  "-d",
+                  "relay"
+                ]
+              },
+              "failureThreshold": 3,
+              "periodSeconds": 5,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            },
+            "live": {
+              "exec": {
+                "command": [
+                  "pg_isready",
+                  "-U",
+                  "postgres",
+                  "-d",
+                  "relay"
+                ]
+              },
+              "failureThreshold": 3,
+              "initialDelaySeconds": 15,
+              "periodSeconds": 10,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            }
+          },
+          "secretReferences": [
+            {
+              "key": "pg-postgres",
+              "name": "platform-db-admin"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "StatefulSet",
+      "name": "relay-redis",
+      "replicas": 1,
+      "serviceAccount": "default",
+      "tokenMounted": false,
+      "security": {
+        "fsGroup": 999,
+        "runAsGroup": 999,
+        "runAsNonRoot": true,
+        "runAsUser": 999,
+        "seccompProfile": {
+          "type": "RuntimeDefault"
+        }
+      },
+      "containers": [
+        {
+          "name": "redis",
+          "image": "redis:8.2.10-alpine3.22@sha256:b51665e66f00759be7c3152ad5ac3c66fb2f619c13ef62dea7cc1f9914524635",
+          "security": {
+            "allowPrivilegeEscalation": false,
+            "capabilities": {
+              "drop": [
+                "ALL"
+              ]
+            },
+            "readOnlyRootFilesystem": true
+          },
+          "resources": {
+            "limits": {
+              "cpu": "250m",
+              "memory": "96Mi"
+            },
+            "requests": {
+              "cpu": "20m",
+              "memory": "24Mi"
+            }
+          },
+          "probes": {
+            "ready": {
+              "exec": {
+                "command": [
+                  "sh",
+                  "-c",
+                  "REDISCLI_AUTH=\"$(cat /run/redis/password)\" redis-cli ping | grep -q PONG"
+                ]
+              },
+              "failureThreshold": 3,
+              "periodSeconds": 5,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            },
+            "live": {
+              "exec": {
+                "command": [
+                  "sh",
+                  "-c",
+                  "REDISCLI_AUTH=\"$(cat /run/redis/password)\" redis-cli ping | grep -q PONG"
+                ]
+              },
+              "failureThreshold": 3,
+              "initialDelaySeconds": 10,
+              "periodSeconds": 10,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            }
+          },
+          "secretReferences": [
+            {
+              "name": "platform-redis-config"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "volumes": [
+    {
+      "name": "data-relay-postgres-0",
+      "uid": "c3fed7a0-d0c7-4608-bc0e-ef02e58d1182",
+      "phase": "Bound",
+      "storage": "1Gi"
+    },
+    {
+      "name": "data-relay-redis-0",
+      "uid": "61ba13cb-6228-424f-8d09-080e27706975",
+      "phase": "Bound",
+      "storage": "128Mi"
+    }
+  ],
+  "pods": [
+    {
+      "name": "relay-api-5b79f9f65-p7rjg",
+      "phase": "Running",
+      "containers": [
+        {
+          "name": "api",
+          "ready": true,
+          "imageId": "sha256:5f7331f84cd849a976f4fa317c11e3252f36161cbd773b031a0dd60a0b922046",
+          "restarts": 0
+        }
+      ]
+    },
+    {
+      "name": "relay-gateway-556fd794df-hm6bj",
+      "phase": "Running",
+      "containers": [
+        {
+          "name": "gateway",
+          "ready": true,
+          "imageId": "sha256:5f7331f84cd849a976f4fa317c11e3252f36161cbd773b031a0dd60a0b922046",
+          "restarts": 0
+        }
+      ]
+    },
+    {
+      "name": "relay-migrate-6-lfhgs",
+      "phase": "Succeeded",
+      "containers": [
+        {
+          "name": "migration",
+          "ready": false,
+          "imageId": "sha256:5f7331f84cd849a976f4fa317c11e3252f36161cbd773b031a0dd60a0b922046",
+          "restarts": 0
+        }
+      ]
+    },
+    {
+      "name": "relay-postgres-0",
+      "phase": "Running",
+      "containers": [
+        {
+          "name": "postgres",
+          "ready": true,
+          "imageId": "docker.io/library/postgres@sha256:885cf05d376c7cf27afef02073e6bdac3841252537f16e244fd1c1e6a7c99fb1",
+          "restarts": 0
+        }
+      ]
+    },
+    {
+      "name": "relay-redis-0",
+      "phase": "Running",
+      "containers": [
+        {
+          "name": "redis",
+          "ready": true,
+          "imageId": "docker.io/library/redis@sha256:b51665e66f00759be7c3152ad5ac3c66fb2f619c13ef62dea7cc1f9914524635",
+          "restarts": 0
+        }
+      ]
+    }
+  ],
+  "services": [
+    {
+      "name": "relay-api",
+      "type": "ClusterIP",
+      "ports": [
+        {
+          "port": 3001,
+          "protocol": "TCP",
+          "targetPort": "http"
+        }
+      ]
+    },
+    {
+      "name": "relay-gateway",
+      "type": "ClusterIP",
+      "ports": [
+        {
+          "port": 3000,
+          "protocol": "TCP",
+          "targetPort": "http"
+        }
+      ]
+    },
+    {
+      "name": "relay-postgres",
+      "type": "ClusterIP",
+      "ports": [
+        {
+          "port": 5432,
+          "protocol": "TCP",
+          "targetPort": "pg"
+        }
+      ]
+    },
+    {
+      "name": "relay-redis",
+      "type": "ClusterIP",
+      "ports": [
+        {
+          "port": 6379,
+          "protocol": "TCP",
+          "targetPort": "redis"
+        }
+      ]
+    }
+  ],
+  "ingresses": [
+    {
+      "name": "relay-core",
+      "spec": {
+        "ingressClassName": "traefik",
+        "rules": [
+          {
+            "host": "relay.localhost",
+            "http": {
+              "paths": [
+                {
+                  "backend": {
+                    "service": {
+                      "name": "relay-gateway",
+                      "port": {
+                        "number": 3000
+                      }
+                    }
+                  },
+                  "path": "/mcp",
+                  "pathType": "Exact"
+                },
+                {
+                  "backend": {
+                    "service": {
+                      "name": "relay-api",
+                      "port": {
+                        "number": 3001
+                      }
+                    }
+                  },
+                  "path": "/api",
+                  "pathType": "Prefix"
+                }
+              ]
+            }
+          },
+          {
+            "host": "localhost",
+            "http": {
+              "paths": [
+                {
+                  "backend": {
+                    "service": {
+                      "name": "relay-gateway",
+                      "port": {
+                        "number": 3000
+                      }
+                    }
+                  },
+                  "path": "/mcp",
+                  "pathType": "Exact"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "roles": [
+    {
+      "name": "relay-secret-manager",
+      "rules": [
+        {
+          "apiGroups": [
+            ""
+          ],
+          "resourceNames": [
+            "gateway-upstream-credentials"
+          ],
+          "resources": [
+            "secrets"
+          ],
+          "verbs": [
+            "get",
+            "update"
+          ]
+        }
+      ]
+    }
+  ],
+  "manifestValidationNote": "Only the rendered Job name changes to relay-migrate-validation for an uncreated server dry run, avoiding the immutable historical revision-1 Job. Other rendered resources are unchanged.",
+  "usage": "NAME                             CPU(cores)   MEMORY(bytes)   \nrelay-api-5b79f9f65-p7rjg        8m           51Mi            \nrelay-gateway-556fd794df-hm6bj   9m           63Mi            \nrelay-postgres-0                 14m          32Mi            \nrelay-redis-0                    12m          3Mi",
+  "nodeUsage": "NAME                    CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   \nk3d-relay-m0-server-0   345m         4%       2173Mi          69%",
+  "platformImageInfo": {
+    "id": "sha256:d31231f63f0215e8765c0091d2b749b249a3f83a0f8c815ca15068999aeac70b",
+    "sizeBytes": 83940874,
+    "architecture": "arm64"
+  },
+  "nodeMemory": "2.118GiB / 3GiB",
+  "disk": "Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on\n/dev/disk3s5   228Gi   194Gi   4.2Gi    98%    2.0M   44M    4%   /System/Volumes/Data"
+}

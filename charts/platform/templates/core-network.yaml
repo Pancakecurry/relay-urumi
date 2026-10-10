@@ -1,0 +1,75 @@
+{{- if eq .Values.mode "core" }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-core-default-deny}
+spec: {podSelector: {}, policyTypes: [Ingress, Egress], ingress: [], egress: []}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-core-dns}
+spec:
+  podSelector: {}
+  policyTypes: [Egress]
+  egress:
+    - to: [{namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: kube-system}}, podSelector: {matchLabels: {k8s-app: kube-dns}}}]
+      ports: [{protocol: UDP, port: 53}, {protocol: TCP, port: 53}]
+{{- range $role := list "api" "gateway" }}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-{{ $role }}}
+spec:
+  podSelector: {matchLabels: {relay.role: {{ $role }}}}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from: [{namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: kube-system}}, podSelector: {matchLabels: {app.kubernetes.io/name: traefik}}}]
+      ports: [{port: {{ if eq $role "api" }}3001{{ else }}3000{{ end }}}]
+    - from: [{podSelector: {matchLabels: {relay.role: {{ if eq $role "api" }}gateway{{ else }}api{{ end }}}}}]
+      ports: [{port: {{ if eq $role "api" }}3001{{ else }}3000{{ end }}}]
+  egress:
+    - to: [{podSelector: {matchLabels: {relay.role: postgres}}}]
+      ports: [{port: 5432}]
+    - to: [{podSelector: {matchLabels: {relay.role: {{ if eq $role "api" }}gateway{{ else }}api{{ end }}}}}]
+      ports: [{port: {{ if eq $role "api" }}3000{{ else }}3001{{ end }}}]
+    {{- if eq $role "api" }}
+    - to: [{podSelector: {matchLabels: {relay.role: api}}}]
+      ports: [{port: 3001}]
+    - to: [{ipBlock: {cidr: {{ $.Values.kubeApiCidr | quote }}}}, {ipBlock: {cidr: 10.43.0.1/32}}]
+      ports: [{port: 6443}, {port: 443}]
+    {{- else }}
+    - to: [{podSelector: {matchLabels: {relay.role: redis}}}]
+      ports: [{port: 6379}]
+    - to:
+        - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: relay-store-m1}}
+          podSelector: {matchLabels: {role: adapter}}
+        - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: relay-upstreams}}
+          podSelector: {matchLabels: {role: utility}}
+      ports: [{port: 3000}]
+    {{- end }}
+{{- end }}
+{{- range $role := list "postgres" "redis" }}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-{{ $role }}}
+spec:
+  podSelector: {matchLabels: {relay.role: {{ $role }}}}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector: {matchLabels: {relay.role: gateway}}
+        {{- if eq $role "postgres" }}
+        - podSelector: {matchLabels: {relay.role: api}}
+        - podSelector: {matchLabels: {relay.role: migration}}
+        {{- end }}
+      ports: [{port: {{ if eq $role "postgres" }}5432{{ else }}6379{{ end }}}]
+{{- end }}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-migration}
+spec:
+  podSelector: {matchLabels: {relay.role: migration}}
+  policyTypes: [Egress]
+  egress: [{to: [{podSelector: {matchLabels: {relay.role: postgres}}}], ports: [{port: 5432}]}]
+{{- end }}

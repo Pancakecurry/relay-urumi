@@ -1,3 +1,4 @@
+mode: proof
 image:
   repository: relay/m0-proof
   tag: "0.0.0"
@@ -11,3 +12,22 @@ ingress:
 resources:
   requests: {cpu: 100m, memory: 64Mi}
   limits: {cpu: 500m, memory: 256Mi}
+
+platformImage: relay/platform:unbuilt
+publicOrigin: http://relay.localhost:18080
+platformHost: relay.localhost
+pgImage: postgres:18.6-alpine3.23@sha256:885cf05d376c7cf27afef02073e6bdac3841252537f16e244fd1c1e6a7c99fb1
+redisImage: redis:8.2.10-alpine3.22@sha256:b51665e66f00759be7c3152ad5ac3c66fb2f619c13ef62dea7cc1f9914524635
+storageClass: local-path
+pgStorage: 1Gi
+redisStorage: 128Mi
+kubeApiCidr: 172.18.0.2/32
+allowedUpstreamUrls:
+  - http://relay-woocommerce.relay-store-m1.svc.cluster.local:3000/mcp
+  - http://relay-calendar.relay-upstreams.svc.cluster.local:3000/mcp
+  - http://relay-totals.relay-upstreams.svc.cluster.local:3000/mcp
+platformResources:
+  requests: {cpu: 50m, memory: 96Mi}
+  limits: {cpu: 500m, memory: 256Mi}
+
+additionalMcpHosts: []

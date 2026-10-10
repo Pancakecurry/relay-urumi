@@ -1,3 +1,4 @@
+{{- if eq .Values.mode "proof" }}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -16,3 +17,4 @@ spec:
             matchLabels: {relay-m0-access: allowed}
       ports: [{protocol: TCP, port: 3000}]
   egress: []
+{{- end }}

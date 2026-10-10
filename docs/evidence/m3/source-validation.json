@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-10T14:38:51.253055+00:00",
+  "publicExportUrl": "https://docs.google.com/document/d/1wE4j9_Y_iydrkiMu7p9N_Kd4ltFztUqjssyBd4tSwkU/export?format=txt",
+  "normalizedMatch": true,
+  "sha256Normalized": "0a36cf2d6a692134f121655ae86e5c5fc6b6b86a454ff3c583df409dfa208d02",
+  "researchPlanPath": "../Urumi_Full_Scope_Plan.md",
+  "researchPlanSha256": "088f7dd53e89009c784b4946c24fd29cd83b40ddc1de0c9456369db3881bda44",
+  "accessNotes": [
+    "Web view tool unavailable",
+    "Python urllib default CA lookup failed; OS curl fetched the public export with TLS validation enabled"
+  ],
+  "privateHiringEmailCopied": false
+}

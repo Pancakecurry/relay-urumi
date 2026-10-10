@@ -1,0 +1,11 @@
+{
+  "name": "@relay/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "better-auth": "1.7.7",
+    "fastify": "5.12.5",
+    "zod": "4.6.5"
+  }
+}

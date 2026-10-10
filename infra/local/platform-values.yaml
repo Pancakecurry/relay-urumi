@@ -1,0 +1,5 @@
+mode: core
+platformHost: relay.localhost
+publicOrigin: http://relay.localhost:18080
+kubeApiCidr: 172.24.0.3/32
+additionalMcpHosts: [localhost]

@@ -1,0 +1,10 @@
+import { createMcpFastifyApp } from '@modelcontextprotocol/fastify';
+import { McpServer, createMcpHandler } from '@modelcontextprotocol/server';
+import { toNodeHandler } from '@modelcontextprotocol/node';
+import { createHash } from 'node:crypto';
+import * as z from 'zod/v4';
+// Temporary real MCP diagnostic server. Never substitutes for the WooCommerce acceptance path.
+const app = createMcpFastifyApp({ host: '0.0.0.0', allowedHosts: ['localhost', 'm3-fixture.relay-upstreams.svc.cluster.local'] });
+app.get('/health/live', async () => ({ status: 'ok' }));
+app.all('/mcp', async (req, reply) => { const auth = req.headers.authorization ?? ''; const handler = toNodeHandler(createMcpHandler(() => { const server = new McpServer({ name: 'm3-diagnostic', version: '0.3.0' }); server.registerTool('info', { inputSchema: z.strictObject({}), outputSchema: z.strictObject({ authorization_sha256: z.string(), cookie_received: z.boolean(), user_header_received: z.boolean() }) }, async () => { const data = { authorization_sha256: createHash('sha256').update(auth).digest('hex'), cookie_received: !!req.headers.cookie, user_header_received: !!req.headers['x-relay-user'] }; return { content: [{ type: 'text', text: JSON.stringify(data) }], structuredContent: data }; }); server.registerTool('pause', { inputSchema: z.strictObject({ ms: z.number().int().min(1).max(15000) }), outputSchema: z.strictObject({ elapsed_ms: z.number() }) }, async ({ ms }, ctx) => { const start = Date.now();console.log(JSON.stringify({tool:'pause',stage:'started'})); await new Promise<void>((resolve, reject) => { const timer = setTimeout(resolve, ms); ctx.mcpReq.signal.addEventListener('abort', () => { clearTimeout(timer);console.log(JSON.stringify({tool:'pause',stage:'cancelled'})); reject(new Error('Cancelled')); }, { once: true }); }); const data = { elapsed_ms: Date.now() - start }; return { content: [{ type: 'text', text: JSON.stringify(data) }], structuredContent: data }; }); return server; })); reply.hijack(); await handler(Object.assign(req.raw, { method: req.method, url: req.url }), reply.raw, req.body); });
+await app.listen({ host: '0.0.0.0', port: 3000 });

@@ -1,6 +1,6 @@
 # ADR 0003: Better Auth sessions; personal keys remain separate
 
-Status: compatibility spike; full PostgreSQL integration pending M3.
+Status: historical M0 compatibility spike; PostgreSQL/Drizzle integration is implemented and tested in M3. See [ADR 0008](0008-durable-gateway.md) for the current session/key implementation.
 
 Use Better Auth 1.7.7 for browser identity. An isolated real SQLite test invokes its request handler, runs its supported migration API, creates a synthetic user, verifies HttpOnly/SameSite cookies, reads the session, rejects a forged cookie and invalidates it on sign-out. No passwords, session tokens or auth signing key are persisted from this test.
 
