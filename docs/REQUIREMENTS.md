@@ -93,6 +93,6 @@ The store acceptance is distinct from the full platform requirements. No gateway
 | Both pods replaced, original products/order/file and PVCs persist | tested locally | m1/persistence.json, m1/after-replacement.json |
 | Repeated/interrupted setup preserves one admin/key/each SKU | tested locally | m1/idempotence.json; interruption.json records the targeted actual Job termination test |
 | Resource/probe/PVC/Secret inventory and no public database | tested locally | m1/inventory.json, m1/network.json |
-| Credential-safe final source/evidence/checkpoint | tested locally | M1 credential scan and Git checkpoint recorded in evidence/m1.md after final scan |
+| Credential-safe final source/evidence/checkpoint | tested locally | m1/credential-scan.json; fresh-checkout reproduction and tested checkpoint in evidence/m1.md |
 
 K01/K02/K05/K06/K07 remain planned as whole-platform requirements despite the verified store contribution. VPS, disaster recovery, non-root redesign and full tenant isolation are not inferred from this gate.

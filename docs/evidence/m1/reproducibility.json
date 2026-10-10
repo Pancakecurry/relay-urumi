@@ -1,0 +1,10 @@
+{
+  "at": "2026-10-10T10:06:40.164Z",
+  "sourceCommit": "7730aa2f9277b7e9fa652912ea3fb5bfd1b7e813",
+  "freshCheckout": true,
+  "frozenOfflineInstallPassed": true,
+  "lintTypecheckNineTestsBuildPassed": true,
+  "checkoutClean": true,
+  "providerRequests": 0,
+  "scope": "New cache checkout; existing package store and separate clean-store deployment evidence; no independent cluster claim"
+}

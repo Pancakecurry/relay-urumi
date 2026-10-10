@@ -1,0 +1,43 @@
+{
+  "at": "2026-10-10T10:01:10.267Z",
+  "passed": true,
+  "valuesPrinted": false,
+  "results": [
+    {
+      "path": "/run/adapter/consumer-secret",
+      "status": 404,
+      "responseBytes": 97513,
+      "credentialDetected": false
+    },
+    {
+      "path": "/run/admin/password",
+      "status": 404,
+      "responseBytes": 97513,
+      "credentialDetected": false
+    },
+    {
+      "path": "/.env",
+      "status": 404,
+      "responseBytes": 97513,
+      "credentialDetected": false
+    },
+    {
+      "path": "/.local/relay-store-m1-credentials.json",
+      "status": 404,
+      "responseBytes": 97513,
+      "credentialDetected": false
+    },
+    {
+      "path": "/wp-config.php",
+      "status": 200,
+      "responseBytes": 0,
+      "credentialDetected": false
+    },
+    {
+      "path": "/wp-json/wc/v3/orders",
+      "status": 401,
+      "responseBytes": 107,
+      "credentialDetected": false
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+$ git clone --no-hardlinks [PROJECT_ROOT] [LOCAL_HOME]/Library/Caches/relay-m1-reproduction-MVv1eI
+
+$ [LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/local-cache.mjs
+Project runtime/dependency links prepared; existing links preserved.
+
+$ pnpm install --frozen-lockfile --offline
+Scope: all 3 workspace projects
+✓ Lockfile passes supply-chain policies (verified 27m ago)
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +288
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Packages are cloned from the content-addressable store to the virtual store.
+  Content-addressable store is at: [LOCAL_HOME]/Library/pnpm/store/v11
+  Virtual store is at:             ../relay-05478730f285/node_modules/.pnpm
+Progress: resolved 288, reused 288, downloaded 0, added 287
+Progress: resolved 288, reused 288, downloaded 0, added 288, done
+.../@modelcontextprotocol/inspector postinstall$ node scripts/install-clients.mjs
+.../@modelcontextprotocol/inspector postinstall: Done
+
+devDependencies:
++ @eslint/js 10.0.1
++ @modelcontextprotocol/client 2.3.1
++ @modelcontextprotocol/inspector 2.10.1
++ @playwright/test 1.64.0
++ @types/node 24.19.1
++ better-auth 1.7.7
++ eslint 10.12.0
++ typescript 6.0.3
++ typescript-eslint 8.71.1
++ vitest 5.0.3
+
+Done in 1.8s using pnpm v11.25.0
+
+$ pnpm check
+
+ RUN  v5.0.3 [LOCAL_HOME]/Library/Caches/relay-m1-reproduction-MVv1eI
+
+
+ Test Files  3 passed (3)
+      Tests  9 passed (9)
+   Start at  15:36:38
+   Duration  423ms (import 62%, tests 28%, transform 9%, worker 1%)
