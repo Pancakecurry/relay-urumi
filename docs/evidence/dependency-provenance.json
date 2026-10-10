@@ -1,0 +1,66 @@
+{
+  "at": "2026-10-10T08:16:32.709Z",
+  "packages": [
+    {
+      "name": "@modelcontextprotocol/server",
+      "version": "2.3.1",
+      "license": "Apache-2.0",
+      "integrity": "sha512-e59MfWuSssj6DoQ96JCTqdW1AXT5/XtnTl0WWd6MU1Ka434fFUGGosCLJbGNySDhHGvxQWoRWK137FXYFkYNWw==",
+      "registry": "https://registry.npmjs.org/@modelcontextprotocol/server/2.3.1"
+    },
+    {
+      "name": "@modelcontextprotocol/client",
+      "version": "2.3.1",
+      "license": "Apache-2.0",
+      "integrity": "sha512-mIGZXpHsjnZ6lD+gD/WCMpR5k8yVQQ8nNFH1N0Srf7AvnwTUMYD6pvTY8ng2+He5FfV7YMZLmrjL7cLa/cc3dQ==",
+      "registry": "https://registry.npmjs.org/@modelcontextprotocol/client/2.3.1"
+    },
+    {
+      "name": "@modelcontextprotocol/fastify",
+      "version": "2.0.1",
+      "license": "Apache-2.0",
+      "integrity": "sha512-tqfYC5zV7c5lu+B8NtXSzD2yyjF0ABJNCQi6cTI++cOVB6pCWPBiJuzICEfCFhLhZViyVeikWhcm0p0DjSKSwg==",
+      "registry": "https://registry.npmjs.org/@modelcontextprotocol/fastify/2.0.1"
+    },
+    {
+      "name": "@modelcontextprotocol/node",
+      "version": "2.1.1",
+      "license": "Apache-2.0",
+      "integrity": "sha512-EY92OAXN2xYL7tNS/MVsWJW1v8VHAPwl9B4Ca3pCrjmvqyC+S1C/6UHsMxF2GoFPraS5Yyg56vFz9brVpFojMA==",
+      "registry": "https://registry.npmjs.org/@modelcontextprotocol/node/2.1.1"
+    },
+    {
+      "name": "fastify",
+      "version": "5.12.5",
+      "gitHead": "ba235fdcd9a83a4c7ccf793f7b2596a8f65389b6",
+      "license": "MIT",
+      "integrity": "sha512-OB2k1dlxs5/NAABqeKV2FUHkSD2BbENsCak8yULVcymn3fHIPDVa9TI3SDnJSWYSllZmSYuZXy2gTnsT+Sut1A==",
+      "registry": "https://registry.npmjs.org/fastify/5.12.5"
+    },
+    {
+      "name": "better-auth",
+      "version": "1.7.7",
+      "license": "MIT",
+      "integrity": "sha512-Zhgxi/c5ylmfB/sX+nwnBbsFf/j6k0L8DvL6CJXZSrXgxc5pPMC/e7j812zNd4L4B4ELmdURCPw3X8nAOUdcjw==",
+      "registry": "https://registry.npmjs.org/better-auth/1.7.7"
+    },
+    {
+      "name": "@modelcontextprotocol/inspector",
+      "version": "2.10.1",
+      "license": "SEE LICENSE IN LICENSE",
+      "integrity": "sha512-5lU14Qms3MNQQ+3OUKKYPWewWh9cUsPCmJrZ3vsQTSR4O9UAXfmIcZiSx5gDgvJtrXRXGn7E1gIDC5TY7cI1pQ==",
+      "registry": "https://registry.npmjs.org/@modelcontextprotocol/inspector/2.10.1"
+    }
+  ],
+  "documentation": [
+    "https://ts.sdk.modelcontextprotocol.io/v2/serving/fastify.html",
+    "https://ts.sdk.modelcontextprotocol.io/v2/protocol-versions.html",
+    "https://better-auth.com/docs/integrations/fastify",
+    "https://better-auth.com/docs/adapters/sqlite",
+    "https://docs.k3s.io/security/secrets-encryption",
+    "https://k3d.io/stable/usage/configfile/",
+    "https://ai.google.dev/gemini-api/docs/billing",
+    "https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm"
+  ],
+  "limits": "Documentation pages are mutable; installed exact-version .d.mts definitions are checked by strict compilation and executed compatibility tests."
+}

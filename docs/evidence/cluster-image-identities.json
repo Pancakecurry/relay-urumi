@@ -1,0 +1,275 @@
+{
+  "at": "2026-10-10T08:40:49.261Z",
+  "docker": [
+    {
+      "name": "k3d-relay-m0-server-0",
+      "image": "rancher/k3s:v1.37.1-k3s1",
+      "imageId": "sha256:ca7f37d993d82ef0dcdcfecb2e0e2618ea541dbaffc620c8cedebe01a82acd0d",
+      "repoDigests": [
+        "rancher/k3s@sha256:ca7f37d993d82ef0dcdcfecb2e0e2618ea541dbaffc620c8cedebe01a82acd0d"
+      ],
+      "memoryLimitBytes": 3221225472,
+      "portBindings": {}
+    },
+    {
+      "name": "k3d-relay-m0-serverlb",
+      "image": "sha256:7be40abfeb6ac9a81d0d4157a7cbf3aacc68a64a1780ca2efb160f1aea915177",
+      "imageId": "sha256:7be40abfeb6ac9a81d0d4157a7cbf3aacc68a64a1780ca2efb160f1aea915177",
+      "repoDigests": [
+        "ghcr.io/k3d-io/k3d-proxy@sha256:7be40abfeb6ac9a81d0d4157a7cbf3aacc68a64a1780ca2efb160f1aea915177"
+      ],
+      "memoryLimitBytes": 0,
+      "portBindings": {
+        "6443/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56048"
+          }
+        ],
+        "80/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "18080"
+          }
+        ]
+      }
+    }
+  ],
+  "pods": [
+    {
+      "namespace": "kube-system",
+      "name": "coredns-577d995dff-7c4cg",
+      "phase": "Running",
+      "containers": [
+        {
+          "name": "coredns",
+          "image": "rancher/mirrored-coredns-coredns:1.14.7",
+          "imageId": "docker.io/rancher/mirrored-coredns-coredns@sha256:7efd3c635b03efd68c4e8398fc45f0d993d0e9ab016f72c1cefb0fd6d01aa286",
+          "resources": {
+            "limits": {
+              "memory": "170Mi"
+            },
+            "requests": {
+              "cpu": "100m",
+              "memory": "70Mi"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "namespace": "kube-system",
+      "name": "helm-install-gateway-api-crd-vf2jv",
+      "phase": "Succeeded",
+      "containers": [
+        {
+          "name": "helm",
+          "image": "rancher/klipper-helm:v0.13.3-build20260727",
+          "imageId": "docker.io/rancher/klipper-helm@sha256:5425a2b4613d2458dbdff99218e8d487ebb59c20e7a941f061c0777070f0aac1",
+          "resources": {
+            "limits": {
+              "cpu": "32",
+              "memory": "32G"
+            },
+            "requests": {
+              "cpu": "100m",
+              "memory": "10M"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "namespace": "kube-system",
+      "name": "helm-install-traefik-crd-8845z",
+      "phase": "Succeeded",
+      "containers": [
+        {
+          "name": "helm",
+          "image": "rancher/klipper-helm:v0.13.3-build20260727",
+          "imageId": "docker.io/rancher/klipper-helm@sha256:5425a2b4613d2458dbdff99218e8d487ebb59c20e7a941f061c0777070f0aac1",
+          "resources": {
+            "limits": {
+              "cpu": "32",
+              "memory": "32G"
+            },
+            "requests": {
+              "cpu": "100m",
+              "memory": "10M"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "namespace": "kube-system",
+      "name": "helm-install-traefik-kr58d",
+      "phase": "Succeeded",
+      "containers": [
+        {
+          "name": "helm",
+          "image": "rancher/klipper-helm:v0.13.3-build20260727",
+          "imageId": "docker.io/rancher/klipper-helm@sha256:5425a2b4613d2458dbdff99218e8d487ebb59c20e7a941f061c0777070f0aac1",
+          "resources": {
+            "limits": {
+              "cpu": "32",
+              "memory": "32G"
+            },
+            "requests": {
+              "cpu": "100m",
+              "memory": "10M"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "namespace": "kube-system",
+      "name": "local-path-provisioner-6858d854cf-qsknn",
+      "phase": "Running",
+      "containers": [
+        {
+          "name": "local-path-provisioner",
+          "image": "rancher/local-path-provisioner:v0.0.37",
+          "imageId": "docker.io/rancher/local-path-provisioner@sha256:e757967a5ec338f6a9b371c5a9688bedaa8c3578ea3dd4db329ea0084be0a86f",
+          "resources": {}
+        }
+      ]
+    },
+    {
+      "namespace": "kube-system",
+      "name": "metrics-server-778c4649b4-jplxc",
+      "phase": "Running",
+      "containers": [
+        {
+          "name": "metrics-server",
+          "image": "rancher/mirrored-metrics-server:v0.9.0",
+          "imageId": "docker.io/rancher/mirrored-metrics-server@sha256:d9862115e7c7881280d3d75ca26bda8ffc0fc213315979575bf23ce9826205c0",
+          "resources": {
+            "requests": {
+              "cpu": "100m",
+              "memory": "70Mi"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "namespace": "kube-system",
+      "name": "svclb-traefik-059c0145-9dmrs",
+      "phase": "Running",
+      "containers": [
+        {
+          "name": "lb-tcp-80",
+          "image": "rancher/klipper-lb:v0.4.17",
+          "imageId": "docker.io/rancher/klipper-lb@sha256:910944bb0bd94f060a82a56ca1ea1c577d3e49b3473a093a47a985f32e92d94a",
+          "resources": {}
+        },
+        {
+          "name": "lb-tcp-443",
+          "image": "rancher/klipper-lb:v0.4.17",
+          "imageId": "docker.io/rancher/klipper-lb@sha256:910944bb0bd94f060a82a56ca1ea1c577d3e49b3473a093a47a985f32e92d94a",
+          "resources": {}
+        }
+      ]
+    },
+    {
+      "namespace": "kube-system",
+      "name": "traefik-77b898c5c8-tr5bm",
+      "phase": "Running",
+      "containers": [
+        {
+          "name": "traefik",
+          "image": "rancher/mirrored-library-traefik:3.7.13",
+          "imageId": "docker.io/rancher/mirrored-library-traefik@sha256:f86a2cab1b5c649070c49f883c743dd32d8485a56e3368c5f93b9e91f1e91259",
+          "resources": {}
+        }
+      ]
+    },
+    {
+      "namespace": "relay-m0",
+      "name": "relay-m0-proof-b9f4968f6-gvg4s",
+      "phase": "Running",
+      "containers": [
+        {
+          "name": "proof",
+          "image": "relay/m0-proof:m0-9a981955b6f472ea",
+          "imageId": "sha256:087afced63ae09f20849c83dadc0e77d21b76a3dee0ae14641cb3e65eae67130",
+          "resources": {
+            "limits": {
+              "cpu": "500m",
+              "memory": "256Mi"
+            },
+            "requests": {
+              "cpu": "100m",
+              "memory": "64Mi"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "nodeVersions": [
+    {
+      "name": "k3d-relay-m0-server-0",
+      "version": {
+        "architecture": "arm64",
+        "bootID": "9c92d58a-b613-4a69-9421-a8161fcc860f",
+        "containerRuntimeVersion": "containerd://2.3.4-k3s1",
+        "kernelVersion": "6.12.76-linuxkit",
+        "kubeProxyVersion": "",
+        "kubeletVersion": "v1.37.1+k3s1",
+        "machineID": "",
+        "operatingSystem": "linux",
+        "osImage": "K3s v1.37.1+k3s1",
+        "runningInUserNamespace": false,
+        "systemUUID": ""
+      },
+      "capacity": {
+        "cpu": "8",
+        "ephemeral-storage": "240120725504",
+        "hugepages-1Gi": "0",
+        "hugepages-2Mi": "0",
+        "hugepages-32Mi": "0",
+        "hugepages-64Ki": "0",
+        "memory": "3221225Ki",
+        "pods": "110"
+      },
+      "allocatable": {
+        "cpu": "8",
+        "ephemeral-storage": "228114689050",
+        "hugepages-1Gi": "0",
+        "hugepages-2Mi": "0",
+        "hugepages-32Mi": "0",
+        "hugepages-64Ki": "0",
+        "memory": "3221225Ki",
+        "pods": "110"
+      }
+    }
+  ],
+  "pvc": [
+    {
+      "name": "relay-m0-storage-proof",
+      "status": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "capacity": {
+          "storage": "16Mi"
+        },
+        "conditions": [
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-10T08:40:13Z",
+            "message": "No pods are currently referencing this PVC",
+            "reason": "NoPodsUsingPVC",
+            "status": "True",
+            "type": "Unused"
+          }
+        ],
+        "phase": "Bound"
+      },
+      "storageClass": "local-path"
+    }
+  ]
+}

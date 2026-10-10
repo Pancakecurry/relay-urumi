@@ -1,0 +1,12 @@
+node_modules/
+node_modules
+dist/
+.tools/
+.tools
+.local/
+.env
+.env.*
+!.env.example
+coverage/
+*.log
+.DS_Store

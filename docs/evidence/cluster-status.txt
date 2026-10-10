@@ -1,0 +1,25 @@
+$ bash scripts/cluster-status.sh
+NAME                    STATUS   ROLES           AGE   VERSION        INTERNAL-IP   EXTERNAL-IP   OS-IMAGE           KERNEL-VERSION             CONTAINER-RUNTIME
+k3d-relay-m0-server-0   Ready    control-plane   29m   v1.37.1+k3s1   172.24.0.3    <none>        K3s v1.37.1+k3s1   6.12.76-linuxkit (arm64)   containerd://2.3.4-k3s1
+NAMESPACE     NAME                                      READY   STATUS      RESTARTS      AGE
+kube-system   coredns-577d995dff-7c4cg                  1/1     Running     0             29m
+kube-system   helm-install-gateway-api-crd-vf2jv        0/1     Completed   0             29m
+kube-system   helm-install-traefik-crd-8845z            0/1     Completed   0             29m
+kube-system   helm-install-traefik-kr58d                0/1     Completed   1 (28m ago)   29m
+kube-system   local-path-provisioner-6858d854cf-qsknn   1/1     Running     0             29m
+kube-system   metrics-server-778c4649b4-jplxc           1/1     Running     0             29m
+kube-system   svclb-traefik-059c0145-9dmrs              2/2     Running     0             28m
+kube-system   traefik-77b898c5c8-tr5bm                  1/1     Running     0             28m
+relay-m0      relay-m0-proof-b9f4968f6-gvg4s            1/1     Running     0             7m56s
+NAME                   PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+local-path (default)   rancher.io/local-path   Delete          WaitForFirstConsumer   false                  29m
+NAMESPACE   NAME             CLASS     HOSTS   ADDRESS      PORTS   AGE
+relay-m0    relay-m0-proof   traefik   *       172.24.0.3   80      21m
+time="2026-10-10T08:40:48Z" level=warning msg="Cluster CA certificate is not trusted by the host CA bundle, but the token does not include a CA hash. Use the full token from the server's node-token file to enable Cluster CA validation."
+Encryption Status: Enabled
+Current Rotation Stage: start
+Server Encryption Hashes: All hashes match
+
+Active  Key Type  Name
+------  --------  ----
+ *      AES-CBC   aescbckey

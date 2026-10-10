@@ -1,0 +1,119 @@
+{
+  "at": "2026-10-10T08:39:56.523Z",
+  "image": "relay/m0-proof:m0-9a981955b6f472ea",
+  "checks": [
+    {
+      "name": "healthy-node",
+      "passed": true,
+      "details": [
+        {
+          "name": "k3d-relay-m0-server-0",
+          "version": "v1.37.1+k3s1"
+        }
+      ]
+    },
+    {
+      "name": "secret-encryption-enabled",
+      "passed": true,
+      "details": "Encryption Status: Enabled\nCurrent Rotation Stage: start\nServer Encryption Hashes: All hashes match\n\nActive  Key Type  Name\n------  --------  ----\n *      AES-CBC   aescbckey"
+    },
+    {
+      "name": "secret-volume-and-non-root",
+      "passed": true,
+      "details": {
+        "mounted": true,
+        "uid": 1000
+      }
+    },
+    {
+      "name": "dns-allowed",
+      "passed": true,
+      "details": {
+        "address": "10.43.143.187",
+        "family": 4
+      }
+    },
+    {
+      "name": "dns-denied",
+      "passed": true,
+      "details": {
+        "address": "10.43.143.187",
+        "family": 4
+      }
+    },
+    {
+      "name": "service-network-allowed",
+      "passed": true,
+      "details": {
+        "status": 200,
+        "body": {
+          "status": "ok"
+        }
+      }
+    },
+    {
+      "name": "networkpolicy-denied",
+      "passed": true,
+      "details": {
+        "blocked": true,
+        "reason": "TypeError"
+      }
+    },
+    {
+      "name": "pvc-survives-pod-replacement",
+      "passed": true,
+      "details": {
+        "markerMatched": true,
+        "pvc": {
+          "accessModes": [
+            "ReadWriteOnce"
+          ],
+          "capacity": {
+            "storage": "16Mi"
+          },
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-10-10T08:40:09Z",
+              "message": "A pod is currently referencing this PVC",
+              "reason": "PodUsingPVC",
+              "status": "False",
+              "type": "Unused"
+            }
+          ],
+          "phase": "Bound"
+        }
+      }
+    },
+    {
+      "name": "ingress-rejects-invalid-credential",
+      "passed": true,
+      "details": {
+        "status": 401
+      }
+    },
+    {
+      "name": "loopback-only-ingress-binding",
+      "passed": true,
+      "details": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "18080"
+        }
+      ]
+    },
+    {
+      "name": "loopback-only-kubernetes-api-binding",
+      "passed": true,
+      "details": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "56048"
+        }
+      ]
+    }
+  ],
+  "passed": true,
+  "cleanupErrors": [],
+  "cleanup": "Only labelled capability-test pods removed; test PVC retained. Unrelated resources preserved."
+}

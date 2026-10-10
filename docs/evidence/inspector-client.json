@@ -1,0 +1,70 @@
+{
+  "at": "2026-10-10T08:39:57.101Z",
+  "client": "@modelcontextprotocol/inspector@2.10.1",
+  "configuration": "URL + bearer header; private file, memory secret store; auto era",
+  "results": [
+    {
+      "method": "initialize",
+      "result": {
+        "result": {
+          "serverInfo": {
+            "name": "relay-m0-proof",
+            "version": "0.0.0"
+          },
+          "protocolVersion": "2026-07-28",
+          "capabilities": {
+            "tools": {
+              "listChanged": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "tools/list",
+      "result": {
+        "result": {
+          "tools": [
+            {
+              "name": "ping",
+              "description": "Verify the real M0 Kubernetes MCP request path.",
+              "inputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  }
+                },
+                "required": [
+                  "message"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "method": "tools/call",
+      "result": {
+        "result": {
+          "_meta": {
+            "io.modelcontextprotocol/serverInfo": {
+              "name": "relay-m0-proof",
+              "version": "0.0.0"
+            }
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"pong\":\"relay-independent-inspector\",\"pod\":\"relay-m0-proof-b9f4968f6-gvg4s\"}"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

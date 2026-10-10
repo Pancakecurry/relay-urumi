@@ -1,0 +1,97 @@
+---
+# Source: relay-platform/templates/networkpolicy.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: relay-m0-proof
+spec:
+  podSelector:
+    matchLabels: {app.kubernetes.io/name: relay-m0-proof}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: kube-system}
+          podSelector:
+            matchLabels: {app.kubernetes.io/name: traefik}
+        - podSelector:
+            matchLabels: {relay-m0-access: allowed}
+      ports: [{protocol: TCP, port: 3000}]
+  egress: []
+
+---
+# Source: relay-platform/templates/proof.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: relay-m0-proof
+spec:
+  selector: {app.kubernetes.io/name: relay-m0-proof}
+  ports: [{name: http, port: 3000, targetPort: http}]
+
+---
+# Source: relay-platform/templates/proof.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: relay-m0-proof
+  labels: {app.kubernetes.io/name: relay-m0-proof}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app.kubernetes.io/name: relay-m0-proof}
+  template:
+    metadata:
+      labels: {app.kubernetes.io/name: relay-m0-proof}
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: proof
+          image: "REPLACE_WITH_OWNER_REGISTRY/relay-m0-proof:0.0.0"
+          imagePullPolicy: IfNotPresent
+          ports: [{name: http, containerPort: 3000}]
+          env: [{name: M0_SECRET_FILE, value: /run/relay-secret/token}]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          resources: {"limits":{"cpu":"500m","memory":"256Mi"},"requests":{"cpu":"100m","memory":"64Mi"}}
+          readinessProbe:
+            httpGet: {path: /health/ready, port: http, httpHeaders: [{name: Host, value: localhost}]}
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: {path: /health/live, port: http, httpHeaders: [{name: Host, value: localhost}]}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          volumeMounts: [{name: credential, mountPath: /run/relay-secret, readOnly: true}]
+      volumes:
+        - name: credential
+          secret:
+            secretName: relay-m0-credential
+            defaultMode: 0440
+
+---
+# Source: relay-platform/templates/proof.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: relay-m0-proof
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: "relay.example.invalid"
+      http:
+        paths:
+          - path: /mcp
+            pathType: Exact
+            backend:
+              service:
+                name: relay-m0-proof
+                port: {number: 3000}

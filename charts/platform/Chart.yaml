@@ -1,0 +1,6 @@
+apiVersion: v2
+name: relay-platform
+description: M0 MCP transport proof; full platform components are not implemented yet.
+type: application
+version: 0.0.1
+appVersion: 0.0.0

@@ -1,0 +1,12 @@
+healthy-node PASS
+time="2026-10-10T08:39:56Z" level=warning msg="Cluster CA certificate is not trusted by the host CA bundle, but the token does not include a CA hash. Use the full token from the server's node-token file to enable Cluster CA validation."
+secret-encryption-enabled PASS
+secret-volume-and-non-root PASS
+dns-allowed PASS
+dns-denied PASS
+service-network-allowed PASS
+networkpolicy-denied PASS
+pvc-survives-pod-replacement PASS
+ingress-rejects-invalid-credential PASS
+loopback-only-ingress-binding PASS
+loopback-only-kubernetes-api-binding PASS

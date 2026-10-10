@@ -1,0 +1,11 @@
+{
+  "retrievedAt": "2026-10-10T08:14:02.700Z",
+  "modifiedTime": "2026-10-08T12:46:34.680Z",
+  "briefSha256": "50f77577c6804e120703f72fd1e71ab90b3181228678aa4cb3053a61c4afaca7",
+  "snapshotSha256": "7f39747adfdde2edef543388bf24e6aa9d3456de493d00ec4ed9d164c266c75e",
+  "identical": false,
+  "planSha256": "088f7dd53e89009c784b4946c24fd29cd83b40ddc1de0c9456369db3881bda44",
+  "canonicalSha256": "7f39747adfdde2edef543388bf24e6aa9d3456de493d00ec4ed9d164c266c75e",
+  "identicalCanonical": true,
+  "normalization": "CRLF to LF; normalize trailing whitespace to one final newline"
+}

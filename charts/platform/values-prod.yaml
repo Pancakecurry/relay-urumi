@@ -1,0 +1,6 @@
+# Unverified production example. No cloud resources are provisioned by this file.
+image:
+  repository: REPLACE_WITH_OWNER_REGISTRY/relay-m0-proof
+  tag: "0.0.0"
+ingress:
+  host: relay.example.invalid

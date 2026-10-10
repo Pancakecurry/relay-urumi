@@ -1,0 +1,4 @@
+$ bash scripts/cluster-setup.sh
+Existing relay-m0 detected; preserving it.
+node/k3d-relay-m0-server-0 condition met
+deployment "traefik" successfully rolled out

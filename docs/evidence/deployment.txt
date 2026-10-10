@@ -1,0 +1,155 @@
+namespace/relay-m0 unchanged
+secret/relay-m0-credential unchanged
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 888B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24.16.0-alpine3.23@sha256:2bdb65ed1dab192432bc31c95f94155ca5ad7fc1392fb7eb7526ab682fa5bf14
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 32B
+#3 transferring context: 88B 1.5s done
+#3 DONE 1.5s
+
+#4 [build 1/9] FROM docker.io/library/node:24.16.0-alpine3.23@sha256:2bdb65ed1dab192432bc31c95f94155ca5ad7fc1392fb7eb7526ab682fa5bf14
+#4 resolve docker.io/library/node:24.16.0-alpine3.23@sha256:2bdb65ed1dab192432bc31c95f94155ca5ad7fc1392fb7eb7526ab682fa5bf14 done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 7.03kB done
+#5 DONE 0.0s
+
+#6 [build 2/9] WORKDIR /build
+#6 CACHED
+
+#7 [build 3/9] RUN npm install --global pnpm@11.25.0
+#7 CACHED
+
+#8 [build 4/9] COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc tsconfig.json ./
+#8 CACHED
+
+#9 [build 5/9] COPY apps/gateway apps/gateway
+#9 DONE 0.0s
+
+#10 [build 6/9] COPY packages/mcp-client packages/mcp-client
+#10 DONE 0.0s
+
+#11 [build 7/9] RUN pnpm install --frozen-lockfile
+#11 0.612 Scope: all 3 workspace projects
+#11 0.665 ? Verifying lockfile against supply-chain policies (320 entries)...
+#11 0.670 Lockfile is up to date, resolution step is skipped
+#11 0.747 Progress: resolved 1, reused 0, downloaded 0, added 0
+#11 0.789 Packages: +284
+#11 0.789 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#11 1.268
+#11 1.268    ╭──────────────────────────────────────────────────────────────────────╮
+#11 1.268    │                                                                      │
+#11 1.268    │                 Update available! 11.25.0 → 12.10.1.                 │
+#11 1.268    │                 Changelog: https://pnpm.io/v/12.10.1                 │
+#11 1.268    │   To update, run: curl -fsSL https://get.pnpm.io/install.sh | sh -   │
+#11 1.268    │                                                                      │
+#11 1.268    ╰──────────────────────────────────────────────────────────────────────╯
+#11 1.268
+#11 1.335 Packages are hard linked from the content-addressable store to the virtual store.
+#11 1.335   Content-addressable store is at: /root/.local/share/pnpm/store/v11
+#11 1.335   Virtual store is at:             node_modules/.pnpm
+#11 1.748 Progress: resolved 284, reused 0, downloaded 27, added 26
+#11 2.747 Progress: resolved 284, reused 0, downloaded 85, added 85
+#11 3.748 Progress: resolved 284, reused 0, downloaded 118, added 118
+#11 3.914 [WARN] Tarball download average speed 16 KiB/s (size 23 KiB) is below 50 KiB/s: https://registry.npmjs.org/picomatch/-/picomatch-4.0.7.tgz (GET)
+#11 3.987 [WARN] Tarball download average speed 49 KiB/s (size 76 KiB) is below 50 KiB/s: https://registry.npmjs.org/@typescript-eslint/typescript-estree/-/typescript-estree-8.71.1.tgz (GET)
+#11 4.224 [WARN] Tarball download average speed 2 KiB/s (size 5 KiB) is below 50 KiB/s: https://registry.npmjs.org/@typescript-eslint/parser/-/parser-8.71.1.tgz (GET)
+#11 4.334 [WARN] Tarball download average speed 22 KiB/s (size 43 KiB) is below 50 KiB/s: https://registry.npmjs.org/@typescript-eslint/utils/-/utils-8.71.1.tgz (GET)
+#11 4.466 [WARN] Tarball download average speed 15 KiB/s (size 31 KiB) is below 50 KiB/s: https://registry.npmjs.org/expect-type/-/expect-type-1.4.0.tgz (GET)
+#11 4.749 Progress: resolved 284, reused 0, downloaded 155, added 155
+#11 5.625 [WARN] Tarball download average speed 10 KiB/s (size 30 KiB) is below 50 KiB/s: https://registry.npmjs.org/light-my-request/-/light-my-request-6.6.0.tgz (GET)
+#11 5.749 Progress: resolved 284, reused 0, downloaded 279, added 279
+#11 6.749 Progress: resolved 284, reused 0, downloaded 282, added 282
+#11 7.752 Progress: resolved 284, reused 0, downloaded 283, added 283
+#11 9.778 Progress: resolved 284, reused 0, downloaded 284, added 283
+#11 9.779 Progress: resolved 284, reused 0, downloaded 284, added 284, done
+#11 10.25 ✓ Lockfile passes supply-chain policies (320 entries in 9.5s)
+#11 10.26 .../@modelcontextprotocol/inspector postinstall$ node scripts/install-clients.mjs
+#11 10.29 .../@modelcontextprotocol/inspector postinstall: Done
+#11 10.34
+#11 10.34 devDependencies:
+#11 10.34 + @eslint/js 10.0.1
+#11 10.34 + @modelcontextprotocol/client 2.3.1
+#11 10.34 + @modelcontextprotocol/inspector 2.10.1
+#11 10.34 + @types/node 24.19.1
+#11 10.34 + better-auth 1.7.7
+#11 10.34 + eslint 10.12.0
+#11 10.34 + typescript 6.0.3
+#11 10.34 + typescript-eslint 8.71.1
+#11 10.34 + vitest 5.0.3
+#11 10.34
+#11 10.36 Done in 10.2s using pnpm v11.25.0
+#11 DONE 11.0s
+
+#12 [build 8/9] RUN pnpm build
+#12 0.467 $ tsc -p tsconfig.json
+#12 DONE 1.5s
+
+#13 [build 9/9] RUN pnpm --filter @relay/gateway deploy --prod --legacy /runtime
+#13 0.459 [WARN] Shared workspace lockfile detected but configuration forces legacy deploy implementation.
+#13 0.487 Packages are copied from the content-addressable store to the virtual store.
+#13 0.487   Content-addressable store is at: /root/.local/share/pnpm/store/v11
+#13 0.487   Virtual store is at:             ../runtime/node_modules/.pnpm
+#13 0.488 ✓ Lockfile passes supply-chain policies (verified 2s ago)
+#13 0.503 Progress: resolved 1, reused 0, downloaded 0, added 0
+#13 1.503 Progress: resolved 115, reused 0, downloaded 0, added 0
+#13 2.510 Progress: resolved 226, reused 0, downloaded 0, added 0
+#13 3.522 Progress: resolved 245, reused 0, downloaded 0, added 0
+#13 4.432 Progress: resolved 320, reused 0, downloaded 0, added 0, done
+#13 4.452 .                                        |  +55 ++++++
+#13 DONE 5.9s
+
+#14 [stage-1 2/5] WORKDIR /app
+#14 CACHED
+
+#15 [stage-1 3/5] COPY --from=build --chown=node:node /runtime/node_modules ./node_modules
+#15 DONE 0.3s
+
+#16 [stage-1 4/5] COPY --from=build --chown=node:node /build/dist/apps/gateway/src ./
+#16 DONE 0.0s
+
+#17 [stage-1 5/5] COPY --from=build --chown=node:node /build/apps/gateway/package.json ./package.json
+#17 DONE 0.0s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 0.6s done
+#18 exporting manifest sha256:90b616022a6f389f5f58fd930eb85ab2f23b24fd5c5731c4a32d4d279d79911b done
+#18 exporting config sha256:087afced63ae09f20849c83dadc0e77d21b76a3dee0ae14641cb3e65eae67130 done
+#18 exporting attestation manifest sha256:e5ba5e84bbc9b73f60dc2889eddc3d0045ca9bb8edc328e03db4bfe434d158d4 done
+#18 exporting manifest list sha256:b3731bfaff1ab0d2156d9718e95245f0ec17152ecddb13f6e019a662e7691b5b 0.0s done
+#18 naming to docker.io/relay/m0-proof:m0-9a981955b6f472ea done
+#18 unpacking to docker.io/relay/m0-proof:m0-9a981955b6f472ea
+#18 unpacking to docker.io/relay/m0-proof:m0-9a981955b6f472ea 0.3s done
+#18 DONE 0.9s
+INFO[0000] Importing image(s) into cluster 'relay-m0'
+INFO[0000] Starting new tools node...
+INFO[0000] Starting node 'k3d-relay-m0-tools'
+INFO[0000] Saving 1 image(s) from runtime...
+INFO[0001] Importing images into nodes...
+INFO[0001] Importing images from tarball '/k3d/images/k3d-relay-m0-images-20261010140248.tar' into node 'k3d-relay-m0-server-0'...
+INFO[0002] Removing the tarball(s) from image volume...
+INFO[0003] Removing k3d-tools node...
+INFO[0004] Successfully imported image(s)
+INFO[0004] Successfully imported 1 image(s) into 1 cluster(s)
+==> Linting charts/platform
+[INFO] Chart.yaml: icon is recommended
+
+1 chart(s) linted, 0 chart(s) failed
+Release "relay-m0" has been upgraded. Happy Helming!
+NAME: relay-m0
+LAST DEPLOYED: Sat Oct 10 14:02:52 2026
+NAMESPACE: relay-m0
+STATUS: deployed
+REVISION: 4
+DESCRIPTION: Upgrade complete
+TEST SUITE: None
+deployment "relay-m0-proof" successfully rolled out

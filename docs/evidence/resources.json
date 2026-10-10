@@ -1,0 +1,35 @@
+{
+  "at": "2026-10-10T08:40:49.261Z",
+  "ramBytes": 17179869184,
+  "freeRamBytes": 170688512,
+  "freeDiskBytes": 13501952000,
+  "note": "OS free RAM is not the same as reclaimable/available RAM; macOS memory-pressure output is recorded separately.",
+  "memoryPressure": "The system has 17179869184 (1048576 pages with a page size of 16384).\nSystem-wide memory free percentage: 38%",
+  "dockerStats": [
+    {
+      "BlockIO": "0B / 1.41GB",
+      "CPUPerc": "35.24%",
+      "Container": "k3d-relay-m0-server-0",
+      "ID": "c52e06cef78f",
+      "MemPerc": "32.05%",
+      "MemUsage": "984.6MiB / 3GiB",
+      "Name": "k3d-relay-m0-server-0",
+      "NetIO": "182MB / 8.02MB",
+      "PIDs": "163"
+    },
+    {
+      "BlockIO": "0B / 12.3kB",
+      "CPUPerc": "0.00%",
+      "Container": "k3d-relay-m0-serverlb",
+      "ID": "6fecff118874",
+      "MemPerc": "0.18%",
+      "MemUsage": "14.05MiB / 7.653GiB",
+      "Name": "k3d-relay-m0-serverlb",
+      "NetIO": "988kB / 981kB",
+      "PIDs": "19"
+    }
+  ],
+  "kubernetesNodeUsage": "NAME                    CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   \nk3d-relay-m0-server-0   99m          1%       983Mi           31%",
+  "kubernetesProofUsage": "NAME                             CPU(cores)   MEMORY(bytes)   \nrelay-m0-proof-b9f4968f6-gvg4s   2m           38Mi",
+  "unrelatedRunningContainerCount": 2
+}

@@ -1,0 +1,7 @@
+packages:
+  - apps/*
+  - packages/*
+minimumReleaseAge: 1440
+saveExact: true
+allowBuilds:
+  '@modelcontextprotocol/inspector@2.10.1': true

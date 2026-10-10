@@ -1,0 +1,18 @@
+{
+  "name": "relay", "version": "0.0.0", "private": true, "type": "module",
+  "packageManager": "pnpm@11.25.0",
+  "engines": {"node": ">=24.16.0 <25", "pnpm": "11.25.0"},
+  "scripts": {
+    "build": "tsc -p tsconfig.json", "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint apps packages tests", "test": "vitest run",
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+    "env:inspect": "node scripts/environment.mjs",
+    "cluster:setup": "bash scripts/cluster-setup.sh", "cluster:status": "bash scripts/cluster-status.sh",
+    "proof:deploy": "bash scripts/proof-deploy.sh", "proof:client": "node dist/packages/mcp-client/src/probe.js"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1", "@types/node": "24.19.1", "better-auth": "1.7.7",
+    "@modelcontextprotocol/client": "2.3.1", "@modelcontextprotocol/inspector": "2.10.1",
+    "eslint": "10.12.0", "typescript": "6.0.3", "typescript-eslint": "8.71.1", "vitest": "5.0.3"
+  }
+}

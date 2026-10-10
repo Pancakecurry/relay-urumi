@@ -1,0 +1,14 @@
+$ pnpm lint && pnpm typecheck && pnpm test && pnpm build
+$ eslint apps packages tests
+$ tsc -p tsconfig.json --noEmit
+$ vitest run
+
+ RUN  v5.0.3 [PROJECT_ROOT]
+
+
+ Test Files  2 passed (2)
+      Tests  6 passed (6)
+   Start at  14:02:31
+   Duration  983ms (import 81%, tests 15%, transform 4%, worker 1%)
+
+$ tsc -p tsconfig.json
