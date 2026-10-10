@@ -1,0 +1,73 @@
+$ df -h [PROJECT_ROOT]
+Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s5   228Gi   194Gi   4.2Gi    98%    2.0M   44M    4%   /System/Volumes/Data
+
+$ [LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/local-cache.mjs
+Project runtime/dependency links prepared; existing links preserved.
+
+$ pnpm install --frozen-lockfile --offline
+Scope: all 12 workspace projects
+✓ Lockfile passes supply-chain policies (verified 1h ago)
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +311
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Packages are cloned from the content-addressable store to the virtual store.
+  Content-addressable store is at: [LOCAL_HOME]/Library/pnpm/store/v11
+  Virtual store is at:             ../relay-451f358f5a06/node_modules/.pnpm
+Progress: resolved 311, reused 311, downloaded 0, added 309
+Progress: resolved 311, reused 311, downloaded 0, added 311, done
+.../@modelcontextprotocol/inspector postinstall$ node scripts/install-clients.mjs
+.../@modelcontextprotocol/inspector postinstall: Done
+
+dependencies:
++ @better-auth/drizzle-adapter 1.7.7
++ @js-temporal/polyfill 0.5.1
++ @modelcontextprotocol/fastify 2.0.1
++ @modelcontextprotocol/node 2.1.1
++ @modelcontextprotocol/server 2.3.1
++ ajv 8.20.0
++ drizzle-orm 0.45.4
++ fastify 5.12.5
++ ioredis 6.0.0
++ pg 8.23.1
++ zod 4.6.5
+
+devDependencies:
++ @eslint/js 10.0.1
++ @modelcontextprotocol/client 2.3.1
++ @modelcontextprotocol/inspector 2.10.1
++ @playwright/test 1.64.0
++ @types/node 24.19.1
++ @types/pg 8.15.6
++ better-auth 1.7.7
++ eslint 10.12.0
++ typescript 6.0.3
++ typescript-eslint 8.71.1
++ vitest 5.0.3
+
+Done in 1.9s using pnpm v11.25.0
+
+$ pnpm check
+
+ RUN  v5.0.3 [LOCAL_HOME]/Library/Caches/relay-m3-reproduction-Zf4eCc
+
+
+ Test Files  5 passed (5)
+      Tests  22 passed (22)
+   Start at  20:37:44
+   Duration  1.04s (import 56%, tests 36%, transform 8%)
+
+
+$ [LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/mcp-image-tag.mjs
+m2-003fd779f067d576
+
+$ [LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node --version
+v24.16.0
+
+$ pnpm --version
+11.25.0
+
+$ df -h [PROJECT_ROOT]
+Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s5   228Gi   193Gi   4.3Gi    98%    2.0M   45M    4%   /System/Volumes/Data

@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-10T15:08:38.532139+00:00",
+  "sourceCommit": "c5769b2b3b21bface3c70b382aea475df385062e",
+  "source": "exact full committed-tree Git archive; new nonsynced same-machine directory",
+  "frozenOfflineInstall": true,
+  "lintTypecheckTestsBuild": true,
+  "tests": 22,
+  "runtimeFingerprint": "m3-003fd779f067d576",
+  "deployedImage": "relay/platform:m3-003fd779f067d576",
+  "sourceStagedFilesScanned": 74,
+  "sourceCredentialsScanPassed": true,
+  "privateResourcesCopied": false,
+  "paidProviderTraffic": false,
+  "clusterRecreated": false,
+  "cloudProvisioned": false,
+  "scope": "M3 backend only; M4 and later remain planned",
+  "finalTag": "m3-verified",
+  "note": "Final tag is applied to a documentation-only evidence checkpoint after this file is committed."
+}

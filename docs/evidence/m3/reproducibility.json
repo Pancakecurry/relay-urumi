@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-10T15:07:49.531Z",
+  "sourceCommit": "c5769b2b3b21bface3c70b382aea475df385062e",
+  "source": "fresh Git archive of the exact committed tree in a new nonsynced same-machine directory",
+  "destination": "[LOCAL_HOME]/Library/Caches/relay-m3-reproduction-Zf4eCc",
+  "frozenOfflineInstall": true,
+  "lintTypecheckTestsBuild": true,
+  "tests": 22,
+  "runtimeFingerprint": "m3-003fd779f067d576",
+  "deployedImage": "relay/platform:m3-003fd779f067d576",
+  "privateResourcesCopied": false,
+  "paidProviderTraffic": false,
+  "clusterRecreated": false,
+  "nodeVersion": "v24.16.0",
+  "pnpmVersion": "11.25.0",
+  "diskBefore": "Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on\n/dev/disk3s5   228Gi   194Gi   4.2Gi    98%    2.0M   44M    4%   /System/Volumes/Data",
+  "diskAfter": "Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on\n/dev/disk3s5   228Gi   193Gi   4.3Gi    98%    2.0M   45M    4%   /System/Volumes/Data",
+  "passed": true
+}
