@@ -1,0 +1,11 @@
+{
+  "at": "2026-10-10T13:31:49.008Z",
+  "sourceCommit": "35e8c3732997b6d851bed9d4e436d1cd8b6284a5",
+  "source": "fresh git archive of committed tree in nonsynced project cache",
+  "frozenOfflineInstall": true,
+  "lintTypecheckTestsBuild": true,
+  "tests": 17,
+  "paidProviderTraffic": false,
+  "clusterRecreated": false,
+  "privateResourcesCopied": false
+}
