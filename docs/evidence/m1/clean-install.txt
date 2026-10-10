@@ -1,0 +1,103 @@
+{"namespace":"relay-store-clean","privateBackup":".local/relay-store-clean-credentials.json","secrets":["store-runtime","store-admin","store-adapter"],"valuesPrinted":false}
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.11kB done
+#1 DONE 0.0s
+
+#2 resolve image config for docker-image://docker.io/docker/dockerfile:1@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+#2 DONE 0.0s
+
+#3 docker-image://docker.io/docker/dockerfile:1@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+#3 resolve docker.io/docker/dockerfile:1@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e done
+#3 CACHED
+
+#4 [internal] load metadata for docker.io/library/wordpress:cli-2.12.0-php8.3@sha256:36243da432a0f0a3b56dc3240ecee9b159108d71305e7c064d987a20a465bfde
+#4 DONE 0.0s
+
+#5 [internal] load metadata for docker.io/library/wordpress:7.1.3-php8.3-apache@sha256:8ecd8d8e374167ea22235acf30f80d1165b82f07ffa5bcef90c1cad8f7be251f
+#5 DONE 0.0s
+
+#6 [internal] load .dockerignore
+#6 transferring context: 2B done
+#6 DONE 0.0s
+
+#7 [stage-1 3/9] ADD --checksum=sha256:5317434cb381b5fdc7c1dd6ee258324f08c390976aaf8d1199f2a0e9a3ab8586 https://downloads.wordpress.org/plugin/woocommerce.11.2.1.zip /tmp/woocommerce.zip
+#7 DONE 0.0s
+
+#8 [cli 1/1] FROM docker.io/library/wordpress:cli-2.12.0-php8.3@sha256:36243da432a0f0a3b56dc3240ecee9b159108d71305e7c064d987a20a465bfde
+#8 resolve docker.io/library/wordpress:cli-2.12.0-php8.3@sha256:36243da432a0f0a3b56dc3240ecee9b159108d71305e7c064d987a20a465bfde done
+#8 DONE 0.0s
+
+#9 [stage-1 1/9] FROM docker.io/library/wordpress:7.1.3-php8.3-apache@sha256:8ecd8d8e374167ea22235acf30f80d1165b82f07ffa5bcef90c1cad8f7be251f
+#9 resolve docker.io/library/wordpress:7.1.3-php8.3-apache@sha256:8ecd8d8e374167ea22235acf30f80d1165b82f07ffa5bcef90c1cad8f7be251f done
+#9 DONE 0.0s
+
+#10 [internal] load build context
+#10 transferring context: 128B done
+#10 DONE 0.0s
+
+#11 [stage-1 6/9] COPY bootstrap.sh /opt/relay/bootstrap.sh
+#11 CACHED
+
+#12 [stage-1 7/9] COPY bootstrap.php /opt/relay/bootstrap.php
+#12 CACHED
+
+#13 [stage-1 2/9] COPY --from=cli /usr/local/bin/wp /usr/local/bin/wp
+#13 CACHED
+
+#14 [stage-1 3/9] ADD --checksum=sha256:5317434cb381b5fdc7c1dd6ee258324f08c390976aaf8d1199f2a0e9a3ab8586 https://downloads.wordpress.org/plugin/woocommerce.11.2.1.zip /tmp/woocommerce.zip
+#14 CACHED
+
+#15 [stage-1 8/9] COPY health.php /usr/src/wordpress/relay-health.php
+#15 CACHED
+
+#16 [stage-1 4/9] RUN php -r '$z=new ZipArchive; if($z->open("/tmp/woocommerce.zip")!==true) exit(1); $z->extractTo("/usr/src/wordpress/wp-content/plugins"); $z->close();' && rm /tmp/woocommerce.zip && chown -R www-data:www-data /usr/src/wordpress/wp-content/plugins/woocommerce
+#16 CACHED
+
+#17 [stage-1 5/9] COPY install.php /opt/relay/install.php
+#17 CACHED
+
+#18 [stage-1 9/9] RUN echo 'ServerName localhost' > /etc/apache2/conf-available/relay.conf && a2enconf relay
+#18 CACHED
+
+#19 exporting to image
+#19 exporting layers done
+#19 exporting manifest sha256:a69fdbf37b0151b13b942423a48f70335c8d3c9b916206fb130834ff49b346c4 done
+#19 exporting config sha256:10d8a26ae6a1f3f67bb5f0680d2c1de0bd55fde691b858211f27daafe0219817 done
+#19 exporting attestation manifest sha256:0cf2257d37a40436ba40ae00a0d8450cabc87de0ff7e78092bb275956d527f56 done
+#19 exporting manifest list sha256:1028ffcca2cebf3eb7ab781c59e867e2ab22c3da1bbb3ac4d939142c95784cfb done
+#19 naming to docker.io/relay/store:m1-2374b9c0c5f86c48 done
+#19 unpacking to docker.io/relay/store:m1-2374b9c0c5f86c48 done
+#19 DONE 0.1s
+INFO[0000] Importing image(s) into cluster 'relay-m0'
+INFO[0000] Starting new tools node...
+INFO[0000] Starting node 'k3d-relay-m0-tools'
+INFO[0000] Saving 1 image(s) from runtime...
+INFO[0004] Importing images into nodes...
+INFO[0004] Importing images from tarball '/k3d/images/k3d-relay-m0-images-20261010151701.tar' into node 'k3d-relay-m0-server-0'...
+INFO[0006] Removing the tarball(s) from image volume...
+INFO[0007] Removing k3d-tools node...
+INFO[0007] Successfully imported image(s)
+INFO[0007] Successfully imported 1 image(s) into 1 cluster(s)
+==> Linting charts/store
+[INFO] Chart.yaml: icon is recommended
+
+1 chart(s) linted, 0 chart(s) failed
+Release "clean-store" does not exist. Installing it now.
+NAME: clean-store
+LAST DEPLOYED: Sat Oct 10 15:17:08 2026
+NAMESPACE: relay-store-clean
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+WordPress installed; credential values suppressed.
+Plugin 'woocommerce' activated.
+Success: Activated 1 of 1 plugins.
+{"bootstrap":"configured","wordpress":"7.1.3","woocommerce":"11.2.1","synthetic_product_ids":[13,14],"adapter_key_id":1,"timezone":"Asia\/Kolkata","currency":"INR","cod_enabled":"yes"}
+Warning: Regenerating a .htaccess file requires special configuration. See usage docs.
+Success: Rewrite structure set.
+Warning: Regenerating a .htaccess file requires special configuration. See usage docs.
+Success: Rewrite rules flushed.
+Store Helm release ready: relay-store-clean / clean-store

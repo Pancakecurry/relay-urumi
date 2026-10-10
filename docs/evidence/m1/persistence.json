@@ -1,0 +1,41 @@
+{
+  "at": "2026-10-10T09:48:41.897Z",
+  "before": [
+    {
+      "name": "demo-store-db-0",
+      "uid": "50fe174d-6818-47dd-adf0-f156bec65c78",
+      "role": "database"
+    },
+    {
+      "name": "demo-store-wp-7cdc866c5f-xdsw5",
+      "uid": "f86f283f-0b52-4a49-a742-f328b2f01c4f",
+      "role": "wordpress"
+    }
+  ],
+  "after": [
+    {
+      "name": "demo-store-db-0",
+      "uid": "abce67f3-fe70-4e4c-8a4f-33de31ac1f8b",
+      "role": "database"
+    },
+    {
+      "name": "demo-store-wp-699dc8476-djrmb",
+      "uid": "f6b7c989-b10e-4bae-8bea-647745eba69e",
+      "role": "wordpress"
+    }
+  ],
+  "volumes": [
+    {
+      "name": "demo-store-content",
+      "uid": "c323ca17-2423-4e81-9b79-1cd99bf78036",
+      "volume": "pvc-c323ca17-2423-4e81-9b79-1cd99bf78036"
+    },
+    {
+      "name": "demo-store-db",
+      "uid": "fc76be84-8c64-41fb-9590-b9eb7b7fc358",
+      "volume": "pvc-fc76be84-8c64-41fb-9590-b9eb7b7fc358"
+    }
+  ],
+  "pvcIdentitiesUnchanged": true,
+  "existingOrderProductAndContentVerified": true
+}

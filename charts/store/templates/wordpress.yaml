@@ -1,0 +1,80 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-wp
+spec:
+  type: ClusterIP
+  selector: {app: "{{ .Release.Name }}-wp"}
+  ports: [{name: http, port: 80, targetPort: http}]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-wp
+spec:
+  replicas: 1
+  strategy: {type: Recreate}
+  selector:
+    matchLabels: {app: "{{ .Release.Name }}-wp"}
+  template:
+    metadata:
+      labels: {app: "{{ .Release.Name }}-wp", role: wordpress}
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: wordpress
+          image: {{ .Values.wordpress.image | quote }}
+          imagePullPolicy: {{ .Values.wordpress.pullPolicy }}
+          env: {{ include "store.env" . | nindent 12 }}
+          ports: [{name: http, containerPort: 80}]
+          startupProbe:
+            httpGet: {path: /wp-includes/images/blank.gif, port: http}
+            failureThreshold: 60
+            periodSeconds: 5
+          readinessProbe:
+            httpGet: {path: /relay-health.php, port: http}
+            periodSeconds: 10
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet: {path: /wp-includes/images/blank.gif, port: http}
+            periodSeconds: 20
+            timeoutSeconds: 5
+          resources: {{ toYaml .Values.wordpress.resources | nindent 12 }}
+          volumeMounts:
+            - {name: content, mountPath: /var/www/html}
+            - {name: runtime, mountPath: /run/store, readOnly: true}
+      volumes:
+        - name: content
+          persistentVolumeClaim: {claimName: "{{ .Release.Name }}-content"}
+        - name: runtime
+          secret:
+            secretName: {{ .Values.secrets.runtime }}
+            items:
+              - {key: db-password, path: db-password}
+              {{- range $key := list "AUTH_KEY" "SECURE_AUTH_KEY" "LOGGED_IN_KEY" "NONCE_KEY" "AUTH_SALT" "SECURE_AUTH_SALT" "LOGGED_IN_SALT" "NONCE_SALT" }}
+              - {key: {{ $key }}, path: {{ $key }}}
+              {{- end }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-store
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- if .Values.ingress.tlsSecret }}
+  tls:
+    - hosts: [{{ .Values.ingress.hostname | quote }}]
+      secretName: {{ .Values.ingress.tlsSecret }}
+  {{- end }}
+  rules:
+    - host: {{ .Values.ingress.hostname | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Release.Name }}-wp
+                port: {number: 80}

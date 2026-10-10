@@ -1,0 +1,2 @@
+deployment.apps/clean-store-wp scaled
+statefulset.apps/clean-store-db scaled

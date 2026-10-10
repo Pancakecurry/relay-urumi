@@ -1,0 +1,6 @@
+apiVersion: v2
+name: relay-store
+description: Persistent single-store WordPress and WooCommerce foundation
+version: 0.1.0
+appVersion: "7.1.3-woocommerce11.2.1"
+type: application

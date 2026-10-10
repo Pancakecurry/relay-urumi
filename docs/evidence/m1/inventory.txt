@@ -1,0 +1,76 @@
+{
+  "resources": {
+    "freeDiskBytes": 9571557376,
+    "dockerStats": [
+      "k3d-relay-m0-serverlb 18.18MiB / 7.653GiB",
+      "k3d-relay-m0-server-0 1.734GiB / 3GiB"
+    ],
+    "podUsage": "NAME                            CPU(cores)   MEMORY(bytes)   \ndemo-store-db-0                 6m           101Mi           \ndemo-store-wp-699dc8476-djrmb   1m           129Mi           \n",
+    "clusterUsage": "NAME                    CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   \nk3d-relay-m0-server-0   97m          1%       1773Mi          56%         \n"
+  },
+  "versions": {
+    "php": "8.3.35",
+    "cli": "WP-CLI 2.12.0",
+    "mariadb": "mariadb from 11.8.9-MariaDB, client 15.2 for debian-linux-gnu (aarch64) using  EditLine wrapper",
+    "processes": "USER     COMMAND\nroot     apache2\nwww-data apache2\nwww-data apache2\nwww-data apache2\nwww-data apache2\nwww-data apache2\nwww-data apache2\nwww-data apache2\nwww-data apache2\nwww-data apache2\nroot     ps\n"
+  },
+  "secrets": [
+    {
+      "name": "store-adapter",
+      "keys": [
+        "consumer-key",
+        "consumer-secret"
+      ],
+      "hasLastAppliedAnnotation": false
+    },
+    {
+      "name": "store-admin",
+      "keys": [
+        "password",
+        "username"
+      ],
+      "hasLastAppliedAnnotation": false
+    },
+    {
+      "name": "store-runtime",
+      "keys": [
+        "AUTH_KEY",
+        "AUTH_SALT",
+        "LOGGED_IN_KEY",
+        "LOGGED_IN_SALT",
+        "NONCE_KEY",
+        "NONCE_SALT",
+        "SECURE_AUTH_KEY",
+        "SECURE_AUTH_SALT",
+        "db-password",
+        "root-password"
+      ],
+      "hasLastAppliedAnnotation": false
+    }
+  ],
+  "runtime": [
+    {
+      "name": "runtime",
+      "secret": "store-runtime",
+      "mountedKeys": [
+        "db-password",
+        "AUTH_KEY",
+        "SECURE_AUTH_KEY",
+        "LOGGED_IN_KEY",
+        "NONCE_KEY",
+        "AUTH_SALT",
+        "SECURE_AUTH_SALT",
+        "LOGGED_IN_SALT",
+        "NONCE_SALT"
+      ]
+    },
+    {
+      "name": "runtime",
+      "secret": "store-runtime",
+      "mountedKeys": [
+        "db-password",
+        "root-password"
+      ]
+    }
+  ]
+}

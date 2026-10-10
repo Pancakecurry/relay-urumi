@@ -1,0 +1,2 @@
+NAME      	NAMESPACE     	REVISION	UPDATED                             	STATUS  	CHART            	APP VERSION
+demo-store	relay-store-m1	4       	2026-10-10 15:21:34.824955 +0530 IST	deployed	relay-store-0.1.0	7.1.3-woocommerce11.2.1

@@ -1,0 +1,15 @@
+{{- range $item := list (dict "name" "db" "size" .Values.persistence.databaseSize) (dict "name" "content" "size" .Values.persistence.contentSize) }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ $.Release.Name }}-{{ $item.name }}
+  annotations:
+    helm.sh/resource-policy: keep
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: {{ $.Values.persistence.storageClass | quote }}
+  resources:
+    requests:
+      storage: {{ $item.size }}
+{{- end }}

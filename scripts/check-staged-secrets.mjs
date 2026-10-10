@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { parseEnv } from 'node:util';
 
 const git = args => execFileSync('git',args,{encoding:'utf8',stdio:['ignore','pipe','pipe']});
@@ -9,6 +9,10 @@ for(const path of ['.local/m0-token','.local/gemini.env']){
   try {const raw=readFileSync(path,'utf8');const value=path.endsWith('.env')?parseEnv(raw).GEMINI_API_KEY:raw.trim();if(value?.length>=8)secrets.push(value);}
   catch(error){if(error.code!=='ENOENT')throw error;}
 }
+for(const file of readdirSync('.local').filter(x=>x.endsWith('-credentials.json'))){
+ const data=JSON.parse(readFileSync(`.local/${file}`,'utf8'));
+ for(const value of [...Object.values(data.runtime),data.admin.password,...Object.values(data.adapter)]){secrets.push(value,Buffer.from(value).toString('base64'));}
+}
 const violations=[];
 for(const file of files){
   if(/(^|\/)(\.local|\.tools|node_modules)(\/|$)|(^|\/)\.env($|\.)/.test(file))violations.push({file,reason:'private/runtime path staged'});
@@ -17,5 +21,5 @@ for(const file of files){
   if(/AIza[A-Za-z0-9_-]{30,}|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/.test(content))violations.push({file,reason:'credential pattern found'});
 }
 const result={at:new Date().toISOString(),scope:'Git index only; known local credentials and recognizable key/private-key patterns',filesChecked:files.length,privateValuesPrinted:false,passed:violations.length===0,violations};
-writeFileSync('docs/evidence/credential-scan.json',JSON.stringify(result,null,2)+'\n');
+writeFileSync(process.env.SECRET_SCAN_OUTPUT || 'docs/evidence/credential-scan.json',JSON.stringify(result,null,2)+'\n');
 console.log(JSON.stringify(result));if(!result.passed)process.exitCode=1;

@@ -1,0 +1,383 @@
+---
+# Source: relay-store/templates/network.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: prod-store-isolation
+spec:
+  podSelector: {}
+  policyTypes: [Ingress, Egress]
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: kube-system}
+          podSelector:
+            matchLabels: {k8s-app: kube-dns}
+      ports: [{protocol: UDP, port: 53}, {protocol: TCP, port: 53}]
+
+---
+# Source: relay-store/templates/network.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: prod-store-database
+spec:
+  podSelector:
+    matchLabels: {role: database}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector: {matchLabels: {role: wordpress}}
+        - podSelector: {matchLabels: {role: bootstrap}}
+      ports: [{protocol: TCP, port: 3306}]
+
+---
+# Source: relay-store/templates/network.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: prod-store-wordpress
+spec:
+  podSelector:
+    matchLabels: {role: wordpress}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: kube-system}
+          podSelector: {matchLabels: {app.kubernetes.io/name: traefik}}
+        - podSelector: {matchLabels: {role: adapter}}
+      ports: [{protocol: TCP, port: 80}]
+  egress:
+    - to: [{podSelector: {matchLabels: {role: database}}}]
+      ports: [{protocol: TCP, port: 3306}]
+
+---
+# Source: relay-store/templates/network.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: prod-store-bootstrap
+spec:
+  podSelector:
+    matchLabels: {role: bootstrap}
+  policyTypes: [Egress]
+  egress:
+    - to: [{podSelector: {matchLabels: {role: database}}}]
+      ports: [{protocol: TCP, port: 3306}]
+
+---
+# Source: relay-store/templates/storage.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: prod-store-db
+  annotations:
+    helm.sh/resource-policy: keep
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: "local-path"
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+# Source: relay-store/templates/storage.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: prod-store-content
+  annotations:
+    helm.sh/resource-policy: keep
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: "local-path"
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+# Source: relay-store/templates/database.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: prod-store-db
+spec:
+  type: ClusterIP
+  selector: {app: "prod-store-db"}
+  ports: [{name: mysql, port: 3306, targetPort: mysql}]
+
+---
+# Source: relay-store/templates/wordpress.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: prod-store-wp
+spec:
+  type: ClusterIP
+  selector: {app: "prod-store-wp"}
+  ports: [{name: http, port: 80, targetPort: http}]
+
+---
+# Source: relay-store/templates/wordpress.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prod-store-wp
+spec:
+  replicas: 1
+  strategy: {type: Recreate}
+  selector:
+    matchLabels: {app: "prod-store-wp"}
+  template:
+    metadata:
+      labels: {app: "prod-store-wp", role: wordpress}
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: wordpress
+          image: "registry.example.invalid/relay/store@sha256:REPLACE_WITH_PUBLISHED_DIGEST"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: WORDPRESS_DB_HOST
+              value: "prod-store-db:3306"
+            - name: WORDPRESS_DB_NAME
+              value: wordpress
+            - name: WORDPRESS_DB_USER
+              value: wordpress
+            - name: WORDPRESS_DB_PASSWORD_FILE
+              value: /run/store/db-password
+            - name: WORDPRESS_AUTH_KEY_FILE
+              value: /run/store/AUTH_KEY
+            - name: WORDPRESS_SECURE_AUTH_KEY_FILE
+              value: /run/store/SECURE_AUTH_KEY
+            - name: WORDPRESS_LOGGED_IN_KEY_FILE
+              value: /run/store/LOGGED_IN_KEY
+            - name: WORDPRESS_NONCE_KEY_FILE
+              value: /run/store/NONCE_KEY
+            - name: WORDPRESS_AUTH_SALT_FILE
+              value: /run/store/AUTH_SALT
+            - name: WORDPRESS_SECURE_AUTH_SALT_FILE
+              value: /run/store/SECURE_AUTH_SALT
+            - name: WORDPRESS_LOGGED_IN_SALT_FILE
+              value: /run/store/LOGGED_IN_SALT
+            - name: WORDPRESS_NONCE_SALT_FILE
+              value: /run/store/NONCE_SALT
+            - name: WORDPRESS_CONFIG_EXTRA
+              value: |
+                define('WP_HOME', 'https://store.example.invalid');
+                define('WP_SITEURL', 'https://store.example.invalid');
+                define('DISALLOW_FILE_EDIT', true);
+                define('AUTOMATIC_UPDATER_DISABLED', true);
+                define('WP_AUTO_UPDATE_CORE', false);
+                define('WP_MEMORY_LIMIT', '256M');
+                define('WP_MAX_MEMORY_LIMIT', '256M');
+          ports: [{name: http, containerPort: 80}]
+          startupProbe:
+            httpGet: {path: /wp-includes/images/blank.gif, port: http}
+            failureThreshold: 60
+            periodSeconds: 5
+          readinessProbe:
+            httpGet: {path: /relay-health.php, port: http}
+            periodSeconds: 10
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet: {path: /wp-includes/images/blank.gif, port: http}
+            periodSeconds: 20
+            timeoutSeconds: 5
+          resources:
+            limits:
+              cpu: "1"
+              memory: 768Mi
+            requests:
+              cpu: 100m
+              memory: 192Mi
+          volumeMounts:
+            - {name: content, mountPath: /var/www/html}
+            - {name: runtime, mountPath: /run/store, readOnly: true}
+      volumes:
+        - name: content
+          persistentVolumeClaim: {claimName: "prod-store-content"}
+        - name: runtime
+          secret:
+            secretName: store-runtime
+            items:
+              - {key: db-password, path: db-password}
+              - {key: AUTH_KEY, path: AUTH_KEY}
+              - {key: SECURE_AUTH_KEY, path: SECURE_AUTH_KEY}
+              - {key: LOGGED_IN_KEY, path: LOGGED_IN_KEY}
+              - {key: NONCE_KEY, path: NONCE_KEY}
+              - {key: AUTH_SALT, path: AUTH_SALT}
+              - {key: SECURE_AUTH_SALT, path: SECURE_AUTH_SALT}
+              - {key: LOGGED_IN_SALT, path: LOGGED_IN_SALT}
+              - {key: NONCE_SALT, path: NONCE_SALT}
+
+---
+# Source: relay-store/templates/database.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: prod-store-db
+spec:
+  serviceName: prod-store-db
+  replicas: 1
+  selector:
+    matchLabels: {app: "prod-store-db"}
+  template:
+    metadata:
+      labels: {app: "prod-store-db", role: database}
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: mariadb
+          image: "mariadb:11.8.9-noble@sha256:6422478cb8e159f080fb1d8ccf65101e26fe51385787fde7d16c3b165a331f15"
+          args: ["--innodb-buffer-pool-size=128M", "--max-connections=40"]
+          env:
+            - {name: MARIADB_DATABASE, value: wordpress}
+            - {name: MARIADB_USER, value: wordpress}
+            - {name: MARIADB_PASSWORD_FILE, value: /run/store/db-password}
+            - {name: MARIADB_ROOT_PASSWORD_FILE, value: /run/store/root-password}
+          ports: [{name: mysql, containerPort: 3306}]
+          startupProbe:
+            exec: {command: [healthcheck.sh, --connect, --innodb_initialized]}
+            periodSeconds: 5
+            failureThreshold: 60
+          readinessProbe:
+            exec: {command: [healthcheck.sh, --connect, --innodb_initialized]}
+            periodSeconds: 10
+            timeoutSeconds: 5
+          livenessProbe:
+            exec: {command: [healthcheck.sh, --connect, --innodb_initialized]}
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 6
+          resources:
+            limits:
+              cpu: 750m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          volumeMounts:
+            - {name: data, mountPath: /var/lib/mysql}
+            - {name: runtime, mountPath: /run/store, readOnly: true}
+      volumes:
+        - name: data
+          persistentVolumeClaim: {claimName: "prod-store-db"}
+        - name: runtime
+          secret:
+            secretName: store-runtime
+            items:
+              - {key: db-password, path: db-password}
+              - {key: root-password, path: root-password}
+
+---
+# Source: relay-store/templates/wordpress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prod-store-store
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts: ["store.example.invalid"]
+      secretName: store-tls
+  rules:
+    - host: "store.example.invalid"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: prod-store-wp
+                port: {number: 80}
+---
+# Source: relay-store/templates/bootstrap.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: prod-store-bootstrap
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "10"
+    helm.sh/hook-delete-policy: before-hook-creation
+spec:
+  backoffLimit: 2
+  activeDeadlineSeconds: 300
+  template:
+    metadata:
+      labels: {app: "prod-store-bootstrap", role: bootstrap}
+    spec:
+      restartPolicy: Never
+      automountServiceAccountToken: false
+      securityContext:
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: bootstrap
+          image: "registry.example.invalid/relay/store@sha256:REPLACE_WITH_PUBLISHED_DIGEST"
+          imagePullPolicy: IfNotPresent
+          command: [bash, /opt/relay/bootstrap.sh]
+          env:
+            - name: WORDPRESS_DB_HOST
+              value: "prod-store-db:3306"
+            - name: WORDPRESS_DB_NAME
+              value: wordpress
+            - name: WORDPRESS_DB_USER
+              value: wordpress
+            - name: WORDPRESS_DB_PASSWORD_FILE
+              value: /run/store/db-password
+            - name: WORDPRESS_AUTH_KEY_FILE
+              value: /run/store/AUTH_KEY
+            - name: WORDPRESS_SECURE_AUTH_KEY_FILE
+              value: /run/store/SECURE_AUTH_KEY
+            - name: WORDPRESS_LOGGED_IN_KEY_FILE
+              value: /run/store/LOGGED_IN_KEY
+            - name: WORDPRESS_NONCE_KEY_FILE
+              value: /run/store/NONCE_KEY
+            - name: WORDPRESS_AUTH_SALT_FILE
+              value: /run/store/AUTH_SALT
+            - name: WORDPRESS_SECURE_AUTH_SALT_FILE
+              value: /run/store/SECURE_AUTH_SALT
+            - name: WORDPRESS_LOGGED_IN_SALT_FILE
+              value: /run/store/LOGGED_IN_SALT
+            - name: WORDPRESS_NONCE_SALT_FILE
+              value: /run/store/NONCE_SALT
+            - name: WORDPRESS_CONFIG_EXTRA
+              value: |
+                define('WP_HOME', 'https://store.example.invalid');
+                define('WP_SITEURL', 'https://store.example.invalid');
+                define('DISALLOW_FILE_EDIT', true);
+                define('AUTOMATIC_UPDATER_DISABLED', true);
+                define('WP_AUTO_UPDATE_CORE', false);
+                define('WP_MEMORY_LIMIT', '256M');
+                define('WP_MAX_MEMORY_LIMIT', '256M');
+            - {name: RELAY_SITE_URL, value: "https://store.example.invalid"}
+            - {name: RELAY_SITE_TITLE, value: "Relay Synthetic Demo Store"}
+            - {name: RELAY_TIMEZONE, value: "Asia/Kolkata"}
+            - {name: RELAY_CURRENCY, value: "INR"}
+          resources:
+            limits:
+              cpu: 750m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          volumeMounts:
+            - {name: content, mountPath: /var/www/html}
+            - {name: runtime, mountPath: /run/store, readOnly: true}
+            - {name: admin, mountPath: /run/admin, readOnly: true}
+            - {name: adapter, mountPath: /run/adapter, readOnly: true}
+      volumes:
+        - name: content
+          persistentVolumeClaim: {claimName: "prod-store-content"}
+        - name: runtime
+          secret: {secretName: store-runtime}
+        - name: admin
+          secret: {secretName: store-admin}
+        - name: adapter
+          secret: {secretName: store-adapter}

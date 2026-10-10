@@ -1,4 +1,4 @@
-# Resolved M0 versions — 2026-10-10
+# Resolved M0/M1 versions — 2026-10-10
 
 The exact installed dependency graph, including transitives and package integrity hashes, is `pnpm-lock.yaml`. Root/workspace manifests use exact direct versions, with no caret/tilde ranges. Registry provenance and documentation links are in [dependency-provenance.json](evidence/dependency-provenance.json). Versions of future-only components are deliberately not presented as installed or tested.
 
@@ -46,6 +46,22 @@ The automatic v2 client uses modern `server/discover` and protocol `2026-07-28`.
 
 ## Not installed / not yet locked
 
-React/Vite/TanStack Query, PostgreSQL/Drizzle, WordPress/WooCommerce/MariaDB, production k3s configuration and any local model runtime are future milestones. Pin their exact packages/images when implemented and verify them at the corresponding gate. M0's Better Auth SQLite database is an isolated test; PostgreSQL remains the application baseline.
+React/Vite/TanStack Query, PostgreSQL/Drizzle, production k3s configuration and any local model runtime are future milestones. Pin their exact packages/images when implemented and verify them at the corresponding gate. M0's Better Auth SQLite database is an isolated test; PostgreSQL remains the application baseline.
 
 The tested Gemini model is `gemini-3.5-flash-lite`, a stable model ID rather than an immutable weight revision; both actual responses report that `modelVersion`. The isolated spike uses the official REST `v1beta/models/...:generateContent` contract, with no new Gemini SDK dependency. See [model-feasibility.json](evidence/model-feasibility.json), [actual loop evidence](evidence/gemini-spike.json) and [Gemini runbook](runbooks/gemini-setup.md). Official [model documentation](https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite), [REST reference](https://ai.google.dev/api/generate-content), [thinking configuration](https://ai.google.dev/gemini-api/docs/thinking) and [standard pricing](https://ai.google.dev/gemini-api/docs/pricing) were checked on 2026-10-10. Provider billing totals remain unverified.
+
+## M1 store pins — October 10, 2026
+
+| Component | Exact immutable/version selection | Evidence |
+|---|---|---|
+| WordPress/PHP packaging | `wordpress:7.1.3-php8.3-apache@sha256:8ecd8d8e374167ea22235acf30f80d1165b82f07ffa5bcef90c1cad8f7be251f` | Reviewed official index; native arm64 image build and real store |
+| WP-CLI source image | `wordpress:cli-2.12.0-php8.3@sha256:36243da432a0f0a3b56dc3240ecee9b159108d71305e7c064d987a20a465bfde` | Official image; PHAR copied into same PHP runtime |
+| WooCommerce | `11.2.1`; download SHA-256 `5317434cb381b5fdc7c1dd6ee258324f08c390976aaf8d1199f2a0e9a3ab8586` | Official plugin API/tag/download; Docker ADD checksum verified; runtime WC_VERSION |
+| MariaDB LTS | `mariadb:11.8.9-noble@sha256:6422478cb8e159f080fb1d8ccf65101e26fe51385787fde7d16c3b165a331f15` | Official manifest; running version/healthcheck/store persistence |
+| Dockerfile frontend | `docker/dockerfile:1@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e` | Actual builder resolution, then pinned |
+| Store chart | `0.1.0`, appVersion `7.1.3-woocommerce11.2.1` | Helm lint/server dry-run/clean install/upgrade |
+| Browser test runner | `@playwright/test` / Playwright `1.64.0` | Exact manifest/lock graph; real existing Google Chrome channel, no browser download |
+
+Derived `relay/store:m1-<source hash>` is built from sorted `infra/store` filenames/contents, imported into the local cluster and selected by deploy script. The chart default records the current tested content tag. Exact pod runtime imageID, PHP patch, WP-CLI and MariaDB version strings and browser version are in `evidence/m1/inventory.json` and `evidence/m1/checkout.json`; they are actual execution evidence, not inferred tags. Multi-platform source indexes are pinned, but only arm64 deployment was executed. Production registry digest must be supplied after an authorized publication; the example is not a published image.
+
+Official sources reviewed: [WordPress image](https://hub.docker.com/_/wordpress), [WordPress release archive](https://wordpress.org/download/releases/), [MariaDB image](https://hub.docker.com/_/mariadb), [WooCommerce pinned source](https://github.com/woocommerce/woocommerce/tree/11.2.1), [WooCommerce authentication](https://developer.woocommerce.com/docs/apis/rest-api/authentication), [WP-CLI commands](https://developer.wordpress.org/cli/commands/), [Playwright 1.64.0](https://github.com/microsoft/playwright/releases/tag/v1.64.0), [Chrome channel](https://playwright.dev/docs/browsers). The guessed WooCommerce release-blog URL did not open; version selection instead used the live official plugin API, pinned Git tag and checksum-verified archive. No unsupported blog claim is used.

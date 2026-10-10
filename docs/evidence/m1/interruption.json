@@ -1,0 +1,48 @@
+{
+  "at": "2026-10-10T09:51:41.075Z",
+  "mutationsAppliedBeforeTermination": true,
+  "jobTerminatedBeforeCompletion": true,
+  "realHelmRecoveryPassed": true,
+  "before": {
+    "wordpress": "7.1.3",
+    "woocommerce": "11.2.1",
+    "products": {
+      "RELAY-DEMO-MUG": [
+        13
+      ],
+      "RELAY-DEMO-NOTEBOOK": [
+        14
+      ]
+    },
+    "admin_id": 1,
+    "admin_login_count": 1,
+    "adapter_key_count": 1,
+    "timezone": "Asia/Kolkata",
+    "currency": "INR",
+    "cod": "yes",
+    "permalinks": "/%postname%/",
+    "visibility": "no",
+    "marker": "relay-m1-synthetic-persistent-content"
+  },
+  "after": {
+    "wordpress": "7.1.3",
+    "woocommerce": "11.2.1",
+    "products": {
+      "RELAY-DEMO-MUG": [
+        13
+      ],
+      "RELAY-DEMO-NOTEBOOK": [
+        14
+      ]
+    },
+    "admin_id": 1,
+    "admin_login_count": 1,
+    "adapter_key_count": 1,
+    "timezone": "Asia/Kolkata",
+    "currency": "INR",
+    "cod": "yes",
+    "permalinks": "/%postname%/",
+    "visibility": "no",
+    "marker": "relay-m1-synthetic-persistent-content"
+  }
+}

@@ -1,0 +1,5 @@
+# Isolated clean-install acceptance namespace/release; same chart, different values.
+site:
+  url: http://clean.relay.localhost:18080
+ingress:
+  hostname: clean.relay.localhost

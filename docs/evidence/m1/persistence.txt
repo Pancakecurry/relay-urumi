@@ -1,0 +1,74 @@
+$ node scripts/store-persistence.mjs
+deployment.apps/demo-store-wp restarted
+
+Waiting for deployment "demo-store-wp" rollout to finish: 0 out of 1 new replicas have been updated...
+Waiting for deployment "demo-store-wp" rollout to finish: 0 out of 1 new replicas have been updated...
+Waiting for deployment "demo-store-wp" rollout to finish: 0 out of 1 new replicas have been updated...
+Waiting for deployment "demo-store-wp" rollout to finish: 0 of 1 updated replicas are available...
+deployment "demo-store-wp" successfully rolled out
+
+pod "demo-store-db-0" deleted from relay-store-m1 namespace
+
+Waiting for 1 pods to be ready...
+partitioned roll out complete: 1 new pods have been updated...
+
+pod/demo-store-wp-699dc8476-djrmb condition met
+
+{
+  "at": "2026-10-10T09:48:41.697Z",
+  "namespace": "relay-store-m1",
+  "site": "http://store.relay.localhost:18080",
+  "browser": "154.0.8037.99",
+  "productId": 13,
+  "orderId": 17,
+  "paymentMethod": "cod",
+  "status": "processing",
+  "total": "199.00",
+  "authenticatedRestStatus": 200,
+  "unauthenticatedOrdersStatus": 401,
+  "orderVerifiedInAdmin": true,
+  "contentMarkerVerified": true,
+  "afterPodReplacement": true,
+  "realBrowserCheckout": false
+}
+{
+  "at": "2026-10-10T09:48:41.897Z",
+  "before": [
+    {
+      "name": "demo-store-db-0",
+      "uid": "50fe174d-6818-47dd-adf0-f156bec65c78",
+      "role": "database"
+    },
+    {
+      "name": "demo-store-wp-7cdc866c5f-xdsw5",
+      "uid": "f86f283f-0b52-4a49-a742-f328b2f01c4f",
+      "role": "wordpress"
+    }
+  ],
+  "after": [
+    {
+      "name": "demo-store-db-0",
+      "uid": "abce67f3-fe70-4e4c-8a4f-33de31ac1f8b",
+      "role": "database"
+    },
+    {
+      "name": "demo-store-wp-699dc8476-djrmb",
+      "uid": "f6b7c989-b10e-4bae-8bea-647745eba69e",
+      "role": "wordpress"
+    }
+  ],
+  "volumes": [
+    {
+      "name": "demo-store-content",
+      "uid": "c323ca17-2423-4e81-9b79-1cd99bf78036",
+      "volume": "pvc-c323ca17-2423-4e81-9b79-1cd99bf78036"
+    },
+    {
+      "name": "demo-store-db",
+      "uid": "fc76be84-8c64-41fb-9590-b9eb7b7fc358",
+      "volume": "pvc-fc76be84-8c64-41fb-9590-b9eb7b7fc358"
+    }
+  ],
+  "pvcIdentitiesUnchanged": true,
+  "existingOrderProductAndContentVerified": true
+}

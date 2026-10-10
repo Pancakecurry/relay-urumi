@@ -1,0 +1,13 @@
+# Render-only example; not provisioned or verified on a VPS.
+# Build/publish the reviewed image to an approved registry and override its digest.
+wordpress:
+  image: registry.example.invalid/relay/store@sha256:REPLACE_WITH_PUBLISHED_DIGEST
+persistence:
+  storageClass: local-path
+  databaseSize: 10Gi
+  contentSize: 5Gi
+site:
+  url: https://store.example.invalid
+ingress:
+  hostname: store.example.invalid
+  tlsSecret: store-tls

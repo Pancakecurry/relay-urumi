@@ -1,0 +1,17 @@
+import { execFileSync } from 'node:child_process';
+import { writeFileSync } from 'node:fs';
+import { kube, namespace, release } from '../tests/store/client.mjs';
+const pods=()=>JSON.parse(kube(['get','pods','-n',namespace,'-o','json'])).items.filter(x=>['wordpress','database'].includes(x.metadata.labels.role)).map(x=>({name:x.metadata.name,uid:x.metadata.uid,role:x.metadata.labels.role}));
+const before=pods();if(before.length!==2)throw new Error('Expected exactly two store runtime pods');
+const volumes=JSON.parse(kube(['get','pvc','-n',namespace,'-o','json'])).items.map(x=>({name:x.metadata.name,uid:x.metadata.uid,volume:x.spec.volumeName}));
+console.log(kube(['rollout','restart',`deployment/${release}-wp`,'-n',namespace]));
+console.log(kube(['rollout','status',`deployment/${release}-wp`,'-n',namespace,'--timeout=180s']));
+console.log(kube(['delete','pod',`${release}-db-0`,'-n',namespace,'--wait=true']));
+console.log(kube(['rollout','status',`statefulset/${release}-db`,'-n',namespace,'--timeout=180s']));
+console.log(kube(['wait','pod','-l','role=wordpress','--for=condition=Ready','-n',namespace,'--timeout=180s']));
+const after=pods();if(before.some(x=>after.some(y=>x.uid===y.uid)))throw new Error('Runtime pod was not replaced');
+const afterVolumes=JSON.parse(kube(['get','pvc','-n',namespace,'-o','json'])).items.map(x=>({name:x.metadata.name,uid:x.metadata.uid,volume:x.spec.volumeName}));
+if(JSON.stringify(volumes)!==JSON.stringify(afterVolumes))throw new Error('PVC identity changed');
+execFileSync(process.execPath,['tests/store/checkout.mjs','--verify-existing'],{stdio:'inherit'});
+const result={at:new Date().toISOString(),before,after,volumes,pvcIdentitiesUnchanged:true,existingOrderProductAndContentVerified:true};
+writeFileSync('docs/evidence/m1/persistence.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));

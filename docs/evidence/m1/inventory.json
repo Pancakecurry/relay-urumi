@@ -1,0 +1,439 @@
+{
+  "at": "2026-10-10T09:50:10.597Z",
+  "workloads": [
+    {
+      "kind": "Deployment",
+      "name": "demo-store-wp",
+      "replicas": 1,
+      "automountServiceAccountToken": false,
+      "securityContext": {
+        "seccompProfile": {
+          "type": "RuntimeDefault"
+        }
+      },
+      "containers": [
+        {
+          "name": "wordpress",
+          "image": "relay/store:m1-2374b9c0c5f86c48",
+          "resources": {
+            "limits": {
+              "cpu": "1",
+              "memory": "768Mi"
+            },
+            "requests": {
+              "cpu": "100m",
+              "memory": "192Mi"
+            }
+          },
+          "startupProbe": {
+            "failureThreshold": 60,
+            "httpGet": {
+              "path": "/wp-includes/images/blank.gif",
+              "port": "http",
+              "scheme": "HTTP"
+            },
+            "periodSeconds": 5,
+            "successThreshold": 1,
+            "timeoutSeconds": 1
+          },
+          "readinessProbe": {
+            "failureThreshold": 3,
+            "httpGet": {
+              "path": "/relay-health.php",
+              "port": "http",
+              "scheme": "HTTP"
+            },
+            "periodSeconds": 10,
+            "successThreshold": 1,
+            "timeoutSeconds": 5
+          },
+          "livenessProbe": {
+            "failureThreshold": 3,
+            "httpGet": {
+              "path": "/wp-includes/images/blank.gif",
+              "port": "http",
+              "scheme": "HTTP"
+            },
+            "periodSeconds": 20,
+            "successThreshold": 1,
+            "timeoutSeconds": 5
+          },
+          "env": [
+            {
+              "name": "WORDPRESS_DB_HOST",
+              "value": "demo-store-db:3306"
+            },
+            {
+              "name": "WORDPRESS_DB_NAME",
+              "value": "wordpress"
+            },
+            {
+              "name": "WORDPRESS_DB_USER",
+              "value": "wordpress"
+            },
+            {
+              "name": "WORDPRESS_DB_PASSWORD_FILE",
+              "value": "/run/store/db-password"
+            },
+            {
+              "name": "WORDPRESS_AUTH_KEY_FILE",
+              "value": "/run/store/AUTH_KEY"
+            },
+            {
+              "name": "WORDPRESS_SECURE_AUTH_KEY_FILE",
+              "value": "/run/store/SECURE_AUTH_KEY"
+            },
+            {
+              "name": "WORDPRESS_LOGGED_IN_KEY_FILE",
+              "value": "/run/store/LOGGED_IN_KEY"
+            },
+            {
+              "name": "WORDPRESS_NONCE_KEY_FILE",
+              "value": "/run/store/NONCE_KEY"
+            },
+            {
+              "name": "WORDPRESS_AUTH_SALT_FILE",
+              "value": "/run/store/AUTH_SALT"
+            },
+            {
+              "name": "WORDPRESS_SECURE_AUTH_SALT_FILE",
+              "value": "/run/store/SECURE_AUTH_SALT"
+            },
+            {
+              "name": "WORDPRESS_LOGGED_IN_SALT_FILE",
+              "value": "/run/store/LOGGED_IN_SALT"
+            },
+            {
+              "name": "WORDPRESS_NONCE_SALT_FILE",
+              "value": "/run/store/NONCE_SALT"
+            },
+            {
+              "name": "WORDPRESS_CONFIG_EXTRA",
+              "value": "define('WP_HOME', 'http://store.relay.localhost:18080');\ndefine('WP_SITEURL', 'http://store.relay.localhost:18080');\ndefine('DISALLOW_FILE_EDIT', true);\ndefine('AUTOMATIC_UPDATER_DISABLED', true);\ndefine('WP_AUTO_UPDATE_CORE', false);\ndefine('WP_MEMORY_LIMIT', '256M');\ndefine('WP_MAX_MEMORY_LIMIT', '256M');\n"
+            }
+          ],
+          "volumeMounts": [
+            {
+              "mountPath": "/var/www/html",
+              "name": "content"
+            },
+            {
+              "mountPath": "/run/store",
+              "name": "runtime",
+              "readOnly": true
+            }
+          ]
+        }
+      ],
+      "volumes": [
+        {
+          "name": "content",
+          "persistentVolumeClaim": {
+            "claimName": "demo-store-content"
+          }
+        },
+        {
+          "name": "runtime",
+          "secret": {
+            "defaultMode": 420,
+            "items": [
+              {
+                "key": "db-password",
+                "path": "db-password"
+              },
+              {
+                "key": "AUTH_KEY",
+                "path": "AUTH_KEY"
+              },
+              {
+                "key": "SECURE_AUTH_KEY",
+                "path": "SECURE_AUTH_KEY"
+              },
+              {
+                "key": "LOGGED_IN_KEY",
+                "path": "LOGGED_IN_KEY"
+              },
+              {
+                "key": "NONCE_KEY",
+                "path": "NONCE_KEY"
+              },
+              {
+                "key": "AUTH_SALT",
+                "path": "AUTH_SALT"
+              },
+              {
+                "key": "SECURE_AUTH_SALT",
+                "path": "SECURE_AUTH_SALT"
+              },
+              {
+                "key": "LOGGED_IN_SALT",
+                "path": "LOGGED_IN_SALT"
+              },
+              {
+                "key": "NONCE_SALT",
+                "path": "NONCE_SALT"
+              }
+            ],
+            "secretName": "store-runtime"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "StatefulSet",
+      "name": "demo-store-db",
+      "replicas": 1,
+      "automountServiceAccountToken": false,
+      "securityContext": {
+        "seccompProfile": {
+          "type": "RuntimeDefault"
+        }
+      },
+      "containers": [
+        {
+          "name": "mariadb",
+          "image": "mariadb:11.8.9-noble@sha256:6422478cb8e159f080fb1d8ccf65101e26fe51385787fde7d16c3b165a331f15",
+          "resources": {
+            "limits": {
+              "cpu": "750m",
+              "memory": "512Mi"
+            },
+            "requests": {
+              "cpu": "100m",
+              "memory": "128Mi"
+            }
+          },
+          "startupProbe": {
+            "exec": {
+              "command": [
+                "healthcheck.sh",
+                "--connect",
+                "--innodb_initialized"
+              ]
+            },
+            "failureThreshold": 60,
+            "periodSeconds": 5,
+            "successThreshold": 1,
+            "timeoutSeconds": 1
+          },
+          "readinessProbe": {
+            "exec": {
+              "command": [
+                "healthcheck.sh",
+                "--connect",
+                "--innodb_initialized"
+              ]
+            },
+            "failureThreshold": 3,
+            "periodSeconds": 10,
+            "successThreshold": 1,
+            "timeoutSeconds": 5
+          },
+          "livenessProbe": {
+            "exec": {
+              "command": [
+                "healthcheck.sh",
+                "--connect",
+                "--innodb_initialized"
+              ]
+            },
+            "failureThreshold": 6,
+            "periodSeconds": 20,
+            "successThreshold": 1,
+            "timeoutSeconds": 5
+          },
+          "env": [
+            {
+              "name": "MARIADB_DATABASE",
+              "value": "wordpress"
+            },
+            {
+              "name": "MARIADB_USER",
+              "value": "wordpress"
+            },
+            {
+              "name": "MARIADB_PASSWORD_FILE",
+              "value": "/run/store/db-password"
+            },
+            {
+              "name": "MARIADB_ROOT_PASSWORD_FILE",
+              "value": "/run/store/root-password"
+            }
+          ],
+          "volumeMounts": [
+            {
+              "mountPath": "/var/lib/mysql",
+              "name": "data"
+            },
+            {
+              "mountPath": "/run/store",
+              "name": "runtime",
+              "readOnly": true
+            }
+          ]
+        }
+      ],
+      "volumes": [
+        {
+          "name": "data",
+          "persistentVolumeClaim": {
+            "claimName": "demo-store-db"
+          }
+        },
+        {
+          "name": "runtime",
+          "secret": {
+            "defaultMode": 420,
+            "items": [
+              {
+                "key": "db-password",
+                "path": "db-password"
+              },
+              {
+                "key": "root-password",
+                "path": "root-password"
+              }
+            ],
+            "secretName": "store-runtime"
+          }
+        }
+      ]
+    }
+  ],
+  "pods": [
+    {
+      "name": "demo-store-bootstrap-qtxwv",
+      "phase": "Succeeded",
+      "containers": [
+        {
+          "name": "bootstrap",
+          "ready": false,
+          "image": "docker.io/relay/store:m1-2374b9c0c5f86c48",
+          "imageID": "sha256:10d8a26ae6a1f3f67bb5f0680d2c1de0bd55fde691b858211f27daafe0219817",
+          "restarts": 0
+        }
+      ]
+    },
+    {
+      "name": "demo-store-db-0",
+      "phase": "Running",
+      "containers": [
+        {
+          "name": "mariadb",
+          "ready": true,
+          "image": "sha256:d184a9dfda0a0e99f7d7d309b5a6956e02634e077e24e223633bda6cdc6f2062",
+          "imageID": "docker.io/library/mariadb@sha256:6422478cb8e159f080fb1d8ccf65101e26fe51385787fde7d16c3b165a331f15",
+          "restarts": 0
+        }
+      ]
+    },
+    {
+      "name": "demo-store-wp-699dc8476-djrmb",
+      "phase": "Running",
+      "containers": [
+        {
+          "name": "wordpress",
+          "ready": true,
+          "image": "docker.io/relay/store:m1-2374b9c0c5f86c48",
+          "imageID": "sha256:10d8a26ae6a1f3f67bb5f0680d2c1de0bd55fde691b858211f27daafe0219817",
+          "restarts": 0
+        }
+      ]
+    }
+  ],
+  "pvc": [
+    {
+      "name": "demo-store-content",
+      "status": "Bound",
+      "capacity": {
+        "storage": "1Gi"
+      },
+      "volume": "pvc-c323ca17-2423-4e81-9b79-1cd99bf78036",
+      "storageClass": "local-path"
+    },
+    {
+      "name": "demo-store-db",
+      "status": "Bound",
+      "capacity": {
+        "storage": "2Gi"
+      },
+      "volume": "pvc-fc76be84-8c64-41fb-9590-b9eb7b7fc358",
+      "storageClass": "local-path"
+    }
+  ],
+  "secrets": [
+    {
+      "name": "store-adapter",
+      "keys": [
+        "consumer-key",
+        "consumer-secret"
+      ],
+      "hasLastAppliedAnnotation": false
+    },
+    {
+      "name": "store-admin",
+      "keys": [
+        "password",
+        "username"
+      ],
+      "hasLastAppliedAnnotation": false
+    },
+    {
+      "name": "store-runtime",
+      "keys": [
+        "AUTH_KEY",
+        "AUTH_SALT",
+        "LOGGED_IN_KEY",
+        "LOGGED_IN_SALT",
+        "NONCE_KEY",
+        "NONCE_SALT",
+        "SECURE_AUTH_KEY",
+        "SECURE_AUTH_SALT",
+        "db-password",
+        "root-password"
+      ],
+      "hasLastAppliedAnnotation": false
+    }
+  ],
+  "runtime": [
+    {
+      "name": "runtime",
+      "secret": "store-runtime",
+      "mountedKeys": [
+        "db-password",
+        "AUTH_KEY",
+        "SECURE_AUTH_KEY",
+        "LOGGED_IN_KEY",
+        "NONCE_KEY",
+        "AUTH_SALT",
+        "SECURE_AUTH_SALT",
+        "LOGGED_IN_SALT",
+        "NONCE_SALT"
+      ]
+    },
+    {
+      "name": "runtime",
+      "secret": "store-runtime",
+      "mountedKeys": [
+        "db-password",
+        "root-password"
+      ]
+    }
+  ],
+  "resources": {
+    "freeDiskBytes": 9571557376,
+    "dockerStats": [
+      "k3d-relay-m0-serverlb 18.18MiB / 7.653GiB",
+      "k3d-relay-m0-server-0 1.734GiB / 3GiB"
+    ],
+    "podUsage": "NAME                            CPU(cores)   MEMORY(bytes)   \ndemo-store-db-0                 6m           101Mi           \ndemo-store-wp-699dc8476-djrmb   1m           129Mi           \n",
+    "clusterUsage": "NAME                    CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   \nk3d-relay-m0-server-0   97m          1%       1773Mi          56%         \n"
+  },
+  "versions": {
+    "php": "8.3.35",
+    "cli": "WP-CLI 2.12.0",
+    "mariadb": "mariadb from 11.8.9-MariaDB, client 15.2 for debian-linux-gnu (aarch64) using  EditLine wrapper",
+    "processes": "USER     COMMAND\nroot     apache2\nwww-data apache2\nwww-data apache2\nwww-data apache2\nwww-data apache2\nwww-data apache2\nwww-data apache2\nwww-data apache2\nwww-data apache2\nwww-data apache2\nroot     ps\n"
+  },
+  "currentPodLogsAndEvidenceCredentialScanPassed": true
+}

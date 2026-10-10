@@ -1,0 +1,45 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-bootstrap
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "10"
+    helm.sh/hook-delete-policy: before-hook-creation
+spec:
+  backoffLimit: 2
+  activeDeadlineSeconds: 300
+  template:
+    metadata:
+      labels: {app: "{{ .Release.Name }}-bootstrap", role: bootstrap}
+    spec:
+      restartPolicy: Never
+      automountServiceAccountToken: false
+      securityContext:
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: bootstrap
+          image: {{ .Values.wordpress.image | quote }}
+          imagePullPolicy: {{ .Values.wordpress.pullPolicy }}
+          command: [bash, /opt/relay/bootstrap.sh]
+          env:
+            {{- include "store.env" . | nindent 12 }}
+            - {name: RELAY_SITE_URL, value: {{ .Values.site.url | quote }}}
+            - {name: RELAY_SITE_TITLE, value: {{ .Values.site.title | quote }}}
+            - {name: RELAY_TIMEZONE, value: {{ .Values.site.timezone | quote }}}
+            - {name: RELAY_CURRENCY, value: {{ .Values.site.currency | quote }}}
+          resources: {{ toYaml .Values.bootstrap.resources | nindent 12 }}
+          volumeMounts:
+            - {name: content, mountPath: /var/www/html}
+            - {name: runtime, mountPath: /run/store, readOnly: true}
+            - {name: admin, mountPath: /run/admin, readOnly: true}
+            - {name: adapter, mountPath: /run/adapter, readOnly: true}
+      volumes:
+        - name: content
+          persistentVolumeClaim: {claimName: "{{ .Release.Name }}-content"}
+        - name: runtime
+          secret: {secretName: {{ .Values.secrets.runtime }}}
+        - name: admin
+          secret: {secretName: {{ .Values.secrets.admin }}}
+        - name: adapter
+          secret: {secretName: {{ .Values.secrets.adapter }}}

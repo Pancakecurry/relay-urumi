@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-10T09:48:09.351Z",
+  "namespace": "relay-store-clean",
+  "emptyDatabaseAndContentInstall": true,
+  "products": [
+    {
+      "id": 14,
+      "sku": "RELAY-DEMO-NOTEBOOK"
+    },
+    {
+      "id": 13,
+      "sku": "RELAY-DEMO-MUG"
+    }
+  ],
+  "authenticatedStatus": 200,
+  "unauthenticatedOrdersStatus": 401
+}

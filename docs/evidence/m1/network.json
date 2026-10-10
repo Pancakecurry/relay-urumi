@@ -1,0 +1,42 @@
+{
+  "at": "2026-10-10T09:49:18.104Z",
+  "untrustedPodHasExplicitServiceEgress": true,
+  "denied": [
+    {
+      "host": "demo-store-db",
+      "port": 3306,
+      "connected": false,
+      "error": "ECONNREFUSED"
+    },
+    {
+      "host": "demo-store-wp",
+      "port": 80,
+      "connected": false,
+      "error": "ECONNREFUSED"
+    }
+  ],
+  "services": [
+    {
+      "name": "demo-store-db",
+      "type": "ClusterIP",
+      "ports": [
+        3306
+      ]
+    },
+    {
+      "name": "demo-store-wp",
+      "type": "ClusterIP",
+      "ports": [
+        80
+      ]
+    }
+  ],
+  "ingress": [
+    {
+      "host": "store.relay.localhost",
+      "path": "/",
+      "service": "demo-store-wp"
+    }
+  ],
+  "databaseHasNoPublicServiceOrIngress": true
+}

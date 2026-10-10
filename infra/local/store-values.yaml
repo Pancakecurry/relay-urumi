@@ -1,0 +1,5 @@
+# Local ingress is loopback-only. Credentials never belong in values files.
+site:
+  url: http://store.relay.localhost:18080
+ingress:
+  hostname: store.relay.localhost

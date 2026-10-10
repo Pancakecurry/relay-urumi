@@ -1,18 +1,18 @@
 # Requirement and acceptance ledger
 
-Authority: [employer brief](https://docs.google.com/document/d/1wE4j9_Y_iydrkiMu7p9N_Kd4ltFztUqjssyBd4tSwkU/view), research baseline dated 2026-10-09, and the owner’s M0 execution directive. All core, multi-store and nine differentiator areas remain in scope. Internal submission target: October 25; deadline: October 26, 2026, 11:59 PM IST.
+Authority: [employer brief](https://docs.google.com/document/d/1wE4j9_Y_iydrkiMu7p9N_Kd4ltFztUqjssyBd4tSwkU/view), research baseline dated 2026-10-09, and the owner’s milestone execution directives. All core, multi-store and nine differentiator areas remain in scope. Internal submission target: October 25; deadline: October 26, 2026, 11:59 PM IST.
 
 Allowed feature statuses: planned / implemented / tested locally / verified on VPS / demonstrated. A proof of a transport is not a completed WooCommerce gateway. Evidence below is the required future evidence until replaced with an actual file/run path.
 
 | ID | Employer requirement | Implementation path | Milestone | Status | Test or evidence path / required evidence | Known limitations |
 |---|---|---|---|---|---|---|
-| K01 | Local Kind/k3d/Minikube Kubernetes; all store/DB/MCP/backend/dashboard components in cluster | charts/; infra/ | M1–M4 | planned | Clean local install, workload inventory and live core journey. | M0 proof provides supporting evidence only; full requirement remains planned. |
-| K02 | Same mandatory Helm charts, no Kustomize; local/prod values-only differences | charts/; infra/ | M1–M4 | planned | Versioned chart templates, rendered manifests, actual environment setup and config diff. | M0 proof provides supporting evidence only; full requirement remains planned. |
+| K01 | Local Kind/k3d/Minikube Kubernetes; all store/DB/MCP/backend/dashboard components in cluster | charts/; infra/ | M1–M4 | planned |Clean local install, workload inventory and live core journey. M1 store supporting evidence: evidence/m1.md. | Store portion tested locally; remaining platform components await M2–M4. |
+| K02 | Same mandatory Helm charts, no Kustomize; local/prod values-only differences | charts/; infra/ | M1–M4 | planned |Versioned chart templates, rendered manifests, actual environment setup and config diff. M1 store supporting evidence: evidence/m1.md. | Store portion tested locally; remaining platform components await M2–M4. |
 | K03 | Production-like VPS deployability | charts/; infra/ | M9 | planned | Working production values and setup instructions; actual deployment evidence under D01. | Full requirement unimplemented at M0. |
-| K04 | Persistent store DB and WordPress content | charts/; infra/ | M1–M4 | planned | Pod replacement preserves products/orders/files; PVC/data evidence and restore check. | Full requirement unimplemented at M0. |
-| K05 | Storefront/dashboard Ingress and stable URLs; documented local domain | charts/; infra/ | M1–M4 | planned | Browser/client access through Ingress, exact local mapping and public DNS runbook. | M0 proof provides supporting evidence only; full requirement remains planned. |
-| K06 | Readiness/liveness on every workload; resource requests/limits | charts/; infra/ | M1–M4 | planned | Resource inventory plus probe failure/recovery checks, including data services and added dependencies. | M0 proof provides supporting evidence only; full requirement remains planned. |
-| K07 | No hardcoded secrets; credentials in Kubernetes Secrets | charts/; infra/ | M1–M4 | planned | Source/history/values scan, mounted/referenced Secret map, no plaintext browser/client/audit data. | M0 proof provides supporting evidence only; full requirement remains planned. |
+| K04 | Persistent store DB and WordPress content | charts/; infra/ | M1 | tested locally | [M1 evidence](evidence/m1.md), m1/persistence.json, m1/after-replacement.json | Product 13, COD order 17 and upload file survive both pod replacements; disaster restore/HA not yet tested. |
+| K05 | Storefront/dashboard Ingress and stable URLs; documented local domain | charts/; infra/ | M1–M4 | planned |Browser/client access through Ingress, exact local mapping and public DNS runbook. M1 store supporting evidence: evidence/m1.md. | Store portion tested locally; remaining platform components await M2–M4. |
+| K06 | Readiness/liveness on every workload; resource requests/limits | charts/; infra/ | M1–M4 | planned |Resource inventory plus probe failure/recovery checks, including data services and added dependencies. M1 store supporting evidence: evidence/m1.md. | Store portion tested locally; remaining platform components await M2–M4. |
+| K07 | No hardcoded secrets; credentials in Kubernetes Secrets | charts/; infra/ | M1–M4 | planned |Source/history/values scan, mounted/referenced Secret map, no plaintext browser/client/audit data. M1 store supporting evidence: evidence/m1.md. | Store portion tested locally; remaining platform components await M2–M4. |
 | W01 | Handwritten WooCommerce MCP, not an installed MCP plugin | apps/woocommerce-mcp/ | M2 | planned | Source adapter and explanation of its REST operations. | Full requirement unimplemented at M0. |
 | W02 | Streamable HTTP | apps/woocommerce-mcp/ | M2 | planned | Official client + chosen host protocol tests through actual deployment. | M0 proof provides supporting evidence only; full requirement remains planned. |
 | W03 | list/create products, list/get orders, update order status | apps/woocommerce-mcp/ | M2 | planned | Five real adapter tests and visible product/order outcomes, invalid input and pagination tests. | Full requirement unimplemented at M0. |
@@ -31,7 +31,7 @@ Allowed feature statuses: planned / implemented / tested locally / verified on V
 | U02 | Member configures only gateway URL/key in external MCP client | apps/dashboard/ | M4 | planned | Real B client setup and discovery, no upstream credentials/configuration. | Full requirement unimplemented at M0. |
 | A01 | Real LLM chat through gateway, tool calls visible | apps/api/; packages/model-provider/; packages/mcp-client/ | M4 | planned | A's model-driven create and orders answer, visible trace. | Full requirement unimplemented at M0. |
 | A02 | Logged-in chat identity preserved; LLM key follows Secret rule | apps/api/; packages/model-provider/; packages/mcp-client/ | M4 | planned | A/B audit attribution and key source map. | Full requirement unimplemented at M0. |
-| E01 | Storefront add-to-cart/COD checkout and order in admin | tests/e2e/; docs/demo/ | M4 | planned | Match a unique live order ID. | Full requirement unimplemented at M0. |
+| E01 | Storefront add-to-cart/COD checkout and order in admin | tests/e2e/; docs/demo/ | M1 | tested locally | m1/checkout.json, m1/admin-order.png, m1/after-replacement.json | Real Chrome COD checkout and matching HPOS administration screen; synthetic data only. |
 | E02 | A creates named/priced product; storefront order; today's orders returned | tests/e2e/; docs/demo/ | M4 | planned | Product and order IDs linked across chat/store/admin/audit. | Full requirement unimplemented at M0. |
 | E03 | B lists all enabled tools, asks orders, one prompt uses 2 upstreams | tests/e2e/; docs/demo/ | M4 | planned | External model/tool trace with correct identity. | Full requirement unimplemented at M0. |
 | E04 | Revoke B; disable server removes tools in chat/client; kill one pod while others work | tests/e2e/; docs/demo/ | M4 | planned | Live demonstrations and automated failure/enforcement evidence. | Full requirement unimplemented at M0. |
@@ -78,3 +78,21 @@ See [M0 report](evidence/M0_REPORT.md) for actual acceptance results. No complet
 M0 evidence supports K01/K02/K05/K06/K07/W02/D06, but their full feature scope still requires M1–M4 or bonus acceptance. The Better Auth/header feasibility spikes support the future T01–T04/U02 path; they do not implement team roles, hashed personal keys or the two-user workflow.
 
 The real Gemini loop is locally tested supporting evidence for A01/A02 (`evidence/gemini-spike.json`). Both full features remain planned: the spike uses the M0 Secret identity and one ping tool, with no dashboard chat, logged-in user, WooCommerce or durable audit. Its runtime key is stored in a Kubernetes Secret. The filesystem budget guard is an isolated spike control, not a product-wide distributed quota.
+
+## M1 acceptance ledger — October 10, 2026
+
+The store acceptance is distinct from the full platform requirements. No gateway, dashboard or M2 adapter is implemented here.
+
+| Gate | Status | Actual evidence |
+|---|---|---|
+| Pinned chart/images and valid rendered manifests | tested locally | m1/helm.txt, m1/manifests.yaml, m1/manifest-validation.txt, versions.md |
+| Empty namespace/database/content installation | tested locally | m1/clean-install.txt, m1/clean-rest.json, m1/clean-state.json |
+| Ready WordPress/MariaDB through hostname Ingress | tested locally | m1/inventory.json, real checkout browser evidence |
+| Signed authenticated REST, unauthorized order rejection | tested locally | m1/checkout.json, m1/clean-rest.json |
+| Real cart/COD purchase and matching admin order | tested locally | m1/checkout.json, m1/cod-checkout.png, m1/admin-order.png |
+| Both pods replaced, original products/order/file and PVCs persist | tested locally | m1/persistence.json, m1/after-replacement.json |
+| Repeated/interrupted setup preserves one admin/key/each SKU | tested locally | m1/idempotence.json; interruption.json records the targeted actual Job termination test |
+| Resource/probe/PVC/Secret inventory and no public database | tested locally | m1/inventory.json, m1/network.json |
+| Credential-safe final source/evidence/checkpoint | tested locally | M1 credential scan and Git checkpoint recorded in evidence/m1.md after final scan |
+
+K01/K02/K05/K06/K07 remain planned as whole-platform requirements despite the verified store contribution. VPS, disaster recovery, non-root redesign and full tenant isolation are not inferred from this gate.

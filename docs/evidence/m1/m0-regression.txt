@@ -1,0 +1,143 @@
+$ node dist/packages/mcp-client/src/probe.js
+{
+  "mode": "auto",
+  "era": "modern",
+  "server": {
+    "name": "relay-m0-proof",
+    "version": "0.0.0"
+  },
+  "catalog": {
+    "_meta": {
+      "io.modelcontextprotocol/serverInfo": {
+        "name": "relay-m0-proof",
+        "version": "0.0.0"
+      }
+    },
+    "ttlMs": 0,
+    "cacheScope": "private",
+    "tools": [
+      {
+        "name": "ping",
+        "description": "Verify the real M0 Kubernetes MCP request path.",
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "message"
+          ]
+        }
+      }
+    ]
+  },
+  "result": {
+    "_meta": {
+      "io.modelcontextprotocol/serverInfo": {
+        "name": "relay-m0-proof",
+        "version": "0.0.0"
+      }
+    },
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"pong\":\"relay-auto-ingress\",\"pod\":\"relay-m0-proof-b9f4968f6-gvg4s\"}"
+      }
+    ]
+  },
+  "wire": [
+    {
+      "method": "server/discover",
+      "protocol": "2026-07-28",
+      "status": 200,
+      "sessionIssued": false
+    },
+    {
+      "method": "tools/list",
+      "protocol": "2026-07-28",
+      "status": 200,
+      "sessionIssued": false
+    },
+    {
+      "method": "tools/call",
+      "protocol": "2026-07-28",
+      "status": 200,
+      "sessionIssued": false
+    }
+  ]
+}
+{
+  "mode": "legacy",
+  "era": "legacy",
+  "server": {
+    "name": "relay-m0-proof",
+    "version": "0.0.0"
+  },
+  "catalog": {
+    "tools": [
+      {
+        "name": "ping",
+        "description": "Verify the real M0 Kubernetes MCP request path.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "message"
+          ],
+          "$schema": "https://json-schema.org/draft/2020-12/schema"
+        }
+      }
+    ]
+  },
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"pong\":\"relay-legacy-ingress\",\"pod\":\"relay-m0-proof-b9f4968f6-gvg4s\"}"
+      }
+    ]
+  },
+  "wire": [
+    {
+      "method": "initialize",
+      "protocol": null,
+      "status": 200,
+      "sessionIssued": false
+    },
+    {
+      "method": "notifications/initialized",
+      "protocol": "2025-11-25",
+      "status": 202,
+      "sessionIssued": false
+    },
+    {
+      "method": "GET",
+      "protocol": "2025-11-25",
+      "status": 405,
+      "sessionIssued": false
+    },
+    {
+      "method": "tools/list",
+      "protocol": "2025-11-25",
+      "status": 200,
+      "sessionIssued": false
+    },
+    {
+      "method": "tools/call",
+      "protocol": "2025-11-25",
+      "status": 200,
+      "sessionIssued": false
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+wordpress:
+  image: relay/store:m1-2374b9c0c5f86c48
+  pullPolicy: IfNotPresent
+  resources:
+    requests: {cpu: 100m, memory: 192Mi}
+    limits: {cpu: "1", memory: 768Mi}
+mariadb:
+  image: mariadb:11.8.9-noble@sha256:6422478cb8e159f080fb1d8ccf65101e26fe51385787fde7d16c3b165a331f15
+  resources:
+    requests: {cpu: 100m, memory: 128Mi}
+    limits: {cpu: 750m, memory: 512Mi}
+bootstrap:
+  resources:
+    requests: {cpu: 100m, memory: 128Mi}
+    limits: {cpu: 750m, memory: 512Mi}
+persistence:
+  storageClass: local-path
+  databaseSize: 2Gi
+  contentSize: 1Gi
+secrets:
+  runtime: store-runtime
+  admin: store-admin
+  adapter: store-adapter
+site:
+  url: http://store.relay.localhost:18080
+  title: Relay Synthetic Demo Store
+  timezone: Asia/Kolkata
+  currency: INR
+ingress:
+  className: traefik
+  hostname: store.relay.localhost
+  tlsSecret: ""
