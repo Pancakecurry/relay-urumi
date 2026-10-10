@@ -1,0 +1,16 @@
+kind: calendar
+image: ""
+pullPolicy: IfNotPresent
+credentialSecret: upstream-mcp
+gatewayNamespace: relay-platform
+resources:
+  requests: {cpu: 25m, memory: 64Mi}
+  limits: {cpu: 500m, memory: 192Mi}
+store:
+  connectionUrl: http://demo-store-wp
+  canonicalUrl: http://store.relay.localhost:18080
+  currency: INR
+  timezone: Asia/Kolkata
+  adapterSecret: store-adapter
+  wordpressRelease: demo-store
+  restTimeoutMs: 8000

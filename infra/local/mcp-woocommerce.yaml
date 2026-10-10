@@ -1,0 +1,11 @@
+kind: woocommerce
+credentialSecret: woo-mcp-auth
+gatewayNamespace: relay-platform
+store:
+  connectionUrl: http://demo-store-wp
+  canonicalUrl: http://store.relay.localhost:18080
+  adapterSecret: store-adapter
+  wordpressRelease: demo-store
+  currency: INR
+  timezone: Asia/Kolkata
+  restTimeoutMs: 8000

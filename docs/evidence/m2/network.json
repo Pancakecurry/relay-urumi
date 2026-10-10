@@ -1,0 +1,239 @@
+{
+  "at": "2026-10-10T13:19:19.456Z",
+  "passed": true,
+  "cases": [
+    {
+      "name": "gateway",
+      "namespace": "relay-platform",
+      "expected": true,
+      "actual": [
+        {
+          "name": "woo",
+          "reachable": true
+        },
+        {
+          "name": "calendar",
+          "reachable": true
+        },
+        {
+          "name": "totals",
+          "reachable": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "name": "unlabelled",
+      "namespace": "relay-platform",
+      "expected": false,
+      "actual": [
+        {
+          "name": "woo",
+          "reachable": false
+        },
+        {
+          "name": "calendar",
+          "reachable": false
+        },
+        {
+          "name": "totals",
+          "reachable": false
+        }
+      ],
+      "passed": true
+    },
+    {
+      "name": "wrong-namespace",
+      "namespace": "relay-upstreams",
+      "expected": false,
+      "actual": [
+        {
+          "name": "woo",
+          "reachable": false
+        },
+        {
+          "name": "calendar",
+          "reachable": false
+        },
+        {
+          "name": "totals",
+          "reachable": false
+        }
+      ],
+      "passed": true
+    },
+    {
+      "name": "relay-woocommerce-egress",
+      "actual": [
+        {
+          "name": "wordpress",
+          "reachable": true
+        },
+        {
+          "name": "database",
+          "reachable": false
+        },
+        {
+          "name": "calendar",
+          "reachable": false
+        }
+      ],
+      "passed": true
+    },
+    {
+      "name": "relay-calendar-egress",
+      "actual": [
+        {
+          "name": "wordpress",
+          "reachable": false
+        },
+        {
+          "name": "database",
+          "reachable": false
+        },
+        {
+          "name": "woo",
+          "reachable": false
+        }
+      ],
+      "passed": true
+    },
+    {
+      "name": "relay-totals-egress",
+      "actual": [
+        {
+          "name": "wordpress",
+          "reachable": false
+        },
+        {
+          "name": "database",
+          "reachable": false
+        },
+        {
+          "name": "woo",
+          "reachable": false
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "services": [
+    {
+      "name": "relay-calendar",
+      "type": "ClusterIP",
+      "ports": [
+        {
+          "name": "http",
+          "port": 3000,
+          "protocol": "TCP",
+          "targetPort": "http"
+        }
+      ],
+      "externalIPs": []
+    },
+    {
+      "name": "relay-totals",
+      "type": "ClusterIP",
+      "ports": [
+        {
+          "name": "http",
+          "port": 3000,
+          "protocol": "TCP",
+          "targetPort": "http"
+        }
+      ],
+      "externalIPs": []
+    },
+    {
+      "name": "relay-woocommerce",
+      "type": "ClusterIP",
+      "ports": [
+        {
+          "name": "http",
+          "port": 3000,
+          "protocol": "TCP",
+          "targetPort": "http"
+        }
+      ],
+      "externalIPs": []
+    }
+  ],
+  "ingress": [
+    {
+      "namespace": "relay-m0",
+      "name": "relay-m0-proof",
+      "rules": [
+        {
+          "http": {
+            "paths": [
+              {
+                "backend": {
+                  "service": {
+                    "name": "relay-m0-proof",
+                    "port": {
+                      "number": 3000
+                    }
+                  }
+                },
+                "path": "/mcp",
+                "pathType": "Exact"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "namespace": "relay-store-clean",
+      "name": "clean-store-store",
+      "rules": [
+        {
+          "host": "clean.relay.localhost",
+          "http": {
+            "paths": [
+              {
+                "backend": {
+                  "service": {
+                    "name": "clean-store-wp",
+                    "port": {
+                      "number": 80
+                    }
+                  }
+                },
+                "path": "/",
+                "pathType": "Prefix"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "namespace": "relay-store-m1",
+      "name": "demo-store-store",
+      "rules": [
+        {
+          "host": "store.relay.localhost",
+          "http": {
+            "paths": [
+              {
+                "backend": {
+                  "service": {
+                    "name": "demo-store-wp",
+                    "port": {
+                      "number": 80
+                    }
+                  }
+                },
+                "path": "/",
+                "pathType": "Prefix"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "noPublic": true,
+  "limitation": "Namespace+pod labels are a Kubernetes administrative trust boundary. Production gateway user/team authorization is M3. Cluster admins can exec/port-forward."
+}

@@ -1,0 +1,51 @@
+{
+  "at": "2026-10-10T13:17:02.096Z",
+  "passed": true,
+  "observations": [
+    {
+      "case": "healthy utilities during blocked Woo REST",
+      "durationMs": 100,
+      "results": [
+        {
+          "service": "relay-calendar",
+          "version": "0.0.0",
+          "purpose": "Private Relay MCP upstream"
+        },
+        {
+          "currency": "INR",
+          "total": "0.30",
+          "minor_units": "30",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "case": "real production REST network rejection",
+      "durationMs": 106,
+      "result": {
+        "error": {
+          "code": "UPSTREAM_UNAVAILABLE",
+          "retryable": true,
+          "outcome": "not_executed"
+        }
+      }
+    },
+    {
+      "case": "deployed adapter 500ms deadline to unused cluster IP (isolated fault configuration)",
+      "durationMs": 524,
+      "result": {
+        "error": {
+          "code": "TIMEOUT",
+          "retryable": true,
+          "outcome": "not_executed"
+        }
+      }
+    },
+    {
+      "case": "modern MCP client cancellation",
+      "durationMs": 106,
+      "rejected": true,
+      "limitation": "Client cancellation and direct REST abort are tested; no distributed tracing claim."
+    }
+  ]
+}

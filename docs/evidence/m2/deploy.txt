@@ -1,0 +1,205 @@
+$ pnpm lint && pnpm typecheck && pnpm test && pnpm build
+$ eslint apps packages tests
+$ tsc -p tsconfig.json --noEmit
+$ vitest run
+
+ RUN  v5.0.3 [PROJECT_ROOT]
+
+
+ Test Files  4 passed (4)
+      Tests  17 passed (17)
+   Start at  18:43:57
+   Duration  890ms (tests 54%, import 39%, transform 7%, worker 1%)
+
+$ tsc -p tsconfig.json
+{"upstreamSecrets":[{"namespace":"relay-store-m1","name":"woo-mcp-auth"},{"namespace":"relay-upstreams","name":"calendar-mcp-auth"},{"namespace":"relay-upstreams","name":"totals-mcp-auth"}],"valuesPrinted":false}
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 954B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24.16.0-alpine3.23@sha256:2bdb65ed1dab192432bc31c95f94155ca5ad7fc1392fb7eb7526ab682fa5bf14
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 32B
+#3 transferring context: 88B 1.1s done
+#3 DONE 1.1s
+
+#4 [build 1/8] FROM docker.io/library/node:24.16.0-alpine3.23@sha256:2bdb65ed1dab192432bc31c95f94155ca5ad7fc1392fb7eb7526ab682fa5bf14
+#4 resolve docker.io/library/node:24.16.0-alpine3.23@sha256:2bdb65ed1dab192432bc31c95f94155ca5ad7fc1392fb7eb7526ab682fa5bf14 0.0s done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 18.09kB 0.0s done
+#5 DONE 0.0s
+
+#6 [build 3/8] RUN npm install --global pnpm@11.25.0
+#6 CACHED
+
+#7 [build 4/8] COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc tsconfig.json ./
+#7 CACHED
+
+#8 [build 2/8] WORKDIR /build
+#8 CACHED
+
+#9 [build 5/8] COPY apps apps
+#9 CACHED
+
+#10 [build 6/8] COPY packages packages
+#10 DONE 0.0s
+
+#11 [build 7/8] RUN pnpm install --frozen-lockfile && pnpm build
+#11 0.581 Scope: all 8 workspace projects
+#11 0.633 ? Verifying lockfile against supply-chain policies (325 entries)...
+#11 0.640 Lockfile is up to date, resolution step is skipped
+#11 0.706 Progress: resolved 1, reused 0, downloaded 0, added 0
+#11 0.775 Packages: +289
+#11 0.775 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#11 1.112
+#11 1.112    ╭──────────────────────────────────────────────────────────────────────╮
+#11 1.112    │                                                                      │
+#11 1.112    │                 Update available! 11.25.0 → 12.10.1.                 │
+#11 1.112    │                 Changelog: https://pnpm.io/v/12.10.1                 │
+#11 1.112    │   To update, run: curl -fsSL https://get.pnpm.io/install.sh | sh -   │
+#11 1.112    │                                                                      │
+#11 1.112    ╰──────────────────────────────────────────────────────────────────────╯
+#11 1.112
+#11 1.534 Packages are hard linked from the content-addressable store to the virtual store.
+#11 1.534   Content-addressable store is at: /root/.local/share/pnpm/store/v11
+#11 1.534   Virtual store is at:             node_modules/.pnpm
+#11 1.707 Progress: resolved 289, reused 0, downloaded 4, added 3
+#11 2.708 Progress: resolved 289, reused 0, downloaded 41, added 41
+#11 2.901 [WARN] Tarball download average speed 5 KiB/s (size 6 KiB) is below 50 KiB/s: https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.6.tgz (GET)
+#11 2.949 [WARN] Tarball download average speed 19 KiB/s (size 22 KiB) is below 50 KiB/s: https://registry.npmjs.org/eventsource-parser/-/eventsource-parser-3.1.1.tgz (GET)
+#11 2.961 [WARN] Tarball download average speed 7 KiB/s (size 7 KiB) is below 50 KiB/s: https://registry.npmjs.org/atomically/-/atomically-2.1.1.tgz (GET)
+#11 2.971 [WARN] Tarball download average speed 5 KiB/s (size 6 KiB) is below 50 KiB/s: https://registry.npmjs.org/toad-cache/-/toad-cache-3.7.4.tgz (GET)
+#11 3.547 [WARN] Tarball download average speed 17 KiB/s (size 23 KiB) is below 50 KiB/s: https://registry.npmjs.org/eventsource/-/eventsource-3.0.7.tgz (GET)
+#11 3.710 Progress: resolved 289, reused 0, downloaded 61, added 60
+#11 3.869 [WARN] Tarball download average speed 4 KiB/s (size 7 KiB) is below 50 KiB/s: https://registry.npmjs.org/@fastify/fast-json-stringify-compiler/-/fast-json-stringify-compiler-5.1.0.tgz (GET)
+#11 4.208 [WARN] Tarball download average speed 8 KiB/s (size 14 KiB) is below 50 KiB/s: https://registry.npmjs.org/@better-auth/kysely-adapter/-/kysely-adapter-1.7.7.tgz (GET)
+#11 4.709 Progress: resolved 289, reused 0, downloaded 101, added 101
+#11 5.019 [WARN] Tarball download average speed 2 KiB/s (size 5 KiB) is below 50 KiB/s: https://registry.npmjs.org/@better-auth/mongo-adapter/-/mongo-adapter-1.7.7.tgz (GET)
+#11 5.709 Progress: resolved 289, reused 0, downloaded 165, added 165
+#11 6.711 Progress: resolved 289, reused 0, downloaded 277, added 277
+#11 7.712 Progress: resolved 289, reused 0, downloaded 284, added 284
+#11 7.803 [WARN] Tarball download average speed 3 KiB/s (size 8 KiB) is below 50 KiB/s: https://registry.npmjs.org/pino-abstract-transport/-/pino-abstract-transport-2.0.0.tgz (GET)
+#11 8.731 Progress: resolved 289, reused 0, downloaded 288, added 288
+#11 9.195 Progress: resolved 289, reused 0, downloaded 289, added 289, done
+#11 10.50 ✓ Lockfile passes supply-chain policies (325 entries in 9.8s)
+#11 10.52 .../@modelcontextprotocol/inspector postinstall$ node scripts/install-clients.mjs
+#11 10.62 .../@modelcontextprotocol/inspector postinstall: Done
+#11 10.74
+#11 10.74 dependencies:
+#11 10.74 + @js-temporal/polyfill 0.5.1
+#11 10.74 + @modelcontextprotocol/fastify 2.0.1
+#11 10.74 + @modelcontextprotocol/node 2.1.1
+#11 10.74 + @modelcontextprotocol/server 2.3.1
+#11 10.74 + fastify 5.12.5
+#11 10.74 + zod 4.6.5
+#11 10.74
+#11 10.74 devDependencies:
+#11 10.74 + @eslint/js 10.0.1
+#11 10.74 + @modelcontextprotocol/client 2.3.1
+#11 10.74 + @modelcontextprotocol/inspector 2.10.1
+#11 10.74 + @playwright/test 1.64.0
+#11 10.74 + @types/node 24.19.1
+#11 10.74 + better-auth 1.7.7
+#11 10.74 + eslint 10.12.0
+#11 10.74 + typescript 6.0.3
+#11 10.74 + typescript-eslint 8.71.1
+#11 10.74 + vitest 5.0.3
+#11 10.74
+#11 10.77 Done in 10.6s using pnpm v11.25.0
+#11 11.10 $ tsc -p tsconfig.json
+#11 DONE 13.6s
+
+#12 [build 8/8] RUN pnpm --filter @relay/mcp-runtime deploy --prod --legacy /runtime
+#12 0.504 [WARN] Shared workspace lockfile detected but configuration forces legacy deploy implementation.
+#12 0.534 Packages are copied from the content-addressable store to the virtual store.
+#12 0.534   Content-addressable store is at: /root/.local/share/pnpm/store/v11
+#12 0.534   Virtual store is at:             ../runtime/node_modules/.pnpm
+#12 0.535 ✓ Lockfile passes supply-chain policies (verified 3s ago)
+#12 0.554 Progress: resolved 1, reused 0, downloaded 0, added 0
+#12 1.566 Progress: resolved 107, reused 0, downloaded 0, added 0
+#12 2.566 Progress: resolved 120, reused 0, downloaded 0, added 0
+#12 3.570 Progress: resolved 210, reused 0, downloaded 0, added 0
+#12 4.570 Progress: resolved 247, reused 0, downloaded 0, added 0
+#12 5.570 Progress: resolved 300, reused 0, downloaded 0, added 0
+#12 6.136 Progress: resolved 325, reused 0, downloaded 0, added 0, done
+#12 6.162 .                                        |  +68 +++++++
+#12 DONE 8.0s
+
+#13 [stage-1 2/6] WORKDIR /app
+#13 CACHED
+
+#14 [stage-1 3/6] COPY --from=build --chown=node:node /runtime/node_modules ./node_modules
+#14 DONE 0.8s
+
+#15 [stage-1 4/6] COPY --from=build --chown=node:node /build/dist/apps ./dist/apps
+#15 DONE 0.0s
+
+#16 [stage-1 5/6] COPY --from=build --chown=node:node /build/dist/packages ./dist/packages
+#16 DONE 0.0s
+
+#17 [stage-1 6/6] COPY --from=build --chown=node:node /build/packages/mcp-runtime/package.json ./package.json
+#17 DONE 0.0s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 0.9s done
+#18 exporting manifest sha256:aabb8d3a2c067b1ea8009c2285c1baf5a49136f0335e805928955745ceb7889c done
+#18 exporting config sha256:00553ed75cf12ce901854f1acfb5717fc95c7d20bf1a9da04ab54c2c4902889e done
+#18 exporting attestation manifest sha256:a620f37ab657df9b6155fdc6f932236767d249c485ffc7f94eb51895b67b73c2 0.0s done
+#18 exporting manifest list sha256:f77bbc184c25f25151a98511625bc777c41ec9c8697c4d972b7c5f4481edefb6 done
+#18 naming to docker.io/relay/upstreams:m2-67835bb064edf78a done
+#18 unpacking to docker.io/relay/upstreams:m2-67835bb064edf78a
+#18 unpacking to docker.io/relay/upstreams:m2-67835bb064edf78a 0.3s done
+#18 DONE 1.3s
+INFO[0000] Importing image(s) into cluster 'relay-m0'
+INFO[0000] Starting new tools node...
+INFO[0000] Starting node 'k3d-relay-m0-tools'
+INFO[0000] Saving 1 image(s) from runtime...
+INFO[0001] Importing images into nodes...
+INFO[0001] Importing images from tarball '/k3d/images/k3d-relay-m0-images-20261010184544.tar' into node 'k3d-relay-m0-server-0'...
+INFO[0002] Removing the tarball(s) from image volume...
+INFO[0003] Removing k3d-tools node...
+INFO[0004] Successfully imported image(s)
+INFO[0004] Successfully imported 1 image(s) into 1 cluster(s)
+==> Linting charts/hosted-mcp
+[INFO] Chart.yaml: icon is recommended
+
+1 chart(s) linted, 0 chart(s) failed
+Release "relay-woocommerce" has been upgraded. Happy Helming!
+NAME: relay-woocommerce
+LAST DEPLOYED: Sat Oct 10 18:45:54 2026
+NAMESPACE: relay-store-m1
+STATUS: deployed
+REVISION: 5
+DESCRIPTION: Upgrade complete
+TEST SUITE: None
+==> Linting charts/hosted-mcp
+[INFO] Chart.yaml: icon is recommended
+
+1 chart(s) linted, 0 chart(s) failed
+Release "relay-calendar" has been upgraded. Happy Helming!
+NAME: relay-calendar
+LAST DEPLOYED: Sat Oct 10 18:46:02 2026
+NAMESPACE: relay-upstreams
+STATUS: deployed
+REVISION: 5
+DESCRIPTION: Upgrade complete
+TEST SUITE: None
+==> Linting charts/hosted-mcp
+[INFO] Chart.yaml: icon is recommended
+
+1 chart(s) linted, 0 chart(s) failed
+Release "relay-totals" has been upgraded. Happy Helming!
+NAME: relay-totals
+LAST DEPLOYED: Sat Oct 10 18:46:10 2026
+NAMESPACE: relay-upstreams
+STATUS: deployed
+REVISION: 5
+DESCRIPTION: Upgrade complete
+TEST SUITE: None

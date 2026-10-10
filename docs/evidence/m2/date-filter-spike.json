@@ -1,0 +1,89 @@
+{
+  "at": "2026-10-10T13:07:47.941Z",
+  "fixtureIds": [
+    23,
+    24,
+    25
+  ],
+  "cases": [
+    {
+      "query": {
+        "per_page": "100",
+        "after": "2026-10-09T18:29:59Z",
+        "before": "2026-10-10T18:30:00Z",
+        "dates_are_gmt": "true"
+      },
+      "total": "7",
+      "orders": [
+        {
+          "id": 25,
+          "date_created_gmt": "2026-10-10T18:30:00"
+        },
+        {
+          "id": 21,
+          "date_created_gmt": "2026-10-10T18:30:00"
+        },
+        {
+          "id": 24,
+          "date_created_gmt": "2026-10-10T18:29:59"
+        },
+        {
+          "id": 20,
+          "date_created_gmt": "2026-10-10T18:29:59"
+        },
+        {
+          "id": 22,
+          "date_created_gmt": "2026-10-10T10:55:05"
+        },
+        {
+          "id": 17,
+          "date_created_gmt": "2026-10-10T09:47:40"
+        },
+        {
+          "id": 16,
+          "date_created_gmt": "2026-10-10T09:46:33"
+        }
+      ]
+    },
+    {
+      "query": {
+        "per_page": "100",
+        "after": "2026-10-09T18:29:59",
+        "before": "2026-10-10T18:30:00",
+        "dates_are_gmt": "true"
+      },
+      "total": "7",
+      "orders": [
+        {
+          "id": 24,
+          "date_created_gmt": "2026-10-10T18:29:59"
+        },
+        {
+          "id": 20,
+          "date_created_gmt": "2026-10-10T18:29:59"
+        },
+        {
+          "id": 22,
+          "date_created_gmt": "2026-10-10T10:55:05"
+        },
+        {
+          "id": 17,
+          "date_created_gmt": "2026-10-10T09:47:40"
+        },
+        {
+          "id": 16,
+          "date_created_gmt": "2026-10-10T09:46:33"
+        },
+        {
+          "id": 23,
+          "date_created_gmt": "2026-10-09T18:30:00"
+        },
+        {
+          "id": 19,
+          "date_created_gmt": "2026-10-09T18:30:00"
+        }
+      ]
+    }
+  ],
+  "decision": "Keep public tool bounds UTC Z; convert to timezone-less GMT column strings for Woo 11.2.1 REST filters."
+}

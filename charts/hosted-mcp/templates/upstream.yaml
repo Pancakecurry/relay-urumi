@@ -1,0 +1,98 @@
+{{- if not (has .Values.kind (list "woocommerce" "calendar" "totals")) }}{{ fail "kind must be woocommerce, calendar or totals" }}{{ end }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {relay.upstream: {{ .Release.Name }}}
+  template:
+    metadata:
+      labels: {relay.upstream: {{ .Release.Name }}, role: {{ if eq .Values.kind "woocommerce" }}adapter{{ else }}utility{{ end }}}
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: mcp
+          image: {{ required "A pinned image is required" .Values.image | quote }}
+          imagePullPolicy: {{ .Values.pullPolicy }}
+          command: [node, {{ printf "dist/apps/%s-mcp/src/server.js" .Values.kind | quote }}]
+          ports: [{name: http, containerPort: 3000}]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          livenessProbe:
+            httpGet: {path: /health/live, port: http, httpHeaders: [{name: Host, value: localhost}]}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet: {path: /health/ready, port: http, httpHeaders: [{name: Host, value: localhost}]}
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          env:
+            - {name: MCP_SECRET_FILE, value: /secrets/mcp/token}
+            - {name: MCP_SERVICE_HOST, value: {{ .Release.Name }}}
+            - name: POD_NAMESPACE
+              valueFrom: {fieldRef: {fieldPath: metadata.namespace}}
+            {{- if eq .Values.kind "woocommerce" }}
+            - {name: WC_KEY_FILE, value: /secrets/woo/consumer-key}
+            - {name: WC_SECRET_FILE, value: /secrets/woo/consumer-secret}
+            - {name: STORE_CANONICAL_URL, value: {{ .Values.store.canonicalUrl | quote }}}
+            - {name: STORE_CONNECTION_URL, value: {{ .Values.store.connectionUrl | quote }}}
+            - {name: STORE_CURRENCY, value: {{ .Values.store.currency | quote }}}
+            - {name: STORE_TIMEZONE, value: {{ .Values.store.timezone | quote }}}
+            - {name: REST_TIMEOUT_MS, value: {{ .Values.store.restTimeoutMs | quote }}}
+            {{- end }}
+          volumeMounts:
+            - {name: mcp-secret, mountPath: /secrets/mcp, readOnly: true}
+            {{- if eq .Values.kind "woocommerce" }}
+            - {name: woo-secret, mountPath: /secrets/woo, readOnly: true}
+            {{- end }}
+      volumes:
+        - name: mcp-secret
+          secret: {secretName: {{ .Values.credentialSecret }}, defaultMode: 0440}
+        {{- if eq .Values.kind "woocommerce" }}
+        - name: woo-secret
+          secret: {secretName: {{ .Values.store.adapterSecret }}, defaultMode: 0440}
+        {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  type: ClusterIP
+  selector: {relay.upstream: {{ .Release.Name }}}
+  ports: [{name: http, port: 3000, targetPort: http}]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Release.Name }}-private
+spec:
+  podSelector: {matchLabels: {relay.upstream: {{ .Release.Name }}}}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+        - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: {{ .Values.gatewayNamespace }}}}
+          podSelector: {matchLabels: {relay.role: gateway}}
+      ports: [{protocol: TCP, port: 3000}]
+  egress:
+    - to:
+        - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: kube-system}}
+          podSelector: {matchLabels: {k8s-app: kube-dns}}
+      ports: [{protocol: UDP, port: 53}, {protocol: TCP, port: 53}]
+    {{- if eq .Values.kind "woocommerce" }}
+    - to:
+        - podSelector:
+            matchLabels: {app: {{ printf "%s-wp" .Values.store.wordpressRelease | quote }}, role: wordpress}
+      ports: [{protocol: TCP, port: 80}]
+    {{- end }}

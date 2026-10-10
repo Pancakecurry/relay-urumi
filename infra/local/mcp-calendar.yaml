@@ -1,0 +1,3 @@
+kind: calendar
+credentialSecret: calendar-mcp-auth
+gatewayNamespace: relay-platform

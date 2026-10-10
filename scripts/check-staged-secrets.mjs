@@ -14,6 +14,10 @@ for(const file of readdirSync('.local').filter(x=>x.endsWith('-credentials.json'
  for(const value of [...Object.values(data.runtime),data.admin.password,...Object.values(data.adapter)]){secrets.push(value,Buffer.from(value).toString('base64'));}
 }
 const violations=[];
+try {
+ const tokens=JSON.parse(readFileSync('.local/m2-upstream-tokens.json','utf8'));
+ for(const value of Object.values(tokens))secrets.push(value,Buffer.from(value).toString('base64'));
+} catch(error) {if(error.code!=='ENOENT')throw error;}
 for(const file of files){
   if(/(^|\/)(\.local|\.tools|node_modules)(\/|$)|(^|\/)\.env($|\.)/.test(file))violations.push({file,reason:'private/runtime path staged'});
   const content=git(['show',`:${file}`]);

@@ -1,0 +1,3 @@
+kind: totals
+credentialSecret: totals-mcp-auth
+gatewayNamespace: relay-platform

@@ -1,3 +1,3 @@
-# packages/contracts
+# Shared contracts
 
-Planned component; unimplemented at M0. No runtime behavior is provided here.
+M2 strict Zod input/output contracts, supported currency precision, exact decimal conversions and timezone/day validation. Future API/team contracts remain M3 work.

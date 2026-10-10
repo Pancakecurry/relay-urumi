@@ -1,0 +1,15 @@
+# Same chart; supply a registry digest and store origins valid for this environment.
+# No cloud/VPS is provisioned by these values. This is an HTTP k3s lab example.
+# Production TLS/mTLS requires a verified TLS store endpoint and corresponding egress.
+kind: woocommerce
+image: ""
+credentialSecret: woo-mcp-auth
+gatewayNamespace: relay-platform
+store:
+  canonicalUrl: http://store.example.invalid
+  connectionUrl: http://demo-store-wp
+  adapterSecret: store-adapter
+  wordpressRelease: demo-store
+  currency: INR
+  timezone: Asia/Kolkata
+  restTimeoutMs: 8000

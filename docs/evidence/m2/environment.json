@@ -1,0 +1,23 @@
+{
+  "at": "2026-10-10T13:13:43.174Z",
+  "platform": "darwin",
+  "architecture": "arm64",
+  "cpus": 8,
+  "ramBytes": 17179869184,
+  "availableRamBytes": 187121664,
+  "freeDiskBytes": 7857704960,
+  "node": "v24.16.0",
+  "pnpm": "11.25.0",
+  "docker": {
+    "version": "29.2.1",
+    "cpus": 8,
+    "memoryBytes": 8217341952,
+    "containers": 13,
+    "images": 56
+  },
+  "tools": {
+    "k3d": "k3d version v5.9.0\nk3s version v1.35.5-k3s1 (default)",
+    "helm": "v4.3.0+gbec5b06",
+    "kubectl": "{\n  \"clientVersion\": {\n    \"major\": \"1\",\n    \"minor\": \"37\",\n    \"gitVersion\": \"v1.37.1\",\n    \"gitCommit\": \"f78e722310e50bcaca9276be22276d9e91d91308\",\n    \"gitTreeState\": \"clean\",\n    \"buildDate\": \"2026-09-23T17:10:04Z\",\n    \"goVersion\": \"go1.26.8\",\n    \"compiler\": \"gc\",\n    \"platform\": \"darwin/arm64\"\n  },\n  \"kustomizeVersion\": \"v5.8.1\"\n}"
+  }
+}

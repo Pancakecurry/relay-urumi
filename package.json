@@ -22,7 +22,10 @@
     "store:deploy": "bash scripts/store-deploy.sh",
     "store:checkout": "node tests/store/checkout.mjs",
     "store:persistence": "node scripts/store-persistence.mjs",
-    "store:status": "node scripts/store-status.mjs"
+    "store:status": "node scripts/store-status.mjs",
+    "mcp:deploy": "bash scripts/mcp-deploy.sh",
+    "mcp:acceptance": "node scripts/mcp-acceptance.mjs",
+    "mcp:network": "node scripts/mcp-network.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
@@ -35,5 +38,13 @@
     "typescript": "6.0.3",
     "typescript-eslint": "8.71.1",
     "vitest": "5.0.3"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.3.1",
+    "@modelcontextprotocol/fastify": "2.0.1",
+    "@modelcontextprotocol/node": "2.1.1",
+    "fastify": "5.12.5",
+    "zod": "4.6.5",
+    "@js-temporal/polyfill": "0.5.1"
   }
 }

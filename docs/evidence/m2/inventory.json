@@ -1,0 +1,828 @@
+{
+  "at": "2026-10-10T13:19:28.274Z",
+  "deployments": [
+    {
+      "name": "relay-woocommerce",
+      "namespace": "relay-store-m1",
+      "status": {
+        "availableReplicas": 1,
+        "conditions": [
+          {
+            "lastTransitionTime": "2026-10-10T10:48:43Z",
+            "lastUpdateTime": "2026-10-10T10:48:43Z",
+            "message": "Deployment has minimum availability.",
+            "reason": "MinimumReplicasAvailable",
+            "status": "True",
+            "type": "Available"
+          },
+          {
+            "lastTransitionTime": "2026-10-10T13:09:22Z",
+            "lastUpdateTime": "2026-10-10T13:16:00Z",
+            "message": "ReplicaSet \"relay-woocommerce-6dc467886\" has successfully progressed.",
+            "reason": "NewReplicaSetAvailable",
+            "status": "True",
+            "type": "Progressing"
+          }
+        ],
+        "observedGeneration": 5,
+        "readyReplicas": 1,
+        "replicas": 1,
+        "terminatingReplicas": 0,
+        "updatedReplicas": 1
+      },
+      "spec": {
+        "automountServiceAccountToken": false,
+        "containers": [
+          {
+            "command": [
+              "node",
+              "dist/apps/woocommerce-mcp/src/server.js"
+            ],
+            "env": [
+              {
+                "name": "MCP_SECRET_FILE",
+                "value": "/secrets/mcp/token"
+              },
+              {
+                "name": "MCP_SERVICE_HOST",
+                "value": "relay-woocommerce"
+              },
+              {
+                "name": "POD_NAMESPACE",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.namespace"
+                  }
+                }
+              },
+              {
+                "name": "WC_KEY_FILE",
+                "value": "/secrets/woo/consumer-key"
+              },
+              {
+                "name": "WC_SECRET_FILE",
+                "value": "/secrets/woo/consumer-secret"
+              },
+              {
+                "name": "STORE_CANONICAL_URL",
+                "value": "http://store.relay.localhost:18080"
+              },
+              {
+                "name": "STORE_CONNECTION_URL",
+                "value": "http://demo-store-wp"
+              },
+              {
+                "name": "STORE_CURRENCY",
+                "value": "INR"
+              },
+              {
+                "name": "STORE_TIMEZONE",
+                "value": "Asia/Kolkata"
+              },
+              {
+                "name": "REST_TIMEOUT_MS",
+                "value": "8000"
+              }
+            ],
+            "image": "relay/upstreams:m2-67835bb064edf78a",
+            "imagePullPolicy": "IfNotPresent",
+            "livenessProbe": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "httpHeaders": [
+                  {
+                    "name": "Host",
+                    "value": "localhost"
+                  }
+                ],
+                "path": "/health/live",
+                "port": "http",
+                "scheme": "HTTP"
+              },
+              "initialDelaySeconds": 5,
+              "periodSeconds": 10,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            },
+            "name": "mcp",
+            "ports": [
+              {
+                "containerPort": 3000,
+                "name": "http",
+                "protocol": "TCP"
+              }
+            ],
+            "readinessProbe": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "httpHeaders": [
+                  {
+                    "name": "Host",
+                    "value": "localhost"
+                  }
+                ],
+                "path": "/health/ready",
+                "port": "http",
+                "scheme": "HTTP"
+              },
+              "initialDelaySeconds": 2,
+              "periodSeconds": 5,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            },
+            "resources": {
+              "limits": {
+                "cpu": "500m",
+                "memory": "192Mi"
+              },
+              "requests": {
+                "cpu": "25m",
+                "memory": "64Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "readOnlyRootFilesystem": true
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/secrets/mcp",
+                "name": "mcp-secret",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/secrets/woo",
+                "name": "woo-secret",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "restartPolicy": "Always",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "fsGroup": 1000,
+          "runAsGroup": 1000,
+          "runAsNonRoot": true,
+          "runAsUser": 1000,
+          "seccompProfile": {
+            "type": "RuntimeDefault"
+          }
+        },
+        "terminationGracePeriodSeconds": 30,
+        "volumes": [
+          {
+            "name": "mcp-secret",
+            "secret": {
+              "defaultMode": 288,
+              "secretName": "woo-mcp-auth"
+            }
+          },
+          {
+            "name": "woo-secret",
+            "secret": {
+              "defaultMode": 288,
+              "secretName": "store-adapter"
+            }
+          }
+        ]
+      },
+      "pods": [
+        {
+          "name": "relay-woocommerce-6dc467886-2tzgv",
+          "uid": "1c10df44-a188-4554-b340-c02dae97d30d",
+          "phase": "Running",
+          "containers": [
+            {
+              "allocatedResources": {
+                "cpu": "25m",
+                "memory": "64Mi"
+              },
+              "containerID": "containerd://78da6b15016f90fa811175731473d2871a7350f76c1fc15caceffd6dc21dcf90",
+              "image": "docker.io/relay/upstreams:m2-67835bb064edf78a",
+              "imageID": "sha256:00553ed75cf12ce901854f1acfb5717fc95c7d20bf1a9da04ab54c2c4902889e",
+              "lastState": {},
+              "name": "mcp",
+              "ready": true,
+              "resources": {
+                "limits": {
+                  "cpu": "500m",
+                  "memory": "192Mi"
+                },
+                "requests": {
+                  "cpu": "25m",
+                  "memory": "64Mi"
+                }
+              },
+              "restartCount": 0,
+              "started": true,
+              "state": {
+                "running": {
+                  "startedAt": "2026-10-10T13:15:55Z"
+                }
+              },
+              "user": {
+                "linux": {
+                  "gid": 1000,
+                  "supplementalGroups": [
+                    1000
+                  ],
+                  "uid": 1000
+                }
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/secrets/mcp",
+                  "name": "mcp-secret",
+                  "readOnly": true,
+                  "recursiveReadOnly": "Disabled"
+                },
+                {
+                  "mountPath": "/secrets/woo",
+                  "name": "woo-secret",
+                  "readOnly": true,
+                  "recursiveReadOnly": "Disabled"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "isolation": {
+        "uid": 1000,
+        "gid": 1000,
+        "serviceAccountToken": false,
+        "wooCredential": true,
+        "mcpSecretMode": "440",
+        "rssBytes": 50810880,
+        "node": "v24.16.0"
+      }
+    },
+    {
+      "name": "relay-calendar",
+      "namespace": "relay-upstreams",
+      "status": {
+        "availableReplicas": 1,
+        "conditions": [
+          {
+            "lastTransitionTime": "2026-10-10T10:48:51Z",
+            "lastUpdateTime": "2026-10-10T10:48:51Z",
+            "message": "Deployment has minimum availability.",
+            "reason": "MinimumReplicasAvailable",
+            "status": "True",
+            "type": "Available"
+          },
+          {
+            "lastTransitionTime": "2026-10-10T10:48:44Z",
+            "lastUpdateTime": "2026-10-10T13:16:08Z",
+            "message": "ReplicaSet \"relay-calendar-55567b65f4\" has successfully progressed.",
+            "reason": "NewReplicaSetAvailable",
+            "status": "True",
+            "type": "Progressing"
+          }
+        ],
+        "observedGeneration": 5,
+        "readyReplicas": 1,
+        "replicas": 1,
+        "terminatingReplicas": 0,
+        "updatedReplicas": 1
+      },
+      "spec": {
+        "automountServiceAccountToken": false,
+        "containers": [
+          {
+            "command": [
+              "node",
+              "dist/apps/calendar-mcp/src/server.js"
+            ],
+            "env": [
+              {
+                "name": "MCP_SECRET_FILE",
+                "value": "/secrets/mcp/token"
+              },
+              {
+                "name": "MCP_SERVICE_HOST",
+                "value": "relay-calendar"
+              },
+              {
+                "name": "POD_NAMESPACE",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.namespace"
+                  }
+                }
+              }
+            ],
+            "image": "relay/upstreams:m2-67835bb064edf78a",
+            "imagePullPolicy": "IfNotPresent",
+            "livenessProbe": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "httpHeaders": [
+                  {
+                    "name": "Host",
+                    "value": "localhost"
+                  }
+                ],
+                "path": "/health/live",
+                "port": "http",
+                "scheme": "HTTP"
+              },
+              "initialDelaySeconds": 5,
+              "periodSeconds": 10,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            },
+            "name": "mcp",
+            "ports": [
+              {
+                "containerPort": 3000,
+                "name": "http",
+                "protocol": "TCP"
+              }
+            ],
+            "readinessProbe": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "httpHeaders": [
+                  {
+                    "name": "Host",
+                    "value": "localhost"
+                  }
+                ],
+                "path": "/health/ready",
+                "port": "http",
+                "scheme": "HTTP"
+              },
+              "initialDelaySeconds": 2,
+              "periodSeconds": 5,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            },
+            "resources": {
+              "limits": {
+                "cpu": "500m",
+                "memory": "192Mi"
+              },
+              "requests": {
+                "cpu": "25m",
+                "memory": "64Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "readOnlyRootFilesystem": true
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/secrets/mcp",
+                "name": "mcp-secret",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "restartPolicy": "Always",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "fsGroup": 1000,
+          "runAsGroup": 1000,
+          "runAsNonRoot": true,
+          "runAsUser": 1000,
+          "seccompProfile": {
+            "type": "RuntimeDefault"
+          }
+        },
+        "terminationGracePeriodSeconds": 30,
+        "volumes": [
+          {
+            "name": "mcp-secret",
+            "secret": {
+              "defaultMode": 288,
+              "secretName": "calendar-mcp-auth"
+            }
+          }
+        ]
+      },
+      "pods": [
+        {
+          "name": "relay-calendar-55567b65f4-mg5b6",
+          "uid": "0bf33f95-0022-422f-affc-7c073099333c",
+          "phase": "Running",
+          "containers": [
+            {
+              "allocatedResources": {
+                "cpu": "25m",
+                "memory": "64Mi"
+              },
+              "containerID": "containerd://0aac809793f1b075068fceeeea123f3bccbaa98eb9d497540f9053cf0dcfe848",
+              "image": "docker.io/relay/upstreams:m2-67835bb064edf78a",
+              "imageID": "sha256:00553ed75cf12ce901854f1acfb5717fc95c7d20bf1a9da04ab54c2c4902889e",
+              "lastState": {},
+              "name": "mcp",
+              "ready": true,
+              "resources": {
+                "limits": {
+                  "cpu": "500m",
+                  "memory": "192Mi"
+                },
+                "requests": {
+                  "cpu": "25m",
+                  "memory": "64Mi"
+                }
+              },
+              "restartCount": 0,
+              "started": true,
+              "state": {
+                "running": {
+                  "startedAt": "2026-10-10T13:16:03Z"
+                }
+              },
+              "user": {
+                "linux": {
+                  "gid": 1000,
+                  "supplementalGroups": [
+                    1000
+                  ],
+                  "uid": 1000
+                }
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/secrets/mcp",
+                  "name": "mcp-secret",
+                  "readOnly": true,
+                  "recursiveReadOnly": "Disabled"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "isolation": {
+        "uid": 1000,
+        "gid": 1000,
+        "serviceAccountToken": false,
+        "wooCredential": false,
+        "mcpSecretMode": "440",
+        "rssBytes": 50794496,
+        "node": "v24.16.0"
+      }
+    },
+    {
+      "name": "relay-totals",
+      "namespace": "relay-upstreams",
+      "status": {
+        "availableReplicas": 1,
+        "conditions": [
+          {
+            "lastTransitionTime": "2026-10-10T10:48:59Z",
+            "lastUpdateTime": "2026-10-10T10:48:59Z",
+            "message": "Deployment has minimum availability.",
+            "reason": "MinimumReplicasAvailable",
+            "status": "True",
+            "type": "Available"
+          },
+          {
+            "lastTransitionTime": "2026-10-10T10:48:52Z",
+            "lastUpdateTime": "2026-10-10T13:16:16Z",
+            "message": "ReplicaSet \"relay-totals-7d88d5fb86\" has successfully progressed.",
+            "reason": "NewReplicaSetAvailable",
+            "status": "True",
+            "type": "Progressing"
+          }
+        ],
+        "observedGeneration": 5,
+        "readyReplicas": 1,
+        "replicas": 1,
+        "terminatingReplicas": 0,
+        "updatedReplicas": 1
+      },
+      "spec": {
+        "automountServiceAccountToken": false,
+        "containers": [
+          {
+            "command": [
+              "node",
+              "dist/apps/totals-mcp/src/server.js"
+            ],
+            "env": [
+              {
+                "name": "MCP_SECRET_FILE",
+                "value": "/secrets/mcp/token"
+              },
+              {
+                "name": "MCP_SERVICE_HOST",
+                "value": "relay-totals"
+              },
+              {
+                "name": "POD_NAMESPACE",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.namespace"
+                  }
+                }
+              }
+            ],
+            "image": "relay/upstreams:m2-67835bb064edf78a",
+            "imagePullPolicy": "IfNotPresent",
+            "livenessProbe": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "httpHeaders": [
+                  {
+                    "name": "Host",
+                    "value": "localhost"
+                  }
+                ],
+                "path": "/health/live",
+                "port": "http",
+                "scheme": "HTTP"
+              },
+              "initialDelaySeconds": 5,
+              "periodSeconds": 10,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            },
+            "name": "mcp",
+            "ports": [
+              {
+                "containerPort": 3000,
+                "name": "http",
+                "protocol": "TCP"
+              }
+            ],
+            "readinessProbe": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "httpHeaders": [
+                  {
+                    "name": "Host",
+                    "value": "localhost"
+                  }
+                ],
+                "path": "/health/ready",
+                "port": "http",
+                "scheme": "HTTP"
+              },
+              "initialDelaySeconds": 2,
+              "periodSeconds": 5,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            },
+            "resources": {
+              "limits": {
+                "cpu": "500m",
+                "memory": "192Mi"
+              },
+              "requests": {
+                "cpu": "25m",
+                "memory": "64Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "readOnlyRootFilesystem": true
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/secrets/mcp",
+                "name": "mcp-secret",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "restartPolicy": "Always",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "fsGroup": 1000,
+          "runAsGroup": 1000,
+          "runAsNonRoot": true,
+          "runAsUser": 1000,
+          "seccompProfile": {
+            "type": "RuntimeDefault"
+          }
+        },
+        "terminationGracePeriodSeconds": 30,
+        "volumes": [
+          {
+            "name": "mcp-secret",
+            "secret": {
+              "defaultMode": 288,
+              "secretName": "totals-mcp-auth"
+            }
+          }
+        ]
+      },
+      "pods": [
+        {
+          "name": "relay-totals-7d88d5fb86-922xl",
+          "uid": "b5656494-19c6-499d-ad74-17152bb4c0b3",
+          "phase": "Running",
+          "containers": [
+            {
+              "allocatedResources": {
+                "cpu": "25m",
+                "memory": "64Mi"
+              },
+              "containerID": "containerd://980429f36564a968fd13547e14c4068dc2187efa661d491c316250f0ee666f8f",
+              "image": "docker.io/relay/upstreams:m2-67835bb064edf78a",
+              "imageID": "sha256:00553ed75cf12ce901854f1acfb5717fc95c7d20bf1a9da04ab54c2c4902889e",
+              "lastState": {},
+              "name": "mcp",
+              "ready": true,
+              "resources": {
+                "limits": {
+                  "cpu": "500m",
+                  "memory": "192Mi"
+                },
+                "requests": {
+                  "cpu": "25m",
+                  "memory": "64Mi"
+                }
+              },
+              "restartCount": 0,
+              "started": true,
+              "state": {
+                "running": {
+                  "startedAt": "2026-10-10T13:16:11Z"
+                }
+              },
+              "user": {
+                "linux": {
+                  "gid": 1000,
+                  "supplementalGroups": [
+                    1000
+                  ],
+                  "uid": 1000
+                }
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/secrets/mcp",
+                  "name": "mcp-secret",
+                  "readOnly": true,
+                  "recursiveReadOnly": "Disabled"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "isolation": {
+        "uid": 1000,
+        "gid": 1000,
+        "serviceAccountToken": false,
+        "wooCredential": false,
+        "mcpSecretMode": "440",
+        "rssBytes": 50741248,
+        "node": "v24.16.0"
+      }
+    }
+  ],
+  "rendered": [
+    {
+      "kind": "woocommerce",
+      "serverDryRun": "networkpolicy.networking.k8s.io/relay-woocommerce-private created (server dry run)\nservice/relay-woocommerce created (server dry run)\ndeployment.apps/relay-woocommerce created (server dry run)"
+    },
+    {
+      "kind": "calendar",
+      "serverDryRun": "networkpolicy.networking.k8s.io/relay-calendar-private created (server dry run)\nservice/relay-calendar created (server dry run)\ndeployment.apps/relay-calendar created (server dry run)"
+    },
+    {
+      "kind": "totals",
+      "serverDryRun": "networkpolicy.networking.k8s.io/relay-totals-private created (server dry run)\nservice/relay-totals created (server dry run)\ndeployment.apps/relay-totals created (server dry run)"
+    }
+  ],
+  "ingress": [
+    {
+      "namespace": "relay-m0",
+      "name": "relay-m0-proof",
+      "spec": {
+        "ingressClassName": "traefik",
+        "rules": [
+          {
+            "http": {
+              "paths": [
+                {
+                  "backend": {
+                    "service": {
+                      "name": "relay-m0-proof",
+                      "port": {
+                        "number": 3000
+                      }
+                    }
+                  },
+                  "path": "/mcp",
+                  "pathType": "Exact"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "namespace": "relay-store-clean",
+      "name": "clean-store-store",
+      "spec": {
+        "ingressClassName": "traefik",
+        "rules": [
+          {
+            "host": "clean.relay.localhost",
+            "http": {
+              "paths": [
+                {
+                  "backend": {
+                    "service": {
+                      "name": "clean-store-wp",
+                      "port": {
+                        "number": 80
+                      }
+                    }
+                  },
+                  "path": "/",
+                  "pathType": "Prefix"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "namespace": "relay-store-m1",
+      "name": "demo-store-store",
+      "spec": {
+        "ingressClassName": "traefik",
+        "rules": [
+          {
+            "host": "store.relay.localhost",
+            "http": {
+              "paths": [
+                {
+                  "backend": {
+                    "service": {
+                      "name": "demo-store-wp",
+                      "port": {
+                        "number": 80
+                      }
+                    }
+                  },
+                  "path": "/",
+                  "pathType": "Prefix"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "image": {
+    "tag": "relay/upstreams:m2-67835bb064edf78a",
+    "id": "sha256:f77bbc184c25f25151a98511625bc777c41ec9c8697c4d972b7c5f4481edefb6",
+    "architecture": "arm64",
+    "sizeBytes": 65555607
+  },
+  "nodeStats": {
+    "BlockIO": "278MB / 5.99GB",
+    "CPUPerc": "9.68%",
+    "Container": "k3d-relay-m0-server-0",
+    "ID": "c52e06cef78f",
+    "MemPerc": "62.50%",
+    "MemUsage": "1.875GiB / 3GiB",
+    "Name": "k3d-relay-m0-server-0",
+    "NetIO": "293MB / 36.9MB",
+    "PIDs": "286"
+  },
+  "top": "NAMESPACE         NAME                                      CPU(cores)   MEMORY(bytes)   \nkube-system       coredns-577d995dff-7c4cg                  3m           21Mi            \nkube-system       local-path-provisioner-6858d854cf-qsknn   1m           14Mi            \nkube-system       metrics-server-778c4649b4-jplxc           4m           28Mi            \nkube-system       svclb-traefik-059c0145-9dmrs              0m           0Mi             \nkube-system       traefik-77b898c5c8-tr5bm                  11m          37Mi            \nrelay-m0          relay-m0-proof-7c6d7b647c-fqlz4           1m           36Mi            \nrelay-store-m1    demo-store-db-0                           4m           110Mi           \nrelay-store-m1    demo-store-wp-699dc8476-djrmb             4m           195Mi           \nrelay-store-m1    relay-woocommerce-6dc467886-2tzgv         1m           44Mi            \nrelay-upstreams   relay-calendar-55567b65f4-mg5b6           5m           40Mi            \nrelay-upstreams   relay-totals-7d88d5fb86-922xl             1m           38Mi            \n"
+}

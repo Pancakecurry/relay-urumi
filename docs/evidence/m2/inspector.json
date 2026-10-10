@@ -1,0 +1,1296 @@
+{
+  "at": "2026-10-10T13:19:13.149Z",
+  "passed": true,
+  "client": "MCP Inspector 2.10.1 CLI",
+  "path": "temporary loopback Kubernetes administrator port-forward",
+  "records": [
+    {
+      "upstream": "relay-woocommerce",
+      "method": "initialize",
+      "response": {
+        "result": {
+          "serverInfo": {
+            "name": "relay-woocommerce",
+            "version": "0.0.0"
+          },
+          "protocolVersion": "2026-07-28",
+          "capabilities": {
+            "tools": {
+              "listChanged": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "upstream": "relay-woocommerce",
+      "method": "tools/list",
+      "response": {
+        "result": {
+          "tools": [
+            {
+              "name": "info",
+              "description": "Identify the independent relay-woocommerce upstream.",
+              "inputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {},
+                "additionalProperties": false
+              },
+              "outputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "service": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "type": "string",
+                    "const": "0.0.0"
+                  },
+                  "purpose": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "service",
+                  "version",
+                  "purpose"
+                ],
+                "additionalProperties": false
+              },
+              "annotations": {
+                "readOnlyHint": true,
+                "openWorldHint": false
+              }
+            },
+            {
+              "name": "list_products",
+              "description": "A single explicit page of WooCommerce products, ordered by ID. Follow next_page to collect more. Prices are store-currency decimal strings.",
+              "inputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "page": {
+                    "default": 1,
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10000
+                  },
+                  "per_page": {
+                    "default": 25,
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100
+                  },
+                  "status": {
+                    "default": "publish",
+                    "type": "string",
+                    "enum": [
+                      "publish",
+                      "draft",
+                      "pending",
+                      "private",
+                      "any"
+                    ]
+                  },
+                  "sku": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  }
+                },
+                "additionalProperties": false
+              },
+              "outputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "products": {
+                    "maxItems": 100,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "exclusiveMinimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "sku": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "string"
+                        },
+                        "price": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                            },
+                            {
+                              "type": "string",
+                              "const": ""
+                            }
+                          ]
+                        },
+                        "regular_price": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                            },
+                            {
+                              "type": "string",
+                              "const": ""
+                            }
+                          ]
+                        },
+                        "currency": {
+                          "type": "string",
+                          "enum": [
+                            "INR",
+                            "USD",
+                            "EUR",
+                            "GBP",
+                            "JPY",
+                            "KWD"
+                          ]
+                        },
+                        "permalink": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "catalog_visibility": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "sku",
+                        "status",
+                        "price",
+                        "regular_price",
+                        "currency",
+                        "permalink",
+                        "catalog_visibility"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "pagination": {
+                    "type": "object",
+                    "properties": {
+                      "page": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "per_page": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "total": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "total_pages": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "next_page": {
+                        "anyOf": [
+                          {
+                            "type": "integer",
+                            "exclusiveMinimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "page",
+                      "per_page",
+                      "total",
+                      "total_pages",
+                      "next_page"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "products",
+                  "pagination"
+                ],
+                "additionalProperties": false
+              },
+              "annotations": {
+                "readOnlyHint": true,
+                "openWorldHint": true
+              }
+            },
+            {
+              "name": "create_product",
+              "description": "Create one simple product. Defaults to published/visible, decimal price in configured store currency. Require a unique SKU; never automatically retry a timed-out write. Reconcile unknown outcomes by listing that SKU.",
+              "inputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "sku": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9_-]{1,100}$"
+                  },
+                  "regular_price": {
+                    "type": "string",
+                    "pattern": "^(?:0|[1-9]\\d{0,9})(?:\\.\\d{1,3})?$"
+                  },
+                  "status": {
+                    "default": "publish",
+                    "type": "string",
+                    "enum": [
+                      "publish",
+                      "draft",
+                      "pending",
+                      "private"
+                    ]
+                  },
+                  "catalog_visibility": {
+                    "default": "visible",
+                    "type": "string",
+                    "enum": [
+                      "visible",
+                      "catalog",
+                      "search",
+                      "hidden"
+                    ]
+                  },
+                  "virtual": {
+                    "default": true,
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "name",
+                  "sku",
+                  "regular_price"
+                ],
+                "additionalProperties": false
+              },
+              "outputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "product": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "sku": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string"
+                      },
+                      "price": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                          },
+                          {
+                            "type": "string",
+                            "const": ""
+                          }
+                        ]
+                      },
+                      "regular_price": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                          },
+                          {
+                            "type": "string",
+                            "const": ""
+                          }
+                        ]
+                      },
+                      "currency": {
+                        "type": "string",
+                        "enum": [
+                          "INR",
+                          "USD",
+                          "EUR",
+                          "GBP",
+                          "JPY",
+                          "KWD"
+                        ]
+                      },
+                      "permalink": {
+                        "type": "string",
+                        "format": "uri"
+                      },
+                      "catalog_visibility": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "sku",
+                      "status",
+                      "price",
+                      "regular_price",
+                      "currency",
+                      "permalink",
+                      "catalog_visibility"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "product"
+                ],
+                "additionalProperties": false
+              },
+              "annotations": {
+                "readOnlyHint": false,
+                "destructiveHint": false,
+                "idempotentHint": false,
+                "openWorldHint": true
+              }
+            },
+            {
+              "name": "list_orders",
+              "description": "A single explicit page of orders (ID ascending). Optional UTC second-precision after/before form a half-open interval [after,before). Use Calendar day_range; follow next_page. Omits customer/private metadata.",
+              "inputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "page": {
+                    "default": 1,
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10000
+                  },
+                  "per_page": {
+                    "default": 25,
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100
+                  },
+                  "status": {
+                    "default": "any",
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "pending",
+                          "processing",
+                          "on-hold",
+                          "completed",
+                          "cancelled",
+                          "refunded",
+                          "failed"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "const": "any"
+                      }
+                    ]
+                  },
+                  "after": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+                  },
+                  "before": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "outputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "orders": {
+                    "maxItems": 100,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "exclusiveMinimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "status": {
+                          "type": "string"
+                        },
+                        "currency": {
+                          "type": "string",
+                          "enum": [
+                            "INR",
+                            "USD",
+                            "EUR",
+                            "GBP",
+                            "JPY",
+                            "KWD"
+                          ]
+                        },
+                        "total": {
+                          "type": "string",
+                          "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                        },
+                        "date_created_gmt": {
+                          "type": "string",
+                          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+                        },
+                        "line_items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "product_id": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "quantity": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "total": {
+                                "type": "string",
+                                "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                              }
+                            },
+                            "required": [
+                              "product_id",
+                              "name",
+                              "quantity",
+                              "total"
+                            ],
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "status",
+                        "currency",
+                        "total",
+                        "date_created_gmt",
+                        "line_items"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "pagination": {
+                    "type": "object",
+                    "properties": {
+                      "page": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "per_page": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "total": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "total_pages": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "next_page": {
+                        "anyOf": [
+                          {
+                            "type": "integer",
+                            "exclusiveMinimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "page",
+                      "per_page",
+                      "total",
+                      "total_pages",
+                      "next_page"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "orders",
+                  "pagination"
+                ],
+                "additionalProperties": false
+              },
+              "annotations": {
+                "readOnlyHint": true,
+                "openWorldHint": true
+              }
+            },
+            {
+              "name": "get_order",
+              "description": "Get one order by its positive ID. Money and creation time are exact; customer/private metadata is omitted.",
+              "inputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "order_id": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "order_id"
+                ],
+                "additionalProperties": false
+              },
+              "outputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "order": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "status": {
+                        "type": "string"
+                      },
+                      "currency": {
+                        "type": "string",
+                        "enum": [
+                          "INR",
+                          "USD",
+                          "EUR",
+                          "GBP",
+                          "JPY",
+                          "KWD"
+                        ]
+                      },
+                      "total": {
+                        "type": "string",
+                        "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                      },
+                      "date_created_gmt": {
+                        "type": "string",
+                        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+                      },
+                      "line_items": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "product_id": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "quantity": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "total": {
+                              "type": "string",
+                              "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                            }
+                          },
+                          "required": [
+                            "product_id",
+                            "name",
+                            "quantity",
+                            "total"
+                          ],
+                          "additionalProperties": false
+                        }
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "status",
+                      "currency",
+                      "total",
+                      "date_created_gmt",
+                      "line_items"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "order"
+                ],
+                "additionalProperties": false
+              },
+              "annotations": {
+                "readOnlyHint": true,
+                "openWorldHint": true
+              }
+            },
+            {
+              "name": "update_order_status",
+              "description": "Set one order to a supported WooCommerce status. Status assignment is repeatable but Woo hooks may have effects. Never automatically retry an ambiguous write; reconcile with get_order.",
+              "inputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "order_id": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "pending",
+                      "processing",
+                      "on-hold",
+                      "completed",
+                      "cancelled",
+                      "refunded",
+                      "failed"
+                    ]
+                  }
+                },
+                "required": [
+                  "order_id",
+                  "status"
+                ],
+                "additionalProperties": false
+              },
+              "outputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "order": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "status": {
+                        "type": "string"
+                      },
+                      "currency": {
+                        "type": "string",
+                        "enum": [
+                          "INR",
+                          "USD",
+                          "EUR",
+                          "GBP",
+                          "JPY",
+                          "KWD"
+                        ]
+                      },
+                      "total": {
+                        "type": "string",
+                        "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                      },
+                      "date_created_gmt": {
+                        "type": "string",
+                        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+                      },
+                      "line_items": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "product_id": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "quantity": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "total": {
+                              "type": "string",
+                              "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                            }
+                          },
+                          "required": [
+                            "product_id",
+                            "name",
+                            "quantity",
+                            "total"
+                          ],
+                          "additionalProperties": false
+                        }
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "status",
+                      "currency",
+                      "total",
+                      "date_created_gmt",
+                      "line_items"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "order"
+                ],
+                "additionalProperties": false
+              },
+              "annotations": {
+                "readOnlyHint": false,
+                "destructiveHint": true,
+                "idempotentHint": false,
+                "openWorldHint": true
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "upstream": "relay-woocommerce",
+      "method": "tools/call",
+      "response": {
+        "result": {
+          "_meta": {
+            "io.modelcontextprotocol/serverInfo": {
+              "name": "relay-woocommerce",
+              "version": "0.0.0"
+            }
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"service\":\"relay-woocommerce\",\"version\":\"0.0.0\",\"purpose\":\"Private Relay MCP upstream\"}"
+            }
+          ],
+          "structuredContent": {
+            "service": "relay-woocommerce",
+            "version": "0.0.0",
+            "purpose": "Private Relay MCP upstream"
+          }
+        }
+      }
+    },
+    {
+      "upstream": "relay-calendar",
+      "method": "initialize",
+      "response": {
+        "result": {
+          "serverInfo": {
+            "name": "relay-calendar",
+            "version": "0.0.0"
+          },
+          "protocolVersion": "2026-07-28",
+          "capabilities": {
+            "tools": {
+              "listChanged": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "upstream": "relay-calendar",
+      "method": "tools/list",
+      "response": {
+        "result": {
+          "tools": [
+            {
+              "name": "info",
+              "description": "Identify the independent relay-calendar upstream.",
+              "inputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {},
+                "additionalProperties": false
+              },
+              "outputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "service": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "type": "string",
+                    "const": "0.0.0"
+                  },
+                  "purpose": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "service",
+                  "version",
+                  "purpose"
+                ],
+                "additionalProperties": false
+              },
+              "annotations": {
+                "readOnlyHint": true,
+                "openWorldHint": false
+              }
+            },
+            {
+              "name": "now",
+              "description": "Actual current UTC instant and local time in an explicit IANA timezone.",
+              "inputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "timezone": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  }
+                },
+                "required": [
+                  "timezone"
+                ],
+                "additionalProperties": false
+              },
+              "outputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "instant": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+                  },
+                  "local": {
+                    "type": "string"
+                  },
+                  "timezone": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  }
+                },
+                "required": [
+                  "instant",
+                  "local",
+                  "timezone"
+                ],
+                "additionalProperties": false
+              },
+              "annotations": {
+                "readOnlyHint": true,
+                "openWorldHint": false
+              }
+            },
+            {
+              "name": "day_range",
+              "description": "Half-open UTC bounds [start,end) for a local calendar date (or today). Handles DST; pass bounds to list_orders.",
+              "inputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "timezone": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "date": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  }
+                },
+                "required": [
+                  "timezone"
+                ],
+                "additionalProperties": false
+              },
+              "outputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  },
+                  "timezone": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "start_inclusive": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+                  },
+                  "end_exclusive": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+                  },
+                  "seconds": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "date",
+                  "timezone",
+                  "start_inclusive",
+                  "end_exclusive",
+                  "seconds"
+                ],
+                "additionalProperties": false
+              },
+              "annotations": {
+                "readOnlyHint": true,
+                "openWorldHint": false
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "upstream": "relay-calendar",
+      "method": "tools/call",
+      "response": {
+        "result": {
+          "_meta": {
+            "io.modelcontextprotocol/serverInfo": {
+              "name": "relay-calendar",
+              "version": "0.0.0"
+            }
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"service\":\"relay-calendar\",\"version\":\"0.0.0\",\"purpose\":\"Private Relay MCP upstream\"}"
+            }
+          ],
+          "structuredContent": {
+            "service": "relay-calendar",
+            "version": "0.0.0",
+            "purpose": "Private Relay MCP upstream"
+          }
+        }
+      }
+    },
+    {
+      "upstream": "relay-totals",
+      "method": "initialize",
+      "response": {
+        "result": {
+          "serverInfo": {
+            "name": "relay-totals",
+            "version": "0.0.0"
+          },
+          "protocolVersion": "2026-07-28",
+          "capabilities": {
+            "tools": {
+              "listChanged": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "upstream": "relay-totals",
+      "method": "tools/list",
+      "response": {
+        "result": {
+          "tools": [
+            {
+              "name": "info",
+              "description": "Identify the independent relay-totals upstream.",
+              "inputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {},
+                "additionalProperties": false
+              },
+              "outputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "service": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "type": "string",
+                    "const": "0.0.0"
+                  },
+                  "purpose": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "service",
+                  "version",
+                  "purpose"
+                ],
+                "additionalProperties": false
+              },
+              "annotations": {
+                "readOnlyHint": true,
+                "openWorldHint": false
+              }
+            },
+            {
+              "name": "sum_amounts",
+              "description": "Exact sum of up to 1000 decimal strings. Never uses floating point; precision must match the declared currency.",
+              "inputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "currency": {
+                    "type": "string",
+                    "enum": [
+                      "INR",
+                      "USD",
+                      "EUR",
+                      "GBP",
+                      "JPY",
+                      "KWD"
+                    ]
+                  },
+                  "amounts": {
+                    "maxItems": 1000,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                    }
+                  }
+                },
+                "required": [
+                  "currency",
+                  "amounts"
+                ],
+                "additionalProperties": false
+              },
+              "outputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "currency": {
+                    "type": "string",
+                    "enum": [
+                      "INR",
+                      "USD",
+                      "EUR",
+                      "GBP",
+                      "JPY",
+                      "KWD"
+                    ]
+                  },
+                  "total": {
+                    "type": "string",
+                    "pattern": "^-?\\d{1,21}(?:\\.\\d{1,3})?$"
+                  },
+                  "minor_units": {
+                    "type": "string",
+                    "pattern": "^-?\\d+$"
+                  },
+                  "count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "currency",
+                  "total",
+                  "minor_units",
+                  "count"
+                ],
+                "additionalProperties": false
+              },
+              "annotations": {
+                "readOnlyHint": true,
+                "openWorldHint": false
+              }
+            },
+            {
+              "name": "sum_orders",
+              "description": "Exact sum of unique order IDs from explicitly collected pages. Rejects mixed currencies and duplicates. This is a submitted-data total, not a claim that all orders were fetched.",
+              "inputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "currency": {
+                    "type": "string",
+                    "enum": [
+                      "INR",
+                      "USD",
+                      "EUR",
+                      "GBP",
+                      "JPY",
+                      "KWD"
+                    ]
+                  },
+                  "orders": {
+                    "maxItems": 1000,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "exclusiveMinimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "currency": {
+                          "type": "string",
+                          "enum": [
+                            "INR",
+                            "USD",
+                            "EUR",
+                            "GBP",
+                            "JPY",
+                            "KWD"
+                          ]
+                        },
+                        "total": {
+                          "type": "string",
+                          "pattern": "^-?(?:0|[1-9]\\d{0,17})(?:\\.\\d{1,3})?$"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "currency",
+                        "total"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "currency",
+                  "orders"
+                ],
+                "additionalProperties": false
+              },
+              "outputSchema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {
+                  "currency": {
+                    "type": "string",
+                    "enum": [
+                      "INR",
+                      "USD",
+                      "EUR",
+                      "GBP",
+                      "JPY",
+                      "KWD"
+                    ]
+                  },
+                  "total": {
+                    "type": "string",
+                    "pattern": "^-?\\d{1,21}(?:\\.\\d{1,3})?$"
+                  },
+                  "minor_units": {
+                    "type": "string",
+                    "pattern": "^-?\\d+$"
+                  },
+                  "count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "currency",
+                  "total",
+                  "minor_units",
+                  "count"
+                ],
+                "additionalProperties": false
+              },
+              "annotations": {
+                "readOnlyHint": true,
+                "openWorldHint": false
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "upstream": "relay-totals",
+      "method": "tools/call",
+      "response": {
+        "result": {
+          "_meta": {
+            "io.modelcontextprotocol/serverInfo": {
+              "name": "relay-totals",
+              "version": "0.0.0"
+            }
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"service\":\"relay-totals\",\"version\":\"0.0.0\",\"purpose\":\"Private Relay MCP upstream\"}"
+            }
+          ],
+          "structuredContent": {
+            "service": "relay-totals",
+            "version": "0.0.0",
+            "purpose": "Private Relay MCP upstream"
+          }
+        }
+      }
+    }
+  ]
+}
