@@ -7,7 +7,7 @@ agents: 0
 kubeAPI:
   host: 127.0.0.1
   hostIP: 127.0.0.1
-  hostPort: "0"
+  hostPort: "18081"
 image: rancher/k3s:v1.37.1-k3s1
 ports:
   - port: 127.0.0.1:18080:80

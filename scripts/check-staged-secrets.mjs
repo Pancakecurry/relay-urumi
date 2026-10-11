@@ -20,6 +20,7 @@ for(const file of ['.local/m4-acceptance-identity.json','.local/console-owner.js
  try{const d=JSON.parse(readFileSync(file,'utf8'));for(const value of [d.password,d.A?.password,d.B?.password,d.memberKey,d.previousMemberKey,d.adminCookie,d.memberCookie])if(typeof value==='string'&&value.length>=8)secrets.push(value,Buffer.from(value).toString('base64'));}catch(error){if(error.code!=='ENOENT')throw error;}
 }
 try{const d=JSON.parse(readFileSync('.local/m4-cluster-token-exposure.json','utf8'));for(const value of d.values)secrets.push(value,Buffer.from(value).toString('base64'));}catch(error){if(error.code!=='ENOENT')throw error;}
+for(const directory of readdirSync('.local').filter(n=>n.startsWith('cluster-rotation-relay-')))for(const name of ['old-token','new-token']){try{const value=readFileSync('.local/'+directory+'/'+name,'utf8').trim();secrets.push(value,Buffer.from(value).toString('base64'));const password=value.split('::').at(-1).replace(/^server:/,'');secrets.push(password,Buffer.from(password).toString('base64'));}catch(error){if(error.code!=='ENOENT')throw error;}}
 const violations=[];
 try {
  const tokens=JSON.parse(readFileSync('.local/m2-upstream-tokens.json','utf8'));
@@ -29,7 +30,7 @@ for(const file of files){
   if(/(^|\/)(\.local|\.tools|node_modules)(\/|$)|(^|\/)\.env($|\.)/.test(file))violations.push({file,reason:'private/runtime path staged'});
   const content=git(['show',`:${file}`]);
   if(secrets.some(secret=>content.includes(secret)))violations.push({file,reason:'private credential value found'});
-  if(/r[kid]\.[a-f0-9-]{36}\.[a-f0-9-]{36}\.[a-f0-9]{64}|AIza[A-Za-z0-9_-]{30,}|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/.test(content))violations.push({file,reason:'credential pattern found'});
+  if(/r[kid]\.[a-f0-9-]{36}\.[a-f0-9-]{36}\.[a-f0-9]{64}|AIza[A-Za-z0-9_-]{30,}|K10[a-f0-9]{64}::server:[^\s"']+|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/.test(content))violations.push({file,reason:'credential pattern found'});
 }
 const result={at:new Date().toISOString(),scope:'Git index only; known local credentials and recognizable key/private-key patterns',filesChecked:files.length,privateValuesPrinted:false,passed:violations.length===0,violations};
 writeFileSync(process.env.SECRET_SCAN_OUTPUT || 'docs/evidence/credential-scan.json',JSON.stringify(result,null,2)+'\n');
