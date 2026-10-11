@@ -1,6 +1,6 @@
 # ADR 0009 — Relay control room and bounded chat
 
-Status: implementation in progress. M3 verified release remains `m3-verified`.
+Status: accepted and tested locally at M4 Gate A. M3 known-good release remains `m3-verified`; M4 is a separately verified checkpoint.
 
 React 19.3, Vite 8.3, TanStack Query 5, React Router 7 and Radix Dialog provide the owned SPA. There was no prior frontend/design system to preserve. Navigation and focus behavior use real links, native controls and a trapped, labelled dialog. Geist sans/mono are self-hosted under SIL OFL; Lucide icons are ISC. No external asset traffic or paid UI service.
 

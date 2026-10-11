@@ -1,0 +1,416 @@
+{
+  "at": "2026-10-10T20:24:48.706Z",
+  "userId": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+  "sku": "RELAY-M4-10c7eee5",
+  "run": {
+    "id": "1107bf0e-b93a-4819-959c-ac67144c62d2",
+    "team_id": "4754400f-10c1-40a8-9b21-95a02fe7e112",
+    "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+    "prompt": "What orders came in today in Asia/Kolkata? Use Calendar day_range with timezone Asia/Kolkata and OMIT the optional date argument so the server computes today. Then use WooCommerce list_orders with the returned after/before bounds. This is a real demonstration: include actual order IDs and decimal totals, and confirm whether COD order 43 is present. Do not modify any order.",
+    "status": "success",
+    "answer": "For today (2026-10-11 in Asia/Kolkata, spanning UTC bounds `2026-10-10T18:30:00Z` to `2026-10-11T18:30:00Z`), the following 5 orders came in:\n\n* Order ID 21: INR 199.00 (Status: processing)\n* Order ID 25: INR 199.00 (Status: processing)\n* Order ID 29: INR 199.00 (Status: processing)\n* Order ID 33: INR 199.00 (Status: processing)\n* Order ID 43: INR 199.00 (Status: processing)\n\nConfirmation: COD order 43 is present and listed with a total of INR 199.00.",
+    "error_code": null,
+    "created_at": "2026-10-10T18:46:08.451Z",
+    "finished_at": "2026-10-10T18:46:12.654Z"
+  },
+  "events": [
+    {
+      "id": "23614550-194a-4380-8b21-d33c01354baf",
+      "kind": "discovery",
+      "data": {
+        "count": 12,
+        "tools": [
+          {
+            "alias": "t_437kkEnU2V_dJ8ILtUqLdvdx55eANAVmCGyWE3SBqkk",
+            "description": "Identify the independent relay-calendar upstream."
+          },
+          {
+            "alias": "t_zPhTR6gl0LA0LAq4cWOTy9di6je_44sBPdewSb17qio",
+            "description": "Actual current UTC instant and local time in an explicit IANA timezone."
+          },
+          {
+            "alias": "t___17T2eJL-1Ij66mkJhfzX-NewPVsM2_mv6WvNR_hIQ",
+            "description": "Half-open UTC bounds [start,end) for a local calendar date (or today). Handles DST; pass bounds to list_orders."
+          },
+          {
+            "alias": "t_izngFQvQyOqNAm-taOlRIjxZQG8Pk6g2aAbrenG3jO8",
+            "description": "Identify the independent relay-woocommerce upstream."
+          },
+          {
+            "alias": "t_UH8UyYJtcDs6clCS1ttPz07MITaeqQRt07QMAtUdX8Q",
+            "description": "A single explicit page of WooCommerce products, ordered by ID. Follow next_page to collect more. Prices are store-currency decimal strings."
+          },
+          {
+            "alias": "t_fRXVbwO5N0eUs3DJN1FI8iMEntQKUsm2aF9Aj8FCcXY",
+            "description": "Create one simple product. Defaults to published/visible, decimal price in configured store currency. Require a unique SKU; never automatically retry a timed-out write. Reconcile unknown outcomes by listing that SKU."
+          },
+          {
+            "alias": "t_q__Ynx5YmIgAHtlD0E44PIh2RyBrCwTG8Q1akzFAxMM",
+            "description": "A single explicit page of orders (ID ascending). Optional UTC second-precision after/before form a half-open interval [after,before). Use Calendar day_range; follow next_page. Omits customer/private metadata."
+          },
+          {
+            "alias": "t_Ct5NdrwhkCABYQLItWUNZBag3IcVpTRp7TUJ1BB1tWY",
+            "description": "Get one order by its positive ID. Money and creation time are exact; customer/private metadata is omitted."
+          },
+          {
+            "alias": "t_FZAtGsPs4X5w6t3LJ43gFbXupfsRaCIugjB1qO6xTC0",
+            "description": "Set one order to a supported WooCommerce status. Status assignment is repeatable but Woo hooks may have effects. Never automatically retry an ambiguous write; reconcile with get_order."
+          },
+          {
+            "alias": "t_qPWTsXPquhJBkC5bSXZIW7Gx3ulctMXD8hjREjiS7O4",
+            "description": "Identify the independent relay-totals upstream."
+          },
+          {
+            "alias": "t_Cz-nGU7gNptnbEgUVrqEoTAkwoUqmUoqZyA7OAQozh8",
+            "description": "Exact sum of up to 1000 decimal strings. Never uses floating point; precision must match the declared currency."
+          },
+          {
+            "alias": "t_IRt7tUy24SFRRrjuxIcNkI3vzVqwZfhbI5qQ2GBYIbo",
+            "description": "Exact sum of unique order IDs from explicitly collected pages. Rejects mixed currencies and duplicates. This is a submitted-data total, not a claim that all orders were fetched."
+          }
+        ]
+      },
+      "created_at": "2026-10-10T18:46:08.735Z"
+    },
+    {
+      "id": "71366762-ac0e-45c8-9dee-97d834eb1acf",
+      "kind": "model.start",
+      "data": {
+        "step": 1,
+        "model": "gemini-3.5-flash-lite"
+      },
+      "created_at": "2026-10-10T18:46:08.852Z"
+    },
+    {
+      "id": "90fde269-af36-42f3-8c9c-ad684d450785",
+      "kind": "provider.response",
+      "data": {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "requestBytes": 8501
+      },
+      "created_at": "2026-10-10T18:46:10.155Z"
+    },
+    {
+      "id": "0936d69a-f193-4ef6-86bf-67c3e177cf54",
+      "kind": "tool.start",
+      "data": {
+        "id": "e5eb7a3c-0ade-42c1-99ef-895118d811c3",
+        "args": {
+          "timezone": "Asia/Kolkata"
+        },
+        "alias": "t___17T2eJL-1Ij66mkJhfzX-NewPVsM2_mv6WvNR_hIQ",
+        "upstream": {
+          "toolName": "day_range",
+          "upstreamId": "7073f655-276e-4484-a15f-73f77360a7ec"
+        },
+        "description": "Calendar: day_range: Half-open UTC bounds [start,end) for a local calendar date (or today). Handles DST; pass bounds to list_orders."
+      },
+      "created_at": "2026-10-10T18:46:10.164Z"
+    },
+    {
+      "id": "1c5fd008-e471-45ae-9f64-79cf00184ef0",
+      "kind": "tool.finish",
+      "data": {
+        "id": "e5eb7a3c-0ade-42c1-99ef-895118d811c3",
+        "alias": "t___17T2eJL-1Ij66mkJhfzX-NewPVsM2_mv6WvNR_hIQ",
+        "result": {
+          "_meta": {
+            "relay": {
+              "auditId": "4efadb3d-490d-45c5-bfbb-afb8a00e70a1",
+              "toolName": "day_range",
+              "upstreamId": "7073f655-276e-4484-a15f-73f77360a7ec"
+            }
+          },
+          "content": [
+            {
+              "text": "{\"date\":\"2026-10-11\",\"timezone\":\"Asia/Kolkata\",\"start_inclusive\":\"2026-10-10T18:30:00Z\",\"end_exclusive\":\"2026-10-11T18:30:00Z\",\"seconds\":86400}",
+              "type": "text"
+            }
+          ],
+          "structuredContent": {
+            "date": "2026-10-11",
+            "seconds": 86400,
+            "timezone": "Asia/Kolkata",
+            "end_exclusive": "2026-10-11T18:30:00Z",
+            "start_inclusive": "2026-10-10T18:30:00Z"
+          }
+        },
+        "status": "success",
+        "durationMs": 205
+      },
+      "created_at": "2026-10-10T18:46:10.368Z"
+    },
+    {
+      "id": "ebcabcfd-5f2e-4018-976c-2e17764e6cf3",
+      "kind": "model.finish",
+      "data": {
+        "step": 1,
+        "usage": {
+          "raw": {
+            "serviceTier": "standard",
+            "totalTokenCount": 2367,
+            "promptTokenCount": 2317,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 2317
+              }
+            ],
+            "candidatesTokenCount": 50
+          },
+          "inputTokens": 2317,
+          "totalTokens": 2367,
+          "outputTokens": 50,
+          "inputTokenDetails": {
+            "noCacheTokens": 2317,
+            "cacheReadTokens": 0
+          },
+          "outputTokenDetails": {
+            "textTokens": 50,
+            "reasoningTokens": 0
+          }
+        },
+        "finishReason": "tool-calls"
+      },
+      "created_at": "2026-10-10T18:46:10.373Z"
+    },
+    {
+      "id": "55c57928-10c9-4561-9fdb-2c73f7ae96dd",
+      "kind": "model.start",
+      "data": {
+        "step": 2,
+        "model": "gemini-3.5-flash-lite"
+      },
+      "created_at": "2026-10-10T18:46:10.377Z"
+    },
+    {
+      "id": "00f4f045-897a-47bb-a423-79901ac29599",
+      "kind": "provider.response",
+      "data": {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "requestBytes": 9520
+      },
+      "created_at": "2026-10-10T18:46:11.287Z"
+    },
+    {
+      "id": "438e14dd-f489-499f-9594-2fe98031ac4f",
+      "kind": "tool.start",
+      "data": {
+        "id": "29c7cb31-c6d7-45b3-a3b0-c3430f2aee9b",
+        "args": {
+          "after": "2026-10-10T18:30:00Z",
+          "before": "2026-10-11T18:30:00Z",
+          "status": "any"
+        },
+        "alias": "t_q__Ynx5YmIgAHtlD0E44PIh2RyBrCwTG8Q1akzFAxMM",
+        "upstream": {
+          "toolName": "list_orders",
+          "upstreamId": "761bd36e-09a0-49af-8b82-b88bd31e58c5"
+        },
+        "description": "WooCommerce: list_orders: A single explicit page of orders (ID ascending). Optional UTC second-precision after/before form a half-open interval [after,before). Use Calendar day_range; follow next_page. Omits customer/private metadata."
+      },
+      "created_at": "2026-10-10T18:46:11.292Z"
+    },
+    {
+      "id": "562563f1-f00d-42df-8272-6e6e70dc91ad",
+      "kind": "tool.finish",
+      "data": {
+        "id": "29c7cb31-c6d7-45b3-a3b0-c3430f2aee9b",
+        "alias": "t_q__Ynx5YmIgAHtlD0E44PIh2RyBrCwTG8Q1akzFAxMM",
+        "result": {
+          "_meta": {
+            "relay": {
+              "auditId": "e51dfb21-ed04-4cf4-a68f-ac1062f027e2",
+              "toolName": "list_orders",
+              "upstreamId": "761bd36e-09a0-49af-8b82-b88bd31e58c5"
+            }
+          },
+          "content": [
+            {
+              "text": "{\"orders\":[{\"id\":21,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:30:00Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":25,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:30:00Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":29,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:30:00Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":33,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:30:00Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":43,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:39:04Z\",\"line_items\":[{\"product_id\":42,\"name\":\"Urumi Demo Mug\",\"quantity\":1,\"total\":\"199.00\"}]}],\"pagination\":{\"page\":1,\"per_page\":25,\"total\":5,\"total_pages\":1,\"next_page\":null}}",
+              "type": "text"
+            }
+          ],
+          "structuredContent": {
+            "orders": [
+              {
+                "id": 21,
+                "total": "199.00",
+                "status": "processing",
+                "currency": "INR",
+                "line_items": [
+                  {
+                    "name": "[SYNTHETIC DEMO] Relay Mug",
+                    "total": "199.00",
+                    "quantity": 1,
+                    "product_id": 13
+                  }
+                ],
+                "date_created_gmt": "2026-10-10T18:30:00Z"
+              },
+              {
+                "id": 25,
+                "total": "199.00",
+                "status": "processing",
+                "currency": "INR",
+                "line_items": [
+                  {
+                    "name": "[SYNTHETIC DEMO] Relay Mug",
+                    "total": "199.00",
+                    "quantity": 1,
+                    "product_id": 13
+                  }
+                ],
+                "date_created_gmt": "2026-10-10T18:30:00Z"
+              },
+              {
+                "id": 29,
+                "total": "199.00",
+                "status": "processing",
+                "currency": "INR",
+                "line_items": [
+                  {
+                    "name": "[SYNTHETIC DEMO] Relay Mug",
+                    "total": "199.00",
+                    "quantity": 1,
+                    "product_id": 13
+                  }
+                ],
+                "date_created_gmt": "2026-10-10T18:30:00Z"
+              },
+              {
+                "id": 33,
+                "total": "199.00",
+                "status": "processing",
+                "currency": "INR",
+                "line_items": [
+                  {
+                    "name": "[SYNTHETIC DEMO] Relay Mug",
+                    "total": "199.00",
+                    "quantity": 1,
+                    "product_id": 13
+                  }
+                ],
+                "date_created_gmt": "2026-10-10T18:30:00Z"
+              },
+              {
+                "id": 43,
+                "total": "199.00",
+                "status": "processing",
+                "currency": "INR",
+                "line_items": [
+                  {
+                    "name": "Urumi Demo Mug",
+                    "total": "199.00",
+                    "quantity": 1,
+                    "product_id": 42
+                  }
+                ],
+                "date_created_gmt": "2026-10-10T18:39:04Z"
+              }
+            ],
+            "pagination": {
+              "page": 1,
+              "total": 5,
+              "per_page": 25,
+              "next_page": null,
+              "total_pages": 1
+            }
+          }
+        },
+        "status": "success",
+        "durationMs": 189
+      },
+      "created_at": "2026-10-10T18:46:11.480Z"
+    },
+    {
+      "id": "d788f1fa-5a87-4bab-9e11-d6005eaa69d3",
+      "kind": "model.finish",
+      "data": {
+        "step": 2,
+        "usage": {
+          "raw": {
+            "serviceTier": "standard",
+            "totalTokenCount": 2815,
+            "promptTokenCount": 2720,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 2720
+              }
+            ],
+            "candidatesTokenCount": 95
+          },
+          "inputTokens": 2720,
+          "totalTokens": 2815,
+          "outputTokens": 95,
+          "inputTokenDetails": {
+            "noCacheTokens": 2720,
+            "cacheReadTokens": 0
+          },
+          "outputTokenDetails": {
+            "textTokens": 95,
+            "reasoningTokens": 0
+          }
+        },
+        "finishReason": "tool-calls"
+      },
+      "created_at": "2026-10-10T18:46:11.483Z"
+    },
+    {
+      "id": "57033f99-71fe-4f72-b59c-a445ee7092fd",
+      "kind": "model.start",
+      "data": {
+        "step": 3,
+        "model": "gemini-3.5-flash-lite"
+      },
+      "created_at": "2026-10-10T18:46:11.485Z"
+    },
+    {
+      "id": "bec4c0e2-f643-4e8d-9ab9-b99ba51ba060",
+      "kind": "provider.response",
+      "data": {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "requestBytes": 12695
+      },
+      "created_at": "2026-10-10T18:46:12.646Z"
+    },
+    {
+      "id": "6603c387-851c-488b-b76a-b14b219a7594",
+      "kind": "model.finish",
+      "data": {
+        "step": 3,
+        "usage": {
+          "raw": {
+            "serviceTier": "standard",
+            "totalTokenCount": 4190,
+            "promptTokenCount": 3984,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 3984
+              }
+            ],
+            "candidatesTokenCount": 206
+          },
+          "inputTokens": 3984,
+          "totalTokens": 4190,
+          "outputTokens": 206,
+          "inputTokenDetails": {
+            "noCacheTokens": 3984,
+            "cacheReadTokens": 0
+          },
+          "outputTokenDetails": {
+            "textTokens": 206,
+            "reasoningTokens": 0
+          }
+        },
+        "finishReason": "stop"
+      },
+      "created_at": "2026-10-10T18:46:12.652Z"
+    }
+  ]
+}

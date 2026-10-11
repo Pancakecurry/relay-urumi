@@ -1,0 +1,234 @@
+$ pnpm lint && pnpm typecheck && pnpm test && pnpm build
+$ eslint apps packages tests
+$ tsc -p tsconfig.json --noEmit && node node_modules/typescript/bin/tsc -p apps/dashboard/tsconfig.json --noEmit
+$ vitest run
+
+ RUN  v5.0.3 [PROJECT_ROOT]
+
+
+ Test Files  6 passed (6)
+      Tests  24 passed (24)
+   Start at  00:05:22
+   Duration  955ms (import 47%, tests 42%, transform 10%, worker 1%)
+
+$ tsc -p tsconfig.json && node apps/dashboard/node_modules/vite/bin/vite.js build apps/dashboard
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 2005 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/dashboard/dist/index.html                                 0.40 kB │ gzip:   0.29 kB
+apps/dashboard/dist/assets/Geist-Regular-rEkwi4hp.woff2       45.24 kB
+apps/dashboard/dist/assets/Geist-SemiBold-Dgivxjvs.woff2      46.59 kB
+apps/dashboard/dist/assets/GeistMono-Regular-DHEw6VMZ.woff2   50.35 kB
+apps/dashboard/dist/assets/index-BareDzAe.css                 20.67 kB │ gzip:   5.23 kB
+apps/dashboard/dist/assets/index-DldLgPh4.js                 381.42 kB │ gzip: 118.68 kB
+
+✓ built in 4.64s
+[PLUGIN_TIMINGS] JavaScript callbacks ran for 2.1s of this 4.6s build (45%).
+The slowest callbacks, timed inside each callback (the wait before a callback starts is excluded, the time it awaits is included):
+  - plugin vite:css transform (44%, 2.0s, 1 call)
+Additional callback time came from callbacks under 1s.
+See https://rolldown.rs/reference/InputOptions.checks#bundlertimings for more details.
+
+Project-owned platform Secrets prepared; existing dynamic credentials preserved.
+Verified prepaid model Secret prepared; key redacted; M0 ledger preserved.
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.19kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24.16.0-alpine3.23@sha256:2bdb65ed1dab192432bc31c95f94155ca5ad7fc1392fb7eb7526ab682fa5bf14
+#2 DONE 1.6s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 32B
+#3 transferring context: 88B 1.2s done
+#3 DONE 1.2s
+
+#4 [build 1/8] FROM docker.io/library/node:24.16.0-alpine3.23@sha256:2bdb65ed1dab192432bc31c95f94155ca5ad7fc1392fb7eb7526ab682fa5bf14
+#4 resolve docker.io/library/node:24.16.0-alpine3.23@sha256:2bdb65ed1dab192432bc31c95f94155ca5ad7fc1392fb7eb7526ab682fa5bf14 0.0s done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 649.45kB 1.7s done
+#5 DONE 1.7s
+
+#6 [build 2/8] WORKDIR /build
+#6 CACHED
+
+#7 [build 3/8] RUN npm install --global pnpm@11.25.0
+#7 CACHED
+
+#8 [build 4/8] COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc tsconfig.json ./
+#8 CACHED
+
+#9 [build 5/8] COPY apps apps
+#9 CACHED
+
+#10 [build 6/8] COPY packages packages
+#10 DONE 0.1s
+
+#11 [build 7/8] RUN pnpm install --frozen-lockfile && pnpm build
+#11 0.536 Scope: all 13 workspace projects
+#11 0.585 ? Verifying lockfile against supply-chain policies (391 entries)...
+#11 0.590 Lockfile is up to date, resolution step is skipped
+#11 0.643 Progress: resolved 1, reused 0, downloaded 0, added 0
+#11 0.713 Packages: +355
+#11 0.713 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#11 1.159
+#11 1.159    ╭──────────────────────────────────────────────────────────────────────╮
+#11 1.159    │                                                                      │
+#11 1.159    │                 Update available! 11.25.0 → 12.11.2.                 │
+#11 1.159    │                 Changelog: https://pnpm.io/v/12.11.2                 │
+#11 1.159    │   To update, run: curl -fsSL https://get.pnpm.io/install.sh | sh -   │
+#11 1.159    │                                                                      │
+#11 1.159    ╰──────────────────────────────────────────────────────────────────────╯
+#11 1.159
+#11 1.635 Packages are hard linked from the content-addressable store to the virtual store.
+#11 1.635   Content-addressable store is at: /root/.local/share/pnpm/store/v11
+#11 1.635   Virtual store is at:             node_modules/.pnpm
+#11 1.642 Progress: resolved 355, reused 0, downloaded 3, added 3
+#11 2.643 Progress: resolved 355, reused 0, downloaded 30, added 30
+#11 2.818 [WARN] Tarball download average speed 7 KiB/s (size 7 KiB) is below 50 KiB/s: https://registry.npmjs.org/@types/react-dom/-/react-dom-19.3.0.tgz (GET)
+#11 3.645 Progress: resolved 355, reused 0, downloaded 69, added 69
+#11 4.646 Progress: resolved 355, reused 0, downloaded 104, added 104
+#11 5.480 [WARN] Tarball download average speed 31 KiB/s (size 50 KiB) is below 50 KiB/s: https://registry.npmjs.org/@better-fetch/fetch/-/fetch-1.3.2.tgz (GET)
+#11 5.619 [WARN] Tarball download average speed 14 KiB/s (size 27 KiB) is below 50 KiB/s: https://registry.npmjs.org/undici-types/-/undici-types-7.24.6.tgz (GET)
+#11 5.648 Progress: resolved 355, reused 0, downloaded 131, added 130
+#11 6.649 Progress: resolved 355, reused 0, downloaded 180, added 180
+#11 7.618 [WARN] Tarball download average speed 29 KiB/s (size 51 KiB) is below 50 KiB/s: https://registry.npmjs.org/postcss/-/postcss-8.5.29.tgz (GET)
+#11 7.650 Progress: resolved 355, reused 0, downloaded 237, added 237
+#11 8.652 Progress: resolved 355, reused 0, downloaded 304, added 304
+#11 9.453 [WARN] Tarball download average speed 1 KiB/s (size 9 KiB) is below 50 KiB/s: https://registry.npmjs.org/esutils/-/esutils-2.0.3.tgz (GET)
+#11 9.654 Progress: resolved 355, reused 0, downloaded 344, added 344
+#11 10.65 Progress: resolved 355, reused 0, downloaded 350, added 350
+#11 11.24 [WARN] Tarball download average speed 3 KiB/s (size 30 KiB) is below 50 KiB/s: https://registry.npmjs.org/light-my-request/-/light-my-request-6.6.0.tgz (GET)
+#11 11.65 Progress: resolved 355, reused 0, downloaded 352, added 352
+#11 12.65 Progress: resolved 355, reused 0, downloaded 354, added 354
+#11 12.75 ✓ Lockfile passes supply-chain policies (391 entries in 12.1s)
+#11 13.21 Progress: resolved 355, reused 0, downloaded 355, added 355, done
+#11 13.39 .../@modelcontextprotocol/inspector postinstall$ node scripts/install-clients.mjs
+#11 13.43 .../@modelcontextprotocol/inspector postinstall: Done
+#11 13.48
+#11 13.48 dependencies:
+#11 13.48 + @ai-sdk/google 4.0.93
+#11 13.48 + @better-auth/drizzle-adapter 1.7.7
+#11 13.48 + @js-temporal/polyfill 0.5.1
+#11 13.48 + @modelcontextprotocol/fastify 2.0.1
+#11 13.48 + @modelcontextprotocol/node 2.1.1
+#11 13.48 + @modelcontextprotocol/server 2.3.1
+#11 13.48 + ai 7.0.135
+#11 13.48 + ajv 8.20.0
+#11 13.48 + drizzle-orm 0.45.4
+#11 13.48 + fastify 5.12.5
+#11 13.48 + ioredis 6.0.0
+#11 13.48 + pg 8.23.1
+#11 13.48 + zod 4.6.5
+#11 13.48
+#11 13.48 devDependencies:
+#11 13.48 + @eslint/js 10.0.1
+#11 13.48 + @modelcontextprotocol/client 2.3.1
+#11 13.48 + @modelcontextprotocol/inspector 2.10.1
+#11 13.48 + @playwright/test 1.64.0
+#11 13.48 + @types/node 24.19.1
+#11 13.48 + @types/pg 8.15.6
+#11 13.48 + better-auth 1.7.7
+#11 13.48 + eslint 10.12.0
+#11 13.48 + prettier 3.9.9
+#11 13.48 + typescript 6.0.3
+#11 13.48 + typescript-eslint 8.71.1
+#11 13.48 + vitest 5.0.3
+#11 13.48
+#11 13.52 Done in 13.3s using pnpm v11.25.0
+#11 13.85 $ tsc -p tsconfig.json && node apps/dashboard/node_modules/vite/bin/vite.js build apps/dashboard
+#11 16.82 vite v8.3.4 building client environment for production...
+#11 16.82 transforming...
+#11 16.93 ✓ 2005 modules transformed.
+#11 16.98 rendering chunks...
+#11 17.02 computing gzip size...
+#11 17.03 apps/dashboard/dist/index.html                                 0.40 kB │ gzip:   0.29 kB
+#11 17.03 apps/dashboard/dist/assets/Geist-Regular-rEkwi4hp.woff2       45.24 kB
+#11 17.03 apps/dashboard/dist/assets/Geist-SemiBold-Dgivxjvs.woff2      46.59 kB
+#11 17.03 apps/dashboard/dist/assets/GeistMono-Regular-DHEw6VMZ.woff2   50.35 kB
+#11 17.03 apps/dashboard/dist/assets/index-BareDzAe.css                 20.67 kB │ gzip:   5.23 kB
+#11 17.03 apps/dashboard/dist/assets/index-DldLgPh4.js                 381.42 kB │ gzip: 118.68 kB
+#11 17.03
+#11 17.03 ✓ built in 213ms
+#11 DONE 17.4s
+
+#12 [build 8/8] RUN pnpm --filter @relay/mcp-runtime deploy --prod --legacy /runtime
+#12 0.534 [WARN] Shared workspace lockfile detected but configuration forces legacy deploy implementation.
+#12 0.575 Packages are copied from the content-addressable store to the virtual store.
+#12 0.575   Content-addressable store is at: /root/.local/share/pnpm/store/v11
+#12 0.575   Virtual store is at:             ../runtime/node_modules/.pnpm
+#12 0.576 ✓ Lockfile passes supply-chain policies (verified 5s ago)
+#12 0.604 Progress: resolved 1, reused 0, downloaded 0, added 0
+#12 1.605 Progress: resolved 34, reused 0, downloaded 0, added 0
+#12 2.606 Progress: resolved 169, reused 0, downloaded 0, added 0
+#12 3.638 Progress: resolved 182, reused 0, downloaded 0, added 0
+#12 4.691 Progress: resolved 340, reused 0, downloaded 0, added 0
+#12 5.691 Progress: resolved 345, reused 0, downloaded 0, added 0
+#12 6.164 Progress: resolved 391, reused 0, downloaded 0, added 0, done
+#12 6.165 [WARN] Issues with peer dependencies found. Run "pnpm peers check" to list them.
+#12 6.191 .                                        | +148 +++++++++++++++
+#12 DONE 11.0s
+
+#13 [stage-1 2/9] WORKDIR /app
+#13 CACHED
+
+#14 [stage-1 3/9] COPY --from=build --chown=node:node /runtime/node_modules ./node_modules
+#14 DONE 1.2s
+
+#15 [stage-1 4/9] COPY --from=build --chown=node:node /build/dist/apps ./dist/apps
+#15 DONE 0.1s
+
+#16 [stage-1 5/9] COPY --from=build --chown=node:node /build/dist/packages ./dist/packages
+#16 DONE 0.0s
+
+#17 [stage-1 6/9] COPY --from=build --chown=node:node /build/packages/mcp-runtime/package.json ./package.json
+#17 DONE 0.0s
+
+#18 [stage-1 7/9] COPY --from=build --chown=node:node /build/packages/db/migrations ./packages/db/migrations
+#18 DONE 0.0s
+
+#19 [stage-1 8/9] COPY --from=build --chown=node:node /build/apps/dashboard/dist ./public
+#19 DONE 0.0s
+
+#20 [stage-1 9/9] COPY --from=build --chown=node:node /build/apps/dashboard/static.mjs ./static.mjs
+#20 DONE 0.0s
+
+#21 exporting to image
+#21 exporting layers
+#21 exporting layers 2.1s done
+#21 exporting manifest sha256:d6314719d61b022d9b5cc405743268042e8353803267061948b34ebb0cd7ea40 done
+#21 exporting config sha256:4ec8790ec5cd3bbdd69f93a357220ee7d25f758dee7867fe408f594775bba771 done
+#21 exporting attestation manifest sha256:ae6849ec14c95b22c5540e0f304a8157b8a65ad3ad37aefd051c9fcc7a5ba652 done
+#21 exporting manifest list sha256:7009676a9dc194fd8cb244ca251c822427a4b716ec8bf67c4804741a0faa4c2e done
+#21 naming to docker.io/relay/platform:m4-8a20467d33f9f668 done
+#21 unpacking to docker.io/relay/platform:m4-8a20467d33f9f668
+#21 unpacking to docker.io/relay/platform:m4-8a20467d33f9f668 0.8s done
+#21 DONE 3.0s
+INFO[0000] Importing image(s) into cluster 'relay-m0'
+INFO[0000] Starting new tools node...
+INFO[0001] Starting node 'k3d-relay-m0-tools'
+INFO[0001] Saving 1 image(s) from runtime...
+INFO[0004] Importing images into nodes...
+INFO[0004] Importing images from tarball '/k3d/images/k3d-relay-m0-images-20261011000735.tar' into node 'k3d-relay-m0-server-0'...
+INFO[0006] Removing the tarball(s) from image volume...
+INFO[0007] Removing k3d-tools node...
+INFO[0007] Successfully imported image(s)
+INFO[0007] Successfully imported 1 image(s) into 1 cluster(s)
+==> Linting charts/platform
+[INFO] Chart.yaml: icon is recommended
+
+1 chart(s) linted, 0 chart(s) failed
+Release "relay-core" has been upgraded. Happy Helming!
+NAME: relay-core
+LAST DEPLOYED: Sun Oct 11 00:08:09 2026
+NAMESPACE: relay-platform
+STATUS: deployed
+REVISION: 10
+DESCRIPTION: Upgrade complete
+TEST SUITE: None

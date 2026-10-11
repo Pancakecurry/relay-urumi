@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-10T19:02:56.059Z",
+  "passed": false,
+  "checks": [
+    "UI rename keeps credentials and collision-safe aliases",
+    "UI no-auth registration reports real auth failure; confirmed removal",
+    "UI disable removes tools in chat discovery and B client; cached alias rejects",
+    "actual Calendar pod deletion/replacement while WooCommerce works",
+    "separate sustained zero-replica outage shown honestly; healthy Woo independent",
+    "UI membership deactivation blocks existing personal-key connection, reactivation restores",
+    "UI member policy changes actual gateway visibility"
+  ],
+  "error": "expect(locator).toBeVisible() failed\n\nLocator: getByRole('row').filter({ hasText: 'Admin-issued synthetic B key' }).filter({ has: getByRole('button', { name: 'Revoke', exact: true }) }).getByText('Revoked', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByRole('row').filter({ hasText: 'Admin-issued synthetic B key' }).filter({ has: getByRole('button', { name: 'Revoke', exact: true }) }).getByText('Revoked', { exact: true }) with timeout 5000ms\n  - waiting for getByRole('row').filter({ hasText: 'Admin-issued synthetic B key' }).filter({ has: getByRole('button', { name: 'Revoke', exact: true }) }).getByText('Revoked', { exact: true })\n"
+}

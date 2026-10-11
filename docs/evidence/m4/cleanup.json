@@ -1,0 +1,39 @@
+{
+  "at": "2026-10-10T18:13:23.198Z",
+  "authorization": "Owner requested careful removal of unnecessary files",
+  "removed": [
+    "[LOCAL_HOME]/Library/Caches/relay-05478730f285/node_modules",
+    "[LOCAL_HOME]/Library/Caches/relay-5ac2f7861969/node_modules",
+    "[LOCAL_HOME]/Library/Caches/relay-451f358f5a06/node_modules"
+  ],
+  "scope": "Only regenerable node_modules from known completed Relay M1/M2/M3 clean-reproduction caches. Source copies, tool binaries, active dependencies, personal files, credentials, Docker volumes and known-good images retained.",
+  "freeBytesBefore": 4063297536,
+  "freeBytesAfter": 4082532352,
+  "recoveredBytes": 19234816,
+  "packageStorePrune": {
+    "unreferencedPackages": 375,
+    "files": 33421,
+    "reportedRemovedMB": 606,
+    "evidence": "package-cache-cleanup.txt",
+    "note": "Package-manager-supported pruning of unreferenced regenerable data; active projects preserved."
+  },
+  "oldBuildCachePrune": {
+    "selector": "until=168h",
+    "scope": "regenerable Docker build cache older than seven days only; no image/container/volume prune",
+    "reported": "Total:\t333.2MB",
+    "evidence": "old-build-cache-cleanup.txt"
+  },
+  "unusedBuildCachePrune": {
+    "selector": "until=1h",
+    "scope": "Unused regenerable build cache; retained images/containers/volumes and most recent builds",
+    "reported": "Total:\t9.154GB",
+    "evidence": "unused-build-cache-cleanup.txt"
+  },
+  "npmCache": {
+    "before": "406 MiB",
+    "method": "npm cache clean --force",
+    "scope": "regenerable package download cache only",
+    "evidence": "npm-cache-cleanup.txt"
+  },
+  "freeDiskAfterUnusedCachePrune": "8.9 GiB observed; cache tool reports reclaimed logical bytes, APFS physical reclamation differs"
+}

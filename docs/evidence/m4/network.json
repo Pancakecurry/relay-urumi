@@ -1,0 +1,188 @@
+{
+  "at": "2026-10-11T06:04:20.407Z",
+  "passed": true,
+  "results": [
+    {
+      "case": "unlabelled-pod-denied",
+      "connections": [
+        {
+          "host": "relay-gateway.relay-platform.svc.cluster.local",
+          "port": 3000,
+          "connected": false
+        },
+        {
+          "host": "relay-api.relay-platform.svc.cluster.local",
+          "port": 3001,
+          "connected": false
+        },
+        {
+          "host": "relay-postgres.relay-platform.svc.cluster.local",
+          "port": 5432,
+          "connected": false
+        },
+        {
+          "host": "relay-redis.relay-platform.svc.cluster.local",
+          "port": 6379,
+          "connected": false
+        },
+        {
+          "host": "relay-woocommerce.relay-store-m1.svc.cluster.local",
+          "port": 3000,
+          "connected": false
+        },
+        {
+          "host": "relay-calendar.relay-upstreams.svc.cluster.local",
+          "port": 3000,
+          "connected": false
+        }
+      ]
+    },
+    {
+      "case": "wrong-namespace-label-denied",
+      "connections": [
+        {
+          "host": "relay-postgres.relay-platform.svc.cluster.local",
+          "port": 5432,
+          "connected": false
+        },
+        {
+          "host": "relay-woocommerce.relay-store-m1.svc.cluster.local",
+          "port": 3000,
+          "connected": false
+        },
+        {
+          "host": "relay-calendar.relay-upstreams.svc.cluster.local",
+          "port": 3000,
+          "connected": false
+        }
+      ]
+    },
+    {
+      "case": "gateway-only-approved-network-paths",
+      "connections": [
+        {
+          "host": "relay-gateway.relay-platform.svc.cluster.local",
+          "port": 3000,
+          "connected": false
+        },
+        {
+          "host": "relay-api.relay-platform.svc.cluster.local",
+          "port": 3001,
+          "connected": true
+        },
+        {
+          "host": "relay-postgres.relay-platform.svc.cluster.local",
+          "port": 5432,
+          "connected": true
+        },
+        {
+          "host": "relay-redis.relay-platform.svc.cluster.local",
+          "port": 6379,
+          "connected": true
+        },
+        {
+          "host": "relay-woocommerce.relay-store-m1.svc.cluster.local",
+          "port": 3000,
+          "connected": true
+        },
+        {
+          "host": "relay-calendar.relay-upstreams.svc.cluster.local",
+          "port": 3000,
+          "connected": true
+        },
+        {
+          "host": "demo-store-db.relay-store-m1.svc.cluster.local",
+          "port": 3306,
+          "connected": false
+        },
+        {
+          "host": "demo-store-wp.relay-store-m1.svc.cluster.local",
+          "port": 80,
+          "connected": false
+        }
+      ]
+    },
+    {
+      "case": "secret-manager-rbac",
+      "verb": "get",
+      "resource": "secret/gateway-upstream-credentials",
+      "namespace": "relay-platform",
+      "allowed": true
+    },
+    {
+      "case": "secret-manager-rbac",
+      "verb": "update",
+      "resource": "secret/gateway-upstream-credentials",
+      "namespace": "relay-platform",
+      "allowed": true
+    },
+    {
+      "case": "secret-manager-rbac",
+      "verb": "list",
+      "resource": "secrets",
+      "namespace": "relay-platform",
+      "allowed": false
+    },
+    {
+      "case": "secret-manager-rbac",
+      "verb": "get",
+      "resource": "secret/platform-db-admin",
+      "namespace": "relay-platform",
+      "allowed": false
+    },
+    {
+      "case": "secret-manager-rbac",
+      "verb": "get",
+      "resource": "secret/store-adapter",
+      "namespace": "relay-store-m1",
+      "allowed": false
+    },
+    {
+      "case": "secret-manager-rbac",
+      "verb": "create",
+      "resource": "secrets",
+      "namespace": "relay-platform",
+      "allowed": false
+    },
+    {
+      "case": "no-public-data-services",
+      "services": [
+        {
+          "name": "relay-api",
+          "type": "ClusterIP",
+          "ports": [
+            3001
+          ]
+        },
+        {
+          "name": "relay-dashboard",
+          "type": "ClusterIP",
+          "ports": [
+            3002
+          ]
+        },
+        {
+          "name": "relay-gateway",
+          "type": "ClusterIP",
+          "ports": [
+            3000
+          ]
+        },
+        {
+          "name": "relay-postgres",
+          "type": "ClusterIP",
+          "ports": [
+            5432
+          ]
+        },
+        {
+          "name": "relay-redis",
+          "type": "ClusterIP",
+          "ports": [
+            6379
+          ]
+        }
+      ]
+    }
+  ]
+}

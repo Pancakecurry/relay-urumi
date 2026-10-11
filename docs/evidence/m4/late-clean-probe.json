@@ -1,0 +1,9 @@
+{
+  "scope": "Additional read-only Woo list-products probe attempted after completed clean acceptance",
+  "countedAsPassingAcceptance": false,
+  "result": "ECONNREFUSED 127.0.0.1:19080",
+  "cause": "The collector had already completed its successful checks and removed the disposable cluster before the extra probe connected",
+  "limitation": "No claim of an additional fresh-cluster list_products result; actual clean COD/REST and three-upstream MCP acceptance remain separately recorded",
+  "mainClusterTouched": false,
+  "modelTraffic": false
+}

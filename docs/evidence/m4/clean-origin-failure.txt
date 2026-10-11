@@ -1,0 +1,172 @@
+Existing cluster names/counts: [{"name":"relay-m0","servers":1,"agents":0}]
+Reusing exact committed-source export after harness-only port repair; new empty cluster, no reused workloads/PVCs
+$ [LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/local-cache.mjs
+Project runtime/dependency links prepared; existing links preserved.
+
+$ pnpm install --frozen-lockfile
+Scope: all 13 workspace projects
+Already up to date
+Done in 378ms using pnpm v11.25.0
+
+$ pnpm check
+
+ RUN  v5.0.3 [LOCAL_HOME]/Library/Caches/relay-m4-clean-s6jXqV
+
+
+ Test Files  6 passed (6)
+      Tests  24 passed (24)
+   Start at  01:52:00
+   Duration  1.28s (import 74%, tests 20%, transform 6%)
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 2164 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/dashboard/dist/index.html                                 0.40 kB │ gzip:   0.29 kB
+apps/dashboard/dist/assets/Geist-Regular-rEkwi4hp.woff2       45.24 kB
+apps/dashboard/dist/assets/Geist-SemiBold-Dgivxjvs.woff2      46.59 kB
+apps/dashboard/dist/assets/GeistMono-Regular-DHEw6VMZ.woff2   50.35 kB
+apps/dashboard/dist/assets/index-DPZZKNla.css                 21.56 kB │ gzip:   5.44 kB
+apps/dashboard/dist/assets/index-D8ERxZYP.js                 500.37 kB │ gzip: 154.47 kB
+
+✓ built in 311ms
+
+$ [LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/mcp-image-tag.mjs
+m2-fd9a0eaae4d033e4
+
+$ [PROJECT_ROOT]/.tools/bin/k3d cluster create --config [LOCAL_HOME]/Library/Caches/relay-m4-clean-s6jXqV/.local/clean-k3d.yaml --servers-memory 2500M --timeout 180s
+INFO[0000] Using config file [LOCAL_HOME]/Library/Caches/relay-m4-clean-s6jXqV/.local/clean-k3d.yaml (k3d.io/v1alpha5#simple)
+INFO[0000] portmapping '127.0.0.1:19080:80' targets the loadbalancer: defaulting to [servers:*:proxy agents:*:proxy]
+INFO[0000] Prep: Network
+INFO[0000] Created network 'k3d-relay-m4-clean'
+INFO[0000] Created image volume k3d-relay-m4-clean-images
+INFO[0000] Starting new tools node...
+INFO[0000] Starting node 'k3d-relay-m4-clean-tools'
+INFO[0001] Creating node 'k3d-relay-m4-clean-server-0'
+INFO[0001] Creating LoadBalancer 'k3d-relay-m4-clean-serverlb'
+INFO[0001] Using the k3d-tools node to gather environment information
+INFO[0002] Starting new tools node...
+INFO[0002] Starting node 'k3d-relay-m4-clean-tools'
+INFO[0003] Starting cluster 'relay-m4-clean'
+INFO[0003] Starting servers...
+INFO[0003] Starting node 'k3d-relay-m4-clean-server-0'
+INFO[0007] All agents already running.
+INFO[0007] Starting helpers...
+INFO[0007] Starting node 'k3d-relay-m4-clean-serverlb'
+INFO[0013] Injecting records for hostAliases (incl. host.k3d.internal) and for 3 network members into CoreDNS configmap...
+INFO[0015] Cluster 'relay-m4-clean' created successfully!
+INFO[0015] You can now use it like this:
+export KUBECONFIG=$([PROJECT_ROOT]/.tools/bin/k3d kubeconfig write relay-m4-clean)
+kubectl cluster-info
+
+$ [PROJECT_ROOT]/.tools/bin/kubectl wait --for=condition=Ready node --all --timeout=120s
+node/k3d-relay-m4-clean-server-0 condition met
+
+$ [LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node [PROJECT_ROOT]/scripts/cluster-token-rotation.mjs
+{"at":"2026-10-10T20:23:27.285Z","passed":true,"cluster":"relay-m4-clean","version":"k3s version v1.37.1+k3s1 (356c0254)\ngo version go1.26.8","oldTokenStatus":401,"newTokenStatus":200,"actualDockerRestart":true,"pvcIdentitiesPreserved":true,"privateQuiescedBackup":"[LOCAL_HOME]/Library/Caches/relay-m4-clean-s6jXqV/.local/cluster-rotation-relay-m4-clean-WmrlBd","credentialValuesPrinted":false,"startup":"persisted token-file overrides immutable stale K3S_TOKEN; k3d label retains invalid old token; future node additions require explicit new private token","sources":["https://docs.k3s.io/cli/token","https://raw.githubusercontent.com/k3s-io/k3s/v1.37.1%2Bk3s1/pkg/cli/server/server.go"]}
+
+$ docker inspect k3d-relay-m4-clean-server-0 --format {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}
+172.25.0.3
+
+$ [PROJECT_ROOT]/.tools/bin/k3d image import relay/platform:m4-fd9a0eaae4d033e4 --cluster relay-m4-clean
+INFO[0000] Importing image(s) into cluster 'relay-m4-clean'
+INFO[0000] Saving 1 image(s) from runtime...
+INFO[0003] Importing images into nodes...
+INFO[0003] Importing images from tarball '/k3d/images/k3d-relay-m4-clean-images-20261011015328.tar' into node 'k3d-relay-m4-clean-server-0'...
+INFO[0006] Removing the tarball(s) from image volume...
+INFO[0007] Removing k3d-tools node...
+INFO[0008] Successfully imported image(s)
+INFO[0008] Successfully imported 1 image(s) into 1 cluster(s)
+
+$ [PROJECT_ROOT]/.tools/bin/k3d image import relay/store:m1-2374b9c0c5f86c48 --cluster relay-m4-clean
+INFO[0000] Importing image(s) into cluster 'relay-m4-clean'
+INFO[0000] Starting new tools node...
+INFO[0000] Starting node 'k3d-relay-m4-clean-tools'
+INFO[0000] Saving 1 image(s) from runtime...
+INFO[0006] Importing images into nodes...
+INFO[0006] Importing images from tarball '/k3d/images/k3d-relay-m4-clean-images-20261011015336.tar' into node 'k3d-relay-m4-clean-server-0'...
+INFO[0013] Removing the tarball(s) from image volume...
+INFO[0014] Removing k3d-tools node...
+INFO[0014] Successfully imported image(s)
+INFO[0014] Successfully imported 1 image(s) into 1 cluster(s)
+
+$ [LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/store-secrets.mjs
+{"namespace":"relay-store-m1","privateBackup":".local/relay-store-m1-credentials.json","secrets":["store-runtime","store-admin","store-adapter"],"valuesPrinted":false}
+
+$ [LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/mcp-secrets.mjs
+{"upstreamSecrets":[{"namespace":"relay-store-m1","name":"woo-mcp-auth"},{"namespace":"relay-upstreams","name":"calendar-mcp-auth"},{"namespace":"relay-upstreams","name":"totals-mcp-auth"}],"valuesPrinted":false}
+
+$ [LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/platform-secrets.mjs
+Project-owned platform Secrets prepared; existing dynamic credentials preserved.
+
+$ [PROJECT_ROOT]/.tools/bin/helm upgrade --install demo-store charts/store -n relay-store-m1 -f infra/local/store-values.yaml --set-string site.url=http://store.relay.localhost:19080 --wait --timeout 600s
+Release "demo-store" does not exist. Installing it now.
+NAME: demo-store
+LAST DEPLOYED: Sun Oct 11 01:53:52 2026
+NAMESPACE: relay-store-m1
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+
+$ [PROJECT_ROOT]/.tools/bin/helm upgrade --install relay-woocommerce charts/hosted-mcp -n relay-store-m1 -f infra/local/mcp-woocommerce.yaml --set-string image=relay/platform:m4-fd9a0eaae4d033e4 --set-string store.canonicalUrl=http://store.relay.localhost:19080 --wait --timeout 180s
+Release "relay-woocommerce" does not exist. Installing it now.
+NAME: relay-woocommerce
+LAST DEPLOYED: Sun Oct 11 01:54:34 2026
+NAMESPACE: relay-store-m1
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+
+$ [PROJECT_ROOT]/.tools/bin/helm upgrade --install relay-calendar charts/hosted-mcp -n relay-upstreams -f infra/local/mcp-calendar.yaml --set-string image=relay/platform:m4-fd9a0eaae4d033e4 --wait --timeout 180s
+Release "relay-calendar" does not exist. Installing it now.
+NAME: relay-calendar
+LAST DEPLOYED: Sun Oct 11 01:54:40 2026
+NAMESPACE: relay-upstreams
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+
+$ [PROJECT_ROOT]/.tools/bin/helm upgrade --install relay-totals charts/hosted-mcp -n relay-upstreams -f infra/local/mcp-totals.yaml --set-string image=relay/platform:m4-fd9a0eaae4d033e4 --wait --timeout 180s
+Release "relay-totals" does not exist. Installing it now.
+NAME: relay-totals
+LAST DEPLOYED: Sun Oct 11 01:54:46 2026
+NAMESPACE: relay-upstreams
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+
+$ [PROJECT_ROOT]/.tools/bin/helm upgrade --install relay-core charts/platform -n relay-platform -f infra/local/platform-values.yaml --set-string platformImage=relay/platform:m4-fd9a0eaae4d033e4 --set-string publicOrigin=http://relay.localhost:19080 --set-string kubeApiCidr=172.25.0.3/32 --set-string storefrontUrl=http://store.relay.localhost:19080/shop/ --set modelEnabled=false --wait --wait-for-jobs --timeout 300s
+Release "relay-core" does not exist. Installing it now.
+NAME: relay-core
+LAST DEPLOYED: Sun Oct 11 01:54:52 2026
+NAMESPACE: relay-platform
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+
+$ [LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/console-bootstrap.mjs
+
+file://[LOCAL_HOME]/Library/Caches/relay-m4-clean-s6jXqV/scripts/console-bootstrap.mjs:7
+async function api(p,m='GET',b){const r=await ingressFetch(origin+'/api/'+p,{method:m,headers:{origin,cookie,'content-type':'application/json',...(owner.team?{'x-relay-team':owner.team}:{})},...(b?{body:JSON.stringify(b)}:{})});if(r.headers.getSetCookie().length)cookie=r.headers.getSetCookie().map(c=>c.split(';')[0]).join('; ');const d=await r.json();if(!r.ok)throw new Error(d.error?.code??d.code??'Bootstrap failed');return d;}
+                                                                                                                                                                                                                                                                                                                                                                                ^
+
+Error: ORIGIN_DENIED
+    at api (file://[LOCAL_HOME]/Library/Caches/relay-m4-clean-s6jXqV/scripts/console-bootstrap.mjs:7:369)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file://[LOCAL_HOME]/Library/Caches/relay-m4-clean-s6jXqV/scripts/console-bootstrap.mjs:8:95
+
+Node.js v24.16.0
+
+$ [PROJECT_ROOT]/.tools/bin/k3d cluster delete relay-m4-clean
+INFO[0000] Deleting cluster 'relay-m4-clean'
+INFO[0002] Deleting cluster network 'k3d-relay-m4-clean'
+INFO[0002] Deleting 1 attached volumes...
+INFO[0002] Removing cluster details from default kubeconfig...
+INFO[0002] Removing standalone kubeconfig file (if there is one)...
+INFO[0002] Successfully deleted cluster relay-m4-clean!

@@ -1,0 +1,1682 @@
+{
+  "at": "2026-10-10T19:09:44.286Z",
+  "passed": true,
+  "productId": 44,
+  "orderId": 43,
+  "restoredStatus": "processing",
+  "events": [
+    {
+      "check": "protocol",
+      "mode": "auto",
+      "wire": [
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2026-07-28",
+          "sessionIssued": false
+        }
+      ]
+    },
+    {
+      "check": "protocol",
+      "mode": "legacy",
+      "wire": [
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": null,
+          "sessionIssued": false
+        },
+        {
+          "status": 202,
+          "method": "POST",
+          "protocol": "2025-11-25",
+          "sessionIssued": false
+        },
+        {
+          "status": 405,
+          "method": "GET",
+          "protocol": "2025-11-25",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2025-11-25",
+          "sessionIssued": false
+        },
+        {
+          "status": 200,
+          "method": "POST",
+          "protocol": "2025-11-25",
+          "sessionIssued": false
+        }
+      ]
+    },
+    {
+      "server": "WooCommerce",
+      "name": "create_product",
+      "result": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "relay-team-gateway",
+            "version": "0.3.0"
+          },
+          "relay": {
+            "auditId": "a2b514f3-a380-4c43-a52a-238b425c93c5",
+            "upstreamId": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+            "toolName": "create_product"
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"product\":{\"id\":44,\"name\":\"[SYNTHETIC M4 REGRESSION] Decimal product\",\"sku\":\"RELAY-M4-REGRESSION-a7492862\",\"status\":\"publish\",\"price\":\"0.30\",\"regular_price\":\"0.30\",\"currency\":\"INR\",\"permalink\":\"http://store.relay.localhost:18080/product/synthetic-m4-regression-decimal-product/\",\"catalog_visibility\":\"visible\"}}"
+          }
+        ],
+        "structuredContent": {
+          "product": {
+            "id": 44,
+            "name": "[SYNTHETIC M4 REGRESSION] Decimal product",
+            "sku": "RELAY-M4-REGRESSION-a7492862",
+            "status": "publish",
+            "price": "0.30",
+            "regular_price": "0.30",
+            "currency": "INR",
+            "permalink": "http://store.relay.localhost:18080/product/synthetic-m4-regression-decimal-product/",
+            "catalog_visibility": "visible"
+          }
+        }
+      }
+    },
+    {
+      "server": "WooCommerce",
+      "name": "list_products",
+      "result": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "relay-team-gateway",
+            "version": "0.3.0"
+          },
+          "relay": {
+            "auditId": "e456f816-5f95-4e47-ba6d-b0bc6688411c",
+            "upstreamId": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+            "toolName": "list_products"
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"products\":[{\"id\":44,\"name\":\"[SYNTHETIC M4 REGRESSION] Decimal product\",\"sku\":\"RELAY-M4-REGRESSION-a7492862\",\"status\":\"publish\",\"price\":\"0.30\",\"regular_price\":\"0.30\",\"currency\":\"INR\",\"permalink\":\"http://store.relay.localhost:18080/product/synthetic-m4-regression-decimal-product/\",\"catalog_visibility\":\"visible\"}],\"pagination\":{\"page\":1,\"per_page\":1,\"total\":1,\"total_pages\":1,\"next_page\":null}}"
+          }
+        ],
+        "structuredContent": {
+          "products": [
+            {
+              "id": 44,
+              "name": "[SYNTHETIC M4 REGRESSION] Decimal product",
+              "sku": "RELAY-M4-REGRESSION-a7492862",
+              "status": "publish",
+              "price": "0.30",
+              "regular_price": "0.30",
+              "currency": "INR",
+              "permalink": "http://store.relay.localhost:18080/product/synthetic-m4-regression-decimal-product/",
+              "catalog_visibility": "visible"
+            }
+          ],
+          "pagination": {
+            "page": 1,
+            "per_page": 1,
+            "total": 1,
+            "total_pages": 1,
+            "next_page": null
+          }
+        }
+      }
+    },
+    {
+      "server": "WooCommerce",
+      "name": "create_product",
+      "result": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "relay-team-gateway",
+            "version": "0.3.0"
+          },
+          "relay": {
+            "auditId": "f769fa83-779b-4b37-bbe2-66ca3a243c07",
+            "upstreamId": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+            "toolName": "create_product"
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"error\":{\"code\":\"UPSTREAM_REJECTED\",\"retryable\":false,\"outcome\":\"rejected\",\"status\":400}}"
+          }
+        ],
+        "structuredContent": {
+          "error": {
+            "code": "UPSTREAM_REJECTED",
+            "retryable": false,
+            "outcome": "rejected",
+            "status": 400
+          }
+        },
+        "isError": true
+      }
+    },
+    {
+      "server": "WooCommerce",
+      "name": "get_order",
+      "result": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "relay-team-gateway",
+            "version": "0.3.0"
+          },
+          "relay": {
+            "auditId": "f84f6fb5-33d0-48be-b529-1e5d9fedea6d",
+            "upstreamId": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+            "toolName": "get_order"
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"order\":{\"id\":43,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:39:04Z\",\"line_items\":[{\"product_id\":42,\"name\":\"Urumi Demo Mug\",\"quantity\":1,\"total\":\"199.00\"}]}}"
+          }
+        ],
+        "structuredContent": {
+          "order": {
+            "id": 43,
+            "status": "processing",
+            "currency": "INR",
+            "total": "199.00",
+            "date_created_gmt": "2026-10-10T18:39:04Z",
+            "line_items": [
+              {
+                "product_id": 42,
+                "name": "Urumi Demo Mug",
+                "quantity": 1,
+                "total": "199.00"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "server": "WooCommerce",
+      "name": "update_order_status",
+      "result": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "relay-team-gateway",
+            "version": "0.3.0"
+          },
+          "relay": {
+            "auditId": "19876ddd-8469-49ca-b5ff-bbd199d305a0",
+            "upstreamId": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+            "toolName": "update_order_status"
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"order\":{\"id\":43,\"status\":\"completed\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:39:04Z\",\"line_items\":[{\"product_id\":42,\"name\":\"Urumi Demo Mug\",\"quantity\":1,\"total\":\"199.00\"}]}}"
+          }
+        ],
+        "structuredContent": {
+          "order": {
+            "id": 43,
+            "status": "completed",
+            "currency": "INR",
+            "total": "199.00",
+            "date_created_gmt": "2026-10-10T18:39:04Z",
+            "line_items": [
+              {
+                "product_id": 42,
+                "name": "Urumi Demo Mug",
+                "quantity": 1,
+                "total": "199.00"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "server": "WooCommerce",
+      "name": "get_order",
+      "result": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "relay-team-gateway",
+            "version": "0.3.0"
+          },
+          "relay": {
+            "auditId": "f3cdf40b-b0a8-4484-ab81-7393eae319ea",
+            "upstreamId": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+            "toolName": "get_order"
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"order\":{\"id\":43,\"status\":\"completed\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:39:04Z\",\"line_items\":[{\"product_id\":42,\"name\":\"Urumi Demo Mug\",\"quantity\":1,\"total\":\"199.00\"}]}}"
+          }
+        ],
+        "structuredContent": {
+          "order": {
+            "id": 43,
+            "status": "completed",
+            "currency": "INR",
+            "total": "199.00",
+            "date_created_gmt": "2026-10-10T18:39:04Z",
+            "line_items": [
+              {
+                "product_id": 42,
+                "name": "Urumi Demo Mug",
+                "quantity": 1,
+                "total": "199.00"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "server": "WooCommerce",
+      "name": "update_order_status",
+      "result": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "relay-team-gateway",
+            "version": "0.3.0"
+          },
+          "relay": {
+            "auditId": "bf5f4e68-fc8b-400a-bb7f-1d3070d1f90d",
+            "upstreamId": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+            "toolName": "update_order_status"
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"order\":{\"id\":43,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:39:04Z\",\"line_items\":[{\"product_id\":42,\"name\":\"Urumi Demo Mug\",\"quantity\":1,\"total\":\"199.00\"}]}}"
+          }
+        ],
+        "structuredContent": {
+          "order": {
+            "id": 43,
+            "status": "processing",
+            "currency": "INR",
+            "total": "199.00",
+            "date_created_gmt": "2026-10-10T18:39:04Z",
+            "line_items": [
+              {
+                "product_id": 42,
+                "name": "Urumi Demo Mug",
+                "quantity": 1,
+                "total": "199.00"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "server": "WooCommerce",
+      "name": "list_orders",
+      "result": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "relay-team-gateway",
+            "version": "0.3.0"
+          },
+          "relay": {
+            "auditId": "a69d33fd-7a4f-4de6-9f3d-e548e5f7ee3e",
+            "upstreamId": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+            "toolName": "list_orders"
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"orders\":[{\"id\":16,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T09:46:33Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":17,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T09:47:40Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":19,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-09T18:30:00Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":20,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:29:59Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":21,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:30:00Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":22,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T10:55:05Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":23,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-09T18:30:00Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":24,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:29:59Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":25,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:30:00Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":27,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-09T18:30:00Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":28,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:29:59Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":29,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:30:00Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":31,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-09T18:30:00Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":32,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:29:59Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":33,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:30:00Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":43,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:39:04Z\",\"line_items\":[{\"product_id\":42,\"name\":\"Urumi Demo Mug\",\"quantity\":1,\"total\":\"199.00\"}]}],\"pagination\":{\"page\":1,\"per_page\":100,\"total\":16,\"total_pages\":1,\"next_page\":null}}"
+          }
+        ],
+        "structuredContent": {
+          "orders": [
+            {
+              "id": 16,
+              "status": "processing",
+              "currency": "INR",
+              "total": "199.00",
+              "date_created_gmt": "2026-10-10T09:46:33Z",
+              "line_items": [
+                {
+                  "product_id": 13,
+                  "name": "[SYNTHETIC DEMO] Relay Mug",
+                  "quantity": 1,
+                  "total": "199.00"
+                }
+              ]
+            },
+            {
+              "id": 17,
+              "status": "processing",
+              "currency": "INR",
+              "total": "199.00",
+              "date_created_gmt": "2026-10-10T09:47:40Z",
+              "line_items": [
+                {
+                  "product_id": 13,
+                  "name": "[SYNTHETIC DEMO] Relay Mug",
+                  "quantity": 1,
+                  "total": "199.00"
+                }
+              ]
+            },
+            {
+              "id": 19,
+              "status": "processing",
+              "currency": "INR",
+              "total": "199.00",
+              "date_created_gmt": "2026-10-09T18:30:00Z",
+              "line_items": [
+                {
+                  "product_id": 13,
+                  "name": "[SYNTHETIC DEMO] Relay Mug",
+                  "quantity": 1,
+                  "total": "199.00"
+                }
+              ]
+            },
+            {
+              "id": 20,
+              "status": "processing",
+              "currency": "INR",
+              "total": "199.00",
+              "date_created_gmt": "2026-10-10T18:29:59Z",
+              "line_items": [
+                {
+                  "product_id": 13,
+                  "name": "[SYNTHETIC DEMO] Relay Mug",
+                  "quantity": 1,
+                  "total": "199.00"
+                }
+              ]
+            },
+            {
+              "id": 21,
+              "status": "processing",
+              "currency": "INR",
+              "total": "199.00",
+              "date_created_gmt": "2026-10-10T18:30:00Z",
+              "line_items": [
+                {
+                  "product_id": 13,
+                  "name": "[SYNTHETIC DEMO] Relay Mug",
+                  "quantity": 1,
+                  "total": "199.00"
+                }
+              ]
+            },
+            {
+              "id": 22,
+              "status": "processing",
+              "currency": "INR",
+              "total": "199.00",
+              "date_created_gmt": "2026-10-10T10:55:05Z",
+              "line_items": [
+                {
+                  "product_id": 13,
+                  "name": "[SYNTHETIC DEMO] Relay Mug",
+                  "quantity": 1,
+                  "total": "199.00"
+                }
+              ]
+            },
+            {
+              "id": 23,
+              "status": "processing",
+              "currency": "INR",
+              "total": "199.00",
+              "date_created_gmt": "2026-10-09T18:30:00Z",
+              "line_items": [
+                {
+                  "product_id": 13,
+                  "name": "[SYNTHETIC DEMO] Relay Mug",
+                  "quantity": 1,
+                  "total": "199.00"
+                }
+              ]
+            },
+            {
+              "id": 24,
+              "status": "processing",
+              "currency": "INR",
+              "total": "199.00",
+              "date_created_gmt": "2026-10-10T18:29:59Z",
+              "line_items": [
+                {
+                  "product_id": 13,
+                  "name": "[SYNTHETIC DEMO] Relay Mug",
+                  "quantity": 1,
+                  "total": "199.00"
+                }
+              ]
+            },
+            {
+              "id": 25,
+              "status": "processing",
+              "currency": "INR",
+              "total": "199.00",
+              "date_created_gmt": "2026-10-10T18:30:00Z",
+              "line_items": [
+                {
+                  "product_id": 13,
+                  "name": "[SYNTHETIC DEMO] Relay Mug",
+                  "quantity": 1,
+                  "total": "199.00"
+                }
+              ]
+            },
+            {
+              "id": 27,
+              "status": "processing",
+              "currency": "INR",
+              "total": "199.00",
+              "date_created_gmt": "2026-10-09T18:30:00Z",
+              "line_items": [
+                {
+                  "product_id": 13,
+                  "name": "[SYNTHETIC DEMO] Relay Mug",
+                  "quantity": 1,
+                  "total": "199.00"
+                }
+              ]
+            },
+            {
+              "id": 28,
+              "status": "processing",
+              "currency": "INR",
+              "total": "199.00",
+              "date_created_gmt": "2026-10-10T18:29:59Z",
+              "line_items": [
+                {
+                  "product_id": 13,
+                  "name": "[SYNTHETIC DEMO] Relay Mug",
+                  "quantity": 1,
+                  "total": "199.00"
+                }
+              ]
+            },
+            {
+              "id": 29,
+              "status": "processing",
+              "currency": "INR",
+              "total": "199.00",
+              "date_created_gmt": "2026-10-10T18:30:00Z",
+              "line_items": [
+                {
+                  "product_id": 13,
+                  "name": "[SYNTHETIC DEMO] Relay Mug",
+                  "quantity": 1,
+                  "total": "199.00"
+                }
+              ]
+            },
+            {
+              "id": 31,
+              "status": "processing",
+              "currency": "INR",
+              "total": "199.00",
+              "date_created_gmt": "2026-10-09T18:30:00Z",
+              "line_items": [
+                {
+                  "product_id": 13,
+                  "name": "[SYNTHETIC DEMO] Relay Mug",
+                  "quantity": 1,
+                  "total": "199.00"
+                }
+              ]
+            },
+            {
+              "id": 32,
+              "status": "processing",
+              "currency": "INR",
+              "total": "199.00",
+              "date_created_gmt": "2026-10-10T18:29:59Z",
+              "line_items": [
+                {
+                  "product_id": 13,
+                  "name": "[SYNTHETIC DEMO] Relay Mug",
+                  "quantity": 1,
+                  "total": "199.00"
+                }
+              ]
+            },
+            {
+              "id": 33,
+              "status": "processing",
+              "currency": "INR",
+              "total": "199.00",
+              "date_created_gmt": "2026-10-10T18:30:00Z",
+              "line_items": [
+                {
+                  "product_id": 13,
+                  "name": "[SYNTHETIC DEMO] Relay Mug",
+                  "quantity": 1,
+                  "total": "199.00"
+                }
+              ]
+            },
+            {
+              "id": 43,
+              "status": "processing",
+              "currency": "INR",
+              "total": "199.00",
+              "date_created_gmt": "2026-10-10T18:39:04Z",
+              "line_items": [
+                {
+                  "product_id": 42,
+                  "name": "Urumi Demo Mug",
+                  "quantity": 1,
+                  "total": "199.00"
+                }
+              ]
+            }
+          ],
+          "pagination": {
+            "page": 1,
+            "per_page": 100,
+            "total": 16,
+            "total_pages": 1,
+            "next_page": null
+          }
+        }
+      }
+    },
+    {
+      "server": "WooCommerce",
+      "name": "get_order",
+      "result": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "relay-team-gateway",
+            "version": "0.3.0"
+          },
+          "relay": {
+            "auditId": "72b40b24-b8b7-4230-9198-ff98da83759c",
+            "upstreamId": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+            "toolName": "get_order"
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"error\":{\"code\":\"NOT_FOUND\",\"retryable\":false,\"outcome\":\"rejected\",\"status\":404}}"
+          }
+        ],
+        "structuredContent": {
+          "error": {
+            "code": "NOT_FOUND",
+            "retryable": false,
+            "outcome": "rejected",
+            "status": 404
+          }
+        },
+        "isError": true
+      }
+    },
+    {
+      "server": "Calendar UTC",
+      "name": "day_range",
+      "result": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "relay-team-gateway",
+            "version": "0.3.0"
+          },
+          "relay": {
+            "auditId": "1884ee84-4fca-497e-90ed-aff8b751457f",
+            "upstreamId": "7073f655-276e-4484-a15f-73f77360a7ec",
+            "toolName": "day_range"
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"date\":\"2026-10-11\",\"timezone\":\"Asia/Kolkata\",\"start_inclusive\":\"2026-10-10T18:30:00Z\",\"end_exclusive\":\"2026-10-11T18:30:00Z\",\"seconds\":86400}"
+          }
+        ],
+        "structuredContent": {
+          "date": "2026-10-11",
+          "timezone": "Asia/Kolkata",
+          "start_inclusive": "2026-10-10T18:30:00Z",
+          "end_exclusive": "2026-10-11T18:30:00Z",
+          "seconds": 86400
+        }
+      }
+    },
+    {
+      "server": "WooCommerce",
+      "name": "list_orders",
+      "result": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "relay-team-gateway",
+            "version": "0.3.0"
+          },
+          "relay": {
+            "auditId": "c4ddcd03-5bb7-414d-b14d-ef04f47cad7b",
+            "upstreamId": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+            "toolName": "list_orders"
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"orders\":[{\"id\":21,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:30:00Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":25,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:30:00Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":29,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:30:00Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":33,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:30:00Z\",\"line_items\":[{\"product_id\":13,\"name\":\"[SYNTHETIC DEMO] Relay Mug\",\"quantity\":1,\"total\":\"199.00\"}]},{\"id\":43,\"status\":\"processing\",\"currency\":\"INR\",\"total\":\"199.00\",\"date_created_gmt\":\"2026-10-10T18:39:04Z\",\"line_items\":[{\"product_id\":42,\"name\":\"Urumi Demo Mug\",\"quantity\":1,\"total\":\"199.00\"}]}],\"pagination\":{\"page\":1,\"per_page\":100,\"total\":5,\"total_pages\":1,\"next_page\":null}}"
+          }
+        ],
+        "structuredContent": {
+          "orders": [
+            {
+              "id": 21,
+              "status": "processing",
+              "currency": "INR",
+              "total": "199.00",
+              "date_created_gmt": "2026-10-10T18:30:00Z",
+              "line_items": [
+                {
+                  "product_id": 13,
+                  "name": "[SYNTHETIC DEMO] Relay Mug",
+                  "quantity": 1,
+                  "total": "199.00"
+                }
+              ]
+            },
+            {
+              "id": 25,
+              "status": "processing",
+              "currency": "INR",
+              "total": "199.00",
+              "date_created_gmt": "2026-10-10T18:30:00Z",
+              "line_items": [
+                {
+                  "product_id": 13,
+                  "name": "[SYNTHETIC DEMO] Relay Mug",
+                  "quantity": 1,
+                  "total": "199.00"
+                }
+              ]
+            },
+            {
+              "id": 29,
+              "status": "processing",
+              "currency": "INR",
+              "total": "199.00",
+              "date_created_gmt": "2026-10-10T18:30:00Z",
+              "line_items": [
+                {
+                  "product_id": 13,
+                  "name": "[SYNTHETIC DEMO] Relay Mug",
+                  "quantity": 1,
+                  "total": "199.00"
+                }
+              ]
+            },
+            {
+              "id": 33,
+              "status": "processing",
+              "currency": "INR",
+              "total": "199.00",
+              "date_created_gmt": "2026-10-10T18:30:00Z",
+              "line_items": [
+                {
+                  "product_id": 13,
+                  "name": "[SYNTHETIC DEMO] Relay Mug",
+                  "quantity": 1,
+                  "total": "199.00"
+                }
+              ]
+            },
+            {
+              "id": 43,
+              "status": "processing",
+              "currency": "INR",
+              "total": "199.00",
+              "date_created_gmt": "2026-10-10T18:39:04Z",
+              "line_items": [
+                {
+                  "product_id": 42,
+                  "name": "Urumi Demo Mug",
+                  "quantity": 1,
+                  "total": "199.00"
+                }
+              ]
+            }
+          ],
+          "pagination": {
+            "page": 1,
+            "per_page": 100,
+            "total": 5,
+            "total_pages": 1,
+            "next_page": null
+          }
+        }
+      }
+    },
+    {
+      "server": "Decimal Totals",
+      "name": "sum_amounts",
+      "result": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "relay-team-gateway",
+            "version": "0.3.0"
+          },
+          "relay": {
+            "auditId": "adb03030-5285-4eee-9697-40fe573a32a6",
+            "upstreamId": "84996dff-e96f-4d10-880c-0f93e71bc6b7",
+            "toolName": "sum_amounts"
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"currency\":\"INR\",\"total\":\"0.30\",\"minor_units\":\"30\",\"count\":2}"
+          }
+        ],
+        "structuredContent": {
+          "currency": "INR",
+          "total": "0.30",
+          "minor_units": "30",
+          "count": 2
+        }
+      }
+    },
+    {
+      "server": "Decimal Totals",
+      "name": "sum_orders",
+      "result": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "relay-team-gateway",
+            "version": "0.3.0"
+          },
+          "relay": {
+            "auditId": "98773c2b-b8f3-42b2-b505-48961f261f35",
+            "upstreamId": "84996dff-e96f-4d10-880c-0f93e71bc6b7",
+            "toolName": "sum_orders"
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"currency\":\"INR\",\"total\":\"995.00\",\"minor_units\":\"99500\",\"count\":5}"
+          }
+        ],
+        "structuredContent": {
+          "currency": "INR",
+          "total": "995.00",
+          "minor_units": "99500",
+          "count": 5
+        }
+      }
+    },
+    {
+      "check": "real failed/success audits and A functionality after B revocation",
+      "audits": [
+        {
+          "id": "88dd6a8f-03d7-4455-919b-1b3080850c2e",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": "f904adb6-26b9-4bda-ae5e-6a7dc98051ee",
+          "auth_kind": "key",
+          "upstream_id": "7073f655-276e-4484-a15f-73f77360a7ec",
+          "tool_name": "now",
+          "alias": "t_zPhTR6gl0LA0LAq4cWOTy9di6je_44sBPdewSb17qio",
+          "started_at": "2026-10-10T19:09:44.261Z",
+          "finished_at": "2026-10-10T19:09:44.278Z",
+          "duration_ms": 16,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "98773c2b-b8f3-42b2-b505-48961f261f35",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": "f904adb6-26b9-4bda-ae5e-6a7dc98051ee",
+          "auth_kind": "key",
+          "upstream_id": "84996dff-e96f-4d10-880c-0f93e71bc6b7",
+          "tool_name": "sum_orders",
+          "alias": "t_IRt7tUy24SFRRrjuxIcNkI3vzVqwZfhbI5qQ2GBYIbo",
+          "started_at": "2026-10-10T19:09:44.215Z",
+          "finished_at": "2026-10-10T19:09:44.229Z",
+          "duration_ms": 15,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "adb03030-5285-4eee-9697-40fe573a32a6",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": "f904adb6-26b9-4bda-ae5e-6a7dc98051ee",
+          "auth_kind": "key",
+          "upstream_id": "84996dff-e96f-4d10-880c-0f93e71bc6b7",
+          "tool_name": "sum_amounts",
+          "alias": "t_Cz-nGU7gNptnbEgUVrqEoTAkwoUqmUoqZyA7OAQozh8",
+          "started_at": "2026-10-10T19:09:44.190Z",
+          "finished_at": "2026-10-10T19:09:44.208Z",
+          "duration_ms": 17,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "c4ddcd03-5bb7-414d-b14d-ef04f47cad7b",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": "f904adb6-26b9-4bda-ae5e-6a7dc98051ee",
+          "auth_kind": "key",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "list_orders",
+          "alias": "t_q__Ynx5YmIgAHtlD0E44PIh2RyBrCwTG8Q1akzFAxMM",
+          "started_at": "2026-10-10T19:09:44.125Z",
+          "finished_at": "2026-10-10T19:09:44.183Z",
+          "duration_ms": 57,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "1884ee84-4fca-497e-90ed-aff8b751457f",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": "f904adb6-26b9-4bda-ae5e-6a7dc98051ee",
+          "auth_kind": "key",
+          "upstream_id": "7073f655-276e-4484-a15f-73f77360a7ec",
+          "tool_name": "day_range",
+          "alias": "t___17T2eJL-1Ij66mkJhfzX-NewPVsM2_mv6WvNR_hIQ",
+          "started_at": "2026-10-10T19:09:44.094Z",
+          "finished_at": "2026-10-10T19:09:44.118Z",
+          "duration_ms": 24,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "72b40b24-b8b7-4230-9198-ff98da83759c",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": "f904adb6-26b9-4bda-ae5e-6a7dc98051ee",
+          "auth_kind": "key",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "get_order",
+          "alias": "t_Ct5NdrwhkCABYQLItWUNZBag3IcVpTRp7TUJ1BB1tWY",
+          "started_at": "2026-10-10T19:09:44.034Z",
+          "finished_at": "2026-10-10T19:09:44.088Z",
+          "duration_ms": 53,
+          "status": "failed",
+          "code": "NOT_FOUND"
+        },
+        {
+          "id": "a69d33fd-7a4f-4de6-9f3d-e548e5f7ee3e",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": "f904adb6-26b9-4bda-ae5e-6a7dc98051ee",
+          "auth_kind": "key",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "list_orders",
+          "alias": "t_q__Ynx5YmIgAHtlD0E44PIh2RyBrCwTG8Q1akzFAxMM",
+          "started_at": "2026-10-10T19:09:43.920Z",
+          "finished_at": "2026-10-10T19:09:44.024Z",
+          "duration_ms": 104,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "bf5f4e68-fc8b-400a-bb7f-1d3070d1f90d",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": "f904adb6-26b9-4bda-ae5e-6a7dc98051ee",
+          "auth_kind": "key",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "update_order_status",
+          "alias": "t_FZAtGsPs4X5w6t3LJ43gFbXupfsRaCIugjB1qO6xTC0",
+          "started_at": "2026-10-10T19:09:43.865Z",
+          "finished_at": "2026-10-10T19:09:43.916Z",
+          "duration_ms": 50,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "f3cdf40b-b0a8-4484-ab81-7393eae319ea",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": "f904adb6-26b9-4bda-ae5e-6a7dc98051ee",
+          "auth_kind": "key",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "get_order",
+          "alias": "t_Ct5NdrwhkCABYQLItWUNZBag3IcVpTRp7TUJ1BB1tWY",
+          "started_at": "2026-10-10T19:09:43.816Z",
+          "finished_at": "2026-10-10T19:09:43.860Z",
+          "duration_ms": 43,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "19876ddd-8469-49ca-b5ff-bbd199d305a0",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": "f904adb6-26b9-4bda-ae5e-6a7dc98051ee",
+          "auth_kind": "key",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "update_order_status",
+          "alias": "t_FZAtGsPs4X5w6t3LJ43gFbXupfsRaCIugjB1qO6xTC0",
+          "started_at": "2026-10-10T19:09:43.680Z",
+          "finished_at": "2026-10-10T19:09:43.811Z",
+          "duration_ms": 130,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "f84f6fb5-33d0-48be-b529-1e5d9fedea6d",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": "f904adb6-26b9-4bda-ae5e-6a7dc98051ee",
+          "auth_kind": "key",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "get_order",
+          "alias": "t_Ct5NdrwhkCABYQLItWUNZBag3IcVpTRp7TUJ1BB1tWY",
+          "started_at": "2026-10-10T19:09:43.612Z",
+          "finished_at": "2026-10-10T19:09:43.673Z",
+          "duration_ms": 60,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "f769fa83-779b-4b37-bbe2-66ca3a243c07",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": "f904adb6-26b9-4bda-ae5e-6a7dc98051ee",
+          "auth_kind": "key",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "create_product",
+          "alias": "t_fRXVbwO5N0eUs3DJN1FI8iMEntQKUsm2aF9Aj8FCcXY",
+          "started_at": "2026-10-10T19:09:43.463Z",
+          "finished_at": "2026-10-10T19:09:43.605Z",
+          "duration_ms": 142,
+          "status": "failed",
+          "code": "UPSTREAM_REJECTED"
+        },
+        {
+          "id": "e456f816-5f95-4e47-ba6d-b0bc6688411c",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": "f904adb6-26b9-4bda-ae5e-6a7dc98051ee",
+          "auth_kind": "key",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "list_products",
+          "alias": "t_UH8UyYJtcDs6clCS1ttPz07MITaeqQRt07QMAtUdX8Q",
+          "started_at": "2026-10-10T19:09:43.393Z",
+          "finished_at": "2026-10-10T19:09:43.451Z",
+          "duration_ms": 57,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "a2b514f3-a380-4c43-a52a-238b425c93c5",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": "f904adb6-26b9-4bda-ae5e-6a7dc98051ee",
+          "auth_kind": "key",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "create_product",
+          "alias": "t_fRXVbwO5N0eUs3DJN1FI8iMEntQKUsm2aF9Aj8FCcXY",
+          "started_at": "2026-10-10T19:09:43.191Z",
+          "finished_at": "2026-10-10T19:09:43.381Z",
+          "duration_ms": 189,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "c24814ec-a4ac-4d2d-831a-8b0bbf68975c",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": "f904adb6-26b9-4bda-ae5e-6a7dc98051ee",
+          "auth_kind": "key",
+          "upstream_id": "84996dff-e96f-4d10-880c-0f93e71bc6b7",
+          "tool_name": "info",
+          "alias": "t_qPWTsXPquhJBkC5bSXZIW7Gx3ulctMXD8hjREjiS7O4",
+          "started_at": "2026-10-10T19:09:43.172Z",
+          "finished_at": "2026-10-10T19:09:43.186Z",
+          "duration_ms": 13,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "291103aa-3756-459f-b37d-2179f0c730c1",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": "f904adb6-26b9-4bda-ae5e-6a7dc98051ee",
+          "auth_kind": "key",
+          "upstream_id": "7073f655-276e-4484-a15f-73f77360a7ec",
+          "tool_name": "info",
+          "alias": "t_437kkEnU2V_dJ8ILtUqLdvdx55eANAVmCGyWE3SBqkk",
+          "started_at": "2026-10-10T19:09:43.150Z",
+          "finished_at": "2026-10-10T19:09:43.167Z",
+          "duration_ms": 17,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "d071daab-f958-4b64-850c-b8c006dae877",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": "f904adb6-26b9-4bda-ae5e-6a7dc98051ee",
+          "auth_kind": "key",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "info",
+          "alias": "t_izngFQvQyOqNAm-taOlRIjxZQG8Pk6g2aAbrenG3jO8",
+          "started_at": "2026-10-10T19:09:43.123Z",
+          "finished_at": "2026-10-10T19:09:43.144Z",
+          "duration_ms": 20,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "ed4869e7-b738-4ecd-90cb-7d9572256b93",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": "f904adb6-26b9-4bda-ae5e-6a7dc98051ee",
+          "auth_kind": "key",
+          "upstream_id": null,
+          "tool_name": "unknown",
+          "alias": "unknown",
+          "started_at": "2026-10-10T19:09:43.081Z",
+          "finished_at": "2026-10-10T19:09:43.082Z",
+          "duration_ms": 1,
+          "status": "rejected",
+          "code": "HTTP_405"
+        },
+        {
+          "id": "6be5be2f-cb20-4538-953f-41c0927fc8af",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "ec4dc648-f415-4914-9876-8016e0c5a373",
+          "auth_kind": "key",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "info",
+          "alias": "t_izngFQvQyOqNAm-taOlRIjxZQG8Pk6g2aAbrenG3jO8",
+          "started_at": "2026-10-10T19:09:22.493Z",
+          "finished_at": "2026-10-10T19:09:22.496Z",
+          "duration_ms": 0,
+          "status": "rejected",
+          "code": "KEY_REVOKED"
+        },
+        {
+          "id": "b7b1bdc8-9a68-48ef-9051-0ee83e4f303c",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "ec4dc648-f415-4914-9876-8016e0c5a373",
+          "auth_kind": "key",
+          "upstream_id": null,
+          "tool_name": "unknown",
+          "alias": "unknown",
+          "started_at": "2026-10-10T19:09:20.325Z",
+          "finished_at": "2026-10-10T19:09:20.327Z",
+          "duration_ms": 0,
+          "status": "rejected",
+          "code": "MEMBERSHIP_INACTIVE"
+        },
+        {
+          "id": "302558ac-9588-41e1-a8ec-089d12cdf69f",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "ec4dc648-f415-4914-9876-8016e0c5a373",
+          "auth_kind": "key",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "info",
+          "alias": "t_izngFQvQyOqNAm-taOlRIjxZQG8Pk6g2aAbrenG3jO8",
+          "started_at": "2026-10-10T19:09:07.432Z",
+          "finished_at": "2026-10-10T19:09:07.451Z",
+          "duration_ms": 18,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "6df9ba9e-7286-49b0-924c-e4390c110d55",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "ec4dc648-f415-4914-9876-8016e0c5a373",
+          "auth_kind": "key",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "info",
+          "alias": "t_izngFQvQyOqNAm-taOlRIjxZQG8Pk6g2aAbrenG3jO8",
+          "started_at": "2026-10-10T19:08:58.835Z",
+          "finished_at": "2026-10-10T19:08:58.921Z",
+          "duration_ms": 84,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "89a813af-070f-4abd-adb7-e0cc4e914c50",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "ec4dc648-f415-4914-9876-8016e0c5a373",
+          "auth_kind": "key",
+          "upstream_id": "84996dff-e96f-4d10-880c-0f93e71bc6b7",
+          "tool_name": "info",
+          "alias": "t_qPWTsXPquhJBkC5bSXZIW7Gx3ulctMXD8hjREjiS7O4",
+          "started_at": "2026-10-10T19:08:55.630Z",
+          "finished_at": "2026-10-10T19:08:55.635Z",
+          "duration_ms": 4,
+          "status": "rejected",
+          "code": "TOOL_NOT_AVAILABLE"
+        },
+        {
+          "id": "47a378a0-f796-4206-8953-dd0965da2363",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "ec4dc648-f415-4914-9876-8016e0c5a373",
+          "auth_kind": "key",
+          "upstream_id": null,
+          "tool_name": "unknown",
+          "alias": "unknown",
+          "started_at": "2026-10-10T19:08:54.933Z",
+          "finished_at": "2026-10-10T19:08:54.934Z",
+          "duration_ms": 1,
+          "status": "rejected",
+          "code": "HTTP_405"
+        },
+        {
+          "id": "f7754b9e-d573-4c38-a05c-382f904fb41c",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "ec4dc648-f415-4914-9876-8016e0c5a373",
+          "auth_kind": "key",
+          "upstream_id": null,
+          "tool_name": "unknown",
+          "alias": "unknown",
+          "started_at": "2026-10-10T19:02:49.241Z",
+          "finished_at": "2026-10-10T19:02:49.243Z",
+          "duration_ms": 0,
+          "status": "rejected",
+          "code": "MEMBERSHIP_INACTIVE"
+        },
+        {
+          "id": "15388ada-462e-4a5f-86ff-341fae19a112",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "ec4dc648-f415-4914-9876-8016e0c5a373",
+          "auth_kind": "key",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "info",
+          "alias": "t_izngFQvQyOqNAm-taOlRIjxZQG8Pk6g2aAbrenG3jO8",
+          "started_at": "2026-10-10T19:02:35.955Z",
+          "finished_at": "2026-10-10T19:02:36.075Z",
+          "duration_ms": 118,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "a7fb27c1-62b8-44ae-87a2-8c279b6d984b",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "ec4dc648-f415-4914-9876-8016e0c5a373",
+          "auth_kind": "key",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "info",
+          "alias": "t_izngFQvQyOqNAm-taOlRIjxZQG8Pk6g2aAbrenG3jO8",
+          "started_at": "2026-10-10T19:02:27.362Z",
+          "finished_at": "2026-10-10T19:02:27.411Z",
+          "duration_ms": 78,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "e41871ea-1336-4022-ab8e-b24beb7dee3e",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "ec4dc648-f415-4914-9876-8016e0c5a373",
+          "auth_kind": "key",
+          "upstream_id": "84996dff-e96f-4d10-880c-0f93e71bc6b7",
+          "tool_name": "info",
+          "alias": "t_qPWTsXPquhJBkC5bSXZIW7Gx3ulctMXD8hjREjiS7O4",
+          "started_at": "2026-10-10T19:02:24.964Z",
+          "finished_at": "2026-10-10T19:02:24.968Z",
+          "duration_ms": 3,
+          "status": "rejected",
+          "code": "TOOL_NOT_AVAILABLE"
+        },
+        {
+          "id": "2b8b3d5e-4742-4dc1-8711-95f15a2e4d6f",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "ec4dc648-f415-4914-9876-8016e0c5a373",
+          "auth_kind": "key",
+          "upstream_id": null,
+          "tool_name": "unknown",
+          "alias": "unknown",
+          "started_at": "2026-10-10T19:02:24.191Z",
+          "finished_at": "2026-10-10T19:02:24.193Z",
+          "duration_ms": 0,
+          "status": "rejected",
+          "code": "HTTP_405"
+        },
+        {
+          "id": "1a587471-53f9-43ae-8699-067ca33651c4",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "ec4dc648-f415-4914-9876-8016e0c5a373",
+          "auth_kind": "key",
+          "upstream_id": null,
+          "tool_name": "unknown",
+          "alias": "unknown",
+          "started_at": "2026-10-10T18:55:27.368Z",
+          "finished_at": "2026-10-10T18:55:27.371Z",
+          "duration_ms": 0,
+          "status": "rejected",
+          "code": "HTTP_405"
+        },
+        {
+          "id": "bde2dab9-6802-4633-ac3f-67a42d2d419d",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "aa26f271-aff7-4465-b3a3-e8bac8d6518a",
+          "auth_kind": "key",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "info",
+          "alias": "t_izngFQvQyOqNAm-taOlRIjxZQG8Pk6g2aAbrenG3jO8",
+          "started_at": "2026-10-10T18:54:42.513Z",
+          "finished_at": "2026-10-10T18:54:42.515Z",
+          "duration_ms": 0,
+          "status": "rejected",
+          "code": "KEY_REVOKED"
+        },
+        {
+          "id": "c1dca353-6515-4b84-a7e5-79cc1250ae0a",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "aa26f271-aff7-4465-b3a3-e8bac8d6518a",
+          "auth_kind": "key",
+          "upstream_id": null,
+          "tool_name": "unknown",
+          "alias": "unknown",
+          "started_at": "2026-10-10T18:54:41.706Z",
+          "finished_at": "2026-10-10T18:54:41.707Z",
+          "duration_ms": 0,
+          "status": "rejected",
+          "code": "MEMBERSHIP_INACTIVE"
+        },
+        {
+          "id": "8043c8c4-9ebf-4f52-8048-da55a3b164bf",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "aa26f271-aff7-4465-b3a3-e8bac8d6518a",
+          "auth_kind": "key",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "info",
+          "alias": "t_izngFQvQyOqNAm-taOlRIjxZQG8Pk6g2aAbrenG3jO8",
+          "started_at": "2026-10-10T18:54:34.210Z",
+          "finished_at": "2026-10-10T18:54:34.237Z",
+          "duration_ms": 24,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "74c91913-2f81-4615-99da-380839de361e",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "aa26f271-aff7-4465-b3a3-e8bac8d6518a",
+          "auth_kind": "key",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "info",
+          "alias": "t_izngFQvQyOqNAm-taOlRIjxZQG8Pk6g2aAbrenG3jO8",
+          "started_at": "2026-10-10T18:54:26.132Z",
+          "finished_at": "2026-10-10T18:54:26.226Z",
+          "duration_ms": 82,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "703fc099-aaa9-45bd-971c-7e052af65025",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "aa26f271-aff7-4465-b3a3-e8bac8d6518a",
+          "auth_kind": "key",
+          "upstream_id": "84996dff-e96f-4d10-880c-0f93e71bc6b7",
+          "tool_name": "info",
+          "alias": "t_qPWTsXPquhJBkC5bSXZIW7Gx3ulctMXD8hjREjiS7O4",
+          "started_at": "2026-10-10T18:54:25.551Z",
+          "finished_at": "2026-10-10T18:54:25.577Z",
+          "duration_ms": 9,
+          "status": "rejected",
+          "code": "TOOL_NOT_AVAILABLE"
+        },
+        {
+          "id": "97d5415d-3439-447e-a41f-42420459f40b",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "aa26f271-aff7-4465-b3a3-e8bac8d6518a",
+          "auth_kind": "key",
+          "upstream_id": null,
+          "tool_name": "unknown",
+          "alias": "unknown",
+          "started_at": "2026-10-10T18:54:24.354Z",
+          "finished_at": "2026-10-10T18:54:24.360Z",
+          "duration_ms": 1,
+          "status": "rejected",
+          "code": "HTTP_405"
+        },
+        {
+          "id": "cde8374e-60c2-447f-8dc3-bff3da49a94e",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "aa26f271-aff7-4465-b3a3-e8bac8d6518a",
+          "auth_kind": "key",
+          "upstream_id": null,
+          "tool_name": "unknown",
+          "alias": "unknown",
+          "started_at": "2026-10-10T18:48:10.336Z",
+          "finished_at": "2026-10-10T18:48:10.339Z",
+          "duration_ms": 0,
+          "status": "rejected",
+          "code": "HTTP_405"
+        },
+        {
+          "id": "1de9b20b-9c1b-4371-bce8-37f3b3cdecb4",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "aa26f271-aff7-4465-b3a3-e8bac8d6518a",
+          "auth_kind": "key",
+          "upstream_id": "84996dff-e96f-4d10-880c-0f93e71bc6b7",
+          "tool_name": "info",
+          "alias": "t_qPWTsXPquhJBkC5bSXZIW7Gx3ulctMXD8hjREjiS7O4",
+          "started_at": "2026-10-10T18:47:34.513Z",
+          "finished_at": "2026-10-10T18:47:34.534Z",
+          "duration_ms": 19,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "d9b7ee4e-48c0-4874-85b8-1689c6231a29",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "aa26f271-aff7-4465-b3a3-e8bac8d6518a",
+          "auth_kind": "key",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "info",
+          "alias": "t_izngFQvQyOqNAm-taOlRIjxZQG8Pk6g2aAbrenG3jO8",
+          "started_at": "2026-10-10T18:47:34.226Z",
+          "finished_at": "2026-10-10T18:47:34.257Z",
+          "duration_ms": 30,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "d4c41ae8-9fb1-4d39-ad73-5f08113a841f",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "aa26f271-aff7-4465-b3a3-e8bac8d6518a",
+          "auth_kind": "key",
+          "upstream_id": "7073f655-276e-4484-a15f-73f77360a7ec",
+          "tool_name": "info",
+          "alias": "t_437kkEnU2V_dJ8ILtUqLdvdx55eANAVmCGyWE3SBqkk",
+          "started_at": "2026-10-10T18:47:33.954Z",
+          "finished_at": "2026-10-10T18:47:33.981Z",
+          "duration_ms": 26,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "19b7331e-fb89-410d-bf9e-9630d2c4c17f",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "aa26f271-aff7-4465-b3a3-e8bac8d6518a",
+          "auth_kind": "key",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "list_orders",
+          "alias": "t_q__Ynx5YmIgAHtlD0E44PIh2RyBrCwTG8Q1akzFAxMM",
+          "started_at": "2026-10-10T18:46:58.717Z",
+          "finished_at": "2026-10-10T18:46:58.813Z",
+          "duration_ms": 94,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "cb62a6d5-8d39-4fc3-abcb-1fd851c4fe81",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "aa26f271-aff7-4465-b3a3-e8bac8d6518a",
+          "auth_kind": "key",
+          "upstream_id": "7073f655-276e-4484-a15f-73f77360a7ec",
+          "tool_name": "day_range",
+          "alias": "t___17T2eJL-1Ij66mkJhfzX-NewPVsM2_mv6WvNR_hIQ",
+          "started_at": "2026-10-10T18:46:57.597Z",
+          "finished_at": "2026-10-10T18:46:57.638Z",
+          "duration_ms": 38,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "cfbb717f-81e6-441e-b1e0-04ac0738f211",
+          "user_id": "owju2xM5K7mieSQ9EYsWGmu95dDmnsra",
+          "key_id": "aa26f271-aff7-4465-b3a3-e8bac8d6518a",
+          "auth_kind": "key",
+          "upstream_id": null,
+          "tool_name": "unknown",
+          "alias": "unknown",
+          "started_at": "2026-10-10T18:46:56.289Z",
+          "finished_at": "2026-10-10T18:46:56.291Z",
+          "duration_ms": 0,
+          "status": "rejected",
+          "code": "HTTP_405"
+        },
+        {
+          "id": "e51dfb21-ed04-4cf4-a68f-ac1062f027e2",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": null,
+          "auth_kind": "delegation",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "list_orders",
+          "alias": "t_q__Ynx5YmIgAHtlD0E44PIh2RyBrCwTG8Q1akzFAxMM",
+          "started_at": "2026-10-10T18:46:11.303Z",
+          "finished_at": "2026-10-10T18:46:11.474Z",
+          "duration_ms": 169,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "4efadb3d-490d-45c5-bfbb-afb8a00e70a1",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": null,
+          "auth_kind": "delegation",
+          "upstream_id": "7073f655-276e-4484-a15f-73f77360a7ec",
+          "tool_name": "day_range",
+          "alias": "t___17T2eJL-1Ij66mkJhfzX-NewPVsM2_mv6WvNR_hIQ",
+          "started_at": "2026-10-10T18:46:10.249Z",
+          "finished_at": "2026-10-10T18:46:10.360Z",
+          "duration_ms": 107,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "aeab2760-9fa2-477f-99ba-20b3ccf121b2",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": null,
+          "auth_kind": "delegation",
+          "upstream_id": null,
+          "tool_name": "unknown",
+          "alias": "unknown",
+          "started_at": "2026-10-10T18:46:08.677Z",
+          "finished_at": "2026-10-10T18:46:08.679Z",
+          "duration_ms": 1,
+          "status": "rejected",
+          "code": "HTTP_405"
+        },
+        {
+          "id": "b31fb7d7-7950-41e8-a8ee-7febb46986fe",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": null,
+          "auth_kind": "delegation",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "get_order",
+          "alias": "t_Ct5NdrwhkCABYQLItWUNZBag3IcVpTRp7TUJ1BB1tWY",
+          "started_at": "2026-10-10T18:39:32.706Z",
+          "finished_at": "2026-10-10T18:39:32.808Z",
+          "duration_ms": 98,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "8ab41003-2496-4899-a9f1-79118f8fc7fd",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": null,
+          "auth_kind": "delegation",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "list_orders",
+          "alias": "t_q__Ynx5YmIgAHtlD0E44PIh2RyBrCwTG8Q1akzFAxMM",
+          "started_at": "2026-10-10T18:39:31.661Z",
+          "finished_at": "2026-10-10T18:39:31.815Z",
+          "duration_ms": 152,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "185dee83-9c14-409e-98ed-e176262e2ed7",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": null,
+          "auth_kind": "delegation",
+          "upstream_id": "7073f655-276e-4484-a15f-73f77360a7ec",
+          "tool_name": "day_range",
+          "alias": "t___17T2eJL-1Ij66mkJhfzX-NewPVsM2_mv6WvNR_hIQ",
+          "started_at": "2026-10-10T18:39:30.630Z",
+          "finished_at": "2026-10-10T18:39:30.684Z",
+          "duration_ms": 50,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "01f6ba5e-7b9c-4945-bf92-b046781f95a1",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": null,
+          "auth_kind": "delegation",
+          "upstream_id": null,
+          "tool_name": "unknown",
+          "alias": "unknown",
+          "started_at": "2026-10-10T18:39:29.223Z",
+          "finished_at": "2026-10-10T18:39:29.225Z",
+          "duration_ms": 1,
+          "status": "rejected",
+          "code": "HTTP_405"
+        },
+        {
+          "id": "6a57c2e4-8521-4e44-a53f-ae058f087f1c",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": null,
+          "auth_kind": "delegation",
+          "upstream_id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+          "tool_name": "create_product",
+          "alias": "t_fRXVbwO5N0eUs3DJN1FI8iMEntQKUsm2aF9Aj8FCcXY",
+          "started_at": "2026-10-10T18:38:37.387Z",
+          "finished_at": "2026-10-10T18:38:37.569Z",
+          "duration_ms": 181,
+          "status": "success",
+          "code": null
+        },
+        {
+          "id": "f61af7b1-675f-40e9-8890-8d28d2a8f618",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": null,
+          "auth_kind": "delegation",
+          "upstream_id": null,
+          "tool_name": "unknown",
+          "alias": "unknown",
+          "started_at": "2026-10-10T18:38:35.748Z",
+          "finished_at": "2026-10-10T18:38:35.750Z",
+          "duration_ms": 0,
+          "status": "rejected",
+          "code": "HTTP_405"
+        },
+        {
+          "id": "e77ac6b1-f9bf-4836-9fa8-f859a0634c3d",
+          "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+          "key_id": null,
+          "auth_kind": "delegation",
+          "upstream_id": null,
+          "tool_name": "unknown",
+          "alias": "unknown",
+          "started_at": "2026-10-10T18:33:31.248Z",
+          "finished_at": "2026-10-10T18:33:31.250Z",
+          "duration_ms": 0,
+          "status": "rejected",
+          "code": "HTTP_405"
+        }
+      ]
+    }
+  ]
+}

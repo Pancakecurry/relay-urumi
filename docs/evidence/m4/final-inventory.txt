@@ -1,0 +1,1 @@
+{"passed":true,"workloads":5,"volumes":[{"name":"data-relay-postgres-0","uid":"c3fed7a0-d0c7-4608-bc0e-ef02e58d1182","phase":"Bound","storage":"1Gi"},{"name":"data-relay-redis-0","uid":"61ba13cb-6228-424f-8d09-080e27706975","phase":"Bound","storage":"128Mi"}],"nodeMemory":"1.785GiB / 3GiB"}

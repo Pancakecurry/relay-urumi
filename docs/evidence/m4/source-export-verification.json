@@ -1,0 +1,10 @@
+{
+  "at": "2026-10-10T20:15:33.875951+00:00",
+  "sourceCommit": "ab9411424b831a14db355016904b4b5706591c21",
+  "filesChecked": 335,
+  "allCommittedBlobsMatch": true,
+  "mismatchedPaths": [],
+  "knownJoinTokenPaths": [],
+  "passed": true,
+  "privateValuesPrinted": false
+}

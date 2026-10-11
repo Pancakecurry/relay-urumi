@@ -1,0 +1,28 @@
+{
+  "at": "2026-10-11T06:20:54.498Z",
+  "checks": [
+    "real auth page",
+    "first store pre-registered and real topology",
+    "UI registers bearer and static header upstreams",
+    "tool search and real schema inspection",
+    "two isolated sessions invitation email-bound acceptance",
+    "member management controls not offered",
+    "member generates copies and closes reveal-once key",
+    "keyboard command palette navigation and focus",
+    "mobile overview no page overflow",
+    "mobile agent and navigation",
+    "reduced motion preference exercised"
+  ],
+  "screenshots": [
+    "01-auth-desktop",
+    "02-servers-desktop",
+    "03-overview-desktop",
+    "04-tool-schema-desktop",
+    "05-member-keys-desktop",
+    "06-agent-empty-desktop",
+    "07-overview-mobile",
+    "08-agent-mobile"
+  ],
+  "errors": [],
+  "passed": true
+}

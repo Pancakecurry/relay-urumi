@@ -1,0 +1,118 @@
+Existing cluster names/counts: [{"name":"relay-m0","servers":1,"agents":0}]
+Reusing exact committed-source export after harness-only port repair; new empty cluster, no reused workloads/PVCs
+$ [LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/local-cache.mjs
+Project runtime/dependency links prepared; existing links preserved.
+
+$ pnpm install --frozen-lockfile
+Scope: all 13 workspace projects
+Already up to date
+Done in 266ms using pnpm v11.25.0
+
+$ pnpm check
+
+ RUN  v5.0.3 [LOCAL_HOME]/Library/Caches/relay-m4-clean-s6jXqV
+
+
+ Test Files  6 passed (6)
+      Tests  24 passed (24)
+   Start at  01:48:37
+   Duration  943ms (import 46%, tests 42%, transform 11%, worker 1%)
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 2164 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/dashboard/dist/index.html                                 0.40 kB │ gzip:   0.29 kB
+apps/dashboard/dist/assets/Geist-Regular-rEkwi4hp.woff2       45.24 kB
+apps/dashboard/dist/assets/Geist-SemiBold-Dgivxjvs.woff2      46.59 kB
+apps/dashboard/dist/assets/GeistMono-Regular-DHEw6VMZ.woff2   50.35 kB
+apps/dashboard/dist/assets/index-DPZZKNla.css                 21.56 kB │ gzip:   5.44 kB
+apps/dashboard/dist/assets/index-D8ERxZYP.js                 500.37 kB │ gzip: 154.47 kB
+
+✓ built in 342ms
+
+$ [LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/mcp-image-tag.mjs
+m2-fd9a0eaae4d033e4
+
+$ [PROJECT_ROOT]/.tools/bin/k3d cluster create --config [LOCAL_HOME]/Library/Caches/relay-m4-clean-s6jXqV/.local/clean-k3d.yaml --servers-memory 2500M --timeout 180s
+INFO[0000] Using config file [LOCAL_HOME]/Library/Caches/relay-m4-clean-s6jXqV/.local/clean-k3d.yaml (k3d.io/v1alpha5#simple)
+INFO[0000] portmapping '127.0.0.1:19080:80' targets the loadbalancer: defaulting to [servers:*:proxy agents:*:proxy]
+INFO[0000] Prep: Network
+INFO[0000] Created network 'k3d-relay-m4-clean'
+INFO[0000] Created image volume k3d-relay-m4-clean-images
+INFO[0000] Starting new tools node...
+INFO[0000] Starting node 'k3d-relay-m4-clean-tools'
+INFO[0001] Creating node 'k3d-relay-m4-clean-server-0'
+INFO[0001] Creating LoadBalancer 'k3d-relay-m4-clean-serverlb'
+INFO[0001] Using the k3d-tools node to gather environment information
+INFO[0001] Starting new tools node...
+INFO[0001] Starting node 'k3d-relay-m4-clean-tools'
+INFO[0003] Starting cluster 'relay-m4-clean'
+INFO[0003] Starting servers...
+INFO[0003] Starting node 'k3d-relay-m4-clean-server-0'
+INFO[0006] All agents already running.
+INFO[0006] Starting helpers...
+INFO[0006] Starting node 'k3d-relay-m4-clean-serverlb'
+INFO[0012] Injecting records for hostAliases (incl. host.k3d.internal) and for 3 network members into CoreDNS configmap...
+INFO[0014] Cluster 'relay-m4-clean' created successfully!
+INFO[0014] You can now use it like this:
+export KUBECONFIG=$([PROJECT_ROOT]/.tools/bin/k3d kubeconfig write relay-m4-clean)
+kubectl cluster-info
+
+$ [PROJECT_ROOT]/.tools/bin/kubectl wait --for=condition=Ready node --all --timeout=120s
+node/k3d-relay-m4-clean-server-0 condition met
+
+$ [LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node [PROJECT_ROOT]/scripts/cluster-token-rotation.mjs
+{"at":"2026-10-10T20:19:50.186Z","passed":true,"cluster":"relay-m4-clean","version":"k3s version v1.37.1+k3s1 (356c0254)\ngo version go1.26.8","oldTokenStatus":401,"newTokenStatus":200,"actualDockerRestart":true,"pvcIdentitiesPreserved":true,"privateQuiescedBackup":"[LOCAL_HOME]/Library/Caches/relay-m4-clean-s6jXqV/.local/cluster-rotation-relay-m4-clean-9IkF1i","credentialValuesPrinted":false,"startup":"persisted token-file overrides immutable stale K3S_TOKEN; k3d label retains invalid old token; future node additions require explicit new private token","sources":["https://docs.k3s.io/cli/token","https://raw.githubusercontent.com/k3s-io/k3s/v1.37.1%2Bk3s1/pkg/cli/server/server.go"]}
+
+$ docker inspect k3d-relay-m4-clean-server-0 --format {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}
+172.25.0.3
+
+$ docker image inspect relay/platform:m4-fd9a0eaae4d033e4 --format {{.Id}}
+sha256:a2553b8328b7727ab69b0a709d0e3931d3d50e680739a7553a3263f86fb7ef99
+
+$ [PROJECT_ROOT]/.tools/bin/k3d image import relay/platform:m4-fd9a0eaae4d033e4 --cluster relay-m4-clean
+INFO[0000] Importing image(s) into cluster 'relay-m4-clean'
+INFO[0000] Saving 1 image(s) from runtime...
+INFO[0001] Importing images into nodes...
+INFO[0001] Importing images from tarball '/k3d/images/k3d-relay-m4-clean-images-20261011014951.tar' into node 'k3d-relay-m4-clean-server-0'...
+INFO[0004] Removing the tarball(s) from image volume...
+INFO[0006] Removing k3d-tools node...
+INFO[0006] Successfully imported image(s)
+INFO[0006] Successfully imported 1 image(s) into 1 cluster(s)
+
+$ docker image inspect relay/store:m1-2374b9c0c5f86c48 --format {{.Id}}
+sha256:7320d64cb4d951208d66a5cda0938d50cb9f2688817169d92d8e6a7d604cb70f
+
+$ [PROJECT_ROOT]/.tools/bin/k3d image import relay/store:m1-2374b9c0c5f86c48 --cluster relay-m4-clean
+INFO[0000] Importing image(s) into cluster 'relay-m4-clean'
+INFO[0000] Starting new tools node...
+INFO[0000] Starting node 'k3d-relay-m4-clean-tools'
+INFO[0000] Saving 1 image(s) from runtime...
+INFO[0005] Importing images into nodes...
+INFO[0005] Importing images from tarball '/k3d/images/k3d-relay-m4-clean-images-20261011014957.tar' into node 'k3d-relay-m4-clean-server-0'...
+INFO[0015] Removing the tarball(s) from image volume...
+INFO[0017] Removing k3d-tools node...
+INFO[0017] Successfully imported image(s)
+INFO[0017] Successfully imported 1 image(s) into 1 cluster(s)
+
+$ docker image inspect mariadb:11.8.9-noble --format {{.Id}}
+
+
+Error response from daemon: No such image: mariadb:11.8.9-noble
+
+$ [PROJECT_ROOT]/.tools/bin/k3d image import mariadb:11.8.9-noble@sha256:6422478cb8e159f080fb1d8ccf65101e26fe51385787fde7d16c3b165a331f15 --cluster relay-m4-clean
+INFO[0000] Importing image(s) into cluster 'relay-m4-clean'
+
+WARN[0000] Image 'mariadb:11.8.9-noble@sha256:6422478cb8e159f080fb1d8ccf65101e26fe51385787fde7d16c3b165a331f15' is not a file and couldn't be found in the container runtime
+ERRO[0000] Failed to import image(s) into cluster 'relay-m4-clean': no valid images specified
+WARN[0000] At least one error occured while trying to import the image(s) into the selected cluster(s)
+
+$ [PROJECT_ROOT]/.tools/bin/k3d cluster delete relay-m4-clean
+INFO[0000] Deleting cluster 'relay-m4-clean'
+INFO[0001] Deleting cluster network 'k3d-relay-m4-clean'
+INFO[0001] Deleting 1 attached volumes...
+INFO[0001] Removing cluster details from default kubeconfig...
+INFO[0001] Removing standalone kubeconfig file (if there is one)...
+INFO[0001] Successfully deleted cluster relay-m4-clean!

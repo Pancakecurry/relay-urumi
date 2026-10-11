@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-10T20:23:05.668Z",
+  "passed": true,
+  "cluster": "relay-m0",
+  "version": "k3s version v1.37.1+k3s1 (356c0254)\ngo version go1.26.8",
+  "oldTokenStatus": 401,
+  "newTokenStatus": 200,
+  "actualDockerRestart": true,
+  "pvcIdentitiesPreserved": true,
+  "privateQuiescedBackup": "[PROJECT_ROOT]/.local/cluster-rotation-relay-m0-PZialw",
+  "credentialValuesPrinted": false,
+  "startup": "persisted token-file overrides immutable stale K3S_TOKEN; k3d label retains invalid old token; future node additions require explicit new private token",
+  "sources": [
+    "https://docs.k3s.io/cli/token",
+    "https://raw.githubusercontent.com/k3s-io/k3s/v1.37.1%2Bk3s1/pkg/cli/server/server.go"
+  ]
+}

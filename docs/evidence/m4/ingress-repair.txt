@@ -1,0 +1,8 @@
+Release "relay-core" has been upgraded. Happy Helming!
+NAME: relay-core
+LAST DEPLOYED: Sat Oct 10 23:52:43 2026
+NAMESPACE: relay-platform
+STATUS: deployed
+REVISION: 8
+DESCRIPTION: Upgrade complete
+TEST SUITE: None

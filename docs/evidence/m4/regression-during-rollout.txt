@@ -1,0 +1,21 @@
+file://[LOCAL_HOME]/Library/Caches/relay-m0-20261010/node_modules/.pnpm/@modelcontextprotocol+client@2.3.1/node_modules/@modelcontextprotocol/client/dist/index.mjs:5789
+				throw new SdkHttpError(SdkErrorCode.ClientHttpNotImplemented, `Error POSTing to endpoint: ${reason}`, {
+				      ^
+
+SdkHttpError: Error POSTing to endpoint: {"error":{"code":"AUTH_STORE_UNAVAILABLE"}}
+    at StreamableHTTPClientTransport._send (file://[LOCAL_HOME]/Library/Caches/relay-m0-20261010/node_modules/.pnpm/@modelcontextprotocol+client@2.3.1/node_modules/@modelcontextprotocol/client/dist/index.mjs:5789:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async Client._notificationViaCodec (file://[LOCAL_HOME]/Library/Caches/relay-m0-20261010/node_modules/.pnpm/@modelcontextprotocol+client@2.3.1/node_modules/@modelcontextprotocol/client/dist/src-WCy6ifGf.mjs:6295:3)
+    at async Client.notification (file://[LOCAL_HOME]/Library/Caches/relay-m0-20261010/node_modules/.pnpm/@modelcontextprotocol+client@2.3.1/node_modules/@modelcontextprotocol/client/dist/src-WCy6ifGf.mjs:6267:10)
+    at async Client._legacyHandshake (file://[LOCAL_HOME]/Library/Caches/relay-m0-20261010/node_modules/.pnpm/@modelcontextprotocol+client@2.3.1/node_modules/@modelcontextprotocol/client/dist/index.mjs:3368:4)
+    at async Client._connectPlainLegacy (file://[LOCAL_HOME]/Library/Caches/relay-m0-20261010/node_modules/.pnpm/@modelcontextprotocol+client@2.3.1/node_modules/@modelcontextprotocol/client/dist/index.mjs:3339:3)
+    at async file://[PROJECT_ROOT]/scripts/console-regression.mjs:13:2 {
+  code: 'CLIENT_HTTP_NOT_IMPLEMENTED',
+  data: {
+    status: 503,
+    statusText: '',
+    text: '{"error":{"code":"AUTH_STORE_UNAVAILABLE"}}'
+  }
+}
+
+Node.js v24.16.0

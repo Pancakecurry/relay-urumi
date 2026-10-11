@@ -21,6 +21,16 @@ for(const file of ['.local/m4-acceptance-identity.json','.local/console-owner.js
 }
 try{const d=JSON.parse(readFileSync('.local/m4-cluster-token-exposure.json','utf8'));for(const value of d.values)secrets.push(value,Buffer.from(value).toString('base64'));}catch(error){if(error.code!=='ENOENT')throw error;}
 for(const directory of readdirSync('.local').filter(n=>n.startsWith('cluster-rotation-relay-')))for(const name of ['old-token','new-token']){try{const value=readFileSync('.local/'+directory+'/'+name,'utf8').trim();secrets.push(value,Buffer.from(value).toString('base64'));const password=value.split('::').at(-1).replace(/^server:/,'');secrets.push(password,Buffer.from(password).toString('base64'));}catch(error){if(error.code!=='ENOENT')throw error;}}
+// Include this run's independently generated disposable-cluster credentials in the final evidence scan.
+try {
+ const clean=JSON.parse(readFileSync('docs/evidence/m4/clean-install.json','utf8'));
+ if(clean.passed){
+  const base=clean.destination+'/.local';
+  for(const name of readdirSync(base).filter(n=>n.endsWith('-credentials.json'))){const d=JSON.parse(readFileSync(base+'/'+name,'utf8'));for(const v of [...Object.values(d.runtime),d.admin.password,...Object.values(d.adapter)])if(typeof v==='string'&&v.length>=8)secrets.push(v,Buffer.from(v).toString('base64'));}
+  for(const name of ['m3-runtime-secrets.json','m2-upstream-tokens.json','m4-acceptance-identity.json','console-owner.json']){const d=JSON.parse(readFileSync(base+'/'+name,'utf8'));const values=(name.includes('runtime')||name.includes('upstream-tokens'))?Object.values(d):[d.password,d.A?.password,d.B?.password,d.memberKey,d.adminCookie,d.memberCookie];for(const v of values)if(typeof v==='string'&&v.length>=8)secrets.push(v,Buffer.from(v).toString('base64'));}
+  for(const directory of readdirSync(base).filter(n=>n.startsWith('cluster-rotation-relay-')))for(const name of ['old-token','new-token']){const v=readFileSync(base+'/'+directory+'/'+name,'utf8').trim();const password=v.split('::').at(-1).replace(/^server:/,'');for(const value of [v,password])secrets.push(value,Buffer.from(value).toString('base64'));}
+ }
+}catch(error){if(error.code!=='ENOENT')throw error;}
 const violations=[];
 try {
  const tokens=JSON.parse(readFileSync('.local/m2-upstream-tokens.json','utf8'));

@@ -28,7 +28,13 @@ const persistence=read('persistence');assert(persistence.pvcIdentitiesUnchanged&
 const image=readFileSync(`${dir}/image.txt`,'utf8').trim(),inventory=read('inventory'),clean=read('clean-install');
 assert.equal(inventory.platformImage,image);assert.equal(clean.platformImage,image);assert.equal(clean.modelTraffic,false);assert.equal(clean.existingCoreTouched,false);
 assert.equal(execFileSync(process.execPath,['scripts/mcp-image-tag.mjs'],{encoding:'utf8'}).trim().replace(/^m2-/,'m4-'),clean.sourceFingerprint);
-assert(inventory.pods.every(p=>p.phase==='Running'&&p.containers?.every(c=>c.ready)));
+const servicePods=inventory.pods.filter(p=>!p.owners?.some(o=>o.kind==='Job'));
+for(const name of ['relay-api-','relay-gateway-','relay-dashboard-','relay-postgres-','relay-redis-'])assert(servicePods.some(p=>p.name.startsWith(name)),`Missing mandatory service ${name}`);
+assert(servicePods.every(p=>p.phase==='Running'&&p.containers?.every(c=>c.ready)));
+assert(inventory.jobs.length>0&&inventory.jobs.every(j=>j.complete&&j.succeeded===1&&j.failed===0));
+assert(inventory.pods.filter(p=>p.owners?.some(o=>o.kind==='Job')).every(p=>p.phase==='Succeeded'&&p.containers?.every(c=>c.exitCode===0)));
+checks.push('five ready long-running workloads and actual successful migration job');
+const exportProof=read('final-source-export-verification');assert(exportProof.passed&&exportProof.allCommittedBlobsMatch&&exportProof.sourceCommit===clean.sourceCommit);assert(read('final-audit-durability').passed&&read('text-contrast').passed);checks.push('all committed export blobs match; current A/B audits and sampled text contrast pass');
 assert(/Tests\s+25 passed/.test(readFileSync(`${dir}/deploy-port-repair.txt`,'utf8')));checks.push('25 tests, exact runtime fingerprint, fresh source and empty-cluster acceptance');
 for(const name of ['clean-token-rotation','token-rotation']){const rotation=read(name);assert(rotation.passed&&rotation.actualDockerRestart&&rotation.pvcIdentitiesPreserved);assert.equal(rotation.oldTokenStatus,401);assert.equal(rotation.newTokenStatus,200);}checks.push('exposed local join token rotated; old token rejected after actual restart; PVCs preserved');
 const ids=[...Array.from({length:7},(_,i)=>`K0${i+1}`),...Array.from({length:4},(_,i)=>`W0${i+1}`),...Array.from({length:6},(_,i)=>`G0${i+1}`),...Array.from({length:4},(_,i)=>`T0${i+1}`),'U01','U02','A01','A02',...Array.from({length:4},(_,i)=>`E0${i+1}`)];

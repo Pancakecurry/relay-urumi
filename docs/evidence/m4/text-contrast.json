@@ -1,0 +1,53 @@
+{
+  "at": "2026-10-11T06:14:29.660Z",
+  "checks": [
+    {
+      "state": "authentication",
+      "sampledTextElements": 15,
+      "minimumContrast": 7.666726885123874
+    },
+    {
+      "state": "Control room",
+      "sampledTextElements": 148,
+      "minimumContrast": 4.963196445265056
+    },
+    {
+      "state": "MCP servers",
+      "sampledTextElements": 49,
+      "minimumContrast": 7.6909764302322685
+    },
+    {
+      "state": "Tool library",
+      "sampledTextElements": 62,
+      "minimumContrast": 7.6909764302322685
+    },
+    {
+      "state": "Agent workspace",
+      "sampledTextElements": 41,
+      "minimumContrast": 7.2387095502846375
+    },
+    {
+      "state": "Audit explorer",
+      "sampledTextElements": 402,
+      "minimumContrast": 7.6909764302322685
+    },
+    {
+      "state": "Team",
+      "sampledTextElements": 61,
+      "minimumContrast": 7.6909764302322685
+    },
+    {
+      "state": "API keys",
+      "sampledTextElements": 67,
+      "minimumContrast": 7.6909764302322685
+    },
+    {
+      "state": "Settings",
+      "sampledTextElements": 37,
+      "minimumContrast": 7.6909764302322685
+    }
+  ],
+  "failures": [],
+  "modelTraffic": false,
+  "passed": true
+}

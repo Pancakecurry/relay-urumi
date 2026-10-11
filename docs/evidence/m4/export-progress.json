@@ -1,0 +1,11 @@
+{
+  "nativeExportInProgress": false,
+  "sourceCommit": "b2ed73ccf20c5e71dc464c40c002c284aba0496e",
+  "stoppedRedundantReadOnlyScans": true,
+  "gitObjectsOrLocksChanged": false,
+  "reason": "Concentrate slow synced filesystem reads on one exact committed-source export",
+  "finishedSourceExportVerification": "final-source-export-verification.json",
+  "supersededBy": null,
+  "filesChecked": 387,
+  "allCommittedBlobsMatch": true
+}

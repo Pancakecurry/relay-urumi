@@ -1,0 +1,227 @@
+{
+  "at": "2026-10-10T18:21:55.686Z",
+  "pods": [
+    {
+      "namespace": "relay-m0",
+      "name": "relay-m0-proof-7c6d7b647c-fqlz4",
+      "phase": "Running",
+      "restarts": [
+        1
+      ],
+      "ready": true
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "m2-acceptance",
+      "phase": "Succeeded",
+      "restarts": [
+        0
+      ],
+      "ready": false
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "m2-fault",
+      "phase": "Succeeded",
+      "restarts": [
+        0
+      ],
+      "ready": false
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "m2-network-gateway",
+      "phase": "Succeeded",
+      "restarts": [
+        0
+      ],
+      "ready": false
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "m2-network-unlabelled",
+      "phase": "Succeeded",
+      "restarts": [
+        0
+      ],
+      "ready": false
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-api-675c699f59-qdmh9",
+      "phase": "Running",
+      "restarts": [
+        1
+      ],
+      "ready": true
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-dashboard-8789f4bbc-w2wpp",
+      "phase": "Running",
+      "restarts": [
+        1
+      ],
+      "ready": true
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-gateway-8c9487bfc-7s2k7",
+      "phase": "Running",
+      "restarts": [
+        1
+      ],
+      "ready": true
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-migrate-7-tbsqp",
+      "phase": "Succeeded",
+      "restarts": [
+        0
+      ],
+      "ready": false
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-postgres-0",
+      "phase": "Running",
+      "restarts": [
+        1
+      ],
+      "ready": true
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-redis-0",
+      "phase": "Running",
+      "restarts": [
+        1
+      ],
+      "ready": true
+    },
+    {
+      "namespace": "relay-store-clean",
+      "name": "clean-store-bootstrap-6pthr",
+      "phase": "Succeeded",
+      "restarts": [
+        0
+      ],
+      "ready": false
+    },
+    {
+      "namespace": "relay-store-m1",
+      "name": "demo-store-bootstrap-rpnzq",
+      "phase": "Succeeded",
+      "restarts": [
+        0
+      ],
+      "ready": false
+    },
+    {
+      "namespace": "relay-store-m1",
+      "name": "demo-store-db-0",
+      "phase": "Running",
+      "restarts": [
+        1
+      ],
+      "ready": true
+    },
+    {
+      "namespace": "relay-store-m1",
+      "name": "demo-store-wp-699dc8476-djrmb",
+      "phase": "Running",
+      "restarts": [
+        1
+      ],
+      "ready": true
+    },
+    {
+      "namespace": "relay-store-m1",
+      "name": "relay-woocommerce-6dc467886-2tzgv",
+      "phase": "Running",
+      "restarts": [
+        1
+      ],
+      "ready": true
+    },
+    {
+      "namespace": "relay-upstreams",
+      "name": "m2-network-wrong-namespace",
+      "phase": "Succeeded",
+      "restarts": [
+        0
+      ],
+      "ready": false
+    },
+    {
+      "namespace": "relay-upstreams",
+      "name": "relay-calendar-55567b65f4-kjpsz",
+      "phase": "Running",
+      "restarts": [
+        1
+      ],
+      "ready": true
+    },
+    {
+      "namespace": "relay-upstreams",
+      "name": "relay-totals-7d88d5fb86-922xl",
+      "phase": "Running",
+      "restarts": [
+        1
+      ],
+      "ready": true
+    }
+  ],
+  "volumes": [
+    {
+      "namespace": "relay-m0",
+      "name": "relay-m0-storage-proof",
+      "uid": "44eb0a11-e21d-4756-bb74-2b134b79648e",
+      "phase": "Bound",
+      "volume": "pvc-44eb0a11-e21d-4756-bb74-2b134b79648e"
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "data-relay-postgres-0",
+      "uid": "c3fed7a0-d0c7-4608-bc0e-ef02e58d1182",
+      "phase": "Bound",
+      "volume": "pvc-c3fed7a0-d0c7-4608-bc0e-ef02e58d1182"
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "data-relay-redis-0",
+      "uid": "61ba13cb-6228-424f-8d09-080e27706975",
+      "phase": "Bound",
+      "volume": "pvc-61ba13cb-6228-424f-8d09-080e27706975"
+    },
+    {
+      "namespace": "relay-store-clean",
+      "name": "clean-store-content",
+      "uid": "50d251ae-0136-485b-97f5-cbd127ad9dc2",
+      "phase": "Bound",
+      "volume": "pvc-50d251ae-0136-485b-97f5-cbd127ad9dc2"
+    },
+    {
+      "namespace": "relay-store-clean",
+      "name": "clean-store-db",
+      "uid": "3ad5cb2c-c73a-475f-b26b-f2f0072a094e",
+      "phase": "Bound",
+      "volume": "pvc-3ad5cb2c-c73a-475f-b26b-f2f0072a094e"
+    },
+    {
+      "namespace": "relay-store-m1",
+      "name": "demo-store-content",
+      "uid": "c323ca17-2423-4e81-9b79-1cd99bf78036",
+      "phase": "Bound",
+      "volume": "pvc-c323ca17-2423-4e81-9b79-1cd99bf78036"
+    },
+    {
+      "namespace": "relay-store-m1",
+      "name": "demo-store-db",
+      "uid": "fc76be84-8c64-41fb-9590-b9eb7b7fc358",
+      "phase": "Bound",
+      "volume": "pvc-fc76be84-8c64-41fb-9590-b9eb7b7fc358"
+    }
+  ]
+}

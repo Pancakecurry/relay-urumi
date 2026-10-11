@@ -1,0 +1,410 @@
+---
+# Source: relay-platform/templates/core-network.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-core-default-deny}
+spec: {podSelector: {}, policyTypes: [Ingress, Egress], ingress: [], egress: []}
+
+---
+# Source: relay-platform/templates/core-network.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-core-dns}
+spec:
+  podSelector: {}
+  policyTypes: [Egress]
+  egress:
+    - to: [{namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: kube-system}}, podSelector: {matchLabels: {k8s-app: kube-dns}}}]
+      ports: [{protocol: UDP, port: 53}, {protocol: TCP, port: 53}]
+
+---
+# Source: relay-platform/templates/core-network.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-api}
+spec:
+  podSelector: {matchLabels: {relay.role: api}}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from: [{namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: kube-system}}, podSelector: {matchLabels: {app.kubernetes.io/name: traefik}}}]
+      ports: [{port: 3001}]
+    - from: [{podSelector: {matchLabels: {relay.role: gateway}}}]
+      ports: [{port: 3001}]
+  egress:
+    - to: [{podSelector: {matchLabels: {relay.role: postgres}}}]
+      ports: [{port: 5432}]
+    - to: [{podSelector: {matchLabels: {relay.role: gateway}}}]
+      ports: [{port: 3000}]
+    - to: [{podSelector: {matchLabels: {relay.role: api}}}]
+      ports: [{port: 3001}]
+    - to: [{ipBlock: {cidr: "172.24.0.3/32"}}, {ipBlock: {cidr: 10.43.0.1/32}}]
+      ports: [{port: 6443}, {port: 443}]
+
+---
+# Source: relay-platform/templates/core-network.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-gateway}
+spec:
+  podSelector: {matchLabels: {relay.role: gateway}}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from: [{namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: kube-system}}, podSelector: {matchLabels: {app.kubernetes.io/name: traefik}}}]
+      ports: [{port: 3000}]
+    - from: [{podSelector: {matchLabels: {relay.role: api}}}]
+      ports: [{port: 3000}]
+  egress:
+    - to: [{podSelector: {matchLabels: {relay.role: postgres}}}]
+      ports: [{port: 5432}]
+    - to: [{podSelector: {matchLabels: {relay.role: api}}}]
+      ports: [{port: 3001}]
+    - to: [{podSelector: {matchLabels: {relay.role: redis}}}]
+      ports: [{port: 6379}]
+    - to:
+        - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: relay-store-m1}}
+          podSelector: {matchLabels: {role: adapter}}
+        - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: relay-upstreams}}
+          podSelector: {matchLabels: {role: utility}}
+      ports: [{port: 3000}]
+
+---
+# Source: relay-platform/templates/core-network.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-postgres}
+spec:
+  podSelector: {matchLabels: {relay.role: postgres}}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector: {matchLabels: {relay.role: gateway}}
+        - podSelector: {matchLabels: {relay.role: api}}
+        - podSelector: {matchLabels: {relay.role: migration}}
+      ports: [{port: 5432}]
+
+---
+# Source: relay-platform/templates/core-network.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-redis}
+spec:
+  podSelector: {matchLabels: {relay.role: redis}}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector: {matchLabels: {relay.role: gateway}}
+      ports: [{port: 6379}]
+
+---
+# Source: relay-platform/templates/core-network.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-migration}
+spec:
+  podSelector: {matchLabels: {relay.role: migration}}
+  policyTypes: [Egress]
+  egress: [{to: [{podSelector: {matchLabels: {relay.role: postgres}}}], ports: [{port: 5432}]}]
+
+---
+# Source: relay-platform/templates/dashboard.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-dashboard}
+spec:
+  podSelector: {matchLabels: {relay.role: dashboard}}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from: [{namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: kube-system}}, podSelector: {matchLabels: {app.kubernetes.io/name: traefik}}}]
+      ports: [{port: 3002}]
+  egress: []
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata: {name: relay-secret-manager}
+automountServiceAccountToken: false
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata: {name: relay-secret-manager}
+rules:
+  - apiGroups: [""]
+    resources: [secrets]
+    resourceNames: [gateway-upstream-credentials]
+    verbs: [get, update]
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata: {name: relay-secret-manager}
+subjects: [{kind: ServiceAccount, name: relay-secret-manager, namespace: relay-platform}]
+roleRef: {apiGroup: rbac.authorization.k8s.io, kind: Role, name: relay-secret-manager}
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: v1
+kind: Service
+metadata: {name: relay-api}
+spec:
+  selector: {relay.role: api}
+  ports: [{port: 3001, targetPort: http}]
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: v1
+kind: Service
+metadata: {name: relay-gateway}
+spec:
+  selector: {relay.role: gateway}
+  ports: [{port: 3000, targetPort: http}]
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: v1
+kind: Service
+metadata: {name: relay-postgres}
+spec: {selector: {relay.role: postgres}, ports: [{port: 5432, targetPort: pg}]}
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: v1
+kind: Service
+metadata: {name: relay-redis}
+spec: {selector: {relay.role: redis}, ports: [{port: 6379, targetPort: redis}]}
+
+---
+# Source: relay-platform/templates/dashboard.yaml
+apiVersion: v1
+kind: Service
+metadata: {name: relay-dashboard}
+spec: {selector: {relay.role: dashboard}, ports: [{port: 3002, targetPort: http}]}
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: relay-api}
+spec:
+  replicas: 1
+  selector: {matchLabels: {relay.role: api}}
+  template:
+    metadata: {labels: {relay.role: api}}
+    spec:
+      serviceAccountName: relay-secret-manager
+      automountServiceAccountToken: true
+      securityContext: {runAsNonRoot: true, runAsUser: 1000, runAsGroup: 1000, fsGroup: 1000, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: api
+          image: "relay/platform:m4-b63252eb020badb9"
+          imagePullPolicy: IfNotPresent
+          command: [node, "dist/apps/api/src/server.js"]
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          ports: [{name: http, containerPort: 3001}]
+          env:
+            - {name: PUBLIC_ORIGIN, value: "http://relay.localhost:18080"}
+            - {name: ALLOWED_UPSTREAM_URLS, value: "http://relay-woocommerce.relay-store-m1.svc.cluster.local:3000/mcp,http://relay-calendar.relay-upstreams.svc.cluster.local:3000/mcp,http://relay-totals.relay-upstreams.svc.cluster.local:3000/mcp"}
+            - {name: MODEL_ENABLED, value: "false"}
+            - {name: STOREFRONT_URL, value: "http://store.relay.localhost:18080/shop/"}
+          resources: {"limits":{"cpu":"500m","memory":"256Mi"},"requests":{"cpu":"50m","memory":"96Mi"}}
+          readinessProbe: {httpGet: {path: /health/ready, port: http, httpHeaders: [{name: Host, value: localhost}]}, initialDelaySeconds: 3, periodSeconds: 5}
+          livenessProbe: {httpGet: {path: /health/live, port: http, httpHeaders: [{name: Host, value: localhost}]}, initialDelaySeconds: 5, periodSeconds: 10}
+          volumeMounts:
+            - {name: secrets, mountPath: /run/platform, readOnly: true}
+      volumes:
+        - {name: secrets, secret: {secretName: platform-api, defaultMode: 0440}}
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: relay-gateway}
+spec:
+  replicas: 1
+  selector: {matchLabels: {relay.role: gateway}}
+  template:
+    metadata: {labels: {relay.role: gateway}}
+    spec:
+      automountServiceAccountToken: false
+      securityContext: {runAsNonRoot: true, runAsUser: 1000, runAsGroup: 1000, fsGroup: 1000, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: gateway
+          image: "relay/platform:m4-b63252eb020badb9"
+          imagePullPolicy: IfNotPresent
+          command: [node, "dist/apps/gateway/src/server.js"]
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          ports: [{name: http, containerPort: 3000}]
+          env:
+            - {name: PUBLIC_ORIGIN, value: "http://relay.localhost:18080"}
+            - {name: ALLOWED_UPSTREAM_URLS, value: "http://relay-woocommerce.relay-store-m1.svc.cluster.local:3000/mcp,http://relay-calendar.relay-upstreams.svc.cluster.local:3000/mcp,http://relay-totals.relay-upstreams.svc.cluster.local:3000/mcp"}
+            - {name: MODEL_ENABLED, value: "false"}
+            - {name: STOREFRONT_URL, value: "http://store.relay.localhost:18080/shop/"}
+          resources: {"limits":{"cpu":"500m","memory":"256Mi"},"requests":{"cpu":"50m","memory":"96Mi"}}
+          readinessProbe: {httpGet: {path: /health/ready, port: http, httpHeaders: [{name: Host, value: localhost}]}, initialDelaySeconds: 3, periodSeconds: 5}
+          livenessProbe: {httpGet: {path: /health/live, port: http, httpHeaders: [{name: Host, value: localhost}]}, initialDelaySeconds: 5, periodSeconds: 10}
+          volumeMounts:
+            - {name: secrets, mountPath: /run/platform, readOnly: true}
+      volumes:
+        - {name: secrets, secret: {secretName: platform-gateway, defaultMode: 0440}}
+
+---
+# Source: relay-platform/templates/dashboard.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: relay-dashboard}
+spec:
+  replicas: 1
+  selector: {matchLabels: {relay.role: dashboard}}
+  template:
+    metadata: {labels: {relay.role: dashboard}}
+    spec:
+      automountServiceAccountToken: false
+      securityContext: {runAsNonRoot: true, runAsUser: 1000, runAsGroup: 1000, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: dashboard
+          image: "relay/platform:m4-b63252eb020badb9"
+          command: [node, static.mjs]
+          imagePullPolicy: IfNotPresent
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          ports: [{name: http, containerPort: 3002}]
+          resources: {requests: {cpu: 20m, memory: 32Mi}, limits: {cpu: 200m, memory: 96Mi}}
+          readinessProbe: {httpGet: {path: /health/ready, port: http}, periodSeconds: 5}
+          livenessProbe: {httpGet: {path: /health/live, port: http}, initialDelaySeconds: 5, periodSeconds: 10}
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata: {name: relay-postgres}
+spec:
+  serviceName: relay-postgres
+  replicas: 1
+  selector: {matchLabels: {relay.role: postgres}}
+  template:
+    metadata: {labels: {relay.role: postgres}}
+    spec:
+      automountServiceAccountToken: false
+      securityContext: {runAsNonRoot: true, runAsUser: 70, runAsGroup: 70, fsGroup: 70, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: postgres
+          image: "postgres:18.6-alpine3.23@sha256:885cf05d376c7cf27afef02073e6bdac3841252537f16e244fd1c1e6a7c99fb1"
+          args: [-c, shared_buffers=32MB, -c, max_connections=40, -c, log_statement=none, -c, log_min_error_statement=panic, -c, log_parameter_max_length_on_error=0]
+          env:
+            - {name: POSTGRES_DB, value: relay}
+            - name: POSTGRES_PASSWORD
+              valueFrom: {secretKeyRef: {name: platform-db-admin, key: pg-postgres}}
+          ports: [{name: pg, containerPort: 5432}]
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          resources: {requests: {cpu: 50m, memory: 64Mi}, limits: {cpu: 500m, memory: 256Mi}}
+          readinessProbe: {exec: {command: [pg_isready, -U, postgres, -d, relay]}, periodSeconds: 5}
+          livenessProbe: {exec: {command: [pg_isready, -U, postgres, -d, relay]}, initialDelaySeconds: 15, periodSeconds: 10}
+          volumeMounts:
+            - {name: data, mountPath: /var/lib/postgresql}
+            - {name: tmp, mountPath: /tmp}
+            - {name: socket, mountPath: /var/run/postgresql}
+      volumes: [{name: tmp, emptyDir: {sizeLimit: 64Mi}}, {name: socket, emptyDir: {sizeLimit: 16Mi}}]
+  volumeClaimTemplates:
+    - metadata: {name: data}
+      spec: {accessModes: [ReadWriteOnce], storageClassName: "local-path", resources: {requests: {storage: 1Gi}}}
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata: {name: relay-redis}
+spec:
+  serviceName: relay-redis
+  replicas: 1
+  selector: {matchLabels: {relay.role: redis}}
+  template:
+    metadata: {labels: {relay.role: redis}}
+    spec:
+      automountServiceAccountToken: false
+      securityContext: {runAsNonRoot: true, runAsUser: 999, runAsGroup: 999, fsGroup: 999, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: redis
+          image: "redis:8.2.10-alpine3.22@sha256:b51665e66f00759be7c3152ad5ac3c66fb2f619c13ef62dea7cc1f9914524635"
+          command: [redis-server, /run/redis/redis.conf]
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          ports: [{name: redis, containerPort: 6379}]
+          resources: {requests: {cpu: 20m, memory: 24Mi}, limits: {cpu: 250m, memory: 96Mi}}
+          readinessProbe:
+            exec: {command: [sh, -c, 'REDISCLI_AUTH="$(cat /run/redis/password)" redis-cli ping | grep -q PONG']}
+            periodSeconds: 5
+          livenessProbe:
+            exec: {command: [sh, -c, 'REDISCLI_AUTH="$(cat /run/redis/password)" redis-cli ping | grep -q PONG']}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          volumeMounts: [{name: data, mountPath: /data}, {name: config, mountPath: /run/redis, readOnly: true}]
+      volumes: [{name: config, secret: {secretName: platform-redis-config, defaultMode: 0440}}]
+  volumeClaimTemplates:
+    - metadata: {name: data}
+      spec: {accessModes: [ReadWriteOnce], storageClassName: "local-path", resources: {requests: {storage: 128Mi}}}
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: batch/v1
+kind: Job
+metadata: {name: relay-migrate-1}
+spec:
+  backoffLimit: 6
+  activeDeadlineSeconds: 240
+  template:
+    metadata: {labels: {relay.role: migration}}
+    spec:
+      restartPolicy: OnFailure
+      automountServiceAccountToken: false
+      securityContext: {runAsNonRoot: true, runAsUser: 1000, runAsGroup: 1000, fsGroup: 1000, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: migration
+          image: "relay/platform:m4-b63252eb020badb9"
+          command: [node, dist/packages/db/src/migrate.js]
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          resources: {requests: {cpu: 25m, memory: 64Mi}, limits: {cpu: 500m, memory: 192Mi}}
+          volumeMounts:
+            - {name: secrets, mountPath: /run/platform, readOnly: true}
+      volumes: [{name: secrets, secret: {secretName: platform-db-admin, defaultMode: 0440}}]
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata: {name: relay-core}
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: "relay.localhost"
+      http:
+        paths:
+          - path: /mcp
+            pathType: Exact
+            backend: {service: {name: relay-gateway, port: {number: 3000}}}
+          - path: /api
+            pathType: Prefix
+            backend: {service: {name: relay-api, port: {number: 3001}}}
+    - host: "localhost"
+      http:
+        paths:
+          - path: /mcp
+            pathType: Exact
+            backend: {service: {name: relay-gateway, port: {number: 3000}}}
+
+---
+# Source: relay-platform/templates/dashboard.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: relay-dashboard
+  annotations: {traefik.ingress.kubernetes.io/router.priority: "1"}
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: "relay.localhost"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend: {service: {name: relay-dashboard, port: {number: 3002}}}

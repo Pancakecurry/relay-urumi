@@ -1,0 +1,85 @@
+{
+  "at": "2026-10-10T18:33:33.447Z",
+  "userId": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+  "sku": "RELAY-M4-10c7eee5",
+  "run": {
+    "id": "10743873-226e-4613-b4a1-3f2a7cb26e38",
+    "team_id": "4754400f-10c1-40a8-9b21-95a02fe7e112",
+    "user_id": "ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat",
+    "prompt": "Explicitly create and publish one simple synthetic demo product named Urumi Demo Mug, regular price 199.00 INR, SKU RELAY-M4-10c7eee5. Set description to Synthetic assessment demo; not a real shipment. Use the WooCommerce create_product tool. Report the actual product ID, price and storefront link.",
+    "status": "failed",
+    "answer": null,
+    "error_code": "MODEL_PROVIDER_UNAVAILABLE",
+    "created_at": "2026-10-10T18:33:31.177Z",
+    "finished_at": "2026-10-10T18:33:32.147Z"
+  },
+  "events": [
+    {
+      "id": "3ba3e245-8f1c-4af9-bbbf-f5f8d4074a58",
+      "kind": "discovery",
+      "data": {
+        "count": 12,
+        "tools": [
+          {
+            "alias": "t_437kkEnU2V_dJ8ILtUqLdvdx55eANAVmCGyWE3SBqkk",
+            "description": "Identify the independent relay-calendar upstream."
+          },
+          {
+            "alias": "t_zPhTR6gl0LA0LAq4cWOTy9di6je_44sBPdewSb17qio",
+            "description": "Actual current UTC instant and local time in an explicit IANA timezone."
+          },
+          {
+            "alias": "t___17T2eJL-1Ij66mkJhfzX-NewPVsM2_mv6WvNR_hIQ",
+            "description": "Half-open UTC bounds [start,end) for a local calendar date (or today). Handles DST; pass bounds to list_orders."
+          },
+          {
+            "alias": "t_izngFQvQyOqNAm-taOlRIjxZQG8Pk6g2aAbrenG3jO8",
+            "description": "Identify the independent relay-woocommerce upstream."
+          },
+          {
+            "alias": "t_UH8UyYJtcDs6clCS1ttPz07MITaeqQRt07QMAtUdX8Q",
+            "description": "A single explicit page of WooCommerce products, ordered by ID. Follow next_page to collect more. Prices are store-currency decimal strings."
+          },
+          {
+            "alias": "t_fRXVbwO5N0eUs3DJN1FI8iMEntQKUsm2aF9Aj8FCcXY",
+            "description": "Create one simple product. Defaults to published/visible, decimal price in configured store currency. Require a unique SKU; never automatically retry a timed-out write. Reconcile unknown outcomes by listing that SKU."
+          },
+          {
+            "alias": "t_q__Ynx5YmIgAHtlD0E44PIh2RyBrCwTG8Q1akzFAxMM",
+            "description": "A single explicit page of orders (ID ascending). Optional UTC second-precision after/before form a half-open interval [after,before). Use Calendar day_range; follow next_page. Omits customer/private metadata."
+          },
+          {
+            "alias": "t_Ct5NdrwhkCABYQLItWUNZBag3IcVpTRp7TUJ1BB1tWY",
+            "description": "Get one order by its positive ID. Money and creation time are exact; customer/private metadata is omitted."
+          },
+          {
+            "alias": "t_FZAtGsPs4X5w6t3LJ43gFbXupfsRaCIugjB1qO6xTC0",
+            "description": "Set one order to a supported WooCommerce status. Status assignment is repeatable but Woo hooks may have effects. Never automatically retry an ambiguous write; reconcile with get_order."
+          },
+          {
+            "alias": "t_qPWTsXPquhJBkC5bSXZIW7Gx3ulctMXD8hjREjiS7O4",
+            "description": "Identify the independent relay-totals upstream."
+          },
+          {
+            "alias": "t_Cz-nGU7gNptnbEgUVrqEoTAkwoUqmUoqZyA7OAQozh8",
+            "description": "Exact sum of up to 1000 decimal strings. Never uses floating point; precision must match the declared currency."
+          },
+          {
+            "alias": "t_IRt7tUy24SFRRrjuxIcNkI3vzVqwZfhbI5qQ2GBYIbo",
+            "description": "Exact sum of unique order IDs from explicitly collected pages. Rejects mixed currencies and duplicates. This is a submitted-data total, not a claim that all orders were fetched."
+          }
+        ]
+      },
+      "created_at": "2026-10-10T18:33:31.301Z"
+    },
+    {
+      "id": "c59327e0-0e1c-4113-8c2c-196657e471f8",
+      "kind": "model.start",
+      "data": {
+        "step": 1,
+        "model": "gemini-2.5-flash-lite"
+      },
+      "created_at": "2026-10-10T18:33:31.306Z"
+    }
+  ]
+}

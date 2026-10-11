@@ -1,0 +1,20 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+429 !== 200
+
+    at login (file://[PROJECT_ROOT]/scripts/console-security.mjs:5:216)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file://[PROJECT_ROOT]/scripts/console-security.mjs:6:37 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 429,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.16.0

@@ -1,30 +1,27 @@
 # Relay
 
-Urumi AI FDE Internship implementation repository. **M3: the durable gateway, identity, registry and audit backend is implemented and locally tested**, with the persistent store, three private MCP upstreams and M0 transport proof preserved. This is not yet the completed platform.
+Relay is a Kubernetes-native WooCommerce platform with a team-authenticated MCP gateway and an inspectable real-model console. M0–M4 are verified locally. Gate A passes the real two-user core journey and exact committed-source empty-cluster installation. Public deployment and complete-product completion are not claimed. Full multi-store, nine differentiator areas and C1–C10 product scope remain active for later milestones.
 
-Use [store setup/access/checkout](docs/runbooks/local-store.md), [M1 acceptance report](docs/evidence/m1.md), [architecture](docs/architecture/overview.md), [exact versions](docs/versions.md) and [requirement ledger](docs/REQUIREMENTS.md). A fresh environment first follows the [M0 cluster/tool setup](docs/runbooks/local-m0.md).
+Open the [console](http://relay.localhost:18080/), [synthetic storefront](http://store.relay.localhost:18080/shop/) and [WooCommerce administration](http://store.relay.localhost:18080/wp-admin/). They run inside the owned local Kubernetes cluster, exposed only through loopback Ingress. Operator identity and store credentials are in ignored private `.local` files; never display or commit their contents.
 
-Local storefront: <http://store.relay.localhost:18080/shop/>. Administration: <http://store.relay.localhost:18080/wp-admin/>. Admin credentials live only in the ignored private `.local/relay-store-m1-credentials.json`; the runbook explains access. Never commit or print that file.
+Start with the [complete local console runbook](docs/runbooks/local-console.md). Read [M4 evidence](docs/evidence/m4.md), [design review](docs/design/REVIEW.md), [requirement ledger](docs/REQUIREMENTS.md), [architecture](docs/architecture/overview.md), [versions](docs/versions.md) and [two-user demo](docs/demo/DEMO_SCRIPT.md). Fresh machine tooling and cluster setup use [M0](docs/runbooks/local-m0.md). Store setup uses [M1](docs/runbooks/local-store.md); upstreams use [M2](docs/runbooks/mcp-upstreams.md); backend identity/security details use [M3](docs/runbooks/local-platform.md).
 
 ```sh
+pnpm install --frozen-lockfile
+pnpm check
 pnpm store:deploy
-pnpm store:checkout
-pnpm store:persistence
-pnpm store:status
+pnpm mcp:deploy
+pnpm console:deploy
+pnpm console:bootstrap
 ```
 
-The real store runs entirely in Kubernetes with dedicated MariaDB/content PVCs, Secret inputs, probes/resources, an idempotent Helm bootstrap and clearly synthetic COD products. Browser acceptance matches order 17 in REST and administration before/after both runtime pod replacements. Repeated bootstrap preserves product/admin/key identities. The separate clean-install release is scaled to zero after testing; its data is retained.
+Follow the runbook for prerequisite Secret generation, image imports, private identity storage and safe model opt-in. The bootstrap does not give arbitrary new users the operator's store credentials. A personal MCP client needs only `http://relay.localhost:18080/mcp` and its own Bearer key.
 
-All mandatory core → multi-store → nine differentiators → product expansion remain planned. The handwritten adapter plus Calendar and Decimal Totals are implemented. Gateway aggregation and team keys/audit are implemented in M3. React dashboard and product chat await M4. Stop after the M3 checkpoint; further milestones require owner direction. The original `m0-verified` and `m0-model-verified` checkpoints remain available.
+The console provides real upstream management, permission-filtered tools/schema inspection, invitations/member controls, reveal-once personal keys, audit records and durable owner-scoped chat runs. Chat discovery and calls use the gateway with the session-derived user's identity. The execution inspector shows actual arguments/results, durations, provider events and audit correlation; it is the M4 inspector, not the future complete C1 Flight Recorder.
 
-Local chart execution is tested; production values are render-only examples. Single-writer/node-local storage is not HA, and the official image entrypoints require root initialization. Read ADR 0006 for these constraints and the corrected credential-prompt incident. No cloud provisioning, publication or submission occurred.
+The recorded Gemini journey created product 42, **Urumi Demo Mug / ₹199.00**, checked out COD order 43, and returned that order in the actual Asia/Kolkata today-orders page. A separate B external CLI model host used Calendar and WooCommerce in one prompt. Independent MCP Inspector compatibility is recorded separately. Disabled tools, pod outages, inactive memberships and revoked keys were tested against real services; there are no simulated production tool results.
 
-The bounded M0 Gemini spike already consumed its two-request ledger and must not be automatically repeated. M1–M3 send no provider traffic and make no new purchases. Preserve unrelated machine resources and keep private hiring correspondence/account metadata outside this repository.
 
-M2 provides five real Woo operations plus shared info, Calendar now/day_range and exact Decimal Totals. Use [upstream setup/testing](docs/runbooks/mcp-upstreams.md) and [M2 evidence](docs/evidence/m2.md). Run pnpm mcp:deploy, pnpm mcp:acceptance and pnpm mcp:network after M1. All three upstreams remain ClusterIP-only; the M3 gateway now connects using server-owned credentials. The M2 in-cluster acceptance fixture is privileged; M3 additionally verifies real external clients with personal user keys.
+Only local native arm64 execution is verified. [Production-like k3s values](docs/runbooks/production-core.md) are linted/rendered configuration; there is no actual VPS deployment, public TLS, amd64 proof or publication. Node-local persistent volumes are not HA. WordPress/MariaDB entrypoint constraints are recorded in ADR 0006. OAuth, store lifecycle automation, advanced Flight Recorder, scaling and disaster recovery remain later milestones. Final video/submission are M10 and were not performed.
 
-### M3: durable platform backend
-
-The separate API/gateway, PostgreSQL identity/registry/audit storage and shared Redis admission limits are implemented. Three private upstreams aggregate through `http://relay.localhost:18080/mcp`; CLI clients may use the tested `http://localhost:18080/mcp` alias with a personal key. Upstream credentials are server-owned Kubernetes Secret references. Browser management uses Better Auth sessions. The React dashboard and real product chat remain M4.
-
-See [platform setup/management/client runbook](docs/runbooks/local-platform.md), [durable gateway decision](docs/decisions/0008-durable-gateway.md), and [actual M3 acceptance](docs/evidence/m3.md). Keep all original full-plan scope and future requirements; this milestone does not claim OAuth, VPS, final demo or optional completion.
+No unrelated personal files, Docker images/volumes, clusters or repositories were removed during the authorized cache cleanup. Preserve `m0-verified`, `m0-model-verified`, `m1-verified`, `m2-verified` and `m3-verified` checkpoints while extending the product.

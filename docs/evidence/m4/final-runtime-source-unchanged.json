@@ -1,0 +1,18 @@
+{
+  "comparedWith": "b2ed73ccf20c5e71dc464c40c002c284aba0496e",
+  "scope": [
+    "apps",
+    "packages",
+    "charts",
+    "infra",
+    "tests",
+    "root manifests/lock/TypeScript configuration"
+  ],
+  "runtimeSourceUnchanged": true,
+  "finalChanges": "documentation, evidence and acceptance/scan helpers only",
+  "modelTraffic": false,
+  "verificationPending": false,
+  "at": "2026-10-11T06:32:27.929239+00:00",
+  "gitDiffExitCode": 0,
+  "gitDiffOutputBytes": 0
+}

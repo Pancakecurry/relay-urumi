@@ -1,0 +1,16 @@
+{"at":"2026-10-11T06:13:38.433Z","checks":[{"state":"authentication","sampledTextElements":15,"minimumContrast":7.666726885123874},{"state":"Control room","sampledTextElements":148,"minimumContrast":4.273691563369197},{"state":"MCP servers","sampledTextElements":49,"minimumContrast":7.6909764302322685},{"state":"Tool library","sampledTextElements":26,"minimumContrast":7.6909764302322685},{"state":"Agent workspace","sampledTextElements":41,"minimumContrast":7.2387095502846375},{"state":"Audit explorer","sampledTextElements":402,"minimumContrast":7.6909764302322685},{"state":"Team","sampledTextElements":42,"minimumContrast":7.6909764302322685},{"state":"API keys","sampledTextElements":67,"minimumContrast":7.6909764302322685},{"state":"Settings","sampledTextElements":37,"minimumContrast":7.6909764302322685}],"failures":[{"tag":"SPAN","class":"","color":"rgb(127, 138, 148)","background":[28,41,39],"ratio":4.273691563369197,"fontSize":8,"required":4.5,"state":"Control room"}],"modelTraffic":false,"passed":false}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Visible text contrast failures recorded
+    at file://[PROJECT_ROOT]/.local/contrast-review.mjs:4:855 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.16.0

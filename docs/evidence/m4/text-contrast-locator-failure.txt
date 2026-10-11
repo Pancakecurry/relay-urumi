@@ -1,0 +1,136 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+ExpectError: expect(locator).toBeVisible() failed
+
+Locator: getByRole('heading', { name: 'Team', exact: true })
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" getByRole('heading', { name: 'Team', exact: true }) with timeout 5000ms
+  - waiting for getByRole('heading', { name: 'Team', exact: true })
+
+    at captureRawStack ([LOCAL_HOME]/Library/Caches/relay-m0-20261010/node_modules/.pnpm/playwright-core@1.64.0/node_modules/playwright-core/lib/coreBundle.js:9282:17)
+    at callMatcherAsStep ([LOCAL_HOME]/Library/Caches/relay-m0-20261010/node_modules/.pnpm/playwright@1.64.0/node_modules/playwright/lib/matchers/expect.js:13316:57)
+    at Object.toBeVisible ([LOCAL_HOME]/Library/Caches/relay-m0-20261010/node_modules/.pnpm/playwright@1.64.0/node_modules/playwright/lib/matchers/expect.js:13308:23)
+    at [PROJECT_ROOT]/.local/contrast-review.mjs:4:660 {
+  matcherResult: {
+    message: 'expect(locator).toBeVisible() failed\n' +
+      '\n' +
+      "Locator: getByRole('heading', { name: 'Team', exact: true })\n" +
+      'Expected: visible\n' +
+      'Timeout: 5000ms\n' +
+      'Error: element(s) not found\n' +
+      '\n' +
+      'Call log:\n' +
+      `  - Expect "toBeVisible" getByRole('heading', { name: 'Team', exact: true }) with timeout 5000ms\n` +
+      "  - waiting for getByRole('heading', { name: 'Team', exact: true })\n",
+    pass: false,
+    actual: undefined,
+    name: 'toBeVisible',
+    expected: 'visible',
+    log: [
+      `  - Expect "toBeVisible" getByRole('heading', { name: 'Team', exact: true }) with timeout 5000ms`,
+      "  - waiting for getByRole('heading', { name: 'Team', exact: true })"
+    ],
+    timeout: 5000,
+    ariaSnapshot: '- link "Skip to workspace":\n' +
+      '  - /url: "#main"\n' +
+      '- complementary:\n' +
+      '  - text: relay Workspace\n' +
+      '  - combobox "Team workspace":\n' +
+      '    - option "Relay M4 de7b659f" [selected]\n' +
+      '  - button "Jump to… ⌘ K"\n' +
+      '  - navigation "Main navigation":\n' +
+      '    - link "Control room":\n' +
+      '      - /url: /\n' +
+      '    - link "MCP servers":\n' +
+      '      - /url: /servers\n' +
+      '    - link "Tool library":\n' +
+      '      - /url: /tools\n' +
+      '    - link "Agent workspace":\n' +
+      '      - /url: /agent\n' +
+      '    - link "Audit explorer":\n' +
+      '      - /url: /audit\n' +
+      '    - link "Team":\n' +
+      '      - /url: /team\n' +
+      '    - link "API keys":\n' +
+      '      - /url: /keys\n' +
+      '    - link "Settings":\n' +
+      '      - /url: /settings\n' +
+      '  - text: KUBERNETES WORKSPACE S\n' +
+      '  - strong: Synthetic M4 Admin\n' +
+      '  - text: admin\n' +
+      '  - button "Sign out"\n' +
+      '- text: Relay M4 de7b659f Control plane\n' +
+      '- link "Open storefront":\n' +
+      '  - /url: http://store.relay.localhost:18080/shop/\n' +
+      '- main:\n' +
+      '  - text: WORKSPACE / ACCESS\n' +
+      '  - heading "Team & permissions" [level=1]\n' +
+      '  - paragraph: Explicit roles, active memberships, and gateway-enforced tool visibility.\n' +
+      '  - button "Invite member"\n' +
+      '  - heading "Members" [level=2]\n' +
+      '  - table:\n' +
+      '    - rowgroup:\n' +
+      '      - row "User ID Role Membership Controls":\n' +
+      '        - columnheader "User ID"\n' +
+      '        - columnheader "Role"\n' +
+      '        - columnheader "Membership"\n' +
+      '        - columnheader "Controls"\n' +
+      '    - rowgroup:\n' +
+      '      - row "Synthetic M4 Admin m4-a-de7b659f@example.invalid ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat admin Active Deactivate Make member":\n' +
+      '        - cell "Synthetic M4 Admin m4-a-de7b659f@example.invalid ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat":\n' +
+      '          - text: Synthetic M4 Admin m4-a-de7b659f@example.invalid\n' +
+      '          - code: ssgnxgTx38VyrrMqka2Gmmfz3E6zmfat\n' +
+      '        - cell "admin"\n' +
+      '        - cell "Active"\n' +
+      '        - cell "Deactivate Make member":\n' +
+      '          - button "Deactivate"\n' +
+      '          - button "Make member"\n' +
+      '      - row "Synthetic M4 Member m4-b-de7b659f@example.invalid owju2xM5K7mieSQ9EYsWGmu95dDmnsra member Active Deactivate Make admin":\n' +
+      '        - cell "Synthetic M4 Member m4-b-de7b659f@example.invalid owju2xM5K7mieSQ9EYsWGmu95dDmnsra":\n' +
+      '          - text: Synthetic M4 Member m4-b-de7b659f@example.invalid\n' +
+      '          - code: owju2xM5K7mieSQ9EYsWGmu95dDmnsra\n' +
+      '        - cell "member"\n' +
+      '        - cell "Active"\n' +
+      '        - cell "Deactivate Make admin":\n' +
+      '          - button "Deactivate"\n' +
+      '          - button "Make admin"\n' +
+      '  - heading "Invitations" [level=2]\n' +
+      '  - table:\n' +
+      '    - rowgroup:\n' +
+      '      - row "Email Role Expires Status":\n' +
+      '        - columnheader "Email"\n' +
+      '        - columnheader "Role"\n' +
+      '        - columnheader "Expires"\n' +
+      '        - columnheader "Status"\n' +
+      '        - columnheader\n' +
+      '    - rowgroup:\n' +
+      '      - row "m4-b-de7b659f@example.invalid member Oct 12, 12:02:30 AM Accepted":\n' +
+      '        - cell "m4-b-de7b659f@example.invalid"\n' +
+      '        - cell "member"\n' +
+      '        - cell "Oct 12, 12:02:30 AM"\n' +
+      '        - cell "Accepted"\n' +
+      '        - cell\n' +
+      '  - heading "Tool access policies" [level=2]\n' +
+      '  - paragraph: "Default: allowed for active team members. Matching deny always wins."\n' +
+      '  - button "Add policy"\n' +
+      '  - table:\n' +
+      '    - rowgroup:\n' +
+      '      - row "Subject Server Tool Effect":\n' +
+      '        - columnheader "Subject"\n' +
+      '        - columnheader "Server"\n' +
+      '        - columnheader "Tool"\n' +
+      '        - columnheader "Effect"\n' +
+      '        - columnheader\n' +
+      '    - rowgroup:\n' +
+      '      - row "No custom policies. Active members can use all enabled tools.":\n' +
+      '        - cell "No custom policies. Active members can use all enabled tools."'
+  }
+}
+
+Node.js v24.16.0

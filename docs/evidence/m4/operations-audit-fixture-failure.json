@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-10T18:54:42.531Z",
+  "passed": false,
+  "checks": [
+    "UI rename keeps credentials and collision-safe aliases",
+    "UI no-auth registration reports real auth failure; confirmed removal",
+    "UI disable removes tools in chat discovery and B client; cached alias rejects",
+    "actual Calendar pod deletion/replacement while WooCommerce works",
+    "separate sustained zero-replica outage shown honestly; healthy Woo independent",
+    "UI membership deactivation blocks existing personal-key connection, reactivation restores",
+    "UI member policy changes actual gateway visibility",
+    "UI admin issues/revokes a member key",
+    "UI revokes B; next tool call on existing connection rejects"
+  ],
+  "error": "The expression evaluated to a falsy value:\n\n  assert(audit&&audit.user_id===i.users.A&&audit.auth_kind==='chat'&&audit.status===e.data.status)\n"
+}

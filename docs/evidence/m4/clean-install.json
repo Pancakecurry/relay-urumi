@@ -1,0 +1,183 @@
+{
+  "at": "2026-10-11T06:21:08.117Z",
+  "passed": true,
+  "sourceCommit": "b2ed73ccf20c5e71dc464c40c002c284aba0496e",
+  "destination": "[LOCAL_HOME]/Library/Caches/relay-m4-clean-cbAr4m",
+  "cluster": "relay-m4-clean",
+  "origin": "http://relay.localhost:19080",
+  "platformImage": "relay/platform:m4-35c993da37e0eb5d",
+  "sourceFingerprint": "m4-35c993da37e0eb5d",
+  "checks": "fresh frozen online install, lint/typecheck/25 tests/build, empty cluster/PVCs, store bootstrap/COD/admin, two browser users, three real MCP upstreams via Ingress",
+  "resources": [
+    {
+      "kind": "Pod",
+      "name": "relay-api-578fcc99f9-ch57p",
+      "namespace": "relay-platform",
+      "phase": "Running",
+      "uid": "9826f5a7-dbe5-455b-af0b-8bca0c955475",
+      "ready": [
+        true
+      ]
+    },
+    {
+      "kind": "Pod",
+      "name": "relay-dashboard-9896c96f4-qkqmf",
+      "namespace": "relay-platform",
+      "phase": "Running",
+      "uid": "8333388b-7896-4c0a-8232-573e49475cba",
+      "ready": [
+        true
+      ]
+    },
+    {
+      "kind": "Pod",
+      "name": "relay-gateway-569f9466d7-5jmff",
+      "namespace": "relay-platform",
+      "phase": "Running",
+      "uid": "301d517c-d95a-48e2-a854-12726b424bdf",
+      "ready": [
+        true
+      ]
+    },
+    {
+      "kind": "Pod",
+      "name": "relay-migrate-1-pnlz7",
+      "namespace": "relay-platform",
+      "phase": "Succeeded",
+      "uid": "bfb5ca27-75b7-4fee-901c-30770684a2b7",
+      "ready": [
+        false
+      ]
+    },
+    {
+      "kind": "Pod",
+      "name": "relay-postgres-0",
+      "namespace": "relay-platform",
+      "phase": "Running",
+      "uid": "ca3c2cbf-5fb0-4a86-bf5e-fb361a66c2bc",
+      "ready": [
+        true
+      ]
+    },
+    {
+      "kind": "Pod",
+      "name": "relay-redis-0",
+      "namespace": "relay-platform",
+      "phase": "Running",
+      "uid": "57144225-4e8e-4efb-98f0-dc70f89b9bbe",
+      "ready": [
+        true
+      ]
+    },
+    {
+      "kind": "Pod",
+      "name": "demo-store-bootstrap-sxbjj",
+      "namespace": "relay-store-m1",
+      "phase": "Succeeded",
+      "uid": "ec4081f2-df8d-4e41-aaf3-f0aaaff9f2f2",
+      "ready": [
+        false
+      ]
+    },
+    {
+      "kind": "Pod",
+      "name": "demo-store-db-0",
+      "namespace": "relay-store-m1",
+      "phase": "Running",
+      "uid": "6e31a944-4685-4103-8225-78193af37373",
+      "ready": [
+        true
+      ]
+    },
+    {
+      "kind": "Pod",
+      "name": "demo-store-wp-56c47ddc87-t8cfz",
+      "namespace": "relay-store-m1",
+      "phase": "Running",
+      "uid": "066fa665-e8be-47c7-9d40-035b31220336",
+      "ready": [
+        true
+      ]
+    },
+    {
+      "kind": "Pod",
+      "name": "relay-woocommerce-569f6f5c8-7g9dm",
+      "namespace": "relay-store-m1",
+      "phase": "Running",
+      "uid": "6b2cfe45-6477-4a79-ac1a-324dd31e7d17",
+      "ready": [
+        true
+      ]
+    },
+    {
+      "kind": "Pod",
+      "name": "relay-calendar-7ff67dd8b7-9t8dk",
+      "namespace": "relay-upstreams",
+      "phase": "Running",
+      "uid": "93da4d3f-fc7d-4cbf-8aa9-fe1cae5124c2",
+      "ready": [
+        true
+      ]
+    },
+    {
+      "kind": "Pod",
+      "name": "relay-totals-6dfd4f9767-rx8pv",
+      "namespace": "relay-upstreams",
+      "phase": "Running",
+      "uid": "285637ca-462d-4cac-9f7c-2cb545b72a1a",
+      "ready": [
+        true
+      ]
+    },
+    {
+      "kind": "PersistentVolumeClaim",
+      "name": "data-relay-postgres-0",
+      "namespace": "relay-platform",
+      "phase": "Bound",
+      "uid": "b0902304-4c51-415e-9264-40094625ae51"
+    },
+    {
+      "kind": "PersistentVolumeClaim",
+      "name": "data-relay-redis-0",
+      "namespace": "relay-platform",
+      "phase": "Bound",
+      "uid": "fc14d4a0-36f3-4115-a5b0-33c91ba8a48f"
+    },
+    {
+      "kind": "PersistentVolumeClaim",
+      "name": "demo-store-content",
+      "namespace": "relay-store-m1",
+      "phase": "Bound",
+      "uid": "3ca28569-9e91-4c0a-81d5-0b3456318482"
+    },
+    {
+      "kind": "PersistentVolumeClaim",
+      "name": "demo-store-db",
+      "namespace": "relay-store-m1",
+      "phase": "Bound",
+      "uid": "f1fe268b-6d58-4820-85d4-fb87c9857fa0"
+    },
+    {
+      "kind": "Ingress",
+      "name": "relay-core",
+      "namespace": "relay-platform",
+      "uid": "71eb1c4e-ed5f-4b72-a51f-47e6beeaf6ba"
+    },
+    {
+      "kind": "Ingress",
+      "name": "relay-dashboard",
+      "namespace": "relay-platform",
+      "uid": "77484db8-d655-47b7-bc1e-8385bb62ca45"
+    },
+    {
+      "kind": "Ingress",
+      "name": "demo-store-store",
+      "namespace": "relay-store-m1",
+      "uid": "58908b60-569b-42d4-a1d2-d4cf1e259408"
+    }
+  ],
+  "modelTraffic": false,
+  "existingCoreTouched": false,
+  "architecture": "native arm64; same Helm charts with values overrides",
+  "teardown": "only newly created disposable cluster removed after evidence; existing clusters/volumes untouched"
+}
