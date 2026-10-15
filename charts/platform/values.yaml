@@ -37,3 +37,11 @@ dashboardEnabled: false
 modelEnabled: false
 modelSecretName: relay-model
 storefrontUrl: http://store.relay.localhost:18080/shop/
+
+provisionerEnabled: false
+provisionerImage: relay/provisioner:unbuilt
+storeImage: relay/store:m1-2374b9c0c5f86c48
+storeDomain: relay.localhost
+storeUrlSuffix: ":18080"
+storeUserLimit: 2
+storeTimeoutSeconds: 600

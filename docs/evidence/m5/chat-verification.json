@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-11T16:29:53.937Z",
+  "passed": true,
+  "run": "81031220-e46e-48ea-b65f-858eb14befc5",
+  "actor": "dMoSe3Whqj0N152w4QiLsYlXzEpyeWd1",
+  "stores": [
+    "ec2a6b2c-138d-4d4c-b57c-38b8264f6598",
+    "85079ca7-2e6b-440c-96e3-076794da1e31"
+  ],
+  "toolCalls": 5,
+  "auditIds": [
+    "cdd43e29-9684-4d6b-8261-ca8e543da034",
+    "bcbe4148-2a4c-4778-be28-6fae3d3a4b76",
+    "820d6acc-30ab-472c-8865-f2b37e9c202d",
+    "b02fb16f-7882-41ee-bc57-f74a11bfaba8",
+    "364a9f47-be86-44ad-8789-dda032cc9b8b"
+  ],
+  "realModel": true,
+  "gatewayOnly": true
+}

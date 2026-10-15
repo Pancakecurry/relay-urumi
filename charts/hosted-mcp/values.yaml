@@ -14,3 +14,5 @@ store:
   adapterSecret: store-adapter
   wordpressRelease: demo-store
   restTimeoutMs: 8000
+
+provisionerEnabled: false

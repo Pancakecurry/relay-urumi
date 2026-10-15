@@ -8,8 +8,8 @@ export function destination(url: string) { const allowed = (process.env['ALLOWED
 }
 catch {
     throw new Rejection('DESTINATION_DENIED', 400);
-} const internal = u.protocol === 'http:' && u.port === '3000' && /^[a-z0-9-]+\.(relay-upstreams|relay-store-m1)\.svc\.cluster\.local$/.test(u.hostname); if ((!internal && !allowed.includes(u.href)) || u.username || u.password || u.search || u.hash || !['http:', 'https:'].includes(u.protocol) || u.pathname !== '/mcp')
-    throw new Rejection('DESTINATION_DENIED', 400); if (u.protocol === 'http:' && !/^[a-z0-9-]+\.(relay-upstreams|relay-store-m1)\.svc\.cluster\.local$/.test(u.hostname))
+} const internal = u.protocol === 'http:' && u.port === '3000' && /^[a-z0-9-]+\.(relay-upstreams|relay-store-m1|relay-store-[a-f0-9]{32})\.svc\.cluster\.local$/.test(u.hostname); if ((!internal && !allowed.includes(u.href)) || u.username || u.password || u.search || u.hash || !['http:', 'https:'].includes(u.protocol) || u.pathname !== '/mcp')
+    throw new Rejection('DESTINATION_DENIED', 400); if (u.protocol === 'http:' && !/^[a-z0-9-]+\.(relay-upstreams|relay-store-m1|relay-store-[a-f0-9]{32})\.svc\.cluster\.local$/.test(u.hostname))
     throw new Rejection('DESTINATION_DENIED', 400); return u; }
 export function isPublicAddress(ip: string) { if (ip.includes(':'))
     return false; const b = ip.split('.').map(Number); return b.length === 4 && b.every(n => n >= 0 && n <= 255) && !([0, 10, 127].includes(b[0]!) || b[0]! >= 224 || (b[0] === 169 && b[1] === 254) || (b[0] === 172 && b[1]! >= 16 && b[1]! <= 31) || (b[0] === 192 && b[1] === 168) || (b[0] === 100 && b[1]! >= 64 && b[1]! <= 127) || (b[0] === 198 && [18, 19, 51].includes(b[1]!)) || (b[0] === 203 && b[1] === 0) || (b[0] === 192 && b[1] === 0)); }

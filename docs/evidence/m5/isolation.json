@@ -1,0 +1,82 @@
+{
+  "at": "2026-10-15T13:59:22.108Z",
+  "passed": true,
+  "checks": [
+    {
+      "source": "relay-store-ec2a6b2c138d4d4cb57c38b8264f6598",
+      "ownWordPress": "connected",
+      "ownDatabase": "denied",
+      "otherWordPress": "denied",
+      "otherDatabase": "denied",
+      "platformDatabase": "denied",
+      "otherAdapter": "denied"
+    },
+    {
+      "source": "relay-store-85079ca72e6b440c96e3076794da1e31",
+      "ownWordPress": "connected",
+      "ownDatabase": "denied",
+      "otherWordPress": "denied",
+      "otherDatabase": "denied",
+      "platformDatabase": "denied",
+      "otherAdapter": "denied"
+    }
+  ],
+  "rbac": [
+    {
+      "verb": "get",
+      "resource": "secrets/platform-db-admin",
+      "namespace": "relay-platform",
+      "response": "no"
+    },
+    {
+      "verb": "get",
+      "resource": "secrets/relay-model",
+      "namespace": "relay-platform",
+      "response": "no"
+    },
+    {
+      "verb": "get",
+      "resource": "secrets/store-adapter",
+      "namespace": "relay-store-m1",
+      "response": "no"
+    },
+    {
+      "verb": "get",
+      "resource": "secrets/gateway-upstream-credentials",
+      "namespace": "relay-platform",
+      "response": "yes"
+    },
+    {
+      "verb": "get",
+      "resource": "secrets/store-adapter",
+      "namespace": "relay-store-ec2a6b2c138d4d4cb57c38b8264f6598",
+      "response": "yes"
+    },
+    {
+      "verb": "create",
+      "resource": "pods/exec",
+      "namespace": "relay-store-ec2a6b2c138d4d4cb57c38b8264f6598",
+      "response": "no"
+    },
+    {
+      "verb": "delete",
+      "resource": "persistentvolumes",
+      "namespace": null,
+      "response": "no"
+    },
+    {
+      "verb": "create",
+      "resource": "clusterrolebindings",
+      "namespace": null,
+      "response": "no"
+    },
+    {
+      "action": "unmanaged namespace",
+      "admissionDenied": true
+    },
+    {
+      "action": "unmanaged rolebinding",
+      "admissionDenied": true
+    }
+  ]
+}

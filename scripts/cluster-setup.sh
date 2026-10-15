@@ -6,7 +6,7 @@ mkdir -p .local
 if k3d cluster list -o json | node -e 'let b="";process.stdin.on("data",d=>b+=d);process.stdin.on("end",()=>process.exit(JSON.parse(b).some(c=>c.name==="relay-m0")?0:1))'; then
   printf '%s\n' 'Existing relay-m0 detected; preserving it.'
 else
-  k3d cluster create --config infra/local/k3d.yaml --servers-memory 3G --timeout 180s
+  k3d cluster create --config infra/local/k3d.yaml --servers-memory 4G --timeout 180s
 fi
 docker inspect k3d-relay-m0-serverlb --format '{{json .NetworkSettings.Ports}}' | node -e 'let b="";process.stdin.on("data",d=>b+=d);process.stdin.on("end",()=>{const ports=JSON.parse(b);for(const port of ["80/tcp","6443/tcp"]){if(!ports[port]?.length||!ports[port].every(p=>p.HostIp==="127.0.0.1")){console.error("Unsafe or missing loopback binding for "+port+"; preserve the cluster and repair its dedicated load-balancer mapping before continuing.");process.exit(1);}}})'
 k3d kubeconfig get relay-m0 > .local/kubeconfig

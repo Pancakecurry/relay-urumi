@@ -1,0 +1,39 @@
+{
+  "at": "2026-10-15T14:12:39.708Z",
+  "passed": true,
+  "storeId": "abb8ec48-8238-4719-8b44-fb8675069314",
+  "beforeDeletion": {
+    "status": "Provisioning",
+    "phase": "StoreInstall",
+    "generation": 1
+  },
+  "concurrentRequests": 3,
+  "committedOperations": 2,
+  "duplicateCreationReused": true,
+  "generationFence": true,
+  "namespaceAbsent": true,
+  "recordedVolumesAndDataAbsent": true,
+  "volumes": [
+    {
+      "name": "pvc-2cb57038-8b87-41ac-89ff-8984acd5b235",
+      "reclaim": "Delete"
+    },
+    {
+      "name": "pvc-7653e312-71e0-4972-94c6-3e227d4db86d",
+      "reclaim": "Delete"
+    }
+  ],
+  "activeRegistrationAbsent": true,
+  "survivingStoreTools": true,
+  "dataDirectoryChecks": [
+    {
+      "volume": "pvc-2cb57038-8b87-41ac-89ff-8984acd5b235",
+      "matches": 0
+    },
+    {
+      "volume": "pvc-7653e312-71e0-4972-94c6-3e227d4db86d",
+      "matches": 0
+    }
+  ],
+  "dataDirectoryCheckedAt": "2026-10-15T14:13:11.887Z"
+}

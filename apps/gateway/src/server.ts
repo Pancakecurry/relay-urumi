@@ -80,7 +80,7 @@ app.all('/mcp', { bodyLimit: 262144 }, async (req, reply) => {
         const handler = toNodeHandler(createMcpHandler(() => { const server = new McpServer({ name: 'relay-team-gateway', version: '0.3.0' }, { capabilities: { tools: { listChanged: false } } }); for (const t of tools) {
             if (preError && t.alias === alias)
                 continue;
-            server.registerTool(t.alias, { title: `${t.upstream.name}: ${t.tool.name}`, description: t.tool.description ?? `${t.upstream.name} / ${t.tool.name}`, inputSchema: standard(t.tool.inputSchema), ...(t.tool.outputSchema ? { outputSchema: standard(t.tool.outputSchema) } : {}), ...(t.tool.annotations ? { annotations: t.tool.annotations } : {}), _meta: { relay: { upstreamId: t.upstream.id, toolName: t.tool.name } } }, async (args, ctx) => execute(t, z.record(z.string(), z.unknown()).parse(args), AbortSignal.any([ctx.mcpReq.signal,disconnected.signal])));
+            server.registerTool(t.alias, { title: `${t.upstream.name}: ${t.tool.name}`, description: `${t.upstream.name}: ${t.tool.description ?? t.tool.name}`, inputSchema: standard(t.tool.inputSchema), ...(t.tool.outputSchema ? { outputSchema: standard(t.tool.outputSchema) } : {}), ...(t.tool.annotations ? { annotations: t.tool.annotations } : {}), _meta: { relay: { upstreamId: t.upstream.id, upstreamName: t.upstream.name, toolName: t.tool.name } } }, async (args, ctx) => execute(t, z.record(z.string(), z.unknown()).parse(args), AbortSignal.any([ctx.mcpReq.signal,disconnected.signal])));
         } if (preError && call?.success)
             server.registerTool(alias, { inputSchema: z.record(z.string(), z.unknown()) }, async () => ({ ...failure(preError), _meta: { relay: { auditId: record?.id ?? null } } })); return server; }));
         async function execute(t: CatalogTool, args: Record<string, unknown>, signal: AbortSignal) { let release: (() => Promise<void>) | undefined; try {
@@ -89,12 +89,12 @@ app.all('/mcp', { bodyLimit: 262144 }, async (req, reply) => {
             release = await limits.lease(i, t.upstream.id);
             const result = await catalog.call(i, t, args, signal);
             const detail=z.object({error:z.object({code:z.string().regex(/^[A-Z_]{1,64}$/)})}).safeParse(result.structuredContent);await finish(result.isError ? 'failed' : 'success', result.isError ? (detail.success?detail.data.error.code:'UPSTREAM_TOOL_ERROR') : null);
-            return { ...result, _meta: { relay: { auditId: record?.id ?? null, upstreamId: t.upstream.id, toolName: t.tool.name } } };
+            return { ...result, _meta: { relay: { auditId: record?.id ?? null, upstreamId: t.upstream.id, upstreamName: t.upstream.name, toolName: t.tool.name } } };
         }
         catch (e) {
             const code = e instanceof Rejection ? e.code : signal.aborted ? 'CALL_CANCELLED' : String(e).includes('Timeout') || String(e).includes('timeout') ? 'UPSTREAM_TIMEOUT' : 'UPSTREAM_UNAVAILABLE';
             await finish(e instanceof Rejection ? 'rejected' : 'failed', code);
-            return { ...failure(code), _meta: { relay: { auditId: record?.id ?? null, upstreamId: t.upstream.id, toolName: t.tool.name } } };
+            return { ...failure(code), _meta: { relay: { auditId: record?.id ?? null, upstreamId: t.upstream.id, upstreamName: t.upstream.name, toolName: t.tool.name } } };
         }
         finally {
             await release?.().catch(() => { });

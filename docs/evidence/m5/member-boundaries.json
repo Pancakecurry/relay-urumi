@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-15T13:41:58.672Z",
+  "checks": [
+    "Member cannot delete another owner’s store",
+    "Active team member can read sanitized infrastructure",
+    "Member provisions a real independently owned store without consuming admin owner slots",
+    "Member deletes own store through complete lifecycle",
+    "Cross-team infrastructure observation is denied"
+  ],
+  "passed": true,
+  "member": "XUF9duwvWtQTBtDQnws2kmVSHRFnqDZL",
+  "ownedStore": "f67f5b1e-be7e-4408-8e36-326af19d5069"
+}

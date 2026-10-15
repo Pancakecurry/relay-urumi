@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-15T13:59:24.047Z",
+  "passed": true,
+  "checks": [
+    {
+      "name": "quota",
+      "actualAdmissionDenied": true,
+      "reason": "exceeded quota"
+    },
+    {
+      "name": "limit",
+      "actualAdmissionDenied": true,
+      "reason": "maximum cpu usage per Container"
+    },
+    {
+      "name": "Store ledger RLS and restricted controller role",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-15T14:00:47.888Z",
+  "namespace": "relay-store-m1",
+  "site": "http://store.relay.localhost:18080",
+  "browser": "154.0.8037.99",
+  "productId": 42,
+  "orderId": 43,
+  "paymentMethod": "cod",
+  "status": "processing",
+  "total": "199.00",
+  "authenticatedRestStatus": 200,
+  "unauthenticatedOrdersStatus": 401,
+  "orderVerifiedInAdmin": true,
+  "contentMarkerVerified": true,
+  "afterPodReplacement": true,
+  "realBrowserCheckout": false
+}

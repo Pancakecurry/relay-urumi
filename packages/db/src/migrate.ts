@@ -17,7 +17,7 @@ try {
     const c=await p.connect();
     try {
     await c.query('SELECT pg_advisory_lock(73303)');
-    for (const role of ['migrator', 'auth', 'app']) {
+    for (const role of ['migrator', 'auth', 'app', 'provisioner']) {
         const name = `relay_${role}`;
         if (!(await c.query('SELECT 1 FROM pg_roles WHERE rolname=$1', [name])).rowCount)
             await c.query(`CREATE ROLE ${name} LOGIN NOSUPERUSER NOBYPASSRLS NOCREATEDB NOCREATEROLE`);
@@ -30,8 +30,9 @@ try {
     await c.query('BEGIN');
     await c.query(readFileSync('packages/db/migrations/0001_m3.sql', 'utf8'));
     await c.query(readFileSync('packages/db/migrations/0002_m4.sql', 'utf8'));
+    await c.query(readFileSync('packages/db/migrations/0003_m5.sql', 'utf8'));
     await c.query('COMMIT');
-    console.log(JSON.stringify({ migrations: ['0001_m3', '0002_m4'], roles: ['relay_migrator', 'relay_auth', 'relay_app'], runtimeRlsBypass: false, status: 'applied' }));
+    console.log(JSON.stringify({ migrations: ['0001_m3', '0002_m4', '0003_m5'], roles: ['relay_migrator', 'relay_auth', 'relay_app'], runtimeRlsBypass: false, status: 'applied' }));
     }finally{await c.query('ROLLBACK').catch(()=>{});await c.query('SELECT pg_advisory_unlock(73303)').catch(()=>{});c.release();}
 }
 finally { await p.end(); }

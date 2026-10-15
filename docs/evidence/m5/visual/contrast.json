@@ -1,0 +1,58 @@
+{
+  "at": "2026-10-15T21:29:21.124Z",
+  "checks": [
+    {
+      "state": "1440 Infrastructure",
+      "sampledTextElements": 135,
+      "minimumContrast": 6.792451858563259
+    },
+    {
+      "state": "1440 Lifecycle",
+      "sampledTextElements": 77,
+      "minimumContrast": 6.792451858563259
+    },
+    {
+      "state": "1440 MCP tools",
+      "sampledTextElements": 101,
+      "minimumContrast": 6.792451858563259
+    },
+    {
+      "state": "1440 Operation log",
+      "sampledTextElements": 1190,
+      "minimumContrast": 6.792451858563259
+    },
+    {
+      "state": "1440 create",
+      "sampledTextElements": 1199,
+      "minimumContrast": 6.792451858563259
+    },
+    {
+      "state": "390 Infrastructure",
+      "sampledTextElements": 116,
+      "minimumContrast": 6.792451858563259
+    },
+    {
+      "state": "390 Lifecycle",
+      "sampledTextElements": 57,
+      "minimumContrast": 6.792451858563259
+    },
+    {
+      "state": "390 MCP tools",
+      "sampledTextElements": 81,
+      "minimumContrast": 6.792451858563259
+    },
+    {
+      "state": "390 Operation log",
+      "sampledTextElements": 1170,
+      "minimumContrast": 6.792451858563259
+    },
+    {
+      "state": "390 create",
+      "sampledTextElements": 1179,
+      "minimumContrast": 6.792451858563259
+    }
+  ],
+  "failures": [],
+  "modelTraffic": false,
+  "passed": true
+}

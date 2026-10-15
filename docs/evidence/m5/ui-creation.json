@@ -1,0 +1,87 @@
+{
+  "at": "2026-10-15T14:07:43.743Z",
+  "passed": true,
+  "store": {
+    "id": "c44657fb-4180-441e-8b0e-21739364b198",
+    "name": "Vega Synthetic Store",
+    "namespace": "relay-store-c44657fb4180441e8b0e21739364b198",
+    "host": "s-c44657fb4180441e8b0e21739364b198.relay.localhost",
+    "url": "http://s-c44657fb4180441e8b0e21739364b198.relay.localhost:18080",
+    "status": "Ready",
+    "desired": "present",
+    "phase": "Ready",
+    "generation": 1,
+    "attempt": 0,
+    "error_code": null,
+    "created_at": "2026-10-15T14:07:09.069Z",
+    "updated_at": "2026-10-15T14:07:42.550Z",
+    "deadline": "2026-10-15T14:17:09.069Z",
+    "upstream_id": "c44657fb-4180-441e-8b0e-21739364b198",
+    "user_id": "dMoSe3Whqj0N152w4QiLsYlXzEpyeWd1"
+  },
+  "events": [
+    {
+      "generation": 1,
+      "phase": "Namespace",
+      "code": null,
+      "created_at": "2026-10-15T14:07:09.524Z"
+    },
+    {
+      "generation": 1,
+      "phase": "Admission",
+      "code": null,
+      "created_at": "2026-10-15T14:07:09.544Z"
+    },
+    {
+      "generation": 1,
+      "phase": "Secrets",
+      "code": null,
+      "created_at": "2026-10-15T14:07:09.555Z"
+    },
+    {
+      "generation": 1,
+      "phase": "StoreInstall",
+      "code": null,
+      "created_at": "2026-10-15T14:07:09.581Z"
+    },
+    {
+      "generation": 1,
+      "phase": "DatabaseReady",
+      "code": null,
+      "created_at": "2026-10-15T14:07:36.472Z"
+    },
+    {
+      "generation": 1,
+      "phase": "WooCommerceInitialized",
+      "code": null,
+      "created_at": "2026-10-15T14:07:36.475Z"
+    },
+    {
+      "generation": 1,
+      "phase": "AdapterInstall",
+      "code": null,
+      "created_at": "2026-10-15T14:07:36.476Z"
+    },
+    {
+      "generation": 1,
+      "phase": "Discovery",
+      "code": null,
+      "created_at": "2026-10-15T14:07:42.497Z"
+    },
+    {
+      "generation": 1,
+      "phase": "Registration",
+      "code": null,
+      "created_at": "2026-10-15T14:07:42.544Z"
+    },
+    {
+      "generation": 1,
+      "phase": "Ready",
+      "code": null,
+      "created_at": "2026-10-15T14:07:42.550Z"
+    }
+  ],
+  "realUI": true,
+  "realKubernetes": true,
+  "automaticRegistration": true
+}

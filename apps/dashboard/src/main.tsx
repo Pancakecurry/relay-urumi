@@ -1,3 +1,4 @@
+import { StoreWorkspace } from "./store-workspace";
 import React, {
   useState,
   useEffect,
@@ -369,6 +370,7 @@ function Auth({ refresh }: { refresh: () => void }) {
 }
 const nav = [
   { to: "/", label: "Control room", icon: LayoutDashboard },
+  { to: "/stores", label: "Stores", icon: Boxes },
   { to: "/servers", label: "MCP servers", icon: Server },
   { to: "/tools", label: "Tool library", icon: Boxes },
   { to: "/agent", label: "Agent workspace", icon: MessageSquare },
@@ -454,6 +456,7 @@ function App() {
             aria-label="Team workspace"
             value={team}
             onChange={(e) => {
+              if (e.target.value === currentTeam) return;
               currentTeam = e.target.value;
               localStorage.setItem("relay.team", currentTeam);
               setTeam(currentTeam);
@@ -539,6 +542,15 @@ function App() {
               <Route
                 path="/servers"
                 element={<Servers admin={selected.role === "admin"} />}
+              />
+              <Route
+                path="/stores"
+                element={
+                  <Stores
+                    admin={selected.role === "admin"}
+                    userId={me.data?.user.id ?? ""}
+                  />
+                }
               />
               <Route path="/tools" element={<Tools />} />
               <Route path="/agent" element={<Agent />} />
@@ -2081,13 +2093,13 @@ function SettingsPage() {
       <section className="settings-section">
         <h2>Model spending policy</h2>
         <p>
-          Existing prepaid Gemini credit only. M4 reserves ₹5 before each
-          provider request, with a ₹99 shared ceiling; ₹100 from M0 stays
+          Existing prepaid Gemini credit only. The platform reserves ₹5 before
+          each provider request, with a ₹114 shared ceiling; ₹100 from M0 stays
           reserved. No automatic retries, top-ups, grounding, or paid auxiliary
           tools.
         </p>
         <p>
-          Remaining M4 reservation:{" "}
+          Remaining runtime reservation:{" "}
           <strong>₹{Number(q.data?.budget.remaining_paise ?? 0) / 100}</strong>.
           Reservation is a conservative guard, not an invoice or account-wide
           billing meter.
@@ -2121,3 +2133,14 @@ createRoot(document.getElementById("root")!).render(
     </QueryClientProvider>
   </React.StrictMode>,
 );
+
+function Stores({ admin, userId }: { admin: boolean; userId: string }) {
+  return (
+    <StoreWorkspace
+      api={api}
+      team={currentTeam}
+      admin={admin}
+      userId={userId}
+    />
+  );
+}

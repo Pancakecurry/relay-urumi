@@ -1,0 +1,65 @@
+{
+  "at": "2026-10-15T13:24:54.889Z",
+  "checks": [
+    {
+      "phase": "Namespace",
+      "actualWorkerPodKilled": "024ad34e-54a5-40fd-92e8-75b90ff27d99",
+      "sameNamespace": true,
+      "sixTools": true
+    },
+    {
+      "phase": "Admission",
+      "actualWorkerPodKilled": "5eea9137-9093-411f-aa1e-dcc7947211a9",
+      "sameNamespace": true,
+      "sixTools": true
+    },
+    {
+      "phase": "Secrets",
+      "actualWorkerPodKilled": "ceb5da44-53b0-4083-9f29-f4cd6c2de71c",
+      "sameNamespace": true,
+      "sixTools": true
+    },
+    {
+      "phase": "StoreInstall",
+      "actualWorkerPodKilled": "8b222112-5886-4dd4-8d71-55c9b95165a8",
+      "sameNamespace": true,
+      "sixTools": true
+    },
+    {
+      "phase": "DatabaseReady",
+      "actualWorkerPodKilled": "632ad26f-5012-4a90-80e0-69bf0963af2e",
+      "sameNamespace": true,
+      "sixTools": true
+    },
+    {
+      "phase": "WooCommerceInitialized",
+      "actualWorkerPodKilled": "d6a9f142-82e6-43c9-8810-438a483a264d",
+      "sameNamespace": true,
+      "sixTools": true
+    },
+    {
+      "phase": "AdapterInstall",
+      "actualWorkerPodKilled": "d37b4c84-b7cb-48d1-bf1c-2f2ed38479c7",
+      "sameNamespace": true,
+      "sixTools": true
+    },
+    {
+      "phase": "Discovery",
+      "actualWorkerPodKilled": "8a896fe5-54d2-40df-a317-db5743c55b2c",
+      "sameNamespace": true,
+      "sixTools": true
+    },
+    {
+      "phase": "Registration",
+      "actualWorkerPodKilled": "66561755-9197-4429-91d9-f8727f171d06",
+      "sameNamespace": true,
+      "sixTools": true
+    },
+    {
+      "phase": "Ready",
+      "actualWorkerPodKilled": "7ae530f5-b930-477d-a124-5b7d3cc46b96",
+      "sameNamespace": true,
+      "sixTools": true
+    }
+  ]
+}

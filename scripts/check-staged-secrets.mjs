@@ -32,6 +32,28 @@ try {
  }
 }catch(error){if(error.code!=='ENOENT')throw error;}
 const violations=[];
+// Include current M5 identities, revoked synthetic test passwords and generated
+// store Secrets. Values stay in memory; report filenames and reasons only.
+function privateValues(value,field=''){
+ if(typeof value==='string'&&value.length>=16&&/password|token|cookie|(^|_)key$|authorization/i.test(field))secrets.push(value,Buffer.from(value).toString('base64'));
+ else if(value&&typeof value==='object')for(const [key,child] of Object.entries(value))privateValues(child,key);
+}
+for(const file of readdirSync('.local').filter(n=>/^m5-.*\.json$/.test(n))){try{privateValues(JSON.parse(readFileSync('.local/'+file,'utf8')));}catch(error){if(error.code!=='ENOENT')throw error;}}
+if(process.env.RELAY_SCAN_CLUSTER==='1'){
+ const {kube}=await import('./mcp-kube.mjs');
+ const namespaces=JSON.parse(kube(['get','namespace','-o','json'])).items.filter(n=>n.metadata.name.startsWith('relay')).map(n=>n.metadata.name);
+ for(const namespace of namespaces)for(const object of JSON.parse(kube(['get','secrets','-n',namespace,'-o','json'])).items)for(const [key,encoded] of Object.entries(object.data??{})){
+  if(object.type==='helm.sh/release.v1')continue;
+  const value=Buffer.from(encoded,'base64').toString('utf8');
+  if(key==='credentials.json'){
+   // team is public routing metadata; only the nested headers contain credentials.
+   for(const entry of Object.values(JSON.parse(value)))for(const v of Object.values(entry.headers??{}))if(typeof v==='string'&&v.length>=8){
+    for(const candidate of [v,...(/^Bearer\s+(.+)$/i.exec(v)?.slice(1)??[])])secrets.push(candidate,Buffer.from(candidate).toString('base64'));
+   }
+  }
+  else if(value.length>=16){secrets.push(value,encoded);}
+ }
+}
 try {
  const tokens=JSON.parse(readFileSync('.local/m2-upstream-tokens.json','utf8'));
  for(const value of Object.values(tokens))secrets.push(value,Buffer.from(value).toString('base64'));

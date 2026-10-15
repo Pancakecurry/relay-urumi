@@ -1,0 +1,23 @@
+{
+  "at": "2026-10-15T14:14:31.273Z",
+  "passed": true,
+  "lint": "==> Linting charts/platform\n[INFO] Chart.yaml: icon is recommended\n\n1 chart(s) linted, 0 chart(s) failed\n==> Linting charts/platform\n[INFO] Chart.yaml: icon is recommended\n\n1 chart(s) linted, 0 chart(s) failed\n==> Linting charts/store\n[INFO] Chart.yaml: icon is recommended\n\n1 chart(s) linted, 0 chart(s) failed\nlevel=WARN msg=\"missing required values\" message=\"A pinned image is required\"\n==> Linting charts/hosted-mcp\n[INFO] Chart.yaml: icon is recommended\n\n1 chart(s) linted, 0 chart(s) failed\n",
+  "rendered": [
+    {
+      "mode": "local",
+      "bytes": 25343,
+      "provisioner": true,
+      "admission": true,
+      "secretReferences": true
+    },
+    {
+      "mode": "prod",
+      "bytes": 25343,
+      "provisioner": true,
+      "admission": true,
+      "secretReferences": true
+    }
+  ],
+  "productionDeployed": false,
+  "earlierHarnessRepair": "Production render initially omitted mode=core; corrected values composition, no chart bypass"
+}

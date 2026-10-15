@@ -1,0 +1,176 @@
+{{- if and (eq .Values.mode "core") .Values.provisionerEnabled }}
+apiVersion: v1
+kind: ServiceAccount
+metadata: {name: relay-provisioner}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata: {name: {{ .Release.Namespace }}-relay-provisioner}
+rules:
+  - apiGroups: [""]
+    resources: [namespaces]
+    verbs: [get, create, delete]
+  - apiGroups: [""]
+    resources: [persistentvolumes]
+    verbs: [get]
+  - apiGroups: [rbac.authorization.k8s.io]
+    resources: [rolebindings]
+    resourceNames: [store-controller]
+    verbs: [get]
+  - apiGroups: [rbac.authorization.k8s.io]
+    resources: [rolebindings]
+    verbs: [create]
+  - apiGroups: [rbac.authorization.k8s.io]
+    resources: [clusterroles]
+    resourceNames: [{{ .Release.Namespace }}-relay-store-resources]
+    verbs: [bind]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata: {name: {{ .Release.Namespace }}-relay-store-resources}
+rules:
+  - apiGroups: [""]
+    resources: [secrets, services, persistentvolumeclaims, resourcequotas, limitranges]
+    verbs: [get, list, watch, create, update, patch, delete]
+  - apiGroups: [""]
+    resources: [pods]
+    verbs: [get, list, watch]
+  - apiGroups: [metrics.k8s.io]
+    resources: [pods]
+    verbs: [get, list]
+  - apiGroups: [apps]
+    resources: [deployments, statefulsets, replicasets]
+    verbs: [get, list, watch, create, update, patch, delete]
+  - apiGroups: [batch]
+    resources: [jobs]
+    verbs: [get, list, watch, create, update, patch, delete]
+  - apiGroups: [networking.k8s.io]
+    resources: [ingresses, networkpolicies]
+    verbs: [get, list, watch, create, update, patch, delete]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata: {name: {{ .Release.Namespace }}-relay-provisioner}
+subjects: [{kind: ServiceAccount, name: relay-provisioner, namespace: {{ .Release.Namespace }}}]
+roleRef: {apiGroup: rbac.authorization.k8s.io, kind: ClusterRole, name: {{ .Release.Namespace }}-relay-provisioner}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata: {name: relay-provisioner-vault}
+rules:
+  - apiGroups: [""]
+    resources: [secrets]
+    resourceNames: [gateway-upstream-credentials]
+    verbs: [get, update]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata: {name: relay-provisioner-vault}
+subjects: [{kind: ServiceAccount, name: relay-provisioner, namespace: {{ .Release.Namespace }}}]
+roleRef: {apiGroup: rbac.authorization.k8s.io, kind: Role, name: relay-provisioner-vault}
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata: {name: {{ .Release.Namespace }}-store-controller-boundary}
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE, DELETE]
+        resources: [namespaces]
+  matchConditions:
+    - name: controller-only
+      expression: "request.userInfo.username == 'system:serviceaccount:{{ .Release.Namespace }}:relay-provisioner'"
+  validations:
+    - expression: "request.resource.resource != 'namespaces' || (request.name.matches('^relay-store-[a-f0-9]{32}$') && (request.operation == 'DELETE' ? oldObject.metadata.labels['relay.store/managed'] == 'true' : object.metadata.labels['relay.store/managed'] == 'true'))"
+      message: Controller may only create/delete its generated managed store namespaces.
+
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata: {name: {{ .Release.Namespace }}-store-controller-boundary}
+spec:
+  policyName: {{ .Release.Namespace }}-store-controller-boundary
+  validationActions: [Deny]
+
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata: {name: {{ .Release.Namespace }}-store-role-boundary}
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [rbac.authorization.k8s.io]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [rolebindings]
+  matchConditions:
+    - name: controller-only
+      expression: "request.userInfo.username == 'system:serviceaccount:{{ .Release.Namespace }}:relay-provisioner'"
+  validations:
+    - expression: "request.resource.resource != 'rolebindings' || (namespaceObject != null && has(namespaceObject.metadata.labels) && 'relay.store/managed' in namespaceObject.metadata.labels && namespaceObject.metadata.labels['relay.store/managed'] == 'true' && object.metadata.name == 'store-controller' && object.roleRef.kind == 'ClusterRole' && object.roleRef.name == '{{ .Release.Namespace }}-relay-store-resources' && size(object.subjects) == 1 && object.subjects[0].kind == 'ServiceAccount' && object.subjects[0].name == 'relay-provisioner' && object.subjects[0].namespace == '{{ .Release.Namespace }}')"
+      message: Controller may only bind its fixed store role within managed namespaces.
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata: {name: {{ .Release.Namespace }}-store-role-boundary}
+spec:
+  policyName: {{ .Release.Namespace }}-store-role-boundary
+  validationActions: [Deny]
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: relay-provisioner}
+spec:
+  replicas: 1
+  selector: {matchLabels: {relay.role: provisioner}}
+  template:
+    metadata: {labels: {relay.role: provisioner}}
+    spec:
+      serviceAccountName: relay-provisioner
+      securityContext: {runAsNonRoot: true, runAsUser: 1000, runAsGroup: 1000, fsGroup: 1000, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: provisioner
+          image: {{ .Values.provisionerImage | quote }}
+          imagePullPolicy: IfNotPresent
+          command: [node, dist/apps/provisioner/src/server.js]
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          env:
+            - {name: STORE_IMAGE, value: {{ .Values.storeImage | quote }}}
+            - {name: ADAPTER_IMAGE, value: {{ .Values.platformImage | quote }}}
+            - {name: STORE_STORAGE_CLASS, value: {{ .Values.storageClass | quote }}}
+          ports: [{name: http, containerPort: 3003}]
+          resources: {requests: {cpu: 50m, memory: 96Mi}, limits: {cpu: "1", memory: 384Mi}}
+          readinessProbe: {httpGet: {path: /health/ready, port: http}, initialDelaySeconds: 5, periodSeconds: 5}
+          livenessProbe: {httpGet: {path: /health/live, port: http}, initialDelaySeconds: 5, periodSeconds: 10}
+          volumeMounts: [{name: secrets, mountPath: /run/platform, readOnly: true}, {name: tmp, mountPath: /tmp}]
+      volumes: [{name: secrets, secret: {secretName: platform-provisioner, defaultMode: 0440}}, {name: tmp, emptyDir: {sizeLimit: 64Mi}}]
+---
+apiVersion: v1
+kind: Service
+metadata: {name: relay-provisioner}
+spec: {selector: {relay.role: provisioner}, ports: [{port: 3003, targetPort: http}]}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-provisioner}
+spec:
+  podSelector: {matchLabels: {relay.role: provisioner}}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from: [{podSelector: {matchLabels: {relay.role: api}}}]
+      ports: [{port: 3003}]
+  egress:
+    - to: [{podSelector: {matchLabels: {relay.role: postgres}}}]
+      ports: [{port: 5432}]
+    - to: [{podSelector: {matchLabels: {relay.role: redis}}}]
+      ports: [{port: 6379}]
+    - to: [{ipBlock: {cidr: {{ .Values.kubeApiCidr | quote }}}}, {ipBlock: {cidr: 10.43.0.1/32}}]
+      ports: [{port: 6443}, {port: 443}]
+    - to: [{namespaceSelector: {matchLabels: {relay.store/managed: "true"}}, podSelector: {matchLabels: {role: adapter}}}]
+      ports: [{port: 3000}]
+{{- end }}

@@ -1,0 +1,61 @@
+{
+  "at": "2026-10-11T16:24:19.596Z",
+  "checks": [
+    "Dashboard accepted two asynchronous creates; duplicate request returns the same store",
+    "Third concurrent request rejected by owner admission cap",
+    "Killed real provisioner during Helm lifecycle; desired state retained",
+    "Both real stores converge Ready following provisioner restart",
+    "Twelve automatically registered, identifiable store tools without registry edits",
+    "Official MCP client calls actual synthetic products in both independent stores",
+    "Both Ingress storefronts load with separate database/content PVCs, Secrets, quotas, limits and policies",
+    "Desktop/mobile stores and lifecycle drawer have real state, readable spacing and no page overflow"
+  ],
+  "stores": [
+    {
+      "id": "ec2a6b2c-138d-4d4c-b57c-38b8264f6598",
+      "name": "Aurora Synthetic Store",
+      "namespace": "relay-store-ec2a6b2c138d4d4cb57c38b8264f6598",
+      "host": "s-ec2a6b2c138d4d4cb57c38b8264f6598.relay.localhost",
+      "url": "http://s-ec2a6b2c138d4d4cb57c38b8264f6598.relay.localhost:18080",
+      "status": "Ready",
+      "desired": "present",
+      "phase": "Ready",
+      "generation": 1,
+      "attempt": 1,
+      "error_code": null,
+      "created_at": "2026-10-11T16:24:22.558Z",
+      "updated_at": "2026-10-11T16:25:51.207Z",
+      "deadline": "2026-10-11T16:34:22.558Z",
+      "upstream_id": "ec2a6b2c-138d-4d4c-b57c-38b8264f6598",
+      "user_id": "dMoSe3Whqj0N152w4QiLsYlXzEpyeWd1"
+    },
+    {
+      "id": "85079ca7-2e6b-440c-96e3-076794da1e31",
+      "name": "Boreal Synthetic Store",
+      "namespace": "relay-store-85079ca72e6b440c96e3076794da1e31",
+      "host": "s-85079ca72e6b440c96e3076794da1e31.relay.localhost",
+      "url": "http://s-85079ca72e6b440c96e3076794da1e31.relay.localhost:18080",
+      "status": "Ready",
+      "desired": "present",
+      "phase": "Ready",
+      "generation": 1,
+      "attempt": 0,
+      "error_code": null,
+      "created_at": "2026-10-11T16:24:22.663Z",
+      "updated_at": "2026-10-11T16:25:41.960Z",
+      "deadline": "2026-10-11T16:34:22.663Z",
+      "upstream_id": "85079ca7-2e6b-440c-96e3-076794da1e31",
+      "user_id": "dMoSe3Whqj0N152w4QiLsYlXzEpyeWd1"
+    }
+  ],
+  "screenshots": [
+    "stores-empty-desktop",
+    "stores-provisioning-desktop",
+    "stores-ready-desktop",
+    "store-lifecycle-desktop",
+    "stores-ready-mobile",
+    "store-lifecycle-mobile"
+  ],
+  "errors": [],
+  "passed": true
+}

@@ -1,0 +1,11 @@
+{
+  "at": "2026-10-16",
+  "scope": "unused regular BuildKit cache last accessed over two hours ago",
+  "reportedReclaimedGB": 11.52,
+  "observedFreeDiskBytes": 15179665408,
+  "imagesRemoved": false,
+  "containersRemoved": false,
+  "volumesRemoved": false,
+  "personalFilesRemoved": false,
+  "regenerableOnly": true
+}

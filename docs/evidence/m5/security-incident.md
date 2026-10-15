@@ -1,0 +1,7 @@
+# M5 test diagnostic credential exposure — repaired October15
+
+A failed M4 regression sign-in hit the real authentication rate limiter. Its uncaught Playwright error included an accessibility snapshot containing the synthetic M4 A password field value, which reached one private tool output and an ignored local log. This was an avoidable diagnostic disclosure; it was not a public repository publication. No personal account, Gemini key, WooCommerce credential, session cookie or gateway key was disclosed by that snapshot.
+
+The owned synthetic account password was changed through the pinned Better Auth endpoint with revokeOtherSessions enabled. The replacement was saved only to the mode0600 private fixture. The old password was actually rejected with401 and the replacement signed in with200; see `test-credential-rotation.json`. Existing user/team identity, order data, gateway keys and chat/audit history were preserved. Local log content was redacted and set0600. The original tool transcript cannot be edited; the disclosed password is no longer valid.
+
+`run-acceptance.mjs` catches raw errors into mode0600 local diagnostics and prints only the test path/type. Subsequent acceptance commands use this runner. Rate limiting remains enabled; tests wait for normal windows and do not bypass authentication or hide password inputs from accessibility to make tests pass. Known revoked and current fixture secrets are included in the final repository scan. No claim of “no disclosure ever” is made.

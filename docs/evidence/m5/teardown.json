@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-15T14:01:41.265Z",
+  "checks": [
+    "Explicit dashboard confirmation accepted asynchronous deletion",
+    "Tools disappear immediately; cached alias rejected and audited under owner",
+    "Stalled owned finalizer causes visible bounded cleanup failure, not false Deleted",
+    "Namespace, Helm releases, workloads, Secrets, PVCs, PVs and local-path data removed; surviving store stays callable",
+    "Registration tombstone retained for historical audits; active route and Secret credential slot gone"
+  ],
+  "passed": true,
+  "store": "ec2a6b2c-138d-4d4c-b57c-38b8264f6598",
+  "namespace": "relay-store-ec2a6b2c138d4d4cb57c38b8264f6598",
+  "volumes": [
+    {
+      "name": "pvc-905f1b53-a5c7-464a-800a-cd3ad70dc3ca",
+      "path": "/var/lib/rancher/k3s/storage/pvc-905f1b53-a5c7-464a-800a-cd3ad70dc3ca_relay-store-ec2a6b2c138d4d4cb57c38b8264f6598_store-content",
+      "reclaim": "Delete"
+    },
+    {
+      "name": "pvc-542f909f-eb0c-4c5c-ae8b-eb1eabffa866",
+      "path": "/var/lib/rancher/k3s/storage/pvc-542f909f-eb0c-4c5c-ae8b-eb1eabffa866_relay-store-ec2a6b2c138d4d4cb57c38b8264f6598_store-db",
+      "reclaim": "Delete"
+    }
+  ]
+}

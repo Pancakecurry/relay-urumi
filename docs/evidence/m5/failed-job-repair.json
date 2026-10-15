@@ -1,0 +1,10 @@
+{
+  "at": "2026-10-15T13:59:22.379Z",
+  "passed": true,
+  "queueFailureObserved": true,
+  "sqlDesiredStateRecovered": true,
+  "generation": 34,
+  "sameNamespace": true,
+  "finishedAt": "2026-10-15T13:59:43.318Z",
+  "roleLimitRestored": true
+}

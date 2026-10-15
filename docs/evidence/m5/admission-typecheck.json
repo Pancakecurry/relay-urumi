@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-15T13:59:25.124Z",
+  "passed": true,
+  "results": [
+    {
+      "name": "relay-platform-store-controller-boundary",
+      "warnings": []
+    },
+    {
+      "name": "relay-platform-store-role-boundary",
+      "warnings": []
+    }
+  ]
+}

@@ -32,6 +32,8 @@ spec:
     - to: [{podSelector: {matchLabels: {relay.role: {{ if eq $role "api" }}gateway{{ else }}api{{ end }}}}}]
       ports: [{port: {{ if eq $role "api" }}3000{{ else }}3001{{ end }}}]
     {{- if eq $role "api" }}
+    - to: [{podSelector: {matchLabels: {relay.role: provisioner}}}]
+      ports: [{port: 3003}]
     - to: [{podSelector: {matchLabels: {relay.role: api}}}]
       ports: [{port: 3001}]
     - to: [{ipBlock: {cidr: {{ $.Values.kubeApiCidr | quote }}}}, {ipBlock: {cidr: 10.43.0.1/32}}]
@@ -41,6 +43,8 @@ spec:
       ports: [{port: 6379}]
     - to:
         - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: relay-store-m1}}
+          podSelector: {matchLabels: {role: adapter}}
+        - namespaceSelector: {matchLabels: {relay.store/managed: "true"}}
           podSelector: {matchLabels: {role: adapter}}
         - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: relay-upstreams}}
           podSelector: {matchLabels: {role: utility}}
@@ -58,6 +62,7 @@ spec:
   ingress:
     - from:
         - podSelector: {matchLabels: {relay.role: gateway}}
+        - podSelector: {matchLabels: {relay.role: provisioner}}
         {{- if eq $role "postgres" }}
         - podSelector: {matchLabels: {relay.role: api}}
         - podSelector: {matchLabels: {relay.role: migration}}

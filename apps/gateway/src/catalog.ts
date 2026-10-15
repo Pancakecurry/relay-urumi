@@ -116,12 +116,12 @@ export class Catalog {
         if (stale)
             await this.refresh(i.team);
         return this.store.tenant(i.team, async (tx) => { const upstreams = (await tx.query<Upstream & {
-            tools: Tool[];
-        }>('SELECT u.*,c.tools FROM app.upstreams u JOIN app.tool_catalog_versions c ON c.upstream_id=u.id AND c.revision=u.revision WHERE u.enabled AND u.deleted_at IS NULL ORDER BY u.id')).rows; const table = routes(upstreams.map(u => ({ id: u.id, tools: u.tools }))); const list: CatalogTool[] = []; for (const [alias, r] of table) {
+            tools: Tool[]; store_namespace: string | null;
+        }>('SELECT u.*,c.tools,s.namespace AS store_namespace FROM app.upstreams u LEFT JOIN app.stores s ON s.upstream_id=u.id JOIN app.tool_catalog_versions c ON c.upstream_id=u.id AND c.revision=u.revision WHERE u.enabled AND u.deleted_at IS NULL ORDER BY u.id')).rows; const table = routes(upstreams.map(u => ({ id: u.id, tools: u.tools }))); const list: CatalogTool[] = []; for (const [alias, r] of table) {
             const u = upstreams.find(u => u.id === r.upstreamId)!;
             const t = u.tools.find(t => t.name === r.toolName)!;
             if (await permitted(tx, i, u.id, t.name))
-                list.push({ alias, upstream: u, tool: t });
+                list.push({ alias: u.store_namespace && /^[a-f0-9-]{36}$/.test(u.id) && /^[a-z_]{1,64}$/.test(t.name) ? `store_${u.id.replaceAll('-','')}_${t.name}` : alias, upstream: u, tool: t });
         } return list; });
     }
     async authorize(i: Identity, t: CatalogTool) { return this.store.tenant(i.team, async (tx) => { const u = (await tx.query<Upstream>('SELECT * FROM app.upstreams WHERE id=$1 AND enabled AND deleted_at IS NULL', [t.upstream.id])).rows[0]; if (!u || u.revision !== t.upstream.revision)

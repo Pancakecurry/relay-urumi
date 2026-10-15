@@ -1,4 +1,6 @@
-# Architecture through M3
+# Relay architecture
+
+Current M5 state: the core console/gateway/store and durable multi-store lifecycle are implemented and tested locally. See ADR0010 and `../evidence/m5.md` for current behavior and limits; the milestone sections below preserve earlier architectural history. M6 permissions/OAuth/security is authorized next, after the M5 release checkpoint.
 
 This repository implements a persistent WooCommerce store, three independent private MCP upstreams, the durable authenticated gateway and management API, and the preserved transport proof. PostgreSQL owns identity, registry and audits; Redis enforces shared admission limits. Dashboard and model chat remain M4. The full assessment scope is tracked in [REQUIREMENTS.md](../REQUIREMENTS.md). Future-only directories contain explicit unimplemented notices.
 
@@ -66,3 +68,11 @@ The independent external CLI model host runs outside Kubernetes using B's person
 Chat history is durable but each selected run is an independent turn, not an unbounded conversational memory. Cancellation is local to the active API process and interrupted writes remain uncertain; cross-replica cancellation and advanced tracing belong to later work. The current execution inspector does not satisfy all C1 Flight Recorder criteria. Budget reservations are conservative ceilings, not a billing invoice. Optional legacy SDK GET returning 405 is correctly represented as a rejected HTTP attempt, not a successful tool execution.
 
 A separate dashboard Ingress fixes root-route shadowing. Soft-deleted upstream names may be reused through a partial unique index while immutable IDs preserve historical audits and collision-safe aliases. M3 and M4 migrations are both required for API readiness. Production configuration uses the same charts with environment overrides; actual public TLS/VPS/failure-domain validation remains D01/M9.
+
+## M5 — Store orchestration
+
+`apps/provisioner` is now a real private controller, with PostgreSQL stores/operations/outbox/events, BullMQ database1 dispatch, per-store locks/leases/generation checks and isolated store/adapter Helm releases. SQL remains authoritative after a queue restart, lost published work or a failed queue job. Admission is per owner across teams; the default global queue concurrency is two. Credentials are generated in owned namespace Secrets, captured image configuration is durable, and persisted stores with missing credentials fail safely. See ADR0010 and the multi-store runbook.
+
+Dashboard `/stores` reads durable lifecycle data from the API and sanitized Kubernetes observations through the private controller. The API verifies current session/membership and tenant ownership before requesting an observation, then filters tool names with the same permission engine as the gateway. The API does not receive broad Kubernetes read access. The controller's namespaced resource role adds read-only Metrics API access for measured CPU/memory. Responses omit Secret data, environment values and host storage paths. Observations are cached for five seconds and labelled with timestamps; unavailable metrics/health remain explicit. Polling is2.5seconds for lifecycle and10seconds for observations/discovery, not an unproven streaming claim.
+
+Deletion denies routes transactionally, drains bounded calls, uninstalls releases, removes and verifies namespace/PVC/PV state, clears the gateway credential slot and only then records Deleted. Local-path data directory absence is an additional operator acceptance check. No production code strips finalizers. Managed store aliases preserve full UUID identity, and existing core aliases remain stable.

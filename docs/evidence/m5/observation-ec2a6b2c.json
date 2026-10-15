@@ -1,0 +1,252 @@
+{
+  "at": "2026-10-15T13:24:14.583Z",
+  "status": 200,
+  "storeId": "ec2a6b2c-138d-4d4c-b57c-38b8264f6598",
+  "observedAt": "2026-10-15T13:24:14.546Z",
+  "namespace": "relay-store-ec2a6b2c138d4d4cb57c38b8264f6598",
+  "components": [
+    {
+      "id": "store",
+      "kind": "Store",
+      "name": "Aurora Synthetic Store",
+      "state": "Ready",
+      "detail": "Durable desired state",
+      "configuration": {
+        "desired": "present",
+        "generation": 2,
+        "phase": "Ready",
+        "host": "s-ec2a6b2c138d4d4cb57c38b8264f6598.relay.localhost"
+      },
+      "diagnostics": []
+    },
+    {
+      "id": "namespace",
+      "kind": "Namespace",
+      "name": "relay-store-ec2a6b2c138d4d4cb57c38b8264f6598",
+      "state": "Active",
+      "uid": "e82ad581-264a-41a3-b3ad-9a6448b9667e",
+      "detail": "Isolated Kubernetes boundary",
+      "configuration": {
+        "ownershipVerified": true
+      },
+      "diagnostics": []
+    },
+    {
+      "id": "wordpress",
+      "kind": "Deployment",
+      "name": "WordPress",
+      "state": "Ready",
+      "uid": "8ecffa79-19e9-41b8-8dbe-1d287a93428e",
+      "detail": "store-wp",
+      "resources": {
+        "requests": {
+          "cpu": "50m",
+          "memory": "128Mi"
+        },
+        "limits": {
+          "cpu": "750m",
+          "memory": "512Mi"
+        }
+      },
+      "usage": {
+        "cpuMillicores": 0.77,
+        "memoryMiB": 35.46,
+        "sampledAt": "2026-10-15T13:24:07Z"
+      },
+      "configuration": {
+        "image": "relay/store:m1-2374b9c0c5f86c48",
+        "readyReplicas": 1,
+        "desiredReplicas": 1,
+        "restarts": 1,
+        "pods": 1
+      },
+      "diagnostics": []
+    },
+    {
+      "id": "database",
+      "kind": "StatefulSet",
+      "name": "MariaDB",
+      "state": "Ready",
+      "uid": "7b2e4e09-c82b-4623-871e-eb359b12eb45",
+      "detail": "store-db",
+      "resources": {
+        "requests": {
+          "cpu": "50m",
+          "memory": "96Mi"
+        },
+        "limits": {
+          "cpu": "500m",
+          "memory": "384Mi"
+        }
+      },
+      "usage": {
+        "cpuMillicores": 6.64,
+        "memoryMiB": 135.76,
+        "sampledAt": "2026-10-15T13:23:58Z"
+      },
+      "configuration": {
+        "image": "mariadb:11.8.9-noble@sha256:6422478cb8e159f080fb1d8ccf65101e26fe51385787fde7d16c3b165a331f15",
+        "readyReplicas": 1,
+        "desiredReplicas": 1,
+        "restarts": 1,
+        "pods": 1
+      },
+      "diagnostics": []
+    },
+    {
+      "id": "mcp",
+      "kind": "Deployment",
+      "name": "WooCommerce MCP",
+      "state": "Ready",
+      "uid": "26fec804-b624-4d1c-b96f-6f0460f0d2f7",
+      "detail": "store-mcp",
+      "resources": {
+        "requests": {
+          "cpu": "25m",
+          "memory": "64Mi"
+        },
+        "limits": {
+          "cpu": "500m",
+          "memory": "192Mi"
+        }
+      },
+      "usage": {
+        "cpuMillicores": 0.46,
+        "memoryMiB": 37.3,
+        "sampledAt": "2026-10-15T13:24:01Z"
+      },
+      "configuration": {
+        "image": "relay/platform:m5-1396111953f6f8ba",
+        "readyReplicas": 1,
+        "desiredReplicas": 1,
+        "restarts": 1,
+        "pods": 1
+      },
+      "diagnostics": []
+    },
+    {
+      "id": "content-volume",
+      "kind": "PersistentVolumeClaim",
+      "name": "Content volume",
+      "state": "Bound",
+      "uid": "905f1b53-a5c7-464a-800a-cd3ad70dc3ca",
+      "detail": "store-content",
+      "configuration": {
+        "volumeName": "pvc-905f1b53-a5c7-464a-800a-cd3ad70dc3ca",
+        "storageClass": "local-path",
+        "allocated": "512Mi"
+      },
+      "diagnostics": []
+    },
+    {
+      "id": "database-volume",
+      "kind": "PersistentVolumeClaim",
+      "name": "Database volume",
+      "state": "Bound",
+      "uid": "542f909f-eb0c-4c5c-ae8b-eb1eabffa866",
+      "detail": "store-db",
+      "configuration": {
+        "volumeName": "pvc-542f909f-eb0c-4c5c-ae8b-eb1eabffa866",
+        "storageClass": "local-path",
+        "allocated": "1Gi"
+      },
+      "diagnostics": []
+    },
+    {
+      "id": "gateway",
+      "kind": "Gateway registration",
+      "name": "Shared MCP gateway",
+      "state": "Discovering",
+      "detail": "This store’s sampled discovery state",
+      "configuration": {
+        "endpoint": "/mcp",
+        "upstreamId": "ec2a6b2c-138d-4d4c-b57c-38b8264f6598",
+        "tools": 0,
+        "checkedAt": null
+      },
+      "diagnostics": []
+    }
+  ],
+  "edges": [
+    {
+      "from": "store",
+      "to": "namespace",
+      "relationship": "owns"
+    },
+    {
+      "from": "wordpress",
+      "to": "content-volume",
+      "relationship": "persists to"
+    },
+    {
+      "from": "database",
+      "to": "database-volume",
+      "relationship": "persists to"
+    },
+    {
+      "from": "namespace",
+      "to": "wordpress",
+      "relationship": "contains"
+    },
+    {
+      "from": "namespace",
+      "to": "database",
+      "relationship": "contains"
+    },
+    {
+      "from": "namespace",
+      "to": "mcp",
+      "relationship": "contains"
+    },
+    {
+      "from": "wordpress",
+      "to": "database",
+      "relationship": "stores commerce data in"
+    },
+    {
+      "from": "mcp",
+      "to": "wordpress",
+      "relationship": "calls private WooCommerce REST"
+    },
+    {
+      "from": "gateway",
+      "to": "mcp",
+      "relationship": "routes authenticated tool calls"
+    }
+  ],
+  "metrics": {
+    "available": true,
+    "reason": null,
+    "cpuMillicores": 7.87,
+    "memoryMiB": 208.53,
+    "sampledAt": "2026-10-15T13:23:58Z"
+  },
+  "quota": {
+    "hard": {
+      "limits.cpu": "4",
+      "limits.memory": "3Gi",
+      "persistentvolumeclaims": "2",
+      "pods": "8",
+      "requests.cpu": "1",
+      "requests.memory": "768Mi",
+      "requests.storage": "2Gi",
+      "secrets": "16",
+      "services": "4"
+    },
+    "used": {
+      "limits.cpu": "1750m",
+      "limits.memory": "1088Mi",
+      "persistentvolumeclaims": "2",
+      "pods": "3",
+      "requests.cpu": "125m",
+      "requests.memory": "288Mi",
+      "requests.storage": "1536Mi",
+      "secrets": "11",
+      "services": "3"
+    }
+  },
+  "tools": [],
+  "toolState": "Discovering",
+  "toolCheckedAt": null,
+  "conditions": []
+}

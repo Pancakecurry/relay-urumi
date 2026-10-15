@@ -1,0 +1,216 @@
+[
+  {
+    "kind": "Deployment",
+    "name": "store-mcp",
+    "ready": 1,
+    "containers": [
+      {
+        "name": "mcp",
+        "image": "relay/platform:m5-1396111953f6f8ba",
+        "resources": {
+          "limits": {
+            "cpu": "500m",
+            "memory": "192Mi"
+          },
+          "requests": {
+            "cpu": "25m",
+            "memory": "64Mi"
+          }
+        },
+        "readiness": true,
+        "liveness": true
+      }
+    ],
+    "token": false
+  },
+  {
+    "kind": "Deployment",
+    "name": "store-wp",
+    "ready": 1,
+    "containers": [
+      {
+        "name": "wordpress",
+        "image": "relay/store:m1-2374b9c0c5f86c48",
+        "resources": {
+          "limits": {
+            "cpu": "750m",
+            "memory": "512Mi"
+          },
+          "requests": {
+            "cpu": "50m",
+            "memory": "128Mi"
+          }
+        },
+        "readiness": true,
+        "liveness": true
+      }
+    ],
+    "token": false
+  },
+  {
+    "kind": "StatefulSet",
+    "name": "store-db",
+    "ready": 1,
+    "containers": [
+      {
+        "name": "mariadb",
+        "image": "mariadb:11.8.9-noble@sha256:6422478cb8e159f080fb1d8ccf65101e26fe51385787fde7d16c3b165a331f15",
+        "resources": {
+          "limits": {
+            "cpu": "500m",
+            "memory": "384Mi"
+          },
+          "requests": {
+            "cpu": "50m",
+            "memory": "96Mi"
+          }
+        },
+        "readiness": true,
+        "liveness": true
+      }
+    ],
+    "token": false
+  },
+  {
+    "kind": "Service",
+    "name": "store-db"
+  },
+  {
+    "kind": "Service",
+    "name": "store-mcp"
+  },
+  {
+    "kind": "Service",
+    "name": "store-wp"
+  },
+  {
+    "kind": "PersistentVolumeClaim",
+    "name": "store-content",
+    "volume": "pvc-9ff15c87-bc66-4205-af20-3ac1ef863830",
+    "status": "Bound"
+  },
+  {
+    "kind": "PersistentVolumeClaim",
+    "name": "store-db",
+    "volume": "pvc-c469a708-3b46-4ab8-8598-b2caed0a876f",
+    "status": "Bound"
+  },
+  {
+    "kind": "Ingress",
+    "name": "store-store"
+  },
+  {
+    "kind": "Secret",
+    "name": "sh.helm.release.v1.store-mcp.v1",
+    "keys": [
+      "release"
+    ]
+  },
+  {
+    "kind": "Secret",
+    "name": "sh.helm.release.v1.store.v1",
+    "keys": [
+      "release"
+    ]
+  },
+  {
+    "kind": "Secret",
+    "name": "sh.helm.release.v1.store.v2",
+    "keys": [
+      "release"
+    ]
+  },
+  {
+    "kind": "Secret",
+    "name": "store-adapter",
+    "keys": [
+      "consumer-key",
+      "consumer-secret"
+    ]
+  },
+  {
+    "kind": "Secret",
+    "name": "store-admin",
+    "keys": [
+      "password",
+      "username"
+    ]
+  },
+  {
+    "kind": "Secret",
+    "name": "store-runtime",
+    "keys": [
+      "AUTH_KEY",
+      "AUTH_SALT",
+      "LOGGED_IN_KEY",
+      "LOGGED_IN_SALT",
+      "NONCE_KEY",
+      "NONCE_SALT",
+      "SECURE_AUTH_KEY",
+      "SECURE_AUTH_SALT",
+      "db-password",
+      "root-password"
+    ]
+  },
+  {
+    "kind": "Secret",
+    "name": "upstream-mcp",
+    "keys": [
+      "token"
+    ]
+  },
+  {
+    "kind": "ResourceQuota",
+    "name": "store-budget",
+    "hard": {
+      "limits.cpu": "4",
+      "limits.memory": "3Gi",
+      "persistentvolumeclaims": "2",
+      "pods": "8",
+      "requests.cpu": "1",
+      "requests.memory": "768Mi",
+      "requests.storage": "2Gi",
+      "secrets": "16",
+      "services": "4"
+    },
+    "used": {
+      "limits.cpu": "1750m",
+      "limits.memory": "1088Mi",
+      "persistentvolumeclaims": "2",
+      "pods": "3",
+      "requests.cpu": "125m",
+      "requests.memory": "288Mi",
+      "requests.storage": "1536Mi",
+      "secrets": "7",
+      "services": "3"
+    }
+  },
+  {
+    "kind": "LimitRange",
+    "name": "store-limits"
+  },
+  {
+    "kind": "NetworkPolicy",
+    "name": "store-bootstrap"
+  },
+  {
+    "kind": "NetworkPolicy",
+    "name": "store-database"
+  },
+  {
+    "kind": "NetworkPolicy",
+    "name": "store-deny"
+  },
+  {
+    "kind": "NetworkPolicy",
+    "name": "store-isolation"
+  },
+  {
+    "kind": "NetworkPolicy",
+    "name": "store-mcp-private"
+  },
+  {
+    "kind": "NetworkPolicy",
+    "name": "store-wordpress"
+  }
+]

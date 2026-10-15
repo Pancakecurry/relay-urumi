@@ -1,0 +1,638 @@
+{
+  "at": "2026-10-15T21:35:01.770Z",
+  "passed": true,
+  "stores": [
+    {
+      "id": "ec2a6b2c-138d-4d4c-b57c-38b8264f6598",
+      "namespace": "relay-store-ec2a6b2c138d4d4cb57c38b8264f6598",
+      "name": "Aurora Synthetic Store",
+      "status": "Deleted",
+      "desired": "absent",
+      "generation": 4,
+      "phase": "Deleted",
+      "error_code": null
+    },
+    {
+      "id": "85079ca7-2e6b-440c-96e3-076794da1e31",
+      "namespace": "relay-store-85079ca72e6b440c96e3076794da1e31",
+      "name": "Boreal Synthetic Store",
+      "status": "Ready",
+      "desired": "present",
+      "generation": 34,
+      "phase": "Ready",
+      "error_code": null
+    },
+    {
+      "id": "f67f5b1e-be7e-4408-8e36-326af19d5069",
+      "namespace": "relay-store-f67f5b1ebe7e44088e36326af19d5069",
+      "name": "Member Synthetic Store",
+      "status": "Deleted",
+      "desired": "absent",
+      "generation": 2,
+      "phase": "Deleted",
+      "error_code": null
+    },
+    {
+      "id": "c44657fb-4180-441e-8b0e-21739364b198",
+      "namespace": "relay-store-c44657fb4180441e8b0e21739364b198",
+      "name": "Vega Synthetic Store",
+      "status": "Deleted",
+      "desired": "absent",
+      "generation": 2,
+      "phase": "Deleted",
+      "error_code": null
+    },
+    {
+      "id": "abb8ec48-8238-4719-8b44-fb8675069314",
+      "namespace": "relay-store-abb8ec48823847198b44fb8675069314",
+      "name": "Race Cancellation Synthetic Store",
+      "status": "Deleted",
+      "desired": "absent",
+      "generation": 2,
+      "phase": "Deleted",
+      "error_code": null
+    }
+  ],
+  "workerRoleConnectionLimit": -1,
+  "testTriggersRemaining": 0,
+  "admissionWarnings": 0,
+  "m0": [
+    {
+      "mode": "auto",
+      "era": "modern",
+      "server": {
+        "name": "relay-m0-proof",
+        "version": "0.0.0"
+      },
+      "catalog": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "relay-m0-proof",
+            "version": "0.0.0"
+          }
+        },
+        "ttlMs": 0,
+        "cacheScope": "private",
+        "tools": [
+          {
+            "name": "ping",
+            "description": "Verify the real M0 Kubernetes MCP request path.",
+            "inputSchema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                }
+              },
+              "required": [
+                "message"
+              ]
+            }
+          }
+        ]
+      },
+      "result": {
+        "_meta": {
+          "io.modelcontextprotocol/serverInfo": {
+            "name": "relay-m0-proof",
+            "version": "0.0.0"
+          }
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"pong\":\"relay-auto-ingress\",\"pod\":\"relay-m0-proof-7c6d7b647c-pc7dn\"}"
+          }
+        ]
+      },
+      "wire": [
+        {
+          "method": "server/discover",
+          "protocol": "2026-07-28",
+          "status": 200,
+          "sessionIssued": false
+        },
+        {
+          "method": "tools/list",
+          "protocol": "2026-07-28",
+          "status": 200,
+          "sessionIssued": false
+        },
+        {
+          "method": "tools/call",
+          "protocol": "2026-07-28",
+          "status": 200,
+          "sessionIssued": false
+        }
+      ]
+    },
+    {
+      "mode": "legacy",
+      "era": "legacy",
+      "server": {
+        "name": "relay-m0-proof",
+        "version": "0.0.0"
+      },
+      "catalog": {
+        "tools": [
+          {
+            "name": "ping",
+            "description": "Verify the real M0 Kubernetes MCP request path.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                }
+              },
+              "required": [
+                "message"
+              ],
+              "$schema": "https://json-schema.org/draft/2020-12/schema"
+            }
+          }
+        ]
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"pong\":\"relay-legacy-ingress\",\"pod\":\"relay-m0-proof-7c6d7b647c-pc7dn\"}"
+          }
+        ]
+      },
+      "wire": [
+        {
+          "method": "initialize",
+          "protocol": null,
+          "status": 200,
+          "sessionIssued": false
+        },
+        {
+          "method": "notifications/initialized",
+          "protocol": "2025-11-25",
+          "status": 202,
+          "sessionIssued": false
+        },
+        {
+          "method": "GET",
+          "protocol": "2025-11-25",
+          "status": 405,
+          "sessionIssued": false
+        },
+        {
+          "method": "tools/list",
+          "protocol": "2025-11-25",
+          "status": 200,
+          "sessionIssued": false
+        },
+        {
+          "method": "tools/call",
+          "protocol": "2025-11-25",
+          "status": 200,
+          "sessionIssued": false
+        }
+      ]
+    }
+  ],
+  "pods": [
+    {
+      "namespace": "relay-m0",
+      "name": "relay-m0-proof-7c6d7b647c-pc7dn",
+      "phase": "Running",
+      "ready": [
+        true
+      ],
+      "restarts": [
+        1
+      ],
+      "images": [
+        "relay/m0-proof:m0-af6250e6dd6da489"
+      ]
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-api-5667b576b7-9b76c",
+      "phase": "Running",
+      "ready": [
+        true
+      ],
+      "restarts": [
+        0
+      ],
+      "images": [
+        "relay/platform:m5-e69e6f19f69c963a"
+      ]
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-dashboard-5f84c46b95-4mppd",
+      "phase": "Running",
+      "ready": [
+        true
+      ],
+      "restarts": [
+        0
+      ],
+      "images": [
+        "relay/platform:m5-e69e6f19f69c963a"
+      ]
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-gateway-5f6d45f797-cp8sw",
+      "phase": "Running",
+      "ready": [
+        true
+      ],
+      "restarts": [
+        0
+      ],
+      "images": [
+        "relay/platform:m5-e69e6f19f69c963a"
+      ]
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-migrate-26-878s6",
+      "phase": "Succeeded",
+      "ready": [
+        false
+      ],
+      "restarts": [
+        0
+      ],
+      "images": [
+        "relay/platform:m5-e69e6f19f69c963a"
+      ]
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-postgres-0",
+      "phase": "Running",
+      "ready": [
+        true
+      ],
+      "restarts": [
+        1
+      ],
+      "images": [
+        "postgres:18.6-alpine3.23@sha256:885cf05d376c7cf27afef02073e6bdac3841252537f16e244fd1c1e6a7c99fb1"
+      ]
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-provisioner-84b89bb994-w8rq4",
+      "phase": "Running",
+      "ready": [
+        true
+      ],
+      "restarts": [
+        0
+      ],
+      "images": [
+        "relay/provisioner:m5-e69e6f19f69c963a"
+      ]
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-redis-0",
+      "phase": "Running",
+      "ready": [
+        true
+      ],
+      "restarts": [
+        0
+      ],
+      "images": [
+        "redis:8.2.10-alpine3.22@sha256:b51665e66f00759be7c3152ad5ac3c66fb2f619c13ef62dea7cc1f9914524635"
+      ]
+    },
+    {
+      "namespace": "relay-store-85079ca72e6b440c96e3076794da1e31",
+      "name": "store-bootstrap-zc6qr",
+      "phase": "Succeeded",
+      "ready": [
+        false
+      ],
+      "restarts": [
+        0
+      ],
+      "images": [
+        "relay/store:m1-2374b9c0c5f86c48"
+      ]
+    },
+    {
+      "namespace": "relay-store-85079ca72e6b440c96e3076794da1e31",
+      "name": "store-db-0",
+      "phase": "Running",
+      "ready": [
+        true
+      ],
+      "restarts": [
+        1
+      ],
+      "images": [
+        "mariadb:11.8.9-noble@sha256:6422478cb8e159f080fb1d8ccf65101e26fe51385787fde7d16c3b165a331f15"
+      ]
+    },
+    {
+      "namespace": "relay-store-85079ca72e6b440c96e3076794da1e31",
+      "name": "store-mcp-66ff54ccc9-nxl9w",
+      "phase": "Running",
+      "ready": [
+        true
+      ],
+      "restarts": [
+        1
+      ],
+      "images": [
+        "relay/platform:m5-1396111953f6f8ba"
+      ]
+    },
+    {
+      "namespace": "relay-store-85079ca72e6b440c96e3076794da1e31",
+      "name": "store-wp-5b8f7657cc-2mjxm",
+      "phase": "Running",
+      "ready": [
+        true
+      ],
+      "restarts": [
+        1
+      ],
+      "images": [
+        "relay/store:m1-2374b9c0c5f86c48"
+      ]
+    },
+    {
+      "namespace": "relay-store-m1",
+      "name": "demo-store-db-0",
+      "phase": "Running",
+      "ready": [
+        true
+      ],
+      "restarts": [
+        1
+      ],
+      "images": [
+        "mariadb:11.8.9-noble@sha256:6422478cb8e159f080fb1d8ccf65101e26fe51385787fde7d16c3b165a331f15"
+      ]
+    },
+    {
+      "namespace": "relay-store-m1",
+      "name": "demo-store-wp-7f54b99b49-6tjl5",
+      "phase": "Running",
+      "ready": [
+        true
+      ],
+      "restarts": [
+        1
+      ],
+      "images": [
+        "relay/store:m1-2374b9c0c5f86c48"
+      ]
+    },
+    {
+      "namespace": "relay-store-m1",
+      "name": "relay-woocommerce-6dc467886-vhdfv",
+      "phase": "Running",
+      "ready": [
+        true
+      ],
+      "restarts": [
+        2
+      ],
+      "images": [
+        "relay/upstreams:m2-67835bb064edf78a"
+      ]
+    },
+    {
+      "namespace": "relay-upstreams",
+      "name": "relay-calendar-55567b65f4-9dxtq",
+      "phase": "Running",
+      "ready": [
+        true
+      ],
+      "restarts": [
+        0
+      ],
+      "images": [
+        "relay/upstreams:m2-67835bb064edf78a"
+      ]
+    },
+    {
+      "namespace": "relay-upstreams",
+      "name": "relay-totals-7d88d5fb86-jmnlq",
+      "phase": "Running",
+      "ready": [
+        true
+      ],
+      "restarts": [
+        1
+      ],
+      "images": [
+        "relay/upstreams:m2-67835bb064edf78a"
+      ]
+    }
+  ],
+  "ingress": [
+    {
+      "namespace": "relay-m0",
+      "name": "relay-m0-proof",
+      "hosts": [
+        "*"
+      ]
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-core",
+      "hosts": [
+        "relay.localhost",
+        "localhost"
+      ]
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-dashboard",
+      "hosts": [
+        "relay.localhost"
+      ]
+    },
+    {
+      "namespace": "relay-store-85079ca72e6b440c96e3076794da1e31",
+      "name": "store-store",
+      "hosts": [
+        "s-85079ca72e6b440c96e3076794da1e31.relay.localhost"
+      ]
+    },
+    {
+      "namespace": "relay-store-clean",
+      "name": "clean-store-store",
+      "hosts": [
+        "clean.relay.localhost"
+      ]
+    },
+    {
+      "namespace": "relay-store-m1",
+      "name": "demo-store-store",
+      "hosts": [
+        "store.relay.localhost"
+      ]
+    }
+  ],
+  "services": [
+    {
+      "namespace": "relay-m0",
+      "name": "relay-m0-proof",
+      "type": "ClusterIP",
+      "ports": [
+        3000
+      ]
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-api",
+      "type": "ClusterIP",
+      "ports": [
+        3001
+      ]
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-dashboard",
+      "type": "ClusterIP",
+      "ports": [
+        3002
+      ]
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-gateway",
+      "type": "ClusterIP",
+      "ports": [
+        3000
+      ]
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-postgres",
+      "type": "ClusterIP",
+      "ports": [
+        5432
+      ]
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-provisioner",
+      "type": "ClusterIP",
+      "ports": [
+        3003
+      ]
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-redis",
+      "type": "ClusterIP",
+      "ports": [
+        6379
+      ]
+    },
+    {
+      "namespace": "relay-store-85079ca72e6b440c96e3076794da1e31",
+      "name": "store-db",
+      "type": "ClusterIP",
+      "ports": [
+        3306
+      ]
+    },
+    {
+      "namespace": "relay-store-85079ca72e6b440c96e3076794da1e31",
+      "name": "store-mcp",
+      "type": "ClusterIP",
+      "ports": [
+        3000
+      ]
+    },
+    {
+      "namespace": "relay-store-85079ca72e6b440c96e3076794da1e31",
+      "name": "store-wp",
+      "type": "ClusterIP",
+      "ports": [
+        80
+      ]
+    },
+    {
+      "namespace": "relay-store-clean",
+      "name": "clean-store-db",
+      "type": "ClusterIP",
+      "ports": [
+        3306
+      ]
+    },
+    {
+      "namespace": "relay-store-clean",
+      "name": "clean-store-wp",
+      "type": "ClusterIP",
+      "ports": [
+        80
+      ]
+    },
+    {
+      "namespace": "relay-store-m1",
+      "name": "demo-store-db",
+      "type": "ClusterIP",
+      "ports": [
+        3306
+      ]
+    },
+    {
+      "namespace": "relay-store-m1",
+      "name": "demo-store-wp",
+      "type": "ClusterIP",
+      "ports": [
+        80
+      ]
+    },
+    {
+      "namespace": "relay-store-m1",
+      "name": "relay-woocommerce",
+      "type": "ClusterIP",
+      "ports": [
+        3000
+      ]
+    },
+    {
+      "namespace": "relay-upstreams",
+      "name": "relay-calendar",
+      "type": "ClusterIP",
+      "ports": [
+        3000
+      ]
+    },
+    {
+      "namespace": "relay-upstreams",
+      "name": "relay-totals",
+      "type": "ClusterIP",
+      "ports": [
+        3000
+      ]
+    }
+  ],
+  "nodeUsage": "NAME                    CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   \nk3d-relay-m0-server-0   223m         2%       2506Mi          79%",
+  "podUsage": "relay-m0                                       relay-m0-proof-7c6d7b647c-pc7dn           1m           62Mi            \nrelay-platform                                 relay-api-5667b576b7-9b76c                6m           53Mi            \nrelay-platform                                 relay-dashboard-5f84c46b95-4mppd          2m           17Mi            \nrelay-platform                                 relay-gateway-5f6d45f797-cp8sw            2m           44Mi            \nrelay-platform                                 relay-postgres-0                          9m           35Mi            \nrelay-platform                                 relay-provisioner-84b89bb994-w8rq4        3m           42Mi            \nrelay-platform                                 relay-redis-0                             15m          12Mi            \nrelay-store-85079ca72e6b440c96e3076794da1e31   store-db-0                                5m           140Mi           \nrelay-store-85079ca72e6b440c96e3076794da1e31   store-mcp-66ff54ccc9-nxl9w                1m           52Mi            \nrelay-store-85079ca72e6b440c96e3076794da1e31   store-wp-5b8f7657cc-2mjxm                 2m           90Mi            \nrelay-store-m1                                 demo-store-db-0                           6m           143Mi           \nrelay-store-m1                                 demo-store-wp-7f54b99b49-6tjl5            2m           149Mi           \nrelay-store-m1                                 relay-woocommerce-6dc467886-vhdfv         1m           48Mi            \nrelay-upstreams                                relay-calendar-55567b65f4-9dxtq           1m           48Mi            \nrelay-upstreams                                relay-totals-7d88d5fb86-jmnlq             1m           48Mi            ",
+  "resources": {
+    "hostRAMBytes": 17179869184,
+    "clusterContainerLimitBytes": 4294967296,
+    "freeDiskBytes": 4498030592
+  },
+  "runtimeFingerprint": "m2-e69e6f19f69c963a",
+  "platformImages": [
+    "relay/platform:m5-e69e6f19f69c963a",
+    "relay/provisioner:m5-e69e6f19f69c963a"
+  ]
+}

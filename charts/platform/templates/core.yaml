@@ -27,6 +27,10 @@ spec:
           env:
             - {name: PUBLIC_ORIGIN, value: {{ $.Values.publicOrigin | quote }}}
             - {name: ALLOWED_UPSTREAM_URLS, value: {{ join "," $.Values.allowedUpstreamUrls | quote }}}
+            - {name: STORE_DOMAIN, value: {{ $.Values.storeDomain | quote }}}
+            - {name: STORE_URL_SUFFIX, value: {{ $.Values.storeUrlSuffix | quote }}}
+            - {name: STORE_USER_LIMIT, value: {{ $.Values.storeUserLimit | quote }}}
+            - {name: STORE_TIMEOUT_SECONDS, value: {{ $.Values.storeTimeoutSeconds | quote }}}
             - {name: MODEL_ENABLED, value: {{ $.Values.modelEnabled | quote }}}
             - {name: STOREFRONT_URL, value: {{ $.Values.storefrontUrl | quote }}}
           resources: {{ $.Values.platformResources | toJson }}

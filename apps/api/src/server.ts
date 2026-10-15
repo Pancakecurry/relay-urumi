@@ -1,4 +1,5 @@
 import Fastify from 'fastify';
+import { installStores } from './stores.js';
 import { installConsole } from './console.js';
 import { fromNodeHeaders } from 'better-auth/node';
 import * as z from 'zod/v4';
@@ -100,7 +101,7 @@ app.post('/api/upstreams', async (req) => { const i = await identity(req.headers
 app.patch('/api/upstreams/:id', async (req) => { const i = await identity(req.headers); admin(i); const id = uuid.parse((req.params as {
     id: string;
 }).id); const b = z.strictObject({ revision: z.number().int().min(1), name: upstreamFields.name.optional(), url: upstreamFields.url.optional(), enabled: upstreamFields.enabled.optional(), timeoutMs: upstreamFields.timeoutMs.optional(), credentials: credentials.optional() }).parse(req.body); if (b.url)
-    destination(b.url); return store.tenant(i.team, async (tx) => { const u = (await tx.query<{
+    destination(b.url); if ((b.name !== undefined || b.url !== undefined || b.credentials !== undefined) && await store.tenant(i.team, async tx => (await tx.query('SELECT 1 FROM app.stores WHERE upstream_id=$1 AND status<>\'Deleted\'', [id])).rowCount)) throw new Rejection('STORE_MANAGED_CONNECTION',409); return store.tenant(i.team, async (tx) => { const u = (await tx.query<{
     revision: number;
     credential_ref: string | null;
 }>('SELECT revision,credential_ref FROM app.upstreams WHERE id=$1 AND deleted_at IS NULL FOR UPDATE', [id])).rows[0]; if (!u)
@@ -112,7 +113,7 @@ app.patch('/api/upstreams/:id', async (req) => { const i = await identity(req.he
 } await tx.query('UPDATE app.upstreams SET name=COALESCE($2,name),url=COALESCE($3,url),enabled=COALESCE($4,enabled),timeout_ms=COALESCE($5,timeout_ms),credential_ref=$6,revision=revision+1 WHERE id=$1', [id, b.name ?? null, b.url ?? null, b.enabled ?? null, b.timeoutMs ?? null, ref]); await event(tx, i, 'upstream.update', id); return { id, revision: u.revision + 1 }; }); });
 app.delete('/api/upstreams/:id', async (req) => { const i = await identity(req.headers); admin(i); const id = uuid.parse((req.params as {
     id: string;
-}).id); await store.tenant(i.team, async (tx) => { if (!(await tx.query('UPDATE app.upstreams SET enabled=false,deleted_at=now(),revision=revision+1 WHERE id=$1 AND deleted_at IS NULL RETURNING id', [id])).rowCount)
+}).id); if (await store.tenant(i.team, async tx => (await tx.query('SELECT 1 FROM app.stores WHERE upstream_id=$1 AND status<>\'Deleted\'', [id])).rowCount)) throw new Rejection('DELETE_STORE_FROM_STORES',409); await store.tenant(i.team, async (tx) => { if (!(await tx.query('UPDATE app.upstreams SET enabled=false,deleted_at=now(),revision=revision+1 WHERE id=$1 AND deleted_at IS NULL RETURNING id', [id])).rowCount)
     throw new Rejection('UPSTREAM_NOT_FOUND', 404); await event(tx, i, 'upstream.remove', id); }); await vault.set(i.team, id, null); return { removed: true }; });
 app.get('/api/audit', async (req) => { const i = await identity(req.headers); const q = z.strictObject({ limit: z.coerce.number().int().min(1).max(100).default(50), before: z.iso.datetime().optional() }).parse(req.query); return store.tenant(i.team, async (tx) => ({ calls: (await tx.query('SELECT id,user_id,key_id,auth_kind,upstream_id,tool_name,alias,started_at,finished_at,duration_ms,status,code FROM app.audit_calls WHERE ($1=\'admin\' OR user_id=$2) AND ($3::timestamptz IS NULL OR started_at<$3) ORDER BY started_at DESC,id DESC LIMIT $4', [i.role, i.user, q.before ?? null, q.limit])).rows })); });
 app.get('/api/permissions', async (req) => { const i = await identity(req.headers); admin(i); return store.tenant(i.team, async (tx) => ({ rules: (await tx.query('SELECT id,subject,upstream_id,tool_name,effect FROM app.permission_rules ORDER BY created_at')).rows })); });
@@ -134,6 +135,7 @@ app.get('/api/tools', async (req) => { await identity(req.headers); const h = ne
     token: string;
 }; const response = await fetch('http://relay-gateway:3000/internal/tools', { headers: { authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(3000) }); if (!response.ok)
     throw new Rejection('CATALOG_UNAVAILABLE', 503); return await response.json(); });
+installStores(app, store, identity);
 installConsole(app, store, identity, login);
 await app.listen({ host: '0.0.0.0', port: 3001 });
 for (const signal of ['SIGTERM', 'SIGINT'] as const)

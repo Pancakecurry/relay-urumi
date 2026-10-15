@@ -18,6 +18,7 @@
     "ajv": "8.20.0",
     "better-auth": "1.7.7",
     "ai": "7.0.135",
-    "@ai-sdk/google": "4.0.93"
+    "@ai-sdk/google": "4.0.93",
+    "bullmq": "6.3.12"
   }
 }

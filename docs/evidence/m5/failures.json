@@ -1,0 +1,39 @@
+{
+  "at": "2026-10-15T13:54:49.079Z",
+  "checks": [
+    {
+      "case": "Missing persisted Secret, real failure UI, dashboard retry",
+      "passed": true
+    },
+    {
+      "case": "Ownership conflict refuses resource takeover",
+      "passed": true
+    },
+    {
+      "case": "Actual image pull failure and bounded provisioning timeout recover without duplicate data",
+      "reasons": [
+        "ErrImagePull"
+      ],
+      "passed": true
+    },
+    {
+      "case": "Real database bootstrap failure, bounded automatic retry and restored original credential",
+      "proof": {
+        "phase": "StoreInstall",
+        "code": "BOOTSTRAP_FAILED",
+        "created_at": "2026-10-15T13:47:43.084632+00:00"
+      },
+      "verifiedRecoveredAt": "2026-10-15T13:51:46.989Z",
+      "passed": true
+    },
+    {
+      "case": "Real registry credential permission failure; bounded retry recovery",
+      "passed": true
+    },
+    {
+      "case": "Five concurrent requests commit exactly one operation",
+      "passed": true
+    }
+  ],
+  "passed": true
+}
