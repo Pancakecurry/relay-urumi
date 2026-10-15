@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-15T21:46:38.076Z",
+  "sourceCommit": "1c3aca0b366cf18a8cc28c0c6d362e63f04bc886",
+  "source": "fresh Git archive of the exact committed tree in a new nonsynced same-machine directory",
+  "destination": "[LOCAL_HOME]/Library/Caches/relay-m5-reproduction-yYAdjR",
+  "frozenOfflineInstall": true,
+  "lintTypecheckTestsBuild": true,
+  "tests": 27,
+  "runtimeFingerprint": "m5-e69e6f19f69c963a",
+  "deployedImage": "relay/platform:m5-e69e6f19f69c963a",
+  "privateResourcesCopied": false,
+  "paidProviderTraffic": false,
+  "clusterRecreated": false,
+  "nodeVersion": "v24.16.0",
+  "pnpmVersion": "11.25.0",
+  "diskBefore": "Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on\n/dev/disk3s5   228Gi   186Gi    14Gi    93%    2.1M  148M    1%   /System/Volumes/Data",
+  "diskAfter": "Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on\n/dev/disk3s5   228Gi   186Gi    14Gi    94%    2.1M  146M    1%   /System/Volumes/Data",
+  "passed": true
+}

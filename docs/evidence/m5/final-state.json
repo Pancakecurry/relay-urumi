@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-15T21:35:01.770Z",
+  "at": "2026-10-15T21:49:04.188Z",
   "passed": true,
   "stores": [
     {
@@ -623,12 +623,12 @@
       ]
     }
   ],
-  "nodeUsage": "NAME                    CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   \nk3d-relay-m0-server-0   223m         2%       2506Mi          79%",
-  "podUsage": "relay-m0                                       relay-m0-proof-7c6d7b647c-pc7dn           1m           62Mi            \nrelay-platform                                 relay-api-5667b576b7-9b76c                6m           53Mi            \nrelay-platform                                 relay-dashboard-5f84c46b95-4mppd          2m           17Mi            \nrelay-platform                                 relay-gateway-5f6d45f797-cp8sw            2m           44Mi            \nrelay-platform                                 relay-postgres-0                          9m           35Mi            \nrelay-platform                                 relay-provisioner-84b89bb994-w8rq4        3m           42Mi            \nrelay-platform                                 relay-redis-0                             15m          12Mi            \nrelay-store-85079ca72e6b440c96e3076794da1e31   store-db-0                                5m           140Mi           \nrelay-store-85079ca72e6b440c96e3076794da1e31   store-mcp-66ff54ccc9-nxl9w                1m           52Mi            \nrelay-store-85079ca72e6b440c96e3076794da1e31   store-wp-5b8f7657cc-2mjxm                 2m           90Mi            \nrelay-store-m1                                 demo-store-db-0                           6m           143Mi           \nrelay-store-m1                                 demo-store-wp-7f54b99b49-6tjl5            2m           149Mi           \nrelay-store-m1                                 relay-woocommerce-6dc467886-vhdfv         1m           48Mi            \nrelay-upstreams                                relay-calendar-55567b65f4-9dxtq           1m           48Mi            \nrelay-upstreams                                relay-totals-7d88d5fb86-jmnlq             1m           48Mi            ",
+  "nodeUsage": "NAME                    CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   \nk3d-relay-m0-server-0   216m         2%       2461Mi          78%",
+  "podUsage": "relay-m0                                       relay-m0-proof-7c6d7b647c-pc7dn           1m           63Mi            \nrelay-platform                                 relay-api-5667b576b7-9b76c                3m           51Mi            \nrelay-platform                                 relay-dashboard-5f84c46b95-4mppd          2m           18Mi            \nrelay-platform                                 relay-gateway-5f6d45f797-cp8sw            3m           40Mi            \nrelay-platform                                 relay-postgres-0                          10m          35Mi            \nrelay-platform                                 relay-provisioner-84b89bb994-w8rq4        3m           43Mi            \nrelay-platform                                 relay-redis-0                             14m          12Mi            \nrelay-store-85079ca72e6b440c96e3076794da1e31   store-db-0                                6m           140Mi           \nrelay-store-85079ca72e6b440c96e3076794da1e31   store-mcp-66ff54ccc9-nxl9w                2m           52Mi            \nrelay-store-85079ca72e6b440c96e3076794da1e31   store-wp-5b8f7657cc-2mjxm                 1m           90Mi            \nrelay-store-m1                                 demo-store-db-0                           4m           143Mi           \nrelay-store-m1                                 demo-store-wp-7f54b99b49-6tjl5            1m           149Mi           \nrelay-store-m1                                 relay-woocommerce-6dc467886-vhdfv         1m           48Mi            \nrelay-upstreams                                relay-calendar-55567b65f4-9dxtq           1m           48Mi            \nrelay-upstreams                                relay-totals-7d88d5fb86-jmnlq             2m           48Mi            ",
   "resources": {
     "hostRAMBytes": 17179869184,
     "clusterContainerLimitBytes": 4294967296,
-    "freeDiskBytes": 4498030592
+    "freeDiskBytes": 14920585216
   },
   "runtimeFingerprint": "m2-e69e6f19f69c963a",
   "platformImages": [

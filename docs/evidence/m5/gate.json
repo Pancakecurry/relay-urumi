@@ -1,0 +1,139 @@
+{
+  "at": "2026-10-15T21:49:39.970Z",
+  "passed": true,
+  "milestone": "M5",
+  "requirements": [
+    "B01",
+    "B02",
+    "B03",
+    "B04",
+    "B05",
+    "B06",
+    "B07"
+  ],
+  "requirementStatuses": "tested locally",
+  "allScopeIDsRetained": 61,
+  "sourceCommit": "1c3aca0b366cf18a8cc28c0c6d362e63f04bc886",
+  "platformImage": "relay/platform:m5-e69e6f19f69c963a",
+  "sourceFingerprint": "m5-e69e6f19f69c963a",
+  "exactSourceReproduction": true,
+  "newEmptyClusterTest": false,
+  "priorGateACleanInstallPreserved": "b2ed73ccf20c5e71dc464c40c002c284aba0496e",
+  "realModelComparisonDate": "2026-10-11",
+  "newProviderTraffic": false,
+  "remainingReadyStores": [
+    "85079ca7-2e6b-440c-96e3-076794da1e31"
+  ],
+  "evidence": [
+    {
+      "file": "provisioning.json",
+      "sha256": "b204ba73f36d2bb4335f555b1c89676ef201d812734d355370206f69ac6c8aec"
+    },
+    {
+      "file": "business.json",
+      "sha256": "746e6a8cbc807c0dc6875edebaa8ea314e333e1f42d86da51bde4397d252284d"
+    },
+    {
+      "file": "inspector.json",
+      "sha256": "9859a400ceb966c5fba25a96324f2978fd4068460c2536542f960f40b4f21992"
+    },
+    {
+      "file": "chat-verification.json",
+      "sha256": "d38deb84c92877bb20f290a6c923f92dc8f1cf7f4ea705159d3ac399e86a71d0"
+    },
+    {
+      "file": "isolation.json",
+      "sha256": "83d7bcecf1990678871e06c237ea1658d79c6377ee0887bc81471468388baf21"
+    },
+    {
+      "file": "guardrails.json",
+      "sha256": "1bd39c6c11b5250cfa8263f2edee127b471c1f91b0f62973244457750ff22e70"
+    },
+    {
+      "file": "recovery.json",
+      "sha256": "61a0d8bc2c355a0289b48abb5ecbc3a03bb3646c4364412d921275a5d5421f97"
+    },
+    {
+      "file": "failed-job-repair.json",
+      "sha256": "c8588a1231fb8388a7febd6fb5d557f9277c7cec058cef6d60834460c23c9176"
+    },
+    {
+      "file": "failures.json",
+      "sha256": "06099833195ab1ad559253ce0895f657d1bad78d964d9e5f780f38faaca23419"
+    },
+    {
+      "file": "member-boundaries.json",
+      "sha256": "a90cd80726cba728e3366312bedf6a84a66f83dfff7f66407f36eeee14bf9301"
+    },
+    {
+      "file": "create-delete-race.json",
+      "sha256": "4ccba5bfddfa56d78c36e429a73c1f164bc1f20a4a3a0f96690a7f936d86e80a"
+    },
+    {
+      "file": "teardown.json",
+      "sha256": "e0f2daa5678f2e7ccd2dd4cc622c45c7774773a45d75ddee503afe3785724892"
+    },
+    {
+      "file": "ui-creation.json",
+      "sha256": "a6da476c49a36d6d628cf5d914d939d532eb0028f92ab54799e93fe06df1d331"
+    },
+    {
+      "file": "ui-deletion.json",
+      "sha256": "c15a631627482589754174f8cec9d7cdfeeeae9e378aa983b2d664df4b264bcd"
+    },
+    {
+      "file": "admission-typecheck.json",
+      "sha256": "8735a4888b06351b1610dbf07742b7ad958f754e3623c0f715eab94221c2116c"
+    },
+    {
+      "file": "charts.json",
+      "sha256": "6b9390b5d53cf0ca50723ffbd7791a320858bfb8d97ef9407bab63bb4cf6d45a"
+    },
+    {
+      "file": "final-state.json",
+      "sha256": "365672b3c2e45dcaa44c9fea04dd3696679f0221f8e048d232fe4610208706d5"
+    },
+    {
+      "file": "visual/review.json",
+      "sha256": "7fcbd8f32a61bec1e9ef7f3f2e8930e5f0bda1887f15f486b0e6db4e4c445947"
+    },
+    {
+      "file": "visual/contrast.json",
+      "sha256": "a597d1853a6fdba1a6e5490539e5854ccdd278bbbb7283cf519d8e443addf381"
+    },
+    {
+      "file": "core-regression/regression.json",
+      "sha256": "fd864bcd0783bced73681eb61d321308d7fab4a6b6dc96b182077be7e1449ce6"
+    },
+    {
+      "file": "core-regression/security.json",
+      "sha256": "75cc249773f201c42242fae53461b45a7bd408c488150998ed8695ef143760e0"
+    },
+    {
+      "file": "core-regression/network.json",
+      "sha256": "58fcf4b91c6ed93604e31ab7f9958ba8a86dfc53074476efcfec7363a152be7d"
+    },
+    {
+      "file": "core-regression/business-regression.json",
+      "sha256": "7979b56a46464424eeb78a12a0edda8eb922d4b8a07f873a7fb1739eff4b05c7"
+    },
+    {
+      "file": "core-regression/operations.json",
+      "sha256": "4659b1467444b4346afacb57668c5bfa6def2cc26aa8b4d892787584660e88c6"
+    },
+    {
+      "file": "credential-scan.json",
+      "sha256": "99e125180fdedacc15c85b08a6a1a2fde1fddec14472cdc6727d9ee727493136"
+    },
+    {
+      "file": "reproducibility.json",
+      "sha256": "81e407849d2f96a70c5c12581cc50e6170cebc795963a23211c27d9d3c75add2"
+    }
+  ],
+  "limitations": [
+    "Native arm64 local cluster; no VPS/public TLS/HA claim",
+    "Private internal HTTP remains for M6 hardening",
+    "No full next model request under current budget guard",
+    "Earlier repaired diagnostic/password incident is recorded"
+  ]
+}
