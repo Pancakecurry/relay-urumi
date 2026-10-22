@@ -1,2 +1,2 @@
-NAME                    CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   
-k3d-relay-m0-server-0   259m         3%       2715Mi          86%         
+NAME                    CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)
+k3d-relay-m0-server-0   259m         3%       2715Mi          86%
