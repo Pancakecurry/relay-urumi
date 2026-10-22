@@ -1,3 +1,7 @@
+import {
+  internalFetch,
+  internalUrl,
+} from "../../../packages/auth/src/transport.js";
 import type { StoreObservation } from "../../../packages/contracts/src/stores.js";
 import type { FastifyInstance, FastifyRequest } from "fastify";
 import * as z from "zod/v4";
@@ -5,6 +9,7 @@ import { secret } from "../../../packages/db/src/store.js";
 import { Store } from "../../../packages/db/src/store.js";
 import {
   Rejection,
+  lockedMember,
   permitted,
   uuid,
   type Identity,
@@ -58,8 +63,11 @@ export function installStores(
     )
       throw new Rejection("STORE_NOT_FOUND", 404);
     try {
-      const r = await fetch(
-        `http://relay-provisioner:3003/internal/stores/${id}/observed?team=${i.team}`,
+      const r = await internalFetch(
+        internalUrl(
+          "provisioner",
+          `/internal/stores/${id}/observed?team=${i.team}`,
+        ),
         {
           headers: { authorization: `Bearer ${secret("internal-token")}` },
           signal: AbortSignal.timeout(8000),
@@ -106,9 +114,10 @@ export function installStores(
         : uuid.parse((req.params as { id: string }).id);
     try {
       return await store.tenant(i.team, async (tx) => {
+        await lockedMember(tx, i);
         const id = (
           await tx.query<{ id: string }>(
-            "SELECT app.store_request($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) AS id",
+            "SELECT app.store_request($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) AS id",
             [
               i.team,
               i.user,
@@ -120,6 +129,9 @@ export function installStores(
               Number(process.env["STORE_TIMEOUT_SECONDS"] ?? 600),
               action,
               target,
+              new URL(
+                process.env["PUBLIC_ORIGIN"] ?? "http://relay.localhost",
+              ).protocol.slice(0, -1),
             ],
           )
         ).rows[0]!.id;

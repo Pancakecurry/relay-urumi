@@ -8,4 +8,18 @@ COPY install.php /opt/relay/install.php
 COPY bootstrap.sh /opt/relay/bootstrap.sh
 COPY bootstrap.php /opt/relay/bootstrap.php
 COPY health.php /usr/src/wordpress/relay-health.php
-RUN echo 'ServerName localhost' > /etc/apache2/conf-available/relay.conf && a2enconf relay
+COPY private-rest.php /usr/src/wordpress/wp-content/mu-plugins/relay-private-rest.php
+COPY private-rest.php /opt/relay/private-rest.php
+COPY prepare.php /opt/relay/prepare.php
+COPY entrypoint.sh /opt/relay/entrypoint.sh
+COPY relay-apache.conf /etc/apache2/conf-available/relay.conf
+RUN php /opt/relay/prepare.php /usr/src/wordpress/wp-includes/class-wpdb.php \
+ && printf 'Listen 8080\n' > /etc/apache2/ports.conf \
+ && sed -i 's/<VirtualHost \*:80>/<VirtualHost *:8080>/' /etc/apache2/sites-available/000-default.conf \
+ && a2enmod ssl && a2enconf relay \
+ && chmod 0555 /opt/relay/entrypoint.sh \
+ && chown -R www-data:www-data /var/run/apache2 /var/lock/apache2
+ENTRYPOINT ["/opt/relay/entrypoint.sh"]
+CMD ["apache2-foreground"]
+USER www-data
+EXPOSE 8080 8443

@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-16T06:59:45.057Z",
+  "passed": true,
+  "namespace": "relay-pki",
+  "namespaceUid": "1f761c96-4295-4fb3-8ad5-4f13125974e4",
+  "defaultDeny": true,
+  "externalEgress": false,
+  "webhookPort": 10250,
+  "controlPlaneCidr": "172.24.0.3/32",
+  "realNewCertificateIssuedAfterPolicy": true,
+  "limitations": [
+    "Kubernetes permits traffic from the local node for probes; this is not hostile node isolation",
+    "ACME is not enabled; public hosting requires explicit reviewed egress"
+  ],
+  "privateValuesPrinted": false
+}

@@ -1,3 +1,8 @@
+import { permissionSummary } from "./permissions.js";
+import {
+  internalFetch,
+  internalUrl,
+} from "../../../packages/auth/src/transport.js";
 import { APICallError } from "ai";
 import type { FastifyInstance, FastifyRequest } from "fastify";
 import * as z from "zod/v4";
@@ -30,25 +35,45 @@ export function installConsole(
   });
   app.get("/api/overview", async (req) => {
     const i = await identity(req.headers);
-    return store.tenant(i.team, async (tx) => ({
-      upstreams: (
+    return store.tenant(i.team, async (tx) => {
+      const rows = (
         await tx.query(
-          "SELECT u.id,u.name,u.enabled,u.revision,(u.credential_ref IS NOT NULL) AS has_credentials,CASE WHEN NOT u.enabled THEN 'Disabled' ELSE COALESCE(c.state,'Unreachable') END AS status,c.reason,c.checked_at,jsonb_array_length(COALESCE(c.tools,'[]')) AS tool_count FROM app.upstreams u LEFT JOIN app.tool_catalog_versions c ON c.upstream_id=u.id AND c.revision=u.revision WHERE u.deleted_at IS NULL ORDER BY u.created_at",
+          "SELECT u.id,u.name,u.enabled,u.revision,(u.credential_ref IS NOT NULL) AS has_credentials,CASE WHEN NOT u.enabled THEN 'Disabled' ELSE COALESCE(c.state,'Unreachable') END AS status,c.reason,c.checked_at,COALESCE(c.tools,'[]') AS catalog_tools FROM app.upstreams u LEFT JOIN app.tool_catalog_versions c ON c.upstream_id=u.id AND c.revision=u.revision WHERE u.deleted_at IS NULL ORDER BY u.created_at",
         )
-      ).rows,
-      activity: (
-        await tx.query(
-          "SELECT id,user_id,upstream_id,tool_name,started_at,duration_ms,status,code FROM app.audit_calls WHERE ($1='admin' OR user_id=$2) ORDER BY started_at DESC LIMIT 12",
-          [i.role, i.user],
-        )
-      ).rows,
-      role: i.role,
-      userId: i.user,
-      gatewayUrl: `${process.env["PUBLIC_ORIGIN"] ?? "http://relay.localhost:18080"}/mcp`,
-      budget: (await tx.query("SELECT * FROM app.model_budget()")).rows[0],
-      model: MODEL,
-      modelEnabled: process.env["MODEL_ENABLED"] === "true",
-    }));
+      ).rows;
+      const upstreams = [];
+      for (const row of rows) {
+        const summary = await permissionSummary(
+          tx,
+          i,
+          row.id,
+          row.catalog_tools,
+        );
+        if (summary.visible) {
+          const { catalog_tools, ...safe } = row;
+          void catalog_tools;
+          upstreams.push({
+            ...safe,
+            tool_count: row.enabled ? summary.count : 0,
+          });
+        }
+      }
+      return {
+        upstreams,
+        activity: (
+          await tx.query(
+            "SELECT id,user_id,upstream_id,tool_name,started_at,duration_ms,status,code FROM app.audit_calls WHERE ($1='admin' OR user_id=$2) ORDER BY started_at DESC LIMIT 12",
+            [i.role, i.user],
+          )
+        ).rows,
+        role: i.role,
+        userId: i.user,
+        gatewayUrl: `${process.env["PUBLIC_ORIGIN"] ?? "http://relay.localhost:18080"}/mcp`,
+        budget: (await tx.query("SELECT * FROM app.model_budget()")).rows[0],
+        model: MODEL,
+        modelEnabled: process.env["MODEL_ENABLED"] === "true",
+      };
+    });
   });
   app.get("/api/chat/runs", async (req) => {
     const i = await identity(req.headers);
@@ -143,7 +168,8 @@ export function installConsole(
         const answer = await runAgent({
           prompt: b.prompt,
           key,
-          gateway: "http://relay-gateway:3000/mcp",
+          gateway: internalUrl("gateway", "/mcp"),
+          fetch: internalFetch,
           credential: async () =>
             delegate(await identity(req.headers), secret("delegation-signing")),
           signal,

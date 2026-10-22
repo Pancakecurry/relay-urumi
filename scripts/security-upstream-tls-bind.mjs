@@ -1,0 +1,8 @@
+// Reviewed operator migration for the three unchanged core Service authorities.
+// No arbitrary URL or new receiver can reuse these credential references.
+import{kube}from'./mcp-kube.mjs';import{writeFileSync}from'node:fs';import assert from'node:assert/strict';
+const services=[['relay-woocommerce','relay-store-m1'],['relay-calendar','relay-upstreams'],['relay-totals','relay-upstreams']];
+for(const[n,ns]of services){const d=JSON.parse(kube(['get','deployment',n,'-n',ns,'-o','json']));assert.equal(d.status.readyReplicas,1);assert(d.spec.template.spec.containers[0].env.some(e=>e.name==='RELAY_TLS_DIR'));const c=JSON.parse(kube(['get','certificate',n+'-tls','-n',ns,'-o','json']));assert(c.status.conditions.some(c=>c.type==='Ready'&&c.status==='True'));assert(c.spec.dnsNames.includes(`${n}.${ns}.svc.cluster.local`));}
+const urls=services.map(([n,ns])=>`'http://${n}.${ns}.svc.cluster.local:3000/mcp'`).join(',');
+const changed=JSON.parse(kube(['exec','relay-postgres-0','-n','relay-platform','--','psql','-U','postgres','-d','relay','-At','-v','ON_ERROR_STOP=1','-c',`WITH changed AS (UPDATE app.upstreams SET url=regexp_replace(url,'^http:','https:'),revision=revision+1 WHERE deleted_at IS NULL AND url IN (${urls}) RETURNING id,team_id,url,revision) SELECT COALESCE(json_agg(changed),'[]') FROM changed`]));
+const report={at:new Date().toISOString(),passed:true,sameExactServiceAuthorities:true,verifiedNativeCertificates:true,credentialsKeptServerSide:true,changed};writeFileSync('docs/evidence/m6/upstream-tls-binding.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({passed:true,changed:changed.length}));

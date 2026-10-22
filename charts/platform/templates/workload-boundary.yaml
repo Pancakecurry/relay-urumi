@@ -1,0 +1,39 @@
+{{- if and (eq .Values.mode "core") .Values.provisionerEnabled .Values.transportTls.enabled }}
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata: {name: {{ .Release.Namespace }}-store-workload-boundary}
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [apps]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [deployments, statefulsets]
+      - apiGroups: [batch]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [jobs]
+  matchConditions:
+    - name: controller-only
+      expression: "request.userInfo.username == 'system:serviceaccount:{{ .Release.Namespace }}:relay-provisioner'"
+  variables:
+    - name: pod
+      expression: object.spec.template.spec
+    - name: containers
+      expression: "variables.pod.containers + (has(variables.pod.initContainers) ? variables.pod.initContainers : [])"
+  validations:
+    - expression: "namespaceObject != null && namespaceObject.metadata.labels['relay.store/managed'] == 'true' && request.namespace.matches('^relay-store-[a-f0-9]{32}$')"
+      message: Store workloads are restricted to managed namespaces.
+    - expression: "has(variables.pod.automountServiceAccountToken) && !variables.pod.automountServiceAccountToken && (!has(variables.pod.serviceAccountName) || variables.pod.serviceAccountName == 'default') && (!has(variables.pod.hostNetwork) || !variables.pod.hostNetwork) && (!has(variables.pod.hostPID) || !variables.pod.hostPID) && (!has(variables.pod.hostIPC) || !variables.pod.hostIPC) && (!has(variables.pod.volumes) || variables.pod.volumes.all(v, !has(v.hostPath) && !has(v.projected)))"
+      message: Host access and service-account token projection are forbidden.
+    - expression: "has(variables.pod.securityContext) && variables.pod.securityContext.runAsNonRoot && variables.pod.securityContext.runAsUser > 0 && variables.pod.securityContext.seccompProfile.type == 'RuntimeDefault' && variables.containers.all(c, has(c.securityContext) && c.securityContext.readOnlyRootFilesystem && !c.securityContext.allowPrivilegeEscalation && (!has(c.securityContext.privileged) || !c.securityContext.privileged) && c.securityContext.capabilities.drop.exists(x, x == 'ALL') && (!has(c.securityContext.capabilities.add) || size(c.securityContext.capabilities.add) == 0) && (!has(c.securityContext.runAsUser) || c.securityContext.runAsUser > 0) && (!has(c.securityContext.runAsNonRoot) || c.securityContext.runAsNonRoot))"
+      message: Every container must use the reviewed non-root restricted runtime.
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata: {name: {{ .Release.Namespace }}-store-workload-boundary}
+spec:
+  policyName: {{ .Release.Namespace }}-store-workload-boundary
+  validationActions: [Deny]
+{{- end }}

@@ -1,0 +1,48 @@
+{
+  "at": "2026-10-16T08:52:14.882Z",
+  "checks": [
+    "Public private-REST routes, including both rest_route query variants, reject a caller without the adapter certificate",
+    "A real browser buys the synthetic product with COD through HTTPS Ingress and the exact order appears in WooCommerce admin",
+    "Replacing WordPress and MariaDB preserves the HTTPS COD order, product, marker and both original PVC/PV identities"
+  ],
+  "modelTraffic": false,
+  "networkPolicyProof": false,
+  "orderId": 17,
+  "before": [
+    {
+      "name": "store-db-0",
+      "uid": "7256c026-a772-41e9-8439-305a8e7ea33f",
+      "role": "database"
+    },
+    {
+      "name": "store-wp-5645c7f69c-q82tj",
+      "uid": "91d21dd5-fee6-4af4-aa0d-fe24ef12a44d",
+      "role": "wordpress"
+    }
+  ],
+  "after": [
+    {
+      "name": "store-db-0",
+      "uid": "f93341c8-b7a4-4f4a-ae73-33533ce0a7fc",
+      "role": "database"
+    },
+    {
+      "name": "store-wp-84fc9c98c7-dk658",
+      "uid": "149ce006-0623-4054-baad-ddddac4644e4",
+      "role": "wordpress"
+    }
+  ],
+  "volumes": [
+    {
+      "name": "store-content",
+      "uid": "aac84a22-84f4-445c-b15b-3da550bf4e69",
+      "pv": "pvc-aac84a22-84f4-445c-b15b-3da550bf4e69"
+    },
+    {
+      "name": "store-db",
+      "uid": "05055263-2010-40e6-8005-d46d3523580c",
+      "pv": "pvc-05055263-2010-40e6-8005-d46d3523580c"
+    }
+  ],
+  "passed": true
+}

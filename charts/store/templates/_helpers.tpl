@@ -1,4 +1,8 @@
 {{- define "store.env" -}}
+{{- if .Values.transportTls.enabled }}
+- {name: RELAY_DB_TLS, value: "true"}
+- {name: RELAY_ADAPTER_CN, value: {{ .Values.transportTls.adapterCommonName | quote }}}
+{{- end }}
 - name: WORDPRESS_DB_HOST
   value: {{ printf "%s-db:3306" .Release.Name | quote }}
 - name: WORDPRESS_DB_NAME

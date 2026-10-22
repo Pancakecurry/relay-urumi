@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-16T15:15:07.935Z",
+  "checks": [
+    "Three actual simultaneous refresh/replay pairs on distinct ready API pods: one native exchange, one denial, no remaining family access/refresh rows or usable token",
+    "Simultaneous code exchange on two replicas cannot leave usable access after replay cleanup",
+    "A real refresh racing revocation across replicas leaves no valid or stored token family",
+    "Confirmed native1.7.7 returns400 after successfully invalidating a rotated token family; this is an HTTP compatibility failure, not accepted M6 success",
+    "A genuinely held database lock produces a bounded fail-closed busy response without changing provider limits"
+  ],
+  "networkPolicyProof": false,
+  "modelTraffic": false,
+  "pods": [
+    {
+      "name": "relay-api-75856cdc7c-b2plb",
+      "uid": "11f4133e-7870-41c5-9e52-b6a2da38b2de"
+    },
+    {
+      "name": "relay-api-75856cdc7c-fn4v4",
+      "uid": "5d2f1315-e88c-47a5-a563-acfa1bc155f9"
+    }
+  ],
+  "revokeRaceResponses": [
+    {
+      "status": 400,
+      "error": "invalid_grant"
+    },
+    {
+      "status": 200
+    }
+  ],
+  "nativeRevocationResponseMismatch": true,
+  "nativeFamilyCleanupVerified": true,
+  "busyDurationMs": 3058,
+  "passed": false,
+  "cleanupRestored": true,
+  "restoredApiReplicas": 1
+}

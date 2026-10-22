@@ -1,0 +1,76 @@
+{{- if and (eq .Values.mode "core") .Values.transportTls.enabled }}
+{{- range $role := list "api" "gateway" "provisioner" "dashboard" "ingress-client" "migration" "postgres" "redis" }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata: {name: relay-{{ $role }}-tls}
+spec:
+  secretName: relay-{{ $role }}-tls
+  commonName: relay-{{ $role }}
+  dnsNames: [relay-{{ $role }}, relay-{{ $role }}.{{ $.Release.Namespace }}.svc.cluster.local]
+  duration: 168h
+  renewBefore: 48h
+  privateKey: {algorithm: ECDSA, size: 256, rotationPolicy: Always}
+  usages: [server auth, client auth]
+  issuerRef: {name: {{ $.Values.transportTls.issuer | quote }}, kind: ClusterIssuer}
+  secretTemplate: {labels: {relay-owned: m6}}
+{{- end }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata: {name: relay-console-tls}
+spec:
+  secretName: relay-console-tls
+  commonName: {{ .Values.platformHost | quote }}
+  dnsNames: [{{ .Values.platformHost | quote }}, localhost]
+  duration: 168h
+  renewBefore: 48h
+  privateKey: {algorithm: ECDSA, size: 256, rotationPolicy: Always}
+  usages: [server auth]
+  issuerRef: {name: {{ .Values.transportTls.issuer | quote }}, kind: ClusterIssuer}
+  secretTemplate: {labels: {relay-owned: m6}}
+{{- range $role := list "api" "gateway" "dashboard" }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata: {name: relay-{{ $role }}}
+spec:
+  serverName: relay-{{ $role }}.{{ $.Release.Namespace }}.svc.cluster.local
+  rootCAsSecrets: [relay-trust]
+  certificatesSecrets: [relay-ingress-client-tls]
+  maxIdleConnsPerHost: 8
+  forwardingTimeouts: {dialTimeout: 5s, responseHeaderTimeout: 15s, idleConnTimeout: 30s}
+{{- end }}
+{{- end }}
+
+{{- if and (eq .Values.mode "core") .Values.transportTls.dataEnabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata: {name: relay-postgres-tls-auth}
+data:
+  pg_hba.conf: |
+    local all all trust
+    hostnossl all all 0.0.0.0/0 reject
+    hostnossl all all ::/0 reject
+    hostssl relay all 0.0.0.0/0 scram-sha-256 clientcert=verify-full
+    hostssl relay all ::/0 scram-sha-256 clientcert=verify-full
+{{- end }}
+
+{{- if and (eq .Values.mode "core") .Values.transportTls.enabled }}
+{{- range $role := list "app" "auth" "provisioner" "postgres" }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata: {name: relay-db-{{ $role }}-tls}
+spec:
+  secretName: relay-db-{{ $role }}-tls
+  commonName: {{ if eq $role "postgres" }}postgres{{ else }}relay_{{ $role }}{{ end }}
+  duration: 168h
+  renewBefore: 48h
+  privateKey: {algorithm: ECDSA, size: 256, rotationPolicy: Always}
+  usages: [client auth]
+  issuerRef: {name: {{ $.Values.transportTls.issuer | quote }}, kind: ClusterIssuer}
+  secretTemplate: {labels: {relay-owned: m6}}
+{{- end }}
+{{- end }}

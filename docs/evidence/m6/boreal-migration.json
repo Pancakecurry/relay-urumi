@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-16T08:51:09.690Z",
+  "checks": [
+    "Explicit UID-checked durable config migration reconciles the retained M5 store to HTTPS/non-root without changing either PVC/PV, original product IDs, order count or persisted marker"
+  ],
+  "modelTraffic": false,
+  "generation": 36,
+  "namespaceUid": "ab98ba86-1c6e-489a-be3b-c6b679acda66",
+  "volumes": [
+    {
+      "name": "store-content",
+      "uid": "9ff15c87-bc66-4205-af20-3ac1ef863830",
+      "pv": "pvc-9ff15c87-bc66-4205-af20-3ac1ef863830"
+    },
+    {
+      "name": "store-db",
+      "uid": "c469a708-3b46-4ab8-8598-b2caed0a876f",
+      "pv": "pvc-c469a708-3b46-4ab8-8598-b2caed0a876f"
+    }
+  ],
+  "actual": {
+    "products": {
+      "RELAY-DEMO-MUG": 13,
+      "RELAY-DEMO-NOTEBOOK": 14
+    },
+    "orders": null,
+    "marker": "relay-m1-synthetic-persistent-content"
+  },
+  "url": "https://s-85079ca72e6b440c96e3076794da1e31.relay.localhost:18443",
+  "passed": true
+}

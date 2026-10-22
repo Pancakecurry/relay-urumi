@@ -1,10 +1,14 @@
+import {setInterval} from 'node:timers';
+import console from 'node:console';
 import {URL} from 'node:url';
-import {createServer} from 'node:http';
+import {createServer as httpServer} from 'node:http';
+import {createServer as httpsServer} from 'node:https';
+import {serviceTls} from './dist/packages/auth/src/transport.js';
 import {readFile,stat} from 'node:fs/promises';
 import {resolve,extname} from 'node:path';
 const root=resolve('/app/public');
 const mime={'.html':'text/html; charset=utf-8','.js':'application/javascript','.css':'text/css','.woff2':'font/woff2','.svg':'image/svg+xml'};
-createServer(async(req,res)=>{try{
+const tls=serviceTls();const listener=async(req,res)=>{try{
 res.setHeader('x-content-type-options','nosniff');res.setHeader('referrer-policy','same-origin');res.setHeader('permissions-policy','camera=(), microphone=(), geolocation=()');
 res.setHeader('content-security-policy',"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'");
 if(req.url==='/health/ready'||req.url==='/health/live'){res.end('ready');return;}
@@ -13,4 +17,7 @@ if(!['GET','HEAD'].includes(req.method)){res.writeHead(405);res.end();return;}
 const p=resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://localhost').pathname));if(p!==root&&!p.startsWith(root+'/')){res.writeHead(403);res.end();return;}
 let file=p;try{if(!(await stat(file)).isFile())file=root+'/index.html';}catch{if(extname(p)){res.writeHead(404);res.end();return;}file=root+'/index.html';}
 const content=await readFile(file);res.setHeader('content-type',mime[extname(file)]??'application/octet-stream');res.setHeader('cache-control',file.includes('/assets/')?'public,max-age=31536000,immutable':'no-store');res.end(req.method==='HEAD'?undefined:content);
-}catch{res.writeHead(500);res.end('Resource unavailable');}}).listen(3002,'0.0.0.0');
+}catch{res.writeHead(500);res.end('Resource unavailable');}};
+const server=tls?httpsServer(tls,listener):httpServer(listener);
+if(tls){const timer=setInterval(()=>{try{server.setSecureContext(serviceTls());}catch{console.error('TLS projection refresh unavailable');}},15000);timer.unref();}
+server.listen(3002,'0.0.0.0');

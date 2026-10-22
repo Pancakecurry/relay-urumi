@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+php /opt/relay/prepare.php /var/www/html/wp-includes/class-wpdb.php
 wp --allow-root eval-file /opt/relay/install.php --skip-wordpress
 wp --allow-root plugin activate woocommerce
 wp --allow-root eval-file /opt/relay/bootstrap.php

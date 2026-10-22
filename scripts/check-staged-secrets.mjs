@@ -31,14 +31,17 @@ try {
   for(const directory of readdirSync(base).filter(n=>n.startsWith('cluster-rotation-relay-')))for(const name of ['old-token','new-token']){const v=readFileSync(base+'/'+directory+'/'+name,'utf8').trim();const password=v.split('::').at(-1).replace(/^server:/,'');for(const value of [v,password])secrets.push(value,Buffer.from(value).toString('base64'));}
  }
 }catch(error){if(error.code!=='ENOENT')throw error;}
+try{const d=JSON.parse(readFileSync('.local/m3-runtime-secrets.json','utf8'));if(d['credential-keyring'])for(const v of Object.values(JSON.parse(d['credential-keyring']).keys))secrets.push(v,Buffer.from(v).toString('base64'));}catch(error){if(error.code!=='ENOENT')throw error;}
+try{const d=JSON.parse(readFileSync('.local/m6-vault-rotation-state.json','utf8'));for(const v of [...Object.values(d.old?.keys??{}),d.newKey])if(typeof v==='string'&&v.length>=16)secrets.push(v,Buffer.from(v).toString('base64'));}catch(error){if(error.code!=='ENOENT')throw error;}
 const violations=[];
+// Match the actual Authorization header, not public authorizationServerUrl metadata.
 // Include current M5 identities, revoked synthetic test passwords and generated
 // store Secrets. Values stay in memory; report filenames and reasons only.
 function privateValues(value,field=''){
- if(typeof value==='string'&&value.length>=16&&/password|token|cookie|(^|_)key$|authorization/i.test(field))secrets.push(value,Buffer.from(value).toString('base64'));
+ if(typeof value==='string'&&value.length>=16&&/password|token|cookie|(^|_)key$|^authorization$|verifier|newKey|^code$/i.test(field))secrets.push(value,Buffer.from(value).toString('base64'));
  else if(value&&typeof value==='object')for(const [key,child] of Object.entries(value))privateValues(child,key);
 }
-for(const file of readdirSync('.local').filter(n=>/^m5-.*\.json$/.test(n))){try{privateValues(JSON.parse(readFileSync('.local/'+file,'utf8')));}catch(error){if(error.code!=='ENOENT')throw error;}}
+for(const file of readdirSync('.local').filter(n=>/^m[56]-.*\.json$/.test(n))){try{privateValues(JSON.parse(readFileSync('.local/'+file,'utf8')));}catch(error){if(error.code!=='ENOENT')throw error;}}
 if(process.env.RELAY_SCAN_CLUSTER==='1'){
  const {kube}=await import('./mcp-kube.mjs');
  const namespaces=JSON.parse(kube(['get','namespace','-o','json'])).items.filter(n=>n.metadata.name.startsWith('relay')).map(n=>n.metadata.name);
@@ -62,7 +65,7 @@ for(const file of files){
   if(/(^|\/)(\.local|\.tools|node_modules)(\/|$)|(^|\/)\.env($|\.)/.test(file))violations.push({file,reason:'private/runtime path staged'});
   const content=git(['show',`:${file}`]);
   if(secrets.some(secret=>content.includes(secret)))violations.push({file,reason:'private credential value found'});
-  if(/r[kid]\.[a-f0-9-]{36}\.[a-f0-9-]{36}\.[a-f0-9]{64}|AIza[A-Za-z0-9_-]{30,}|K10[a-f0-9]{64}::server:[^\s"']+|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/.test(content))violations.push({file,reason:'credential pattern found'});
+  if(/ro[ar]_[A-Za-z0-9_-]{20,}|r[kid]\.[a-f0-9-]{36}\.[a-f0-9-]{36}\.[a-f0-9]{64}|AIza[A-Za-z0-9_-]{30,}|K10[a-f0-9]{64}::server:[^\s"']+|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/.test(content))violations.push({file,reason:'credential pattern found'});
 }
 const result={at:new Date().toISOString(),scope:'Git index only; known local credentials and recognizable key/private-key patterns',filesChecked:files.length,privateValuesPrinted:false,passed:violations.length===0,violations};
 writeFileSync(process.env.SECRET_SCAN_OUTPUT || 'docs/evidence/credential-scan.json',JSON.stringify(result,null,2)+'\n');

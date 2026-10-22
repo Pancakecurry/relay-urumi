@@ -1,0 +1,11 @@
+{
+  "at": "2026-10-15T23:03:54.908Z",
+  "passed": true,
+  "containerMemoryBytes": 4294967296,
+  "nodeCapacityBefore": "3221225Ki",
+  "nodeCapacityAfter": "3221225Ki",
+  "namespacesPreserved": 5,
+  "claimsPreserved": 8,
+  "unrelatedResourcesChanged": false,
+  "dataRestorationClaim": false
+}

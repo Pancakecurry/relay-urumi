@@ -1,0 +1,12 @@
+{
+  "at": "2026-10-16T08:31:53.150Z",
+  "configurationPrepared": true,
+  "liveTransportChanged": false,
+  "legacySecretPreserved": true,
+  "sameExistingPassword": true,
+  "nativeTls13": true,
+  "clientCertificateRequired": true,
+  "plaintextTcpDisabledInPreparedConfig": true,
+  "redisConfigSha256": "e9d3e5f750dbeda36f24758af156130e70683c466921f51c6a9e103d355be8f6",
+  "privateValuesPrinted": false
+}

@@ -1,0 +1,9 @@
+{
+  "at": "2026-10-16T07:46:06.398Z",
+  "passedProofRetained": true,
+  "namespace": "relay-store-clean",
+  "namespaceUid": "fe8191a1-92e6-475a-95f4-e5bd8403d31c",
+  "replicas": 0,
+  "pvcsRetained": true,
+  "reason": "Pause only the isolated proof after complete actual TLS operations/checkout/persistence; free headroom before the native data-service rollout"
+}

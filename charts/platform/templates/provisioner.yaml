@@ -44,6 +44,12 @@ rules:
   - apiGroups: [batch]
     resources: [jobs]
     verbs: [get, list, watch, create, update, patch, delete]
+  - apiGroups: [cert-manager.io]
+    resources: [certificates]
+    verbs: [get, list, watch, create, update, patch, delete]
+  - apiGroups: [traefik.io]
+    resources: [middlewares, serverstransports]
+    verbs: [get, list, watch, create, update, patch, delete]
   - apiGroups: [networking.k8s.io]
     resources: [ingresses, networkpolicies]
     verbs: [get, list, watch, create, update, patch, delete]
@@ -140,15 +146,38 @@ spec:
           command: [node, dist/apps/provisioner/src/server.js]
           securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
           env:
+            - {name: RELAY_DATA_TLS, value: {{ .Values.transportTls.dataEnabled | quote }}}
+            {{- if .Values.transportTls.enabled }}
+            - {name: RELAY_TLS_DIR, value: /run/tls}
+            {{- end }}
+            - {name: STORE_TLS_ENABLED, value: {{ .Values.transportTls.enabled | quote }}}
+            - {name: STORE_TLS_ISSUER, value: {{ .Values.transportTls.issuer | quote }}}
+            - {name: STORE_HTTPS_PORT, value: {{ .Values.storeHttpsPort | quote }}}
             - {name: STORE_IMAGE, value: {{ .Values.storeImage | quote }}}
             - {name: ADAPTER_IMAGE, value: {{ .Values.platformImage | quote }}}
             - {name: STORE_STORAGE_CLASS, value: {{ .Values.storageClass | quote }}}
           ports: [{name: http, containerPort: 3003}]
           resources: {requests: {cpu: 50m, memory: 96Mi}, limits: {cpu: "1", memory: 384Mi}}
-          readinessProbe: {httpGet: {path: /health/ready, port: http}, initialDelaySeconds: 5, periodSeconds: 5}
-          livenessProbe: {httpGet: {path: /health/live, port: http}, initialDelaySeconds: 5, periodSeconds: 10}
-          volumeMounts: [{name: secrets, mountPath: /run/platform, readOnly: true}, {name: tmp, mountPath: /tmp}]
-      volumes: [{name: secrets, secret: {secretName: platform-provisioner, defaultMode: 0440}}, {name: tmp, emptyDir: {sizeLimit: 64Mi}}]
+          readinessProbe: {httpGet: {scheme: {{ if .Values.transportTls.enabled }}HTTPS{{ else }}HTTP{{ end }}, path: /health/ready, port: http}, initialDelaySeconds: 5, periodSeconds: 5}
+          livenessProbe: {httpGet: {scheme: {{ if .Values.transportTls.enabled }}HTTPS{{ else }}HTTP{{ end }}, path: /health/live, port: http}, initialDelaySeconds: 5, periodSeconds: 10}
+          volumeMounts:
+            - {name: secrets, mountPath: /run/platform, readOnly: true}
+            - {name: tmp, mountPath: /tmp}
+            {{- if .Values.transportTls.enabled }}
+            - {name: tls, mountPath: /run/tls, readOnly: true}
+            {{- end }}
+            {{- if .Values.transportTls.dataEnabled }}
+            - {name: db-provisioner-tls, mountPath: /run/db-tls/provisioner, readOnly: true}
+            {{- end }}
+      volumes:
+        - {name: secrets, secret: {secretName: platform-provisioner, defaultMode: 0440}}
+        - {name: tmp, emptyDir: {sizeLimit: 64Mi}}
+        {{- if .Values.transportTls.enabled }}
+        - {name: tls, secret: {secretName: relay-provisioner-tls, defaultMode: 0440}}
+        {{- end }}
+        {{- if .Values.transportTls.dataEnabled }}
+        - {name: db-provisioner-tls, secret: {secretName: relay-db-provisioner-tls, defaultMode: 0440}}
+        {{- end }}
 ---
 apiVersion: v1
 kind: Service

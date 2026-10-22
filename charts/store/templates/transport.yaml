@@ -1,0 +1,39 @@
+{{- if .Values.transportTls.enabled }}
+{{- if not .Values.runtime.nonRoot }}{{ fail "Store TLS requires the reviewed rootless store image/profile" }}{{- end }}
+{{- $_ := required "An exact adapter certificate identity is required for store TLS" .Values.transportTls.adapterCommonName }}
+{{- range $role := list "wp" "db" }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata: {name: {{ $.Release.Name }}-{{ $role }}-tls}
+spec:
+  secretName: {{ $.Release.Name }}-{{ $role }}-tls
+  commonName: {{ printf "%s-%s.%s" $.Release.Name $role $.Release.Namespace | quote }}
+  dnsNames:
+    - {{ printf "%s-%s" $.Release.Name $role | quote }}
+    - {{ printf "%s-%s.%s.svc.cluster.local" $.Release.Name $role $.Release.Namespace | quote }}
+    {{- if eq $role "wp" }}
+    - {{ $.Values.ingress.hostname | quote }}
+    {{- end }}
+  duration: 168h
+  renewBefore: 48h
+  privateKey: {algorithm: ECDSA, size: 256, rotationPolicy: Always}
+  usages: [server auth, client auth]
+  issuerRef: {name: {{ $.Values.transportTls.issuer | quote }}, kind: ClusterIssuer}
+{{- end }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata: {name: {{ .Release.Name }}-wp}
+spec:
+  serverName: {{ printf "%s-wp.%s.svc.cluster.local" .Release.Name .Release.Namespace | quote }}
+  rootCAsSecrets: [{{ .Release.Name }}-wp-tls]
+  maxIdleConnsPerHost: 8
+  forwardingTimeouts: {dialTimeout: 5s, responseHeaderTimeout: 15s, idleConnTimeout: 30s}
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata: {name: {{ .Release.Name }}-https}
+spec:
+  redirectScheme: {scheme: https, port: {{ .Values.ingress.httpsPort | quote }}, permanent: true}
+{{- end }}

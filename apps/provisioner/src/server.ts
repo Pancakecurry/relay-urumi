@@ -1,4 +1,9 @@
-import Fastify from "fastify";
+import { dataTls } from "../../../packages/db/src/tls.js";
+import {
+  serviceApp,
+  privatePeer,
+} from "../../../packages/auth/src/transport.js";
+import type { TLSSocket } from "node:tls";
 import { observeStore } from "./observation.js";
 import { equal, uuid } from "../../../packages/auth/src/identity.js";
 import { Queue, Worker } from "bullmq";
@@ -11,6 +16,7 @@ const connection = new Redis({
   host: "relay-redis",
   port: 6379,
   password: secret("redis-password"),
+  tls: dataTls("relay-redis"),
   db: 1,
   maxRetriesPerRequest: null,
 });
@@ -80,7 +86,11 @@ async function dispatch() {
 }
 const interval = setInterval(() => void dispatch(), 3000);
 void dispatch();
-const app = Fastify({ logger: false });
+const app = serviceApp();
+app.addHook("onRequest", async (req) => {
+  if (req.url.startsWith("/internal/"))
+    privatePeer(req.raw.socket as TLSSocket, ["relay-api"]);
+});
 const observationCache = new Map<
   string,
   { expires: number; value: ReturnType<typeof observeStore> }

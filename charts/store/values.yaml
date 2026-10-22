@@ -30,3 +30,12 @@ ingress:
   className: traefik
   hostname: store.relay.localhost
   tlsSecret: ""
+  httpsPort: "443"
+
+# Explicit migration profile; enabled only with the tested rootless store image.
+runtime:
+  nonRoot: false
+transportTls:
+  enabled: false
+  issuer: relay-local-ca
+  adapterCommonName: ""

@@ -22,11 +22,29 @@ spec:
     spec:
       automountServiceAccountToken: false
       securityContext:
+        {{- if .Values.runtime.nonRoot }}
+        runAsNonRoot: true
+        runAsUser: 999
+        runAsGroup: 999
+        fsGroup: 999
+        {{- end }}
         seccompProfile: {type: RuntimeDefault}
       containers:
         - name: mariadb
           image: {{ .Values.mariadb.image | quote }}
-          args: ["--innodb-buffer-pool-size=128M", "--max-connections=40"]
+          {{- if .Values.runtime.nonRoot }}
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          {{- end }}
+          args:
+            - --innodb-buffer-pool-size=128M
+            - --max-connections=40
+            {{- if .Values.transportTls.enabled }}
+            - --ssl-ca=/run/db-tls/ca.crt
+            - --ssl-cert=/run/db-tls/tls.crt
+            - --ssl-key=/run/db-tls/tls.key
+            - --tls-version=TLSv1.3
+            - --require-secure-transport=ON
+            {{- end }}
           env:
             - {name: MARIADB_DATABASE, value: wordpress}
             - {name: MARIADB_USER, value: wordpress}
@@ -34,28 +52,55 @@ spec:
             - {name: MARIADB_ROOT_PASSWORD_FILE, value: /run/store/root-password}
           ports: [{name: mysql, containerPort: 3306}]
           startupProbe:
+            {{- if .Values.transportTls.enabled }}
+            exec: {command: [sh, -c, 'mariadb --defaults-extra-file=/var/lib/mysql/.my-healthcheck.cnf --protocol=socket --socket=/run/mysqld/mysqld.sock --batch --skip-column-names -e "SELECT 1" | grep -qx 1']}
+            {{- else }}
             exec: {command: [healthcheck.sh, --connect, --innodb_initialized]}
+            {{- end }}
             periodSeconds: 5
             failureThreshold: 60
           readinessProbe:
+            {{- if .Values.transportTls.enabled }}
+            exec: {command: [sh, -c, 'mariadb --defaults-extra-file=/var/lib/mysql/.my-healthcheck.cnf --protocol=socket --socket=/run/mysqld/mysqld.sock --batch --skip-column-names -e "SELECT 1" | grep -qx 1']}
+            {{- else }}
             exec: {command: [healthcheck.sh, --connect, --innodb_initialized]}
+            {{- end }}
             periodSeconds: 10
             timeoutSeconds: 5
           livenessProbe:
+            {{- if .Values.transportTls.enabled }}
+            exec: {command: [sh, -c, 'mariadb --defaults-extra-file=/var/lib/mysql/.my-healthcheck.cnf --protocol=socket --socket=/run/mysqld/mysqld.sock --batch --skip-column-names -e "SELECT 1" | grep -qx 1']}
+            {{- else }}
             exec: {command: [healthcheck.sh, --connect, --innodb_initialized]}
+            {{- end }}
             periodSeconds: 20
             timeoutSeconds: 5
             failureThreshold: 6
           resources: {{ toYaml .Values.mariadb.resources | nindent 12 }}
           volumeMounts:
+            {{- if .Values.runtime.nonRoot }}
+            - {name: tmp, mountPath: /tmp}
+            - {name: socket, mountPath: /run/mysqld}
+            {{- end }}
+            {{- if .Values.transportTls.enabled }}
+            - {name: db-tls, mountPath: /run/db-tls, readOnly: true}
+            {{- end }}
             - {name: data, mountPath: /var/lib/mysql}
             - {name: runtime, mountPath: /run/store, readOnly: true}
       volumes:
+        {{- if .Values.transportTls.enabled }}
+        - {name: db-tls, secret: {secretName: {{ .Release.Name }}-db-tls, defaultMode: 0440}}
+        {{- end }}
+        {{- if .Values.runtime.nonRoot }}
+        - {name: tmp, emptyDir: {sizeLimit: 64Mi}}
+        - {name: socket, emptyDir: {sizeLimit: 16Mi}}
+        {{- end }}
         - name: data
           persistentVolumeClaim: {claimName: "{{ .Release.Name }}-db"}
         - name: runtime
           secret:
             secretName: {{ .Values.secrets.runtime }}
+            defaultMode: 0440
             items:
               - {key: db-password, path: db-password}
               - {key: root-password, path: root-password}

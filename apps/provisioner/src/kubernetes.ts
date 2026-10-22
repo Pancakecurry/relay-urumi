@@ -79,10 +79,31 @@ export function owned(resource: Resource, id: string) {
   if (resource.metadata.labels?.["relay.store/id"] !== id)
     throw new Fault("OWNERSHIP_CONFLICT", false);
 }
-export async function ensure(path: string, body: Resource, id: string) {
+export async function ensure(
+  path: string,
+  body: Resource,
+  id: string,
+  reconcile = false,
+) {
   try {
     const r = await kube("GET", `${path}/${body.metadata.name}`);
     owned(r, id);
+    if (
+      reconcile &&
+      JSON.stringify(r["spec"]) !== JSON.stringify(body["spec"])
+    ) {
+      // CAS replacement only for explicitly reconciled owned policy resources.
+      if (!/(resourcequotas|limitranges|networkpolicies)$/.test(path))
+        throw new Fault("RECONCILE_KIND_DENIED", false);
+      return kube("PUT", `${path}/${body.metadata.name}`, {
+        ...body,
+        metadata: {
+          ...r.metadata,
+          ...body.metadata,
+          resourceVersion: r.metadata.resourceVersion!,
+        },
+      });
+    }
     return r;
   } catch (e) {
     if (!(e instanceof Fault && e.code === "NOT_FOUND")) throw e;

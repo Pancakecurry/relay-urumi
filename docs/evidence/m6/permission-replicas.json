@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-16T14:57:56.265Z",
+  "checks": [
+    "Distinct ready gateway pods enforce persisted default deny and reject cached aliases",
+    "Role allow and user deny update on both existing client connections",
+    "Server disablement and restoration are shared across both replicas",
+    "The first call after key revocation fails on each existing connection and is attributed to its member"
+  ],
+  "networkPolicyProof": false,
+  "modelTraffic": false,
+  "pods": [
+    {
+      "name": "relay-gateway-8bbd6f685-22ccv",
+      "uid": "e8835f6f-1d80-49ce-a29a-89f7b0b5712a"
+    },
+    {
+      "name": "relay-gateway-8bbd6f685-2v4vv",
+      "uid": "f31df525-1ac2-42a4-b196-87bdd4f8fc08"
+    }
+  ],
+  "passed": true,
+  "cleanupRestored": true,
+  "restoredGatewayReplicas": 1
+}

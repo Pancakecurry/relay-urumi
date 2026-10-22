@@ -14,7 +14,7 @@ test('local client dials the requested Ingress port while preserving canonical h
         const origin = `http://relay.localhost:${port}`;
         const response = await ingressFetch(`${origin}/api/teams?test=port`, { headers: { origin } });
         expect(await response.json()).toEqual({ host: `relay.localhost:${port}`, origin, path: '/api/teams?test=port' });
-        await expect(ingressFetch('https://relay.localhost/api/teams')).rejects.toThrow('requires HTTP');
+        await expect(ingressFetch('ftp://relay.localhost/api/teams')).rejects.toThrow('URL denied');
     } finally {
         await new Promise<void>((resolve, reject) => server.close(error => error ? reject(error) : resolve()));
     }

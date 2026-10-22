@@ -1,0 +1,51 @@
+{
+  "at": "2026-10-16T07:31:47.870Z",
+  "checks": [
+    "Modern official MCP client discovers six genuine tools and paginates real products through verified upstream TLS",
+    "A genuine create_product writes WooCommerce over authenticated TLS and list_products reads the exact SKU/price",
+    "list_orders/get_order return the real COD order; update_order_status changes it and the original status is restored",
+    "Legacy official session-client behavior interoperates with the same private TLS MCP server",
+    "A correct upstream bearer is insufficient without the exact permitted service certificate; the certificate is insufficient without the bearer",
+    "Actual mysqlnd native verification flag negotiates TLS1.3 and rejects both an untrusted CA and a mismatched server name"
+  ],
+  "networkPolicyProof": false,
+  "gatewayAggregationProof": false,
+  "modelTraffic": false,
+  "tls": [
+    {
+      "protocol": "TLSv1.3",
+      "authorized": true,
+      "hostname": "clean-mcp.relay-store-clean.svc.cluster.local"
+    }
+  ],
+  "productId": 18,
+  "orderId": 16,
+  "database": [
+    {
+      "case": "valid",
+      "connected": true,
+      "errno": 0,
+      "tls": [
+        [
+          "Ssl_version",
+          "TLSv1.3"
+        ]
+      ]
+    },
+    {
+      "case": "wrong-ca",
+      "connected": false,
+      "errno": 2002,
+      "tls": null
+    },
+    {
+      "case": "wrong-name",
+      "connected": false,
+      "errno": 2002,
+      "tls": null
+    }
+  ],
+  "adapterImage": "relay/platform:m6-37364b8f53410202",
+  "storeImage": "relay/store:m6-5698c668ea0141c1",
+  "passed": true
+}

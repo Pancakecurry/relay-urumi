@@ -1,0 +1,38 @@
+{
+  "at": "2026-10-16T06:35:35.360Z",
+  "checks": [
+    "The official MCP client follows the gateway challenge and discovers the real protected-resource/issuer metadata, then creates S256 PKCE"
+  ],
+  "modelTraffic": false,
+  "fetches": [
+    {
+      "path": "/mcp",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "path": "/.well-known/oauth-protected-resource/mcp",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/.well-known/oauth-authorization-server/api/auth",
+      "method": "GET",
+      "status": 200
+    }
+  ],
+  "screenshots": [
+    "docs/evidence/m6/visual/08-oauth-consent-desktop.png",
+    "docs/evidence/m6/visual/09-oauth-consent-mobile.png"
+  ],
+  "diagnosticOnly": true,
+  "resourceLink": "Operator-created link for isolated provider compatibility diagnosis; automatic-registration acceptance remains open",
+  "consentResponse": {
+    "status": 401,
+    "keys": [
+      "error"
+    ],
+    "errorCode": "INVALID_REQUEST"
+  },
+  "clientDisabledAfterTest": true
+}

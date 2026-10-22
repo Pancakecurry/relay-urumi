@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-15T23:08:49.185Z",
+  "checks": [
+    "API and provisioner both observe an explicit overlapping keyring; existing real MCP credentials remain readable",
+    "All actual credential envelopes rewrap to the active key and the previous key alone cannot decrypt them",
+    "The previous key is retired from both runtime mounts; the same live gateway client still executes successfully",
+    "Actual production maintenance removes an aged encrypted orphan while retaining every durable live or managed-store reference"
+  ],
+  "activeKeyId": "v2",
+  "entries": 39,
+  "previousRuntimeKeyRemoved": true,
+  "privateSafetyCopyRetained": true,
+  "passed": true
+}

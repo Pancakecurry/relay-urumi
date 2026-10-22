@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-16T14:45:47.775Z",
+  "checks": [
+    "Real hostile ref peer isolated; independent Calendar remains discoverable",
+    "Real hostile regex peer isolated; independent Calendar remains discoverable",
+    "Real hostile prototype peer isolated; independent Calendar remains discoverable",
+    "Real hostile sse-prototype peer isolated; independent Calendar remains discoverable",
+    "Real hostile depth peer isolated; independent Calendar remains discoverable",
+    "Real hostile longschema peer isolated; independent Calendar remains discoverable",
+    "Real hostile badname peer isolated; independent Calendar remains discoverable",
+    "Real hostile redirect peer isolated; independent Calendar remains discoverable",
+    "Real hostile oversized peer isolated; independent Calendar remains discoverable",
+    "Real hostile slow peer isolated; independent Calendar remains discoverable",
+    "Real echo tool result removes raw/encoded stored credentials and untrusted metadata",
+    "Real sse-echo tool result removes raw/encoded stored credentials and untrusted metadata",
+    "Redirect sink receives no request; oversized/slow sockets close; caller credentials/cookies/identity never forwarded",
+    "Successful hostile-peer test call is attributed by the gateway to the actual member"
+  ],
+  "modelTraffic": false,
+  "passed": true,
+  "fixtureRemoved": true
+}

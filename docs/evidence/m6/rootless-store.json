@@ -1,0 +1,47 @@
+{
+  "at": "2026-10-16T07:08:45.814Z",
+  "checks": [
+    "Both retained clean-store PVC and PV identities are unchanged",
+    "Actual WordPress/bootstrap UID33 and MariaDB UID999 run without privilege escalation, writable roots or service-account tokens",
+    "Original M1 clean-store product IDs13/14 and uploaded persistence marker survive the real non-root migration"
+  ],
+  "tls": false,
+  "pods": [
+    {
+      "name": "clean-store-db-0",
+      "uid": "c5a1d3e2-35d9-44cd-8399-99aae1f40bc0",
+      "role": "database",
+      "runAsUid": 999,
+      "ready": true
+    },
+    {
+      "name": "clean-store-wp-fc479479c-b2jl6",
+      "uid": "3bbf598a-2eff-4da9-bc9e-e2d0460c1e95",
+      "role": "wordpress",
+      "runAsUid": 33,
+      "ready": true
+    }
+  ],
+  "actual": {
+    "products": {
+      "RELAY-DEMO-MUG": 13,
+      "RELAY-DEMO-NOTEBOOK": 14
+    },
+    "marker": "relay-m1-synthetic-persistent-content",
+    "driver_tls_bridge": true
+  },
+  "image": "relay/store:m6-001b4b1b6105b97c",
+  "volumes": [
+    {
+      "name": "clean-store-content",
+      "uid": "50d251ae-0136-485b-97f5-cbd127ad9dc2",
+      "pv": "pvc-50d251ae-0136-485b-97f5-cbd127ad9dc2"
+    },
+    {
+      "name": "clean-store-db",
+      "uid": "3ad5cb2c-c73a-475f-b26b-f2f0072a094e",
+      "pv": "pvc-3ad5cb2c-c73a-475f-b26b-f2f0072a094e"
+    }
+  ],
+  "passed": true
+}

@@ -1,0 +1,41 @@
+{
+  "at": "2026-10-16T07:10:41.951Z",
+  "before": [
+    {
+      "name": "clean-store-db-0",
+      "uid": "c5a1d3e2-35d9-44cd-8399-99aae1f40bc0",
+      "role": "database"
+    },
+    {
+      "name": "clean-store-wp-fc479479c-b2jl6",
+      "uid": "3bbf598a-2eff-4da9-bc9e-e2d0460c1e95",
+      "role": "wordpress"
+    }
+  ],
+  "after": [
+    {
+      "name": "clean-store-db-0",
+      "uid": "66399eb2-cd16-4a1a-a33c-8655bd4a6468",
+      "role": "database"
+    },
+    {
+      "name": "clean-store-wp-78f66fdbbb-x2877",
+      "uid": "4350268e-047c-4518-9b7c-1e024883e6df",
+      "role": "wordpress"
+    }
+  ],
+  "volumes": [
+    {
+      "name": "clean-store-content",
+      "uid": "50d251ae-0136-485b-97f5-cbd127ad9dc2",
+      "volume": "pvc-50d251ae-0136-485b-97f5-cbd127ad9dc2"
+    },
+    {
+      "name": "clean-store-db",
+      "uid": "3ad5cb2c-c73a-475f-b26b-f2f0072a094e",
+      "volume": "pvc-3ad5cb2c-c73a-475f-b26b-f2f0072a094e"
+    }
+  ],
+  "pvcIdentitiesUnchanged": true,
+  "existingOrderProductAndContentVerified": true
+}

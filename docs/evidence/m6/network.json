@@ -1,0 +1,278 @@
+{
+  "at": "2026-10-16T14:50:22.987Z",
+  "checks": [
+    "Actual store adapters reach only their own HTTPS WordPress; cross-store workloads/adapters/databases, platform data, metadata/API and external network destinations are denied",
+    "The actual gateway has only its approved internal paths; direct storefront/database, Kubernetes API, metadata and external egress are denied",
+    "Unlabelled local and forged gateway-label pods in another namespace cannot enter private services even with explicit source egress"
+  ],
+  "operatorForwardUsed": false,
+  "stores": [
+    {
+      "source": "relay-store-4f638bcfc03f4e618b42d6f265c85b1f",
+      "results": [
+        {
+          "name": "own-wordpress",
+          "host": "store-wp",
+          "port": 443,
+          "connected": true
+        },
+        {
+          "name": "own-database",
+          "host": "store-db",
+          "port": 3306,
+          "connected": false
+        },
+        {
+          "name": "other-wordpress",
+          "host": "store-wp.relay-store-8c1253ef406c423593a7ad5c799fb2d6.svc.cluster.local",
+          "port": 443,
+          "connected": false
+        },
+        {
+          "name": "other-adapter",
+          "host": "store-mcp.relay-store-8c1253ef406c423593a7ad5c799fb2d6.svc.cluster.local",
+          "port": 3000,
+          "connected": false
+        },
+        {
+          "name": "other-database",
+          "host": "store-db.relay-store-8c1253ef406c423593a7ad5c799fb2d6.svc.cluster.local",
+          "port": 3306,
+          "connected": false
+        },
+        {
+          "name": "platform-database",
+          "host": "relay-postgres.relay-platform.svc.cluster.local",
+          "port": 5432,
+          "connected": false
+        },
+        {
+          "name": "platform-cache",
+          "host": "relay-redis.relay-platform.svc.cluster.local",
+          "port": 6379,
+          "connected": false
+        },
+        {
+          "name": "api",
+          "host": "10.43.0.1",
+          "port": 443,
+          "connected": false
+        },
+        {
+          "name": "metadata",
+          "host": "169.254.169.254",
+          "port": 80,
+          "connected": false
+        },
+        {
+          "name": "external",
+          "host": "1.1.1.1",
+          "port": 443,
+          "connected": false
+        }
+      ]
+    },
+    {
+      "source": "relay-store-8c1253ef406c423593a7ad5c799fb2d6",
+      "results": [
+        {
+          "name": "own-wordpress",
+          "host": "store-wp",
+          "port": 443,
+          "connected": true
+        },
+        {
+          "name": "own-database",
+          "host": "store-db",
+          "port": 3306,
+          "connected": false
+        },
+        {
+          "name": "other-wordpress",
+          "host": "store-wp.relay-store-4f638bcfc03f4e618b42d6f265c85b1f.svc.cluster.local",
+          "port": 443,
+          "connected": false
+        },
+        {
+          "name": "other-adapter",
+          "host": "store-mcp.relay-store-4f638bcfc03f4e618b42d6f265c85b1f.svc.cluster.local",
+          "port": 3000,
+          "connected": false
+        },
+        {
+          "name": "other-database",
+          "host": "store-db.relay-store-4f638bcfc03f4e618b42d6f265c85b1f.svc.cluster.local",
+          "port": 3306,
+          "connected": false
+        },
+        {
+          "name": "platform-database",
+          "host": "relay-postgres.relay-platform.svc.cluster.local",
+          "port": 5432,
+          "connected": false
+        },
+        {
+          "name": "platform-cache",
+          "host": "relay-redis.relay-platform.svc.cluster.local",
+          "port": 6379,
+          "connected": false
+        },
+        {
+          "name": "api",
+          "host": "10.43.0.1",
+          "port": 443,
+          "connected": false
+        },
+        {
+          "name": "metadata",
+          "host": "169.254.169.254",
+          "port": 80,
+          "connected": false
+        },
+        {
+          "name": "external",
+          "host": "1.1.1.1",
+          "port": 443,
+          "connected": false
+        }
+      ]
+    }
+  ],
+  "gateway": [
+    {
+      "name": "api",
+      "host": "relay-api",
+      "port": 3001,
+      "connected": true
+    },
+    {
+      "name": "postgres",
+      "host": "relay-postgres",
+      "port": 5432,
+      "connected": true
+    },
+    {
+      "name": "cache",
+      "host": "relay-redis",
+      "port": 6379,
+      "connected": true
+    },
+    {
+      "name": "store-adapter",
+      "host": "store-mcp.relay-store-4f638bcfc03f4e618b42d6f265c85b1f.svc.cluster.local",
+      "port": 3000,
+      "connected": true
+    },
+    {
+      "name": "calendar",
+      "host": "relay-calendar.relay-upstreams.svc.cluster.local",
+      "port": 3000,
+      "connected": true
+    },
+    {
+      "name": "storefront",
+      "host": "store-wp.relay-store-4f638bcfc03f4e618b42d6f265c85b1f.svc.cluster.local",
+      "port": 443,
+      "connected": false
+    },
+    {
+      "name": "store-database",
+      "host": "store-db.relay-store-4f638bcfc03f4e618b42d6f265c85b1f.svc.cluster.local",
+      "port": 3306,
+      "connected": false
+    },
+    {
+      "name": "kube-api",
+      "host": "10.43.0.1",
+      "port": 443,
+      "connected": false
+    },
+    {
+      "name": "metadata",
+      "host": "169.254.169.254",
+      "port": 80,
+      "connected": false
+    },
+    {
+      "name": "external",
+      "host": "1.1.1.1",
+      "port": 443,
+      "connected": false
+    }
+  ],
+  "untrusted": [
+    {
+      "namespace": "relay-platform",
+      "explicitSourceEgressAllowed": true,
+      "results": [
+        {
+          "name": "api",
+          "host": "relay-api.relay-platform.svc.cluster.local",
+          "port": 3001,
+          "connected": false
+        },
+        {
+          "name": "gateway",
+          "host": "relay-gateway.relay-platform.svc.cluster.local",
+          "port": 3000,
+          "connected": false
+        },
+        {
+          "name": "postgres",
+          "host": "relay-postgres.relay-platform.svc.cluster.local",
+          "port": 5432,
+          "connected": false
+        },
+        {
+          "name": "cache",
+          "host": "relay-redis.relay-platform.svc.cluster.local",
+          "port": 6379,
+          "connected": false
+        },
+        {
+          "name": "calendar",
+          "host": "relay-calendar.relay-upstreams.svc.cluster.local",
+          "port": 3000,
+          "connected": false
+        }
+      ]
+    },
+    {
+      "namespace": "relay-upstreams",
+      "explicitSourceEgressAllowed": true,
+      "results": [
+        {
+          "name": "api",
+          "host": "relay-api.relay-platform.svc.cluster.local",
+          "port": 3001,
+          "connected": false
+        },
+        {
+          "name": "gateway",
+          "host": "relay-gateway.relay-platform.svc.cluster.local",
+          "port": 3000,
+          "connected": false
+        },
+        {
+          "name": "postgres",
+          "host": "relay-postgres.relay-platform.svc.cluster.local",
+          "port": 5432,
+          "connected": false
+        },
+        {
+          "name": "cache",
+          "host": "relay-redis.relay-platform.svc.cluster.local",
+          "port": 6379,
+          "connected": false
+        },
+        {
+          "name": "calendar",
+          "host": "relay-calendar.relay-upstreams.svc.cluster.local",
+          "port": 3000,
+          "connected": false
+        }
+      ]
+    }
+  ],
+  "passed": true
+}

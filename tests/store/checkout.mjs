@@ -1,6 +1,6 @@
 import { chromium, expect } from '@playwright/test';
 import { readFileSync, writeFileSync } from 'node:fs';
-import { api, secret, site, namespace } from './client.mjs';
+import { api, secret, site, namespace, storeBrowserOptions } from './client.mjs';
 const existing=process.argv.includes('--verify-existing');
 const evidenceDir=process.env.STORE_EVIDENCE_DIR || 'docs/evidence/m1';
 const sku=process.env.STORE_PRODUCT_SKU || 'RELAY-DEMO-MUG';
@@ -10,7 +10,7 @@ const product=products.body.find(x=>x.sku===sku);
 if(!product)throw new Error('Synthetic product missing');
 const unauthorized=await api('orders',false);
 if(unauthorized.status!==401)throw new Error('Unauthenticated order access not rejected');
-const browser=await chromium.launch({channel:'chrome',headless:true});
+const browser=await chromium.launch({channel:'chrome',headless:true,...storeBrowserOptions()});
 try{
  const context=await browser.newContext({viewport:{width:1280,height:900}});
  const page=await context.newPage();
@@ -50,8 +50,8 @@ try{
  await expect(page.getByText('Synthetic M1 Demo',{exact:false}).first()).toBeVisible({timeout:30000});
  await expect(page.getByText('Cash on delivery',{exact:false}).first()).toBeVisible();
  await page.screenshot({path:`${evidenceDir}/admin-order${existing?'-after-replacement':''}.png`,fullPage:true});
- const marker=await context.request.get(`${site}/wp-content/uploads/relay-persistence.txt`);
- if(await marker.text()!=='relay-m1-synthetic-persistent-content\n')throw new Error('Content persistence marker mismatch');
+ const marker=await page.evaluate(async url=>{const response=await fetch(url);return{status:response.status,body:await response.text()};},`${site}/wp-content/uploads/relay-persistence.txt`);
+ if(marker.status!==200||marker.body!=='relay-m1-synthetic-persistent-content\n')throw new Error('Content persistence marker mismatch');
  const result={at:new Date().toISOString(),namespace,site,browser:await browser.version(),productId:product.id,orderId,paymentMethod:order.body.payment_method,status:order.body.status,total:order.body.total,authenticatedRestStatus:order.status,unauthenticatedOrdersStatus:unauthorized.status,orderVerifiedInAdmin:true,contentMarkerVerified:true,afterPodReplacement:existing,realBrowserCheckout:!existing};
  writeFileSync(`${evidenceDir}/${existing?'after-replacement':'checkout'}.json`,JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));
 }finally{await browser.close();}

@@ -2,10 +2,15 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Release.Name }}-wp
+  {{- if .Values.transportTls.enabled }}
+  annotations:
+    traefik.ingress.kubernetes.io/service.serversscheme: https
+    traefik.ingress.kubernetes.io/service.serverstransport: {{ printf "%s-%s-wp@kubernetescrd" .Release.Namespace .Release.Name | quote }}
+  {{- end }}
 spec:
   type: ClusterIP
   selector: {app: "{{ .Release.Name }}-wp"}
-  ports: [{name: http, port: 80, targetPort: http}]
+  ports: [{name: http, port: {{ if .Values.transportTls.enabled }}443{{ else }}80{{ end }}, targetPort: http}]
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -22,35 +27,64 @@ spec:
     spec:
       automountServiceAccountToken: false
       securityContext:
+        {{- if .Values.runtime.nonRoot }}
+        runAsNonRoot: true
+        runAsUser: 33
+        runAsGroup: 33
+        fsGroup: 33
+        {{- end }}
         seccompProfile: {type: RuntimeDefault}
       containers:
         - name: wordpress
           image: {{ .Values.wordpress.image | quote }}
           imagePullPolicy: {{ .Values.wordpress.pullPolicy }}
+          {{- if .Values.runtime.nonRoot }}
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          {{- end }}
+          {{- if .Values.transportTls.enabled }}
+          args: [apache2-foreground, -DRELAY_TLS]
+          {{- end }}
           env: {{ include "store.env" . | nindent 12 }}
-          ports: [{name: http, containerPort: 80}]
+          ports: [{name: http, containerPort: {{ if .Values.transportTls.enabled }}8443{{ else if .Values.runtime.nonRoot }}8080{{ else }}80{{ end }}}]
           startupProbe:
-            httpGet: {path: /wp-includes/images/blank.gif, port: http}
+            httpGet: {scheme: {{ if .Values.transportTls.enabled }}HTTPS{{ else }}HTTP{{ end }}, path: /wp-includes/images/blank.gif, port: http}
             failureThreshold: 60
             periodSeconds: 5
           readinessProbe:
-            httpGet: {path: /relay-health.php, port: http}
+            httpGet: {scheme: {{ if .Values.transportTls.enabled }}HTTPS{{ else }}HTTP{{ end }}, path: /relay-health.php, port: http}
             periodSeconds: 10
             timeoutSeconds: 5
           livenessProbe:
-            httpGet: {path: /wp-includes/images/blank.gif, port: http}
+            httpGet: {scheme: {{ if .Values.transportTls.enabled }}HTTPS{{ else }}HTTP{{ end }}, path: /wp-includes/images/blank.gif, port: http}
             periodSeconds: 20
             timeoutSeconds: 5
           resources: {{ toYaml .Values.wordpress.resources | nindent 12 }}
           volumeMounts:
+            {{- if .Values.runtime.nonRoot }}
+            - {name: tmp, mountPath: /tmp}
+            - {name: apache-run, mountPath: /var/run/apache2}
+            - {name: apache-lock, mountPath: /var/lock/apache2}
+            {{- end }}
+            {{- if .Values.transportTls.enabled }}
+            - {name: wp-tls, mountPath: /run/wp-tls, readOnly: true}
+            {{- end }}
             - {name: content, mountPath: /var/www/html}
             - {name: runtime, mountPath: /run/store, readOnly: true}
       volumes:
+        {{- if .Values.transportTls.enabled }}
+        - {name: wp-tls, secret: {secretName: {{ .Release.Name }}-wp-tls, defaultMode: 0440}}
+        {{- end }}
+        {{- if .Values.runtime.nonRoot }}
+        - {name: tmp, emptyDir: {sizeLimit: 64Mi}}
+        - {name: apache-run, emptyDir: {sizeLimit: 8Mi}}
+        - {name: apache-lock, emptyDir: {sizeLimit: 4Mi}}
+        {{- end }}
         - name: content
           persistentVolumeClaim: {claimName: "{{ .Release.Name }}-content"}
         - name: runtime
           secret:
             secretName: {{ .Values.secrets.runtime }}
+            defaultMode: 0440
             items:
               - {key: db-password, path: db-password}
               {{- range $key := list "AUTH_KEY" "SECURE_AUTH_KEY" "LOGGED_IN_KEY" "NONCE_KEY" "AUTH_SALT" "SECURE_AUTH_SALT" "LOGGED_IN_SALT" "NONCE_SALT" }}
@@ -61,12 +95,16 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Release.Name }}-store
+  {{- if .Values.transportTls.enabled }}
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: {{ printf "%s-%s-https@kubernetescrd" .Release.Namespace .Release.Name | quote }}
+  {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
-  {{- if .Values.ingress.tlsSecret }}
+  {{- if or .Values.ingress.tlsSecret .Values.transportTls.enabled }}
   tls:
     - hosts: [{{ .Values.ingress.hostname | quote }}]
-      secretName: {{ .Values.ingress.tlsSecret }}
+      secretName: {{ if .Values.transportTls.enabled }}{{ .Release.Name }}-wp-tls{{ else }}{{ .Values.ingress.tlsSecret }}{{ end }}
   {{- end }}
   rules:
     - host: {{ .Values.ingress.hostname | quote }}
@@ -77,4 +115,4 @@ spec:
             backend:
               service:
                 name: {{ .Release.Name }}-wp
-                port: {number: 80}
+                port: {number: {{ if .Values.transportTls.enabled }}443{{ else }}80{{ end }}}

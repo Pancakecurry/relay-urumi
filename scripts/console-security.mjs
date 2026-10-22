@@ -2,8 +2,8 @@ import {ingressFetch as fetch} from '../dist/packages/mcp-client/src/ingress.js'
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync} from 'node:fs';
 import {kube} from './mcp-kube.mjs';
-const i=JSON.parse(readFileSync('.local/m4-acceptance-identity.json','utf8'));const origin='http://relay.localhost:18080';const results=[];
-async function login(w){const r=await fetch(origin+'/api/auth/sign-in/email',{method:'POST',headers:{origin,'content-type':'application/json'},body:JSON.stringify({email:i[w].email,password:i[w].password})});assert.equal(r.status,200);return r.headers.getSetCookie().map(c=>c.split(';')[0]).join('; ');}
+const i=JSON.parse(readFileSync('.local/m4-acceptance-identity.json','utf8'));const origin=process.env.RELAY_TEST_ORIGIN??'http://relay.localhost:18080';const results=[];
+async function login(w){let r;for(let attempt=0;attempt<3;attempt++){r=await fetch(origin+'/api/auth/sign-in/email',{method:'POST',headers:{origin,'content-type':'application/json'},body:JSON.stringify({email:i[w].email,password:i[w].password})});if(r.status!==429)break;await new Promise(resolve=>setTimeout(resolve,Math.max(1,Math.min(60,Number(r.headers.get('retry-after')??60)))*1000));}assert.equal(r.status,200);return r.headers.getSetCookie().map(c=>c.split(';')[0]).join('; ');}
 const cookies={A:await login('A'),B:await login('B')};
 async function req(w,path,method='GET',body,status=200,team=i.team){const r=await fetch(origin+'/api/'+path,{method,headers:{origin,cookie:cookies[w],'x-relay-team':team,'content-type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});assert.equal(r.status,status,path);return r.json();}
 const run=JSON.parse(readFileSync('docs/evidence/m4/chat-create.json','utf8')).run.id;

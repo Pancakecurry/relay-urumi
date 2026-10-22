@@ -30,14 +30,17 @@ spec:
             capabilities: {drop: [ALL]}
           resources: {{ toYaml .Values.resources | nindent 12 }}
           livenessProbe:
-            httpGet: {path: /health/live, port: http, httpHeaders: [{name: Host, value: localhost}]}
+            httpGet: {scheme: {{ if .Values.transportTls.enabled }}HTTPS{{ else }}HTTP{{ end }}, path: /health/live, port: http, httpHeaders: [{name: Host, value: localhost}]}
             initialDelaySeconds: 5
             periodSeconds: 10
           readinessProbe:
-            httpGet: {path: /health/ready, port: http, httpHeaders: [{name: Host, value: localhost}]}
+            httpGet: {scheme: {{ if .Values.transportTls.enabled }}HTTPS{{ else }}HTTP{{ end }}, path: /health/ready, port: http, httpHeaders: [{name: Host, value: localhost}]}
             initialDelaySeconds: 2
             periodSeconds: 5
           env:
+            {{- if .Values.transportTls.enabled }}
+            - {name: RELAY_TLS_DIR, value: /run/tls}
+            {{- end }}
             - {name: MCP_SECRET_FILE, value: /secrets/mcp/token}
             - {name: MCP_SERVICE_HOST, value: {{ .Release.Name }}}
             - name: POD_NAMESPACE
@@ -52,11 +55,17 @@ spec:
             - {name: REST_TIMEOUT_MS, value: {{ .Values.store.restTimeoutMs | quote }}}
             {{- end }}
           volumeMounts:
+            {{- if .Values.transportTls.enabled }}
+            - {name: tls, mountPath: /run/tls, readOnly: true}
+            {{- end }}
             - {name: mcp-secret, mountPath: /secrets/mcp, readOnly: true}
             {{- if eq .Values.kind "woocommerce" }}
             - {name: woo-secret, mountPath: /secrets/woo, readOnly: true}
             {{- end }}
       volumes:
+        {{- if .Values.transportTls.enabled }}
+        - {name: tls, secret: {secretName: {{ .Release.Name }}-tls, defaultMode: 0440}}
+        {{- end }}
         - name: mcp-secret
           secret: {secretName: {{ .Values.credentialSecret }}, defaultMode: 0440}
         {{- if eq .Values.kind "woocommerce" }}
@@ -100,5 +109,5 @@ spec:
     - to:
         - podSelector:
             matchLabels: {app: {{ printf "%s-wp" .Values.store.wordpressRelease | quote }}, role: wordpress}
-      ports: [{protocol: TCP, port: 80}]
+      ports: [{protocol: TCP, port: {{ if .Values.transportTls.enabled }}8443{{ else }}80{{ end }}}]
     {{- end }}

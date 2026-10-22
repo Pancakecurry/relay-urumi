@@ -16,11 +16,20 @@ spec:
       restartPolicy: Never
       automountServiceAccountToken: false
       securityContext:
+        {{- if .Values.runtime.nonRoot }}
+        runAsNonRoot: true
+        runAsUser: 33
+        runAsGroup: 33
+        fsGroup: 33
+        {{- end }}
         seccompProfile: {type: RuntimeDefault}
       containers:
         - name: bootstrap
           image: {{ .Values.wordpress.image | quote }}
           imagePullPolicy: {{ .Values.wordpress.pullPolicy }}
+          {{- if .Values.runtime.nonRoot }}
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          {{- end }}
           command: [bash, /opt/relay/bootstrap.sh]
           env:
             {{- include "store.env" . | nindent 12 }}
@@ -30,16 +39,28 @@ spec:
             - {name: RELAY_CURRENCY, value: {{ .Values.site.currency | quote }}}
           resources: {{ toYaml .Values.bootstrap.resources | nindent 12 }}
           volumeMounts:
+            {{- if .Values.runtime.nonRoot }}
+            - {name: tmp, mountPath: /tmp}
+            {{- end }}
+            {{- if .Values.transportTls.enabled }}
+            - {name: wp-tls, mountPath: /run/wp-tls, readOnly: true}
+            {{- end }}
             - {name: content, mountPath: /var/www/html}
             - {name: runtime, mountPath: /run/store, readOnly: true}
             - {name: admin, mountPath: /run/admin, readOnly: true}
             - {name: adapter, mountPath: /run/adapter, readOnly: true}
       volumes:
+        {{- if .Values.transportTls.enabled }}
+        - {name: wp-tls, secret: {secretName: {{ .Release.Name }}-wp-tls, defaultMode: 0440}}
+        {{- end }}
+        {{- if .Values.runtime.nonRoot }}
+        - {name: tmp, emptyDir: {sizeLimit: 64Mi}}
+        {{- end }}
         - name: content
           persistentVolumeClaim: {claimName: "{{ .Release.Name }}-content"}
         - name: runtime
-          secret: {secretName: {{ .Values.secrets.runtime }}}
+          secret: {secretName: {{ .Values.secrets.runtime }}, defaultMode: 0440}
         - name: admin
-          secret: {secretName: {{ .Values.secrets.admin }}}
+          secret: {secretName: {{ .Values.secrets.admin }}, defaultMode: 0440}
         - name: adapter
-          secret: {secretName: {{ .Values.secrets.adapter }}}
+          secret: {secretName: {{ .Values.secrets.adapter }}, defaultMode: 0440}

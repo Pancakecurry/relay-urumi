@@ -9,7 +9,7 @@ spec:
     metadata: {labels: {relay.role: dashboard}}
     spec:
       automountServiceAccountToken: false
-      securityContext: {runAsNonRoot: true, runAsUser: 1000, runAsGroup: 1000, seccompProfile: {type: RuntimeDefault}}
+      securityContext: {runAsNonRoot: true, runAsUser: 1000, runAsGroup: 1000, fsGroup: 1000, seccompProfile: {type: RuntimeDefault}}
       containers:
         - name: dashboard
           image: {{ .Values.platformImage | quote }}
@@ -17,9 +17,16 @@ spec:
           imagePullPolicy: IfNotPresent
           securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
           ports: [{name: http, containerPort: 3002}]
+          {{- if .Values.transportTls.enabled }}
+          env: [{name: RELAY_TLS_DIR, value: /run/tls}]
+          volumeMounts: [{name: tls, mountPath: /run/tls, readOnly: true}]
+          {{- end }}
           resources: {requests: {cpu: 20m, memory: 32Mi}, limits: {cpu: 200m, memory: 96Mi}}
-          readinessProbe: {httpGet: {path: /health/ready, port: http}, periodSeconds: 5}
-          livenessProbe: {httpGet: {path: /health/live, port: http}, initialDelaySeconds: 5, periodSeconds: 10}
+          readinessProbe: {httpGet: {scheme: {{ if .Values.transportTls.enabled }}HTTPS{{ else }}HTTP{{ end }}, path: /health/ready, port: http}, periodSeconds: 5}
+          livenessProbe: {httpGet: {scheme: {{ if .Values.transportTls.enabled }}HTTPS{{ else }}HTTP{{ end }}, path: /health/live, port: http}, initialDelaySeconds: 5, periodSeconds: 10}
+      {{- if .Values.transportTls.enabled }}
+      volumes: [{name: tls, secret: {secretName: relay-dashboard-tls, defaultMode: 0440}}]
+      {{- end }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -43,7 +50,13 @@ spec:
 ---
 apiVersion: v1
 kind: Service
-metadata: {name: relay-dashboard}
+metadata:
+  name: relay-dashboard
+  {{- if .Values.transportTls.enabled }}
+  annotations:
+    traefik.ingress.kubernetes.io/service.serversscheme: https
+    traefik.ingress.kubernetes.io/service.serverstransport: {{ printf "%s-relay-dashboard@kubernetescrd" .Release.Namespace | quote }}
+  {{- end }}
 spec: {selector: {relay.role: dashboard}, ports: [{port: 3002, targetPort: http}]}
 ---
 apiVersion: networking.k8s.io/v1

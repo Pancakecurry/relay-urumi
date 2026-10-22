@@ -1,0 +1,16 @@
+# Isolated compatibility fixture; retained original demo stores are migrated only
+# after this profile passes real TLS/authentication/checkout/persistence checks.
+wordpress:
+  image: relay/store:m6-5698c668ea0141c1
+runtime:
+  nonRoot: true
+transportTls:
+  enabled: true
+  issuer: relay-local-ca
+  adapterCommonName: clean-mcp.relay-store-clean
+site:
+  url: https://clean.relay.localhost:18443
+  title: Relay Synthetic TLS Proof Store
+ingress:
+  hostname: clean.relay.localhost
+  httpsPort: "18443"

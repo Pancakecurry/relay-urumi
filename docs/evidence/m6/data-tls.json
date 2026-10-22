@@ -1,0 +1,100 @@
+{
+  "at": "2026-10-16T14:45:35.669Z",
+  "checks": [
+    "Actual API application/auth SQL roles negotiate TLS1.3; native HBA rejects plaintext and wrong role CN, while the client rejects wrong CA/name",
+    "The real durable provisioner uses its own verified SQL-role certificate and preserved database role",
+    "Real Redis PING/configuration and a verified native TLS1.3 handshake pass; plaintext, missing certificate, wrong CA/name/password fail; gateway lacks privileged SQL-role keys",
+    "Native database rules have no parser errors, all actual network sessions are encrypted, Boreal remains Ready and model reservations are unchanged"
+  ],
+  "modelTraffic": false,
+  "networkPolicyProof": false,
+  "postgres": {
+    "results": [
+      {
+        "role": "relay_app",
+        "ssl": true,
+        "version": "TLSv1.3"
+      },
+      {
+        "role": "relay_auth",
+        "ssl": true,
+        "version": "TLSv1.3"
+      }
+    ],
+    "failed": [
+      {
+        "case": "plaintext",
+        "rejected": true,
+        "code": "28000"
+      },
+      {
+        "case": "wrong-ca",
+        "rejected": true,
+        "code": "SELF_SIGNED_CERT_IN_CHAIN"
+      },
+      {
+        "case": "wrong-name",
+        "rejected": true,
+        "code": "ERR_TLS_CERT_ALTNAME_INVALID"
+      },
+      {
+        "case": "wrong-role-certificate",
+        "rejected": true,
+        "code": "28P01"
+      }
+    ]
+  },
+  "provisioner": {
+    "role": "relay_provisioner",
+    "ssl": true,
+    "version": "TLSv1.3"
+  },
+  "redis": {
+    "pong": "PONG",
+    "transport": {
+      "authorized": true,
+      "protocol": "TLSv1.3"
+    },
+    "configuration": [
+      "tls-protocols",
+      "TLSv1.3",
+      "tls-auth-clients",
+      "yes",
+      "tls-port",
+      "6379",
+      "port",
+      "0"
+    ],
+    "failed": [
+      {
+        "case": "plaintext",
+        "rejected": true
+      },
+      {
+        "case": "no-client-certificate",
+        "rejected": true
+      },
+      {
+        "case": "wrong-ca",
+        "rejected": true
+      },
+      {
+        "case": "wrong-name",
+        "rejected": true
+      },
+      {
+        "case": "wrong-password",
+        "rejected": true
+      }
+    ],
+    "privilegedSqlRoleKeysAbsent": true
+  },
+  "native": {
+    "hbaErrors": 0,
+    "networkClients": 3,
+    "unencryptedNetworkClients": 0,
+    "boreal": "Ready",
+    "reservationPaise": 11300
+  },
+  "passed": true
+}

@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-16T14:59:24.401Z",
+  "checks": [
+    "Real provider-issued tokens execute MCP and persist the consenting user and OAuth client in audit",
+    "Deny consent returns no code; signed-query tampering and missing-origin consent are rejected",
+    "Code exchange rejects wrong verifier, redirect, resource, client and already-consumed code",
+    "Members and foreign teams cannot manage clients; native privilege escalation, unsafe callbacks, machine grants and session cookies on machine endpoints fail",
+    "OAuth discovery and cached aliases obey the same current user tool permissions as API keys and chat",
+    "Native refresh rotation changes both tokens; reuse of the old refresh token invalidates the family",
+    "Native access revocation rejects the next MCP request; refresh revocation also removes family access",
+    "Disabling a client immediately rejects existing bearer access and re-enabling restores a still-valid grant",
+    "Inactive membership rejects an otherwise valid OAuth grant on its next request",
+    "Signing out the authorizing session makes its previously working OAuth access inactive",
+    "A token issued with the production 300-second TTL expires naturally and fails the real gateway; no clock or database expiry manipulation",
+    "Existing personal API-key clients remain interoperable after OAuth denial and revocation tests"
+  ],
+  "modelTraffic": false,
+  "expiry": {
+    "issuedAt": "2026-10-16T14:59:26.307Z",
+    "ttl": 300,
+    "checkedAt": "2026-10-16T15:04:29.202Z"
+  },
+  "passed": true,
+  "cleanupRestored": true
+}

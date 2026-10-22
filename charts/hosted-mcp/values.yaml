@@ -16,3 +16,7 @@ store:
   restTimeoutMs: 8000
 
 provisionerEnabled: false
+
+transportTls:
+  enabled: false
+  issuer: relay-local-ca

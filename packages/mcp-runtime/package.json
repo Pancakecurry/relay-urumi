@@ -4,21 +4,22 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@modelcontextprotocol/server": "2.3.1",
+    "@ai-sdk/google": "4.0.93",
+    "@better-auth/drizzle-adapter": "1.7.7",
+    "@better-auth/oauth-provider": "1.7.7",
+    "@js-temporal/polyfill": "0.5.1",
     "@modelcontextprotocol/client": "2.3.1",
     "@modelcontextprotocol/fastify": "2.0.1",
     "@modelcontextprotocol/node": "2.1.1",
-    "fastify": "5.12.5",
-    "zod": "4.6.5",
-    "@js-temporal/polyfill": "0.5.1",
-    "pg": "8.23.1",
-    "drizzle-orm": "0.45.4",
-    "@better-auth/drizzle-adapter": "1.7.7",
-    "ioredis": "6.0.0",
+    "@modelcontextprotocol/server": "2.3.1",
+    "ai": "7.0.135",
     "ajv": "8.20.0",
     "better-auth": "1.7.7",
-    "ai": "7.0.135",
-    "@ai-sdk/google": "4.0.93",
-    "bullmq": "6.3.12"
+    "bullmq": "6.3.12",
+    "drizzle-orm": "0.45.4",
+    "fastify": "5.12.5",
+    "ioredis": "6.0.0",
+    "pg": "8.23.1",
+    "zod": "4.6.5"
   }
 }

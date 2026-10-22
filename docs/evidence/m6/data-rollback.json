@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-16T07:55:29.645Z",
+  "passed": true,
+  "restoredRelease": 34,
+  "actualHelmRevision": 36,
+  "platformImage": "relay/platform:m6-e71fb0c537c0f630",
+  "tools": 12,
+  "realCalendarCall": true,
+  "boreal": "Ready",
+  "runtimeReservationPaise": 11300,
+  "migrations": 8,
+  "dataTls": false,
+  "reason": "Verified rollback after invalid native HBA syntax; no data reset, model traffic or budget change"
+}

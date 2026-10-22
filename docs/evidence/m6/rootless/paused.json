@@ -1,0 +1,8 @@
+{
+  "at": "2026-10-16T07:11:40.286Z",
+  "namespace": "relay-store-clean",
+  "namespaceUid": "fe8191a1-92e6-475a-95f4-e5bd8403d31c",
+  "reason": "Return the isolated clean-store acceptance fixture to its pre-test paused state after real checkout and pod-replacement persistence passed",
+  "persistentVolumesRetained": true,
+  "replicas": 0
+}

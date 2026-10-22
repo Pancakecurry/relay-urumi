@@ -1,0 +1,8 @@
+{
+  "at": "2026-10-16T08:51:05.863Z",
+  "version": "0009_store_transport",
+  "reviewedOperatorTransactionApplied": true,
+  "sourceRunnerAndReadinessCorrected": true,
+  "previousApiStatus": 503,
+  "finalImageAndCleanInstallStillRequireRegression": true
+}

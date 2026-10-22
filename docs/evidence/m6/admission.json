@@ -1,0 +1,86 @@
+{
+  "at": "2026-10-16T14:36:58.277Z",
+  "checks": [
+    "Certificate admission denies foreign-service-cn",
+    "Certificate admission denies sql-role-cn",
+    "Certificate admission denies foreign-san",
+    "Certificate admission denies ca-certificate",
+    "Certificate admission denies different-issuer",
+    "Certificate admission denies arbitrary-secret",
+    "Certificate admission denies alternate-subject",
+    "Certificate admission denies long-lifetime",
+    "Workload admission denies root",
+    "Workload admission denies privileged",
+    "Workload admission denies host-network",
+    "Workload admission denies host-path",
+    "Workload admission denies service-account-token",
+    "Workload admission denies writable-root",
+    "Workload admission denies capability",
+    "Actual least-privilege RBAC denies core/root/model Secrets, CSR/issuer creation, exec, role escalation and PV deletion while retaining owned store/vault paths"
+  ],
+  "resourcesMutated": false,
+  "rbac": [
+    {
+      "verb": "get",
+      "resource": "secrets/platform-db-admin",
+      "namespace": "relay-platform",
+      "allowed": false
+    },
+    {
+      "verb": "get",
+      "resource": "secrets/relay-model",
+      "namespace": "relay-platform",
+      "allowed": false
+    },
+    {
+      "verb": "get",
+      "resource": "secrets/relay-local-root",
+      "namespace": "relay-pki",
+      "allowed": false
+    },
+    {
+      "verb": "create",
+      "resource": "certificaterequests.cert-manager.io",
+      "namespace": "relay-store-85079ca72e6b440c96e3076794da1e31",
+      "allowed": false
+    },
+    {
+      "verb": "create",
+      "resource": "clusterissuers.cert-manager.io",
+      "namespace": null,
+      "allowed": false
+    },
+    {
+      "verb": "create",
+      "resource": "pods/exec",
+      "namespace": "relay-store-85079ca72e6b440c96e3076794da1e31",
+      "allowed": false
+    },
+    {
+      "verb": "create",
+      "resource": "clusterrolebindings",
+      "namespace": null,
+      "allowed": false
+    },
+    {
+      "verb": "delete",
+      "resource": "persistentvolumes",
+      "namespace": null,
+      "allowed": false
+    },
+    {
+      "verb": "get",
+      "resource": "secrets/store-adapter",
+      "namespace": "relay-store-85079ca72e6b440c96e3076794da1e31",
+      "allowed": true
+    },
+    {
+      "verb": "get",
+      "resource": "secrets/gateway-upstream-credentials",
+      "namespace": "relay-platform",
+      "allowed": true
+    }
+  ],
+  "policyWarnings": 0,
+  "passed": true
+}

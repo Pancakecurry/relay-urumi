@@ -1,0 +1,9 @@
+{
+  "at": "2026-10-16T06:59:06.415Z",
+  "passed": true,
+  "scope": "M6 synthetic client names and exact synthetic team only",
+  "clients": 19,
+  "disabled": 19,
+  "repair": "Actual disabled column checked after operator update; earlier API echo was not evidence of disabled state",
+  "privateValuesPrinted": false
+}

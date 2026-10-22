@@ -1,3 +1,4 @@
+import { OAuthClients } from "./oauth-clients";
 import { StoreWorkspace } from "./store-workspace";
 import React, {
   useState,
@@ -79,6 +80,9 @@ type Overview = {
   model: string;
   modelEnabled: boolean;
 };
+const OAuthWorkspace = React.lazy(() =>
+  import("./oauth-workspace").then((m) => ({ default: m.OAuthWorkspace })),
+);
 const qc = new QueryClient({
   defaultOptions: {
     queries: { retry: false, refetchOnWindowFocus: true, staleTime: 3000 },
@@ -1068,6 +1072,12 @@ function Servers({ admin }: { admin: boolean }) {
             />{" "}
             Enable discovery and calls
           </label>
+          {editing?.has_credentials && (
+            <p className="muted">
+              Changing this endpoint requires a fresh credential or explicitly
+              clearing the stored credential.
+            </p>
+          )}
           <label className="field">
             Credential mode
             <select value={cred} onChange={(e) => setCred(e.target.value)}>
@@ -1387,7 +1397,15 @@ function Keys({ admin }: { admin: boolean }) {
 function Team({ admin }: { admin: boolean }) {
   const q = useData<{ members: Row[] }>("members", admin);
   const invites = useData<{ invitations: Row[] }>("invitations", admin);
-  const rules = useData<{ rules: Row[] }>("permissions", admin);
+  const rules = useData<{
+    rules: Row[];
+    defaultEffect: "allow" | "deny";
+    revision: number;
+  }>("permissions", admin);
+  const policyCatalog = useData<{
+    servers: { id: string; name: string; tools: { name: string }[] }[];
+  }>("permissions/catalog", admin);
+  const [policyServer, setPolicyServer] = useState("");
   const [dialog, setDialog] = useState("");
   const [once, setOnce] = useState("");
   const [confirm, setConfirm] = useState<{
@@ -1546,14 +1564,43 @@ function Team({ admin }: { admin: boolean }) {
             <div>
               <h2>Tool access policies</h2>
               <p>
-                Default: allowed for active team members. Matching deny always
-                wins.
+                Requests without a rule are{" "}
+                {rules.data?.defaultEffect === "deny" ? "denied" : "allowed"}. A
+                matching deny always wins. Tool access never grants management
+                access.
               </p>
             </div>
-            <button onClick={() => setDialog("policy")}>
+            <button
+              onClick={() => {
+                setPolicyServer("");
+                setDialog("policy");
+              }}
+            >
               <Plus size={14} /> Add policy
             </button>
           </div>
+          <label className="field">
+            Default tool access
+            <select
+              aria-label="Default tool access"
+              value={rules.data?.defaultEffect ?? "allow"}
+              disabled={!rules.data || action.isPending}
+              onChange={(e) =>
+                setConfirm({
+                  path: "permissions/default",
+                  method: "PATCH",
+                  body: {
+                    defaultEffect: e.target.value,
+                    revision: rules.data!.revision,
+                  },
+                  label: "Change default tool access",
+                })
+              }
+            >
+              <option value="allow">Allow unless a rule denies</option>
+              <option value="deny">Deny unless a rule allows</option>
+            </select>
+          </label>
           <div className="table-scroll">
             <table>
               <thead>
@@ -1569,8 +1616,7 @@ function Team({ admin }: { admin: boolean }) {
                 {rules.data?.rules.length === 0 && (
                   <tr>
                     <td colSpan={5}>
-                      No custom policies. Active members can use all enabled
-                      tools.
+                      No custom policies. Requests follow the workspace default.
                     </td>
                   </tr>
                 )}
@@ -1659,14 +1705,65 @@ function Team({ admin }: { admin: boolean }) {
             </>
           ) : (
             <>
-              <Field
-                label="Subject (*, role:member, role:admin, user:ID)"
-                name="subject"
-                value="role:member"
-                required
-              />
-              <Field label="Server ID (optional)" name="upstreamId" />
-              <Field label="Original tool name (optional)" name="toolName" />
+              <label className="field">
+                Who this applies to
+                <select name="subject" defaultValue="role:member">
+                  <option value="role:member">All members</option>
+                  <option value="role:admin">All administrators</option>
+                  <option value="*">Everyone in this workspace</option>
+                  {q.data?.members.map((m) => (
+                    <option
+                      key={str(m.user_id)}
+                      value={`user:${str(m.user_id)}`}
+                    >
+                      {str(m.name) || str(m.user_id)} · {str(m.email)}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="field">
+                Server
+                <select
+                  name="upstreamId"
+                  value={policyServer}
+                  onChange={(e) => setPolicyServer(e.target.value)}
+                >
+                  <option value="">All servers</option>
+                  {policyCatalog.data?.servers.map((server) => (
+                    <option key={server.id} value={server.id}>
+                      {server.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="field">
+                Tool
+                <select name="toolName" key={policyServer} defaultValue="">
+                  <option value="">All tools</option>
+                  {[
+                    ...new Set(
+                      (policyCatalog.data?.servers ?? [])
+                        .filter(
+                          (server) =>
+                            !policyServer || server.id === policyServer,
+                        )
+                        .flatMap((server) => server.tools.map((t) => t.name)),
+                    ),
+                  ]
+                    .sort()
+                    .map((name) => (
+                      <option key={name} value={name}>
+                        {name}
+                      </option>
+                    ))}
+                </select>
+              </label>
+              <Feedback error={policyCatalog.error} />
+              <p className="muted">
+                Execution policies apply to search, clients and the agent.
+                Administrators retain configuration access to manage these
+                rules.
+              </p>
               <label className="field">
                 Effect
                 <select name="effect">
@@ -2090,6 +2187,9 @@ function SettingsPage() {
           Manage personal API keys <ArrowUpRight size={14} />
         </NavLink>
       </section>
+      {q.data?.role === "admin" && (
+        <OAuthClients api={api} team={currentTeam} />
+      )}
       <section className="settings-section">
         <h2>Model spending policy</h2>
         <p>
@@ -2128,7 +2228,19 @@ createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={qc}>
       <BrowserRouter>
-        <App />
+        {location.pathname.startsWith("/oauth/") ? (
+          <React.Suspense
+            fallback={
+              <main className="auth-form" role="status">
+                Opening secure connection…
+              </main>
+            }
+          >
+            <OAuthWorkspace />
+          </React.Suspense>
+        ) : (
+          <App />
+        )}
       </BrowserRouter>
     </QueryClientProvider>
   </React.StrictMode>,

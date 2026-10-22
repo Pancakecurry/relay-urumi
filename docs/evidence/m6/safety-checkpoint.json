@@ -1,0 +1,64 @@
+{
+  "at": "2026-10-15T22:57:23.322Z",
+  "passed": true,
+  "privateDirectory": ".local/m6-safety-2026-10-15T22-57-12.085Z",
+  "artifacts": [
+    {
+      "name": "relay-platform-resources.json",
+      "type": "private resources",
+      "bytes": 387605
+    },
+    {
+      "name": "relay-platform-postgres.sql",
+      "type": "PostgreSQL logical",
+      "bytes": 738060
+    },
+    {
+      "name": "relay-store-85079ca72e6b440c96e3076794da1e31-resources.json",
+      "type": "private resources",
+      "bytes": 195811
+    },
+    {
+      "name": "relay-store-85079ca72e6b440c96e3076794da1e31-store-db-0-db.sql",
+      "type": "MariaDB logical",
+      "bytes": 265310
+    },
+    {
+      "name": "relay-store-85079ca72e6b440c96e3076794da1e31-store-wp-5b8f7657cc-2mjxm-content.tar.gz",
+      "type": "WordPress content",
+      "bytes": 50600816
+    },
+    {
+      "name": "relay-store-clean-resources.json",
+      "type": "private resources",
+      "bytes": 60393
+    },
+    {
+      "name": "relay-store-m1-resources.json",
+      "type": "private resources",
+      "bytes": 165360
+    },
+    {
+      "name": "relay-store-m1-demo-store-db-0-db.sql",
+      "type": "MariaDB logical",
+      "bytes": 369818
+    },
+    {
+      "name": "relay-store-m1-demo-store-wp-7f54b99b49-6tjl5-content.tar.gz",
+      "type": "WordPress content",
+      "bytes": 50601766
+    },
+    {
+      "name": "relay-upstreams-resources.json",
+      "type": "private resources",
+      "bytes": 113262
+    },
+    {
+      "name": "persistent-volumes.json",
+      "type": "private storage inventory",
+      "bytes": 22009
+    }
+  ],
+  "restorationTested": false,
+  "scope": "Owned project pre-migration copy; no DR or RPO/RTO claim"
+}

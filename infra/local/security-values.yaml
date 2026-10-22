@@ -1,0 +1,15 @@
+# Explicit local security profile; no OS trust-root installation or cloud account.
+publicOrigin: https://relay.localhost:18443
+platformTlsSecret: relay-console-tls
+transportTls:
+  enabled: true
+  issuer: relay-local-ca
+  dataEnabled: true
+  requireUpstreams: true
+oauthEnabled: true
+
+storeImage: relay/store:m6-5698c668ea0141c1
+storeHttpsPort: "18443"
+storeUrlSuffix: ":18443"
+
+storefrontUrl: https://store.relay.localhost:18443/shop/

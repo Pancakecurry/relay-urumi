@@ -1,0 +1,225 @@
+{
+  "at": "2026-10-16T08:45:52.161Z",
+  "passed": true,
+  "sameExactServiceAuthorities": true,
+  "verifiedNativeCertificates": true,
+  "credentialsKeptServerSide": true,
+  "changed": [
+    {
+      "id": "dd21e735-878a-436a-8e8d-d88c551595ab",
+      "team_id": "9400838d-9453-40a3-970c-e34e538718d7",
+      "url": "https://relay-woocommerce.relay-store-m1.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "ea0c62ff-b933-4b9e-ae66-a21a39d8007f",
+      "team_id": "9400838d-9453-40a3-970c-e34e538718d7",
+      "url": "https://relay-calendar.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "2c537602-6d38-403c-9687-c9e188981102",
+      "team_id": "9400838d-9453-40a3-970c-e34e538718d7",
+      "url": "https://relay-totals.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "cbd2fab2-f295-4c6d-ae1b-d0dbf2b3d599",
+      "team_id": "d1833dd1-fd34-4cce-a405-a18c84aad022",
+      "url": "https://relay-woocommerce.relay-store-m1.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "bcd80d78-a806-4214-9dc0-9d1c35eef6da",
+      "team_id": "d1833dd1-fd34-4cce-a405-a18c84aad022",
+      "url": "https://relay-calendar.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "c59c96a4-33ce-48f2-91ed-34adf53dca89",
+      "team_id": "d1833dd1-fd34-4cce-a405-a18c84aad022",
+      "url": "https://relay-totals.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "1d63796b-1474-44dd-ba25-8b0c5032d916",
+      "team_id": "e0c3ea12-285e-4da8-aeb4-68c0d0d878dd",
+      "url": "https://relay-woocommerce.relay-store-m1.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "b339f7d2-6728-4bf4-9c26-cb2dee7ac88d",
+      "team_id": "e0c3ea12-285e-4da8-aeb4-68c0d0d878dd",
+      "url": "https://relay-totals.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "6b0fba5e-e8eb-4fc6-be5f-dccc355f6363",
+      "team_id": "e0c3ea12-285e-4da8-aeb4-68c0d0d878dd",
+      "url": "https://relay-calendar.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 4
+    },
+    {
+      "id": "7b1e5182-525d-4d58-bdd9-fb2ef683bb54",
+      "team_id": "5ae2c6d9-c3df-4972-9d17-971e0422a753",
+      "url": "https://relay-woocommerce.relay-store-m1.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "49562f2a-0cfa-4d67-a2f2-4d245100cee8",
+      "team_id": "5ae2c6d9-c3df-4972-9d17-971e0422a753",
+      "url": "https://relay-totals.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "67ab6874-b4d8-4e42-a5ae-0ea260abcd5d",
+      "team_id": "5ae2c6d9-c3df-4972-9d17-971e0422a753",
+      "url": "https://relay-calendar.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 4
+    },
+    {
+      "id": "416c9fcd-78ba-4bb4-baa7-c7a588e056ac",
+      "team_id": "c0b5585d-7037-4014-b7ac-dc5087f4ef25",
+      "url": "https://relay-woocommerce.relay-store-m1.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "018124c8-e752-4869-b42a-6df95b09ce42",
+      "team_id": "23814bf2-4ca6-4980-97da-a635beb4de48",
+      "url": "https://relay-woocommerce.relay-store-m1.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "ea81cdfd-cbd1-46e4-bb0c-b37f18f8e1d0",
+      "team_id": "23814bf2-4ca6-4980-97da-a635beb4de48",
+      "url": "https://relay-totals.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "aeccaeb7-6334-48a6-a287-027094a99df0",
+      "team_id": "23814bf2-4ca6-4980-97da-a635beb4de48",
+      "url": "https://relay-calendar.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 4
+    },
+    {
+      "id": "669b5af1-0a74-462d-81b3-f8bfefc8f3bd",
+      "team_id": "c0b5585d-7037-4014-b7ac-dc5087f4ef25",
+      "url": "https://relay-calendar.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 4
+    },
+    {
+      "id": "29c64ba6-941a-4f96-af0d-f43b547f393f",
+      "team_id": "ba6494cc-fa79-4d2a-9d0a-42b869abcd15",
+      "url": "https://relay-woocommerce.relay-store-m1.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "cb6bad88-b54f-408f-8bd2-019a70c6c7f1",
+      "team_id": "ba6494cc-fa79-4d2a-9d0a-42b869abcd15",
+      "url": "https://relay-totals.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "5b216bbc-af68-40e5-8781-d89b9713a75a",
+      "team_id": "ba6494cc-fa79-4d2a-9d0a-42b869abcd15",
+      "url": "https://relay-calendar.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 4
+    },
+    {
+      "id": "761bd36e-09a0-49af-8b82-b88bd31e58c5",
+      "team_id": "4754400f-10c1-40a8-9b21-95a02fe7e112",
+      "url": "https://relay-woocommerce.relay-store-m1.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "d3d4a17b-e48b-4307-bcff-160a578d5c2a",
+      "team_id": "d7be00fc-ea24-435a-b2b8-246a89d9b874",
+      "url": "https://relay-woocommerce.relay-store-m1.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "f1863b62-a53d-4c5d-b939-11d0c1bfc17a",
+      "team_id": "d7be00fc-ea24-435a-b2b8-246a89d9b874",
+      "url": "https://relay-calendar.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "1bdd38e7-04f9-4773-a19d-72bdd0994735",
+      "team_id": "d7be00fc-ea24-435a-b2b8-246a89d9b874",
+      "url": "https://relay-totals.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "a03a648b-6072-4eb8-8985-8a134723c7a2",
+      "team_id": "94e83f8c-c655-48fd-905f-b6c7d942dfe0",
+      "url": "https://relay-woocommerce.relay-store-m1.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "4a80bc3c-52e3-4f2b-b700-436c077fc7a7",
+      "team_id": "94e83f8c-c655-48fd-905f-b6c7d942dfe0",
+      "url": "https://relay-calendar.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "b8f4dc24-ad3f-4607-8136-800c8fa7528e",
+      "team_id": "94e83f8c-c655-48fd-905f-b6c7d942dfe0",
+      "url": "https://relay-totals.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "6be58a66-a5cc-4f22-9256-3ad982831f65",
+      "team_id": "c0b5585d-7037-4014-b7ac-dc5087f4ef25",
+      "url": "https://relay-totals.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 18
+    },
+    {
+      "id": "84996dff-e96f-4d10-880c-0f93e71bc6b7",
+      "team_id": "4754400f-10c1-40a8-9b21-95a02fe7e112",
+      "url": "https://relay-totals.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 10
+    },
+    {
+      "id": "df6d76a7-eb39-4ae8-9129-8c6fbf2fd5fb",
+      "team_id": "a7dfe438-27f3-46be-9c2f-03fcd0b58ffc",
+      "url": "https://relay-calendar.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "7788d4c4-3160-4bd1-bf76-6e2950cdcb67",
+      "team_id": "a7dfe438-27f3-46be-9c2f-03fcd0b58ffc",
+      "url": "https://relay-totals.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "7073f655-276e-4484-a15f-73f77360a7ec",
+      "team_id": "4754400f-10c1-40a8-9b21-95a02fe7e112",
+      "url": "https://relay-calendar.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 8
+    },
+    {
+      "id": "cf5a8988-e080-4ed2-8e10-53f8a9cdf5ee",
+      "team_id": "cfe08d67-006b-479d-989f-21f59aaa1792",
+      "url": "https://relay-woocommerce.relay-store-m1.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "83381b3a-6334-4d80-8aac-12f1d14b1a4b",
+      "team_id": "cfe08d67-006b-479d-989f-21f59aaa1792",
+      "url": "https://relay-totals.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "f07f9977-311d-45c9-9271-ba2e9b43aebe",
+      "team_id": "289af018-c070-4292-9a9d-6e505c13f8f9",
+      "url": "https://relay-calendar.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 2
+    },
+    {
+      "id": "48f62b2b-14ad-42b6-8a64-5fde8679b8b4",
+      "team_id": "cfe08d67-006b-479d-989f-21f59aaa1792",
+      "url": "https://relay-calendar.relay-upstreams.svc.cluster.local:3000/mcp",
+      "revision": 4
+    }
+  ]
+}

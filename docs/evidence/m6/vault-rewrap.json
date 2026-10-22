@@ -1,0 +1,11 @@
+{
+  "at": "2026-10-15T23:10:04.723Z",
+  "passed": true,
+  "entries": 39,
+  "previousFormat": "encrypted-v1",
+  "format": "AES-256-GCM-v1",
+  "activeKeyId": "v2",
+  "atomicResourceVersionCheck": true,
+  "everyEntryRoundTrip": true,
+  "privateValuesPrinted": false
+}

@@ -1,0 +1,95 @@
+{
+  "at": "2026-10-16T14:41:27.824Z",
+  "checks": [
+    "Actual gateway automatically serves the renewed projected leaf without pod replacement; CA/SAN verification remains enabled",
+    "Dedicated SQL-role and native database/cache server identities genuinely renew; documented native-client/workload rollouts reconnect without changing platform volumes",
+    "A real provisioned store renews WordPress, MariaDB and adapter identities, then reloads all native runtimes through controlled pod replacement"
+  ],
+  "certificates": [
+    {
+      "namespace": "relay-platform",
+      "name": "relay-gateway-tls",
+      "oldSerial": "20F959FD422F63DD93FAB7C314C4CC7B4F21019D",
+      "renewedSerial": "3C9A0BC2DABDE3F37BABE15FFB8979F6A298E13A",
+      "profileUnchanged": true,
+      "method": "cmctl2.6.1 native manual renewal"
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-db-app-tls",
+      "oldSerial": "11936A4906EE27EAA80D69CF0643AF6185443199",
+      "renewedSerial": "7C4024DAD9DBCC87EB26E8C8F3DDB0F330B21631",
+      "profileUnchanged": true,
+      "method": "cmctl2.6.1 native manual renewal"
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-postgres-tls",
+      "oldSerial": "53AE47976654948AA704B078A3033C2A3A8A1A29",
+      "renewedSerial": "33E2223A47E49E054720E9C6AC124168EBBBD1A6",
+      "profileUnchanged": true,
+      "method": "cmctl2.6.1 native manual renewal"
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "relay-redis-tls",
+      "oldSerial": "34E9620751637A6F68DF964B30640B6C23260268",
+      "renewedSerial": "36D8B7F22AF70CDFE9509E3BDEDFC016E3E03C1D",
+      "profileUnchanged": true,
+      "method": "cmctl2.6.1 native manual renewal"
+    },
+    {
+      "namespace": "relay-store-4f638bcfc03f4e618b42d6f265c85b1f",
+      "name": "store-wp-tls",
+      "oldSerial": "1E33D20F18DE2410E03A46597B2A8FBE3CD5C9CA",
+      "renewedSerial": "7055C11B1C95513ECD27FF313A7EA350690A8662",
+      "profileUnchanged": true,
+      "method": "cmctl2.6.1 native manual renewal"
+    },
+    {
+      "namespace": "relay-store-4f638bcfc03f4e618b42d6f265c85b1f",
+      "name": "store-db-tls",
+      "oldSerial": "2071C99353088BF7083560EA5BCF045858639F70",
+      "renewedSerial": "398B434F60700503D36F9F298F994217F3A0FD81",
+      "profileUnchanged": true,
+      "method": "cmctl2.6.1 native manual renewal"
+    },
+    {
+      "namespace": "relay-store-4f638bcfc03f4e618b42d6f265c85b1f",
+      "name": "store-mcp-tls",
+      "oldSerial": "7C8B7D16C5F7DC8C56EF33D1059BA2F649A47489",
+      "renewedSerial": "6B3122B8B474494BE3EA63AC27F60626B9465059",
+      "profileUnchanged": true,
+      "method": "cmctl2.6.1 native manual renewal"
+    }
+  ],
+  "modelTraffic": false,
+  "systemTrustChanged": false,
+  "volumes": {
+    "platform": [
+      {
+        "name": "data-relay-postgres-0",
+        "uid": "c3fed7a0-d0c7-4608-bc0e-ef02e58d1182",
+        "pv": "pvc-c3fed7a0-d0c7-4608-bc0e-ef02e58d1182"
+      },
+      {
+        "name": "data-relay-redis-0",
+        "uid": "61ba13cb-6228-424f-8d09-080e27706975",
+        "pv": "pvc-61ba13cb-6228-424f-8d09-080e27706975"
+      }
+    ],
+    "store": [
+      {
+        "name": "store-content",
+        "uid": "aac84a22-84f4-445c-b15b-3da550bf4e69",
+        "pv": "pvc-aac84a22-84f4-445c-b15b-3da550bf4e69"
+      },
+      {
+        "name": "store-db",
+        "uid": "05055263-2010-40e6-8005-d46d3523580c",
+        "pv": "pvc-05055263-2010-40e6-8005-d46d3523580c"
+      }
+    ]
+  },
+  "passed": true
+}

@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-16T14:58:23.637Z",
+  "checks": [
+    "Actual confirmed workspace-default change",
+    "Actual member tool library and agent context hide denied tools without model traffic",
+    "Actual selector-based server/tool allow is visible only through authorized discovery",
+    "Desktop/mobile layout, visible focus, reduced motion and no page overflow/errors"
+  ],
+  "screenshots": [
+    "01-default-confirmation-desktop",
+    "02-member-default-deny-desktop",
+    "03-member-agent-context-desktop",
+    "04-policy-selectors-desktop",
+    "05-policy-selectors-mobile",
+    "06-policy-table-mobile",
+    "07-member-permitted-tool-mobile"
+  ],
+  "errors": [],
+  "modelTraffic": false,
+  "passed": true,
+  "cleanupRestored": true
+}

@@ -1,0 +1,35 @@
+{
+  "at": "2026-10-16T15:25:41.574Z",
+  "checks": [
+    "Three actual simultaneous refresh/replay pairs on distinct ready API pods: one native exchange, one denial, no remaining family access/refresh rows or usable token",
+    "Simultaneous code exchange on two replicas cannot leave usable access after replay cleanup",
+    "A real refresh racing revocation across replicas leaves no valid or stored token family",
+    "Deterministic rotated-token and repeated revocation return RFC7009 success while native family cleanup leaves no usable token",
+    "A genuinely held database lock produces a bounded fail-closed busy response without changing provider limits"
+  ],
+  "networkPolicyProof": false,
+  "modelTraffic": false,
+  "pods": [
+    {
+      "name": "relay-api-7fccfb4bdd-g7mt5",
+      "uid": "455fb61e-a790-4db8-9824-9ca739a7d5b5"
+    },
+    {
+      "name": "relay-api-7fccfb4bdd-zdtmh",
+      "uid": "8c00b759-b96f-4b18-98cf-992c87d15788"
+    }
+  ],
+  "revokeRaceResponses": [
+    {
+      "status": 200
+    },
+    {
+      "status": 200
+    }
+  ],
+  "busyDurationMs": 3021,
+  "passed": true,
+  "nativeFamilyCleanupVerified": true,
+  "cleanupRestored": true,
+  "restoredApiReplicas": 1
+}

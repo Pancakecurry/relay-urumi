@@ -1,3 +1,4 @@
+import { boundedFetch } from "../../../packages/auth/src/destinations.js";
 import { Rejection } from "../../../packages/auth/src/identity.js";
 import { randomBytes, randomUUID } from "node:crypto";
 import { mkdtemp, writeFile, rm } from "node:fs/promises";
@@ -365,11 +366,12 @@ export class Controller {
             persistentvolumeclaims: "2",
             "requests.storage": "2Gi",
             services: "4",
-            secrets: "16",
+            secrets: "24",
           },
         },
       },
       s.id,
+      true,
     ).catch((e) => {
       throw e;
     });
@@ -461,6 +463,9 @@ export class Controller {
         wordpressImage: process.env["STORE_IMAGE"],
         adapterImage: process.env["ADAPTER_IMAGE"],
         storageClass: process.env["STORE_STORAGE_CLASS"] ?? "local-path",
+        transportVersion: process.env["STORE_TLS_ENABLED"] === "true" ? 1 : 0,
+        tlsIssuer: process.env["STORE_TLS_ISSUER"] ?? "relay-local-ca",
+        httpsPort: process.env["STORE_HTTPS_PORT"] ?? "443",
       };
       await this.pool.query(
         "UPDATE app.stores SET config=$2 WHERE id=$1 AND generation=$3",
@@ -490,8 +495,17 @@ export class Controller {
         }
       }
     }
+    const tls = s.config["transportVersion"] === 1;
+    if (tls && new URL(s.url).protocol !== "https:")
+      throw new Fault("STORE_TLS_URL_MISMATCH", false);
     await this.phase(s, "StoreInstall");
     await this.helm(s, "store", "store", {
+      runtime: { nonRoot: tls },
+      transportTls: {
+        enabled: tls,
+        issuer: s.config["tlsIssuer"] ?? "relay-local-ca",
+        adapterCommonName: `store-mcp.${s.namespace}`,
+      },
       wordpress: {
         image: s.config["wordpressImage"],
         resources: {
@@ -522,7 +536,7 @@ export class Controller {
         timezone: "Asia/Kolkata",
         currency: "INR",
       },
-      ingress: { hostname: s.host },
+      ingress: { hostname: s.host, httpsPort: s.config["httpsPort"] ?? "443" },
       managedStoreId: s.id,
     });
     await this.current(s);
@@ -579,12 +593,16 @@ export class Controller {
     await this.phase(s, "AdapterInstall");
     await this.helm(s, "hosted-mcp", "store-mcp", {
       kind: "woocommerce",
+      transportTls: {
+        enabled: tls,
+        issuer: s.config["tlsIssuer"] ?? "relay-local-ca",
+      },
       image: s.config["adapterImage"],
       credentialSecret: "upstream-mcp",
       gatewayNamespace: "relay-platform",
       provisionerEnabled: true,
       store: {
-        connectionUrl: "http://store-wp",
+        connectionUrl: tls ? "https://store-wp" : "http://store-wp",
         canonicalUrl: s.url,
         wordpressRelease: "store",
         currency: "INR",
@@ -599,11 +617,12 @@ export class Controller {
       (secret["data"] as Record<string, string>)["token"]!,
       "base64",
     ).toString();
-    const url = `http://store-mcp.${s.namespace}.svc.cluster.local:3000/mcp`;
+    const url = `${tls ? "https" : "http"}://store-mcp.${s.namespace}.svc.cluster.local:3000/mcp`;
     const client = new Client({ name: "relay-provisioner", version: "0.5.0" });
     try {
       await client.connect(
         new StreamableHTTPClientTransport(new URL(url), {
+          fetch: boundedFetch,
           requestInit: { headers: { Authorization: `Bearer ${token}` } },
         }),
         { timeout: 5000 },

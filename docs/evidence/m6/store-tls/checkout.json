@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-16T07:37:23.731Z",
+  "namespace": "relay-store-clean",
+  "site": "https://clean.relay.localhost:18443",
+  "browser": "154.0.8037.99",
+  "productId": 13,
+  "orderId": 20,
+  "paymentMethod": "cod",
+  "status": "processing",
+  "total": "199.00",
+  "authenticatedRestStatus": 200,
+  "unauthenticatedOrdersStatus": 401,
+  "orderVerifiedInAdmin": true,
+  "contentMarkerVerified": true,
+  "afterPodReplacement": false,
+  "realBrowserCheckout": true
+}

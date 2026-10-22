@@ -1,0 +1,14 @@
+{{- if .Values.transportTls.enabled }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata: {name: {{ .Release.Name }}-tls}
+spec:
+  secretName: {{ .Release.Name }}-tls
+  commonName: {{ printf "%s.%s" .Release.Name .Release.Namespace | quote }}
+  dnsNames: [{{ .Release.Name | quote }}, {{ printf "%s.%s.svc.cluster.local" .Release.Name .Release.Namespace | quote }}]
+  duration: 168h
+  renewBefore: 48h
+  privateKey: {algorithm: ECDSA, size: 256, rotationPolicy: Always}
+  usages: [server auth, client auth]
+  issuerRef: {name: {{ .Values.transportTls.issuer | quote }}, kind: ClusterIssuer}
+{{- end }}

@@ -41,7 +41,7 @@ spec:
             matchLabels: {kubernetes.io/metadata.name: kube-system}
           podSelector: {matchLabels: {app.kubernetes.io/name: traefik}}
         - podSelector: {matchLabels: {role: adapter}}
-      ports: [{protocol: TCP, port: 80}]
+      ports: [{protocol: TCP, port: {{ if .Values.transportTls.enabled }}8443{{ else if .Values.runtime.nonRoot }}8080{{ else }}80{{ end }}}]
   egress:
     - to: [{podSelector: {matchLabels: {role: database}}}]
       ports: [{protocol: TCP, port: 3306}]

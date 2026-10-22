@@ -1,0 +1,33 @@
+{
+  "at": "2026-10-16T08:49:18.419Z",
+  "mistake": "Operator apply omitted namespace; duplicate adapter lacked credentials and never became ready",
+  "ownedDuplicatesRemoved": [
+    {
+      "kind": "deployment",
+      "name": "relay-woocommerce",
+      "uid": "52fd70e9-6109-46fa-b106-501223478c21"
+    },
+    {
+      "kind": "service",
+      "name": "relay-woocommerce",
+      "uid": "bb71a22b-7a31-48f1-8482-17e2a63d34c2"
+    },
+    {
+      "kind": "networkpolicy",
+      "name": "relay-woocommerce-private",
+      "uid": "cbc84461-69c1-47c9-8b88-f8585962e1ad"
+    },
+    {
+      "kind": "certificate",
+      "name": "relay-woocommerce-tls",
+      "uid": "97001b30-65bc-4456-a938-792b8a77c8a0"
+    },
+    {
+      "kind": "Secret",
+      "name": "relay-woocommerce-tls",
+      "uid": "86c12fc1-8c9e-4eb5-8661-bef011745664"
+    }
+  ],
+  "unrelatedResourcesRemoved": false,
+  "correctReleaseNamespace": "relay-store-m1"
+}

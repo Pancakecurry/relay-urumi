@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-16T14:57:44.902Z",
+  "checks": [
+    "Existing key clients discover twelve real tools and execute a real WooCommerce write",
+    "Default deny, role allow and server scope apply to every member without granting management",
+    "User-specific tool allow is scoped to its user and server",
+    "Explicit role deny beats a user allow; cached key and real chat-delegation writes are rejected without side effects",
+    "Discovery, gateway search, result counts and chat catalog do not disclose denied tools",
+    "No management escalation, foreign subject/server targeting or cross-team configuration read",
+    "Concurrent duplicate rules converge and stale workspace-default edits fail without overwriting policy",
+    "Role demotion takes effect on existing client connections and cached aliases",
+    "Rejected external and chat calls are durably attributed to the correct member",
+    "Modern and legacy official MCP transports enforce the same current policy"
+  ],
+  "modelTraffic": false,
+  "productId": 51,
+  "passed": true,
+  "cleanupRestored": true
+}

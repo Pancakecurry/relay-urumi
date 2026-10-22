@@ -3,7 +3,7 @@ import {readFileSync,writeFileSync} from 'node:fs';
 import {ingressFetch} from '../dist/packages/mcp-client/src/ingress.js';
 import {Client,StreamableHTTPClientTransport} from '@modelcontextprotocol/client';
 import {kube} from './mcp-kube.mjs';
-const id=JSON.parse(readFileSync('.local/m3-acceptance-identity.json','utf8'));const origin='http://relay.localhost:18080';const results=[];
+const id=JSON.parse(readFileSync('.local/m3-acceptance-identity.json','utf8'));const origin=process.env.RELAY_TEST_ORIGIN??'http://relay.localhost:18080';const results=[];
 // Reauthenticate the existing synthetic M3 actors. Never log cookies/passwords/keys.
 async function login(w){const r=await ingressFetch(origin+'/api/auth/sign-in/email',{method:'POST',headers:{origin,'content-type':'application/json'},body:JSON.stringify({email:id.emails[w],password:id.passwords[w]})});assert.equal(r.status,200);return r.headers.getSetCookie().map(c=>c.split(';')[0]).join('; ');}
 const cookies={A:await login('A'),B:await login('B')};

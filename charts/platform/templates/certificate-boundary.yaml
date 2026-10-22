@@ -1,0 +1,34 @@
+{{- if and (eq .Values.mode "core") .Values.provisionerEnabled .Values.transportTls.enabled }}
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata: {name: {{ .Release.Namespace }}-store-certificate-boundary}
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [cert-manager.io]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [certificates]
+  matchConditions:
+    - name: controller-only
+      expression: "request.userInfo.username == 'system:serviceaccount:{{ .Release.Namespace }}:relay-provisioner'"
+  validations:
+    - expression: "namespaceObject != null && namespaceObject.metadata.name.matches('^relay-store-[a-f0-9]{32}$') && namespaceObject.metadata.labels['relay.store/managed'] == 'true'"
+      message: Certificate requests are restricted to managed store namespaces.
+    - expression: "object.metadata.name in ['store-wp-tls','store-db-tls','store-mcp-tls'] && object.spec.secretName == object.metadata.name && object.spec.commonName == object.metadata.name.replace('-tls','') + '.' + request.namespace"
+      message: A store can request only its three fixed service identities.
+    - expression: "(!has(object.spec.isCA) || !object.spec.isCA) && !has(object.spec.subject) && !has(object.spec.literalSubject) && !has(object.spec.ipAddresses) && !has(object.spec.uris) && !has(object.spec.emailAddresses) && !has(object.spec.keystores) && object.spec.issuerRef.name == '{{ .Values.transportTls.issuer }}' && object.spec.issuerRef.kind == 'ClusterIssuer' && (!has(object.spec.issuerRef.group) || object.spec.issuerRef.group == 'cert-manager.io')"
+      message: Alternate issuers, CA identities and alternate subject forms are forbidden.
+    - expression: "object.spec.duration == '168h' && object.spec.renewBefore == '48h' && object.spec.privateKey.algorithm == 'ECDSA' && object.spec.privateKey.size == 256 && object.spec.privateKey.rotationPolicy == 'Always' && size(object.spec.usages) == 2 && object.spec.usages.all(x, x in ['server auth','client auth'])"
+      message: Store certificates must use the reviewed lifetime, key and usages.
+    - expression: "size(object.spec.dnsNames) == (object.metadata.name == 'store-wp-tls' ? 3 : 2) && object.spec.dnsNames.all(x, x in [object.metadata.name.replace('-tls',''),object.metadata.name.replace('-tls','') + '.' + request.namespace + '.svc.cluster.local'] || (object.metadata.name == 'store-wp-tls' && x == 's-' + request.namespace.replace('relay-store-','') + '.{{ .Values.storeDomain }}'))"
+      message: Certificate SANs must match the store's service and assigned storefront.
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata: {name: {{ .Release.Namespace }}-store-certificate-boundary}
+spec:
+  policyName: {{ .Release.Namespace }}-store-certificate-boundary
+  validationActions: [Deny]
+{{- end }}
