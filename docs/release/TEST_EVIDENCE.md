@@ -64,3 +64,7 @@ Release journey sequence: `release-chat-journey.mjs create`, real store checkout
 - Resource figures are samples. This single-node system is not high availability. A local private CA is not publicly trusted HTTPS. Public cloud and the complete narrated video remain separate deliverables until actually verified.
 
 The provider allowance is a conservative durable reservation, not an invoice. The final application gate records ₹153 reserved under the ₹164 runtime cap, plus ₹100 retained M0 reservation, within ₹265 approved eligible prepaid credit. ₹11 remains for guarded runtime requests; a complete new recording requires additional approved headroom or honestly labelled existing footage.
+
+## GitHub source verification
+
+[github-reproduction.json](../evidence/m10/github-reproduction.json) records a fresh real GitHub clone of `effabb7d39573b42b227d14110bef88860d98c2a`, with frozen offline installation,42 tests/lint/strict types/build, documentation validation and exact deployed fingerprint. No private fixture or provider key was copied and no model request was made. [repository.json](../evidence/m10/repository.json) records the actual remote commit, visibility, real progress count and milestone tags. The latest [credential scan](../evidence/m10/credential-scan.json) checks990 files plus all historical text patches; final publication is recorded after the visibility change rather than inferred from source upload.

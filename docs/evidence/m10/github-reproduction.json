@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-22T18:21:43.153036+00:00",
+  "source": "fresh authenticated GitHub clone in nonsynced same-machine directory",
+  "repository": "https://github.com/Pancakecurry/relay-urumi",
+  "sourceCommit": "effabb7d39573b42b227d14110bef88860d98c2a",
+  "destination": "[LOCAL_HOME]/Library/Caches/relay-m10-github-reproduction-klb_uf8s",
+  "frozenOfflineInstall": true,
+  "tests": 42,
+  "lint": true,
+  "strictTypes": true,
+  "productionBuild": true,
+  "documentationCheck": true,
+  "runtimeFingerprint": "m6-99a36532c5ab56f3",
+  "privateCredentialsCopied": false,
+  "providerTraffic": false,
+  "clusterRecreated": false,
+  "passed": true
+}

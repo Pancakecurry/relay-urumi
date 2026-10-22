@@ -1,0 +1,94 @@
+$ df -h [PROJECT_ROOT]
+Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s5   228Gi   191Gi   7.3Gi    97%    2.2M   77M    3%   /System/Volumes/Data
+
+$ [LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/local-cache.mjs
+Project runtime/dependency links prepared; existing links preserved.
+
+$ pnpm install --frozen-lockfile --offline
+Scope: all 14 workspace projects
+✓ Lockfile passes supply-chain policies (verified 6d ago)
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +446
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Packages are cloned from the content-addressable store to the virtual store.
+  Content-addressable store is at: [LOCAL_HOME]/Library/pnpm/store/v11
+  Virtual store is at:             ../relay-4ecb0e649b4e/node_modules/.pnpm
+Progress: resolved 446, reused 445, downloaded 0, added 99
+Progress: resolved 446, reused 445, downloaded 0, added 444
+Progress: resolved 446, reused 445, downloaded 0, added 446, done
+.../@modelcontextprotocol/inspector postinstall$ node scripts/install-clients.mjs
+.../@modelcontextprotocol/inspector postinstall: Done
+
+dependencies:
++ @ai-sdk/google 4.0.93
++ @better-auth/drizzle-adapter 1.7.7
++ @better-auth/oauth-provider 1.7.7
++ @js-temporal/polyfill 0.5.1
++ @modelcontextprotocol/fastify 2.0.1
++ @modelcontextprotocol/node 2.1.1
++ @modelcontextprotocol/server 2.3.1
++ ai 7.0.135
++ ajv 8.20.0
++ bullmq 6.3.12
++ drizzle-orm 0.45.4
++ fastify 5.12.5
++ ioredis 6.0.0
++ jose 6.2.3
++ pg 8.23.1
++ zod 4.6.5
+
+devDependencies:
++ @eslint/js 10.0.1
++ @modelcontextprotocol/client 2.3.1
++ @modelcontextprotocol/inspector 2.10.1
++ @playwright/test 1.64.0
++ @types/node 24.19.1
++ @types/pg 8.15.6
++ better-auth 1.7.7
++ eslint 10.12.0
++ prettier 3.9.9
++ typescript 6.0.3
++ typescript-eslint 8.71.1
++ vitest 5.0.3
+
+Done in 2.9s using pnpm v11.25.0
+
+$ pnpm check
+
+ RUN  v5.0.3 [LOCAL_HOME]/Library/Caches/relay-m6-reproduction-kNVtXG
+
+
+ Test Files  14 passed (14)
+      Tests  42 passed (42)
+   Start at  20:31:25
+   Duration  1.16s (import 53%, tests 30%, transform 16%, worker 1%)
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 2168 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/dashboard/dist/index.html                                 0.40 kB │ gzip:   0.29 kB
+apps/dashboard/dist/assets/Geist-Regular-rEkwi4hp.woff2       45.24 kB
+apps/dashboard/dist/assets/Geist-SemiBold-Dgivxjvs.woff2      46.59 kB
+apps/dashboard/dist/assets/GeistMono-Regular-DHEw6VMZ.woff2   50.35 kB
+apps/dashboard/dist/assets/index-DEbr-6zY.css                 40.93 kB │ gzip:   8.82 kB
+apps/dashboard/dist/assets/oauth-workspace-Cvcbdfsn.js         5.02 kB │ gzip:   2.02 kB
+apps/dashboard/dist/assets/index-Djijlh1h.js                 544.73 kB │ gzip: 168.53 kB
+
+✓ built in 520ms
+
+$ [LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/mcp-image-tag.mjs
+m2-99a36532c5ab56f3
+
+$ [LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node --version
+v24.16.0
+
+$ pnpm --version
+11.25.0
+
+$ df -h [PROJECT_ROOT]
+Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s5   228Gi   192Gi   7.2Gi    97%    2.2M   76M    3%   /System/Volumes/Data

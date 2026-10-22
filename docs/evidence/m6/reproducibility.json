@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-22T15:01:31.211Z",
+  "sourceCommit": "2f7f51e3b678e00319c025475b8ada56af1daea3",
+  "source": "fresh Git archive of the exact committed tree in a new nonsynced same-machine directory",
+  "destination": "[LOCAL_HOME]/Library/Caches/relay-m6-reproduction-kNVtXG",
+  "frozenOfflineInstall": true,
+  "lintTypecheckTestsBuild": true,
+  "tests": 42,
+  "runtimeFingerprint": "m6-99a36532c5ab56f3",
+  "deployedImage": "relay/platform:m6-99a36532c5ab56f3",
+  "privateResourcesCopied": false,
+  "paidProviderTraffic": false,
+  "clusterRecreated": false,
+  "nodeVersion": "v24.16.0",
+  "pnpmVersion": "11.25.0",
+  "diskBefore": "Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on\n/dev/disk3s5   228Gi   191Gi   7.3Gi    97%    2.2M   77M    3%   /System/Volumes/Data",
+  "diskAfter": "Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on\n/dev/disk3s5   228Gi   192Gi   7.2Gi    97%    2.2M   76M    3%   /System/Volumes/Data",
+  "passed": true
+}
