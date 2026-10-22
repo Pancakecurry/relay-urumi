@@ -1,0 +1,197 @@
+[
+  {
+    "command": "python3 -c import shutil;print(shutil.disk_usage(\"[PROJECT_ROOT]\").free)",
+    "status": "passed",
+    "stdoutBytes": 12
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/k3d cluster list -o json",
+    "status": "passed",
+    "stdoutBytes": 3454
+  },
+  {
+    "command": "git rev-parse HEAD",
+    "status": "passed",
+    "stdoutBytes": 41
+  },
+  {
+    "command": "git archive --format=tar --output=[LOCAL_HOME]/Library/Caches/relay-m6-clean-9MqTOT/source.tar 2cdd17ae04100e6a83cccc6bdfbdeeeba773d7c5",
+    "status": "passed",
+    "stdoutBytes": 0
+  },
+  {
+    "command": "tar -xf [LOCAL_HOME]/Library/Caches/relay-m6-clean-9MqTOT/source.tar -C [LOCAL_HOME]/Library/Caches/relay-m6-clean-9MqTOT",
+    "status": "passed",
+    "stdoutBytes": 0
+  },
+  {
+    "command": "[LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/local-cache.mjs",
+    "status": "passed",
+    "stdoutBytes": 69
+  },
+  {
+    "command": "pnpm install --frozen-lockfile --offline",
+    "status": "passed",
+    "stdoutBytes": 1502
+  },
+  {
+    "command": "pnpm check",
+    "status": "passed",
+    "stdoutBytes": 963
+  },
+  {
+    "command": "[LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/mcp-image-tag.mjs",
+    "status": "passed",
+    "stdoutBytes": 20
+  },
+  {
+    "command": "docker inspect k3d-relay-m0-server-0",
+    "status": "passed",
+    "stdoutBytes": 11322
+  },
+  {
+    "command": "docker image inspect rancher/k3s:v1.37.1-k3s1",
+    "status": "passed",
+    "stdoutBytes": 2466
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/k3d cluster create --config [LOCAL_HOME]/Library/Caches/relay-m6-clean-9MqTOT/.local/cluster.json --servers-memory 3G --timeout 240s",
+    "status": "passed",
+    "stdoutBytes": 1924
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/k3d kubeconfig get relay-m6-clean",
+    "status": "passed",
+    "stdoutBytes": 3024
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/kubectl wait node --all --for=condition=Ready --timeout=120s",
+    "status": "passed",
+    "stdoutBytes": 47
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/kubectl wait --for=create deployment/traefik -n kube-system --timeout=180s",
+    "status": "passed",
+    "stdoutBytes": 38
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/kubectl rollout status deployment/traefik -n kube-system --timeout=120s",
+    "status": "passed",
+    "stdoutBytes": 138
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/k3d image import relay/platform:m6-99a36532c5ab56f3 --cluster relay-m6-clean",
+    "status": "passed",
+    "stdoutBytes": 625
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/k3d image import relay/provisioner:m6-99a36532c5ab56f3 --cluster relay-m6-clean",
+    "status": "passed",
+    "stdoutBytes": 757
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/k3d image import relay/store:m6-5698c668ea0141c1 --cluster relay-m6-clean",
+    "status": "passed",
+    "stdoutBytes": 757
+  },
+  {
+    "command": "[LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/store-secrets.mjs",
+    "status": "passed",
+    "stdoutBytes": 168
+  },
+  {
+    "command": "[LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/mcp-secrets.mjs",
+    "status": "passed",
+    "stdoutBytes": 213
+  },
+  {
+    "command": "[LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/platform-secrets.mjs",
+    "status": "passed",
+    "stdoutBytes": 81
+  },
+  {
+    "command": "bash scripts/security-pki-setup.sh",
+    "status": "passed",
+    "stdoutBytes": 1530
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/kubectl get secret relay-local-root -n relay-pki -o json",
+    "status": "passed",
+    "stdoutBytes": 2930
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/kubectl create -f [LOCAL_HOME]/Library/Caches/relay-m6-clean-9MqTOT/.local/trust.json",
+    "status": "passed",
+    "stdoutBytes": 27
+  },
+  {
+    "command": "[LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/security-data-tls-config.mjs",
+    "status": "passed",
+    "stdoutBytes": 361
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/kubectl get nodes -o jsonpath={.items[0].status.addresses[?(@.type==\"InternalIP\")].address}",
+    "status": "passed",
+    "stdoutBytes": 10
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/helm lint charts/platform -f infra/local/platform-values.yaml -f infra/local/security-values.yaml --set-string platformImage=relay/platform:m6-99a36532c5ab56f3 --set-string provisionerImage=relay/provisioner:m6-99a36532c5ab56f3 --set-string kubeApiCidr=172.25.0.3/32 --set-string publicOrigin=https://relay.localhost:28443 --set-string storefrontUrl=https://store.relay.localhost:28443/shop/ --set-string storeHttpsPort=28443 --set-string storeUrlSuffix=:28443 --set provisionerEnabled=true --set dashboardEnabled=true --set modelEnabled=false",
+    "status": "passed",
+    "stdoutBytes": 105
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/helm upgrade --install relay-core charts/platform -n relay-platform -f infra/local/platform-values.yaml -f infra/local/security-values.yaml --set-string platformImage=relay/platform:m6-99a36532c5ab56f3 --set-string provisionerImage=relay/provisioner:m6-99a36532c5ab56f3 --set-string kubeApiCidr=172.25.0.3/32 --set-string publicOrigin=https://relay.localhost:28443 --set-string storefrontUrl=https://store.relay.localhost:28443/shop/ --set-string storeHttpsPort=28443 --set-string storeUrlSuffix=:28443 --set provisionerEnabled=true --set dashboardEnabled=true --set modelEnabled=false --wait --wait-for-jobs --timeout 360s",
+    "status": "passed",
+    "stdoutBytes": 215
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/helm upgrade --install demo-store charts/store -n relay-store-m1 -f infra/local/store-values.yaml --set-string wordpress.image=relay/store:m6-5698c668ea0141c1 --set runtime.nonRoot=true --set transportTls.enabled=true --set-string transportTls.adapterCommonName=relay-woocommerce.relay-store-m1 --set-string site.url=https://store.relay.localhost:28443 --set-string ingress.httpsPort=28443 --wait --wait-for-jobs --timeout 360s",
+    "status": "passed",
+    "stdoutBytes": 215
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/helm upgrade --install relay-woocommerce charts/hosted-mcp -n relay-store-m1 -f infra/local/mcp-woocommerce.yaml --set-string image=relay/platform:m6-99a36532c5ab56f3 --set transportTls.enabled=true --set-string store.connectionUrl=https://demo-store-wp --set-string store.canonicalUrl=https://store.relay.localhost:28443 --wait --timeout 180s",
+    "status": "passed",
+    "stdoutBytes": 229
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/helm upgrade --install relay-calendar charts/hosted-mcp -n relay-upstreams -f infra/local/mcp-calendar.yaml --set-string image=relay/platform:m6-99a36532c5ab56f3 --set transportTls.enabled=true --wait --timeout 180s",
+    "status": "passed",
+    "stdoutBytes": 224
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/helm upgrade --install relay-totals charts/hosted-mcp -n relay-upstreams -f infra/local/mcp-totals.yaml --set-string image=relay/platform:m6-99a36532c5ab56f3 --set transportTls.enabled=true --wait --timeout 180s",
+    "status": "passed",
+    "stdoutBytes": 220
+  },
+  {
+    "command": "[LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node clean-probe.mjs",
+    "status": "passed",
+    "stdoutBytes": 142
+  },
+  {
+    "command": "[LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/run-acceptance.mjs scripts/security-store-tls-checkout.mjs",
+    "status": "passed",
+    "stdoutBytes": 401
+  },
+  {
+    "command": "[LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/run-acceptance.mjs scripts/security-oauth-client.mjs",
+    "status": "passed",
+    "stdoutBytes": 1177
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/kubectl exec relay-postgres-0 -n relay-platform -- psql -U postgres -d relay -Atc SELECT count(*) FROM app.schema_migrations",
+    "status": "passed",
+    "stdoutBytes": 2
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/k3d cluster list -o json",
+    "status": "passed",
+    "stdoutBytes": 6896
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/k3d cluster delete relay-m6-clean",
+    "status": "passed",
+    "stdoutBytes": 416
+  }
+]

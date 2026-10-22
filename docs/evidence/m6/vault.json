@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-16T08:35:50.166Z",
+  "at": "2026-10-22T13:35:02.339Z",
   "checks": [
     "All actual vault entries are authenticated envelopes; every live envelope decrypts in its bound scope",
     "Real credential rotation allocates an immutable new reference; stale registry revisions cannot receive current headers",
@@ -7,7 +7,7 @@
     "A genuinely tampered vault entry fails closed while an independent real upstream remains callable",
     "Durable reachability retains current and managed-store references while exposing the superseded reference for grace-period collection"
   ],
-  "entries": 37,
+  "entries": 39,
   "passed": true,
   "cleanupRestored": true,
   "internalTransportTls": true

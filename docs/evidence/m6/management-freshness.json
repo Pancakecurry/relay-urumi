@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-16T14:57:24.266Z",
+  "at": "2026-10-22T13:33:44.434Z",
   "checks": [
     "Credentialed endpoint changes without explicit fresh credentials are rejected; approved replacement gets a new reference and discovers the real replacement server",
     "Actual queued invitation, other-user key issuance, member promotion, registry creation, permission updates and OAuth registration recheck current membership after lock acquisition and reject the demoted administrator"
@@ -14,12 +14,12 @@
     {
       "path": "api-keys",
       "status": 403,
-      "elapsedMs": 1008
+      "elapsedMs": 1007
     },
     {
       "path": "members/D04TmDdxQdtb3FFuvUGNYlOcDbLz9VRQ",
       "status": 403,
-      "elapsedMs": 1014
+      "elapsedMs": 1011
     },
     {
       "path": "upstreams",
@@ -29,12 +29,12 @@
     {
       "path": "permissions/default",
       "status": 403,
-      "elapsedMs": 1008
+      "elapsedMs": 1007
     },
     {
       "path": "oauth/clients",
       "status": 403,
-      "elapsedMs": 1008
+      "elapsedMs": 1006
     }
   ],
   "passed": true,

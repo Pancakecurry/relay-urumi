@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-16T14:57:44.902Z",
+  "at": "2026-10-22T13:33:09.161Z",
   "checks": [
     "Existing key clients discover twelve real tools and execute a real WooCommerce write",
     "Default deny, role allow and server scope apply to every member without granting management",
@@ -13,7 +13,7 @@
     "Modern and legacy official MCP transports enforce the same current policy"
   ],
   "modelTraffic": false,
-  "productId": 51,
+  "productId": 54,
   "passed": true,
   "cleanupRestored": true
 }

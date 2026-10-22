@@ -20,7 +20,7 @@ try{
  const s=read(),v=map(s);assert.equal(v.format,1);const ring=keyring(JSON.parse(JSON.parse(readFileSync('.local/m3-runtime-secrets.json','utf8'))['credential-keyring']));
  for(const [ref,e] of Object.entries(v.entries)){assert(e.encrypted&&!e.headers);assert(!JSON.stringify(e).includes(token));assert(unseal(e.encrypted,e.team,ref,ring));}
  report.checks.push('All actual vault entries are authenticated envelopes; every live envelope decrypts in its bound scope');report.entries=Object.keys(v.entries).length;
- upstream=(await api('A','upstreams','POST',{name:`m6-vault-${randomUUID().slice(0,8)}`,url:'http://relay-calendar.relay-upstreams.svc.cluster.local:3000/mcp',credentials:{kind:'bearer',token}})).id;
+ upstream=(await api('A','upstreams','POST',{name:`m6-vault-${randomUUID().slice(0,8)}`,url:'https://relay-calendar.relay-upstreams.svc.cluster.local:3000/mcp',credentials:{kind:'bearer',token}})).id;
  const oldRef=refFor(upstream);assert.notEqual(oldRef,upstream);
  client=new Client({name:'relay-m6-vault',version:'0.6.0'});await client.connect(new StreamableHTTPClientTransport(new URL(origin+'/mcp'),{fetch:ingressFetch,requestInit:{headers:{Authorization:`Bearer ${f.users.A.key}`}}}));
  let tools;await expect.poll(async()=>{tools=(await api('A','tools')).tools;return tools.filter(t=>t.upstreamId===upstream).length;},{timeout:30000}).toBe(3);

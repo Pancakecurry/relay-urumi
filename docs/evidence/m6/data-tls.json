@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-16T14:45:35.669Z",
+  "at": "2026-10-22T13:35:26.632Z",
   "checks": [
     "Actual API application/auth SQL roles negotiate TLS1.3; native HBA rejects plaintext and wrong role CN, while the client rejects wrong CA/name",
     "The real durable provisioner uses its own verified SQL-role certificate and preserved database role",
@@ -91,10 +91,10 @@
   },
   "native": {
     "hbaErrors": 0,
-    "networkClients": 3,
+    "networkClients": 9,
     "unencryptedNetworkClients": 0,
     "boreal": "Ready",
-    "reservationPaise": 11300
+    "reservationPaise": 13800
   },
   "passed": true
 }

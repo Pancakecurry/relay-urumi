@@ -1,0 +1,39 @@
+{
+  "at": "2026-10-22T13:18:52.305Z",
+  "checks": [
+    "Committed source passes lint, strict TypeScript, forty-two tests and production build",
+    "Fresh Git export matches the deployed source fingerprint; isolated loopback Kubernetes starts without altering the working cluster",
+    "The same Helm charts install fresh encrypted data services, schema9, native OAuth, dashboard/provisioner and a rootless TLS WooCommerce store plus three real private MCP upstreams",
+    "Fresh independent users, hashed keys, three-upstream modern/legacy discovery, real WooCommerce products and native OAuth client management pass through Ingress",
+    "Fresh HTTPS COD checkout/admin and replacement of both database/WordPress pods preserve products, order, content and PVCs",
+    "Fresh official MCP client completes actual browser login/consent and PKCE against the independently installed OAuth server"
+  ],
+  "modelTraffic": false,
+  "newSpending": 0,
+  "clusterName": "relay-m6-clean",
+  "sourceCommit": "2cdd17ae04100e6a83cccc6bdfbdeeeba773d7c5",
+  "sourceDirectory": "[LOCAL_HOME]/Library/Caches/relay-m6-clean-9MqTOT",
+  "frozenOfflineInstall": true,
+  "rootTests": 42,
+  "probe": {
+    "passed": true,
+    "tools": 12,
+    "twoUsers": true,
+    "modernAndLegacy": true,
+    "realProducts": true,
+    "oauthClientManagement": true,
+    "providerConfigured": false
+  },
+  "storePersistence": {
+    "passed": true,
+    "orderId": 16
+  },
+  "externalOAuth": true,
+  "migrations": 9,
+  "primaryKubeconfigPreserved": true,
+  "providerSecretCopied": false,
+  "passed": true,
+  "ownedTemporaryClusterRemoved": true,
+  "temporaryPrivateFixturesRemoved": true,
+  "logPath": "docs/evidence/m6/clean-install-commands.json"
+}

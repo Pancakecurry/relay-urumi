@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-16T14:36:58.277Z",
+  "at": "2026-10-22T13:35:08.800Z",
   "checks": [
     "Certificate admission denies foreign-service-cn",
     "Certificate admission denies sql-role-cn",

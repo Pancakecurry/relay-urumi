@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-16T14:59:24.401Z",
+  "at": "2026-10-22T13:13:55.429Z",
   "checks": [
     "Real provider-issued tokens execute MCP and persist the consenting user and OAuth client in audit",
     "Deny consent returns no code; signed-query tampering and missing-origin consent are rejected",
@@ -16,9 +16,9 @@
   ],
   "modelTraffic": false,
   "expiry": {
-    "issuedAt": "2026-10-16T14:59:26.307Z",
+    "issuedAt": "2026-10-22T13:13:55.562Z",
     "ttl": 300,
-    "checkedAt": "2026-10-16T15:04:29.202Z"
+    "checkedAt": "2026-10-22T13:18:58.222Z"
   },
   "passed": true,
   "cleanupRestored": true

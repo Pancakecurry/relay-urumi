@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-16T15:25:41.574Z",
+  "at": "2026-10-22T13:21:42.801Z",
   "checks": [
     "Three actual simultaneous refresh/replay pairs on distinct ready API pods: one native exchange, one denial, no remaining family access/refresh rows or usable token",
     "Simultaneous code exchange on two replicas cannot leave usable access after replay cleanup",
@@ -11,12 +11,12 @@
   "modelTraffic": false,
   "pods": [
     {
-      "name": "relay-api-7fccfb4bdd-g7mt5",
-      "uid": "455fb61e-a790-4db8-9824-9ca739a7d5b5"
+      "name": "relay-api-7fccfb4bdd-56jkw",
+      "uid": "9428f375-cdae-44b1-9553-126768ff2a1b"
     },
     {
-      "name": "relay-api-7fccfb4bdd-zdtmh",
-      "uid": "8c00b759-b96f-4b18-98cf-992c87d15788"
+      "name": "relay-api-7fccfb4bdd-g7mt5",
+      "uid": "455fb61e-a790-4db8-9824-9ca739a7d5b5"
     }
   ],
   "revokeRaceResponses": [
@@ -27,7 +27,7 @@
       "status": 200
     }
   ],
-  "busyDurationMs": 3021,
+  "busyDurationMs": 3032,
   "passed": true,
   "nativeFamilyCleanupVerified": true,
   "cleanupRestored": true,

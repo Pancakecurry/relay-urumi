@@ -2,8 +2,9 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { parseEnv } from 'node:util';
 
-const git = args => execFileSync('git',args,{encoding:'utf8',stdio:['ignore','pipe','pipe']});
-const files=git(['diff','--cached','--name-only','--diff-filter=ACMR','-z']).split('\0').filter(Boolean);
+const git = args => execFileSync('git',args,{encoding:'utf8',stdio:['ignore','pipe','pipe'],maxBuffer:128*1024*1024});
+const tracked=process.env.RELAY_SCAN_SCOPE==='tracked';
+const files=git(tracked?['ls-files','-z']:['diff','--cached','--name-only','--diff-filter=ACMR','-z']).split('\0').filter(Boolean);
 const secrets=[];
 for(const path of ['.local/m0-token','.local/gemini.env','.local/m4-admin-key']){
   try {const raw=readFileSync(path,'utf8');const value=path.endsWith('.env')?parseEnv(raw).GEMINI_API_KEY:raw.trim();if(value?.length>=8)secrets.push(value);}
@@ -33,6 +34,7 @@ try {
 }catch(error){if(error.code!=='ENOENT')throw error;}
 try{const d=JSON.parse(readFileSync('.local/m3-runtime-secrets.json','utf8'));if(d['credential-keyring'])for(const v of Object.values(JSON.parse(d['credential-keyring']).keys))secrets.push(v,Buffer.from(v).toString('base64'));}catch(error){if(error.code!=='ENOENT')throw error;}
 try{const d=JSON.parse(readFileSync('.local/m6-vault-rotation-state.json','utf8'));for(const v of [...Object.values(d.old?.keys??{}),d.newKey])if(typeof v==='string'&&v.length>=16)secrets.push(v,Buffer.from(v).toString('base64'));}catch(error){if(error.code!=='ENOENT')throw error;}
+try{const d=JSON.parse(readFileSync('.local/demo-client.json','utf8'));if(d.key?.length>=20)secrets.push(d.key,Buffer.from(d.key).toString('base64'));}catch(error){if(error.code!=='ENOENT')throw error;}
 const violations=[];
 // Match the actual Authorization header, not public authorizationServerUrl metadata.
 // Include current M5 identities, revoked synthetic test passwords and generated
@@ -41,7 +43,7 @@ function privateValues(value,field=''){
  if(typeof value==='string'&&value.length>=16&&/password|token|cookie|(^|_)key$|^authorization$|verifier|newKey|^code$/i.test(field))secrets.push(value,Buffer.from(value).toString('base64'));
  else if(value&&typeof value==='object')for(const [key,child] of Object.entries(value))privateValues(child,key);
 }
-for(const file of readdirSync('.local').filter(n=>/^m[56]-.*\.json$/.test(n))){try{privateValues(JSON.parse(readFileSync('.local/'+file,'utf8')));}catch(error){if(error.code!=='ENOENT')throw error;}}
+for(const file of readdirSync('.local').filter(n=>/^(?:m[56]|m10)-.*\.json$/.test(n))){try{privateValues(JSON.parse(readFileSync('.local/'+file,'utf8')));}catch(error){if(error.code!=='ENOENT')throw error;}}
 if(process.env.RELAY_SCAN_CLUSTER==='1'){
  const {kube}=await import('./mcp-kube.mjs');
  const namespaces=JSON.parse(kube(['get','namespace','-o','json'])).items.filter(n=>n.metadata.name.startsWith('relay')).map(n=>n.metadata.name);
@@ -67,6 +69,7 @@ for(const file of files){
   if(secrets.some(secret=>content.includes(secret)))violations.push({file,reason:'private credential value found'});
   if(/ro[ar]_[A-Za-z0-9_-]{20,}|r[kid]\.[a-f0-9-]{36}\.[a-f0-9-]{36}\.[a-f0-9]{64}|AIza[A-Za-z0-9_-]{30,}|K10[a-f0-9]{64}::server:[^\s"']+|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/.test(content))violations.push({file,reason:'credential pattern found'});
 }
-const result={at:new Date().toISOString(),scope:'Git index only; known local credentials and recognizable key/private-key patterns',filesChecked:files.length,privateValuesPrinted:false,passed:violations.length===0,violations};
+let historyChecked=false;if(process.env.RELAY_SCAN_HISTORY==='1'){const patch=git(['log','-p','--all','--format=%H']);historyChecked=true;if(secrets.some(secret=>patch.includes(secret))||/ro[ar]_[A-Za-z0-9_-]{20,}|r[kid]\.[a-f0-9-]{36}\.[a-f0-9-]{36}\.[a-f0-9]{64}|AIza[A-Za-z0-9_-]{30,}|K10[a-f0-9]{64}::server:[^\s"']+|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/.test(patch))violations.push({file:'Git history',reason:'private credential value or pattern in historical text patch'});}
+const result={at:new Date().toISOString(),scope:tracked?'All tracked Git-index files plus optional historical text patches':'Staged Git-index files',historyChecked,filesChecked:files.length,privateValuesPrinted:false,passed:violations.length===0,violations};
 writeFileSync(process.env.SECRET_SCAN_OUTPUT || 'docs/evidence/credential-scan.json',JSON.stringify(result,null,2)+'\n');
 console.log(JSON.stringify(result));if(!result.passed)process.exitCode=1;

@@ -1,6 +1,6 @@
 # ADR0014 — verified local TLS and exact-version compatibility bridges
 
-Status: isolated certificate/MCP spike tested; production service and OAuth flow acceptance pending.
+Status: accepted for the verified local M6 release on October 22. Earlier spike/failure notes below are retained as implementation history; current acceptance is summarized at the end.
 
 The official MCP Fastify2.0.1 factory does not expose HTTPS/serverFactory options. Its exported host/origin guards and the official MCP Node handler are therefore composed on Fastify5.12.5 with a native HTTPS server factory. No MCP generation, handshake, transport or tool implementation changes. Both modern and legacy official clients already called real ping over CA-verified TLS1.3 in an isolated Kubernetes workload.
 
@@ -19,3 +19,7 @@ The isolated TLS store initially failed closed because mysqlnd8.3.35 returns fal
 The first native data-service rollout failed closed: PostgreSQL18.6 rejected `map=` with SCRAM authentication. Its exact HBA parser permits maps only with ident/peer/gssapi/sspi/cert/oauth, so the documented generic certificate-mapping description is not a valid SCRAM combination here. Redis reached Ready with mutual TLS; PostgreSQL did not. Rolled back specifically to verified M6 revision34 (AEAD-vault-compatible image e71fb0c537c0f630), preserving the original Redis configuration and all PVCs. A bad StatefulSet revision requires replacing the failed pod after its template is reverted; no volume reset is part of that repair.
 
 The corrected design retains `scram-sha-256 clientcert=verify-full`, with dedicated client certificates whose CN exactly equals each SQL role. API and gateway receive only the shared application role certificate; API additionally receives auth; provisioner receives its own role; migration receives postgres. The gateway never receives auth/provisioner/migration key material. Service HTTPS and Redis keep distinct service identities. Both certificate and password checks stay enabled; no CA-only/password-only workaround is being labelled final acceptance. Native data TLS remains pending real retry/negative/rotation verification.
+
+## Final local acceptance — October 22
+
+Fresh TLS store, native SQL/Redis authentication, rootless filesystem permissions, all five Woo tools, HTTPS COD/admin/persistence, protocol compatibility, OAuth and negative security tests pass. The current runtime is `m6-99a36532c5ab56f3`; `docs/evidence/m6/clean-install.json` verifies an independent empty-cluster installation. Native peer identities after renewal match mounted Secrets following the controlled reload in `docs/evidence/m10/identity-reload.json` and `tls-peers.json`. PHP/native SQL/Redis and long-lived clients still require controlled reload; automatic leaf issuance is not automatic full-fleet reload or root rotation. Publicly trusted cloud TLS remains a separate deployment gate.

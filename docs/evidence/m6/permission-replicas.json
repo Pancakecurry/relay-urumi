@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-16T14:57:56.265Z",
+  "at": "2026-10-22T13:33:14.128Z",
   "checks": [
     "Distinct ready gateway pods enforce persisted default deny and reject cached aliases",
     "Role allow and user deny update on both existing client connections",
@@ -10,12 +10,12 @@
   "modelTraffic": false,
   "pods": [
     {
-      "name": "relay-gateway-8bbd6f685-22ccv",
-      "uid": "e8835f6f-1d80-49ce-a29a-89f7b0b5712a"
+      "name": "relay-gateway-76fbf4f6b6-hrghv",
+      "uid": "675fbf32-ef64-4130-b04a-4d657a208714"
     },
     {
-      "name": "relay-gateway-8bbd6f685-2v4vv",
-      "uid": "f31df525-1ac2-42a4-b196-87bdd4f8fc08"
+      "name": "relay-gateway-76fbf4f6b6-rbxmn",
+      "uid": "ee71fe6a-a603-498b-a095-71bd95f06618"
     }
   ],
   "passed": true,

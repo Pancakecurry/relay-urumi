@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-16T14:58:44.899Z",
+  "at": "2026-10-22T13:20:58.358Z",
   "checks": [
     "The real loopback callback rejects a wrong state before any code redemption",
     "The official MCP client follows the gateway challenge and discovers the real protected-resource/issuer metadata, then creates S256 PKCE",
