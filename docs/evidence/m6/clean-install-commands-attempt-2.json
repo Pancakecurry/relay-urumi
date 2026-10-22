@@ -1,0 +1,82 @@
+[
+  {
+    "command": "python3 -c import shutil;print(shutil.disk_usage(\"[PROJECT_ROOT]\").free)",
+    "status": "passed",
+    "stdoutBytes": 12
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/k3d cluster list -o json",
+    "status": "passed",
+    "stdoutBytes": 3454
+  },
+  {
+    "command": "git rev-parse HEAD",
+    "status": "passed",
+    "stdoutBytes": 41
+  },
+  {
+    "command": "git archive --format=tar --output=[LOCAL_HOME]/Library/Caches/relay-m6-clean-7fjsTQ/source.tar 41628c05f4a08fe1b26856201477f933ad249a6e",
+    "status": "passed",
+    "stdoutBytes": 0
+  },
+  {
+    "command": "tar -xf [LOCAL_HOME]/Library/Caches/relay-m6-clean-7fjsTQ/source.tar -C [LOCAL_HOME]/Library/Caches/relay-m6-clean-7fjsTQ",
+    "status": "passed",
+    "stdoutBytes": 0
+  },
+  {
+    "command": "[LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/local-cache.mjs",
+    "status": "passed",
+    "stdoutBytes": 69
+  },
+  {
+    "command": "pnpm install --frozen-lockfile --offline",
+    "status": "passed",
+    "stdoutBytes": 1559
+  },
+  {
+    "command": "pnpm check",
+    "status": "passed",
+    "stdoutBytes": 963
+  },
+  {
+    "command": "[LOCAL_HOME]/.nvm/versions/node/v24.16.0/bin/node scripts/mcp-image-tag.mjs",
+    "status": "passed",
+    "stdoutBytes": 20
+  },
+  {
+    "command": "docker inspect k3d-relay-m0-server-0",
+    "status": "passed",
+    "stdoutBytes": 11322
+  },
+  {
+    "command": "docker image inspect rancher/k3s:v1.37.1-k3s1",
+    "status": "passed",
+    "stdoutBytes": 2466
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/k3d cluster create --config [LOCAL_HOME]/Library/Caches/relay-m6-clean-7fjsTQ/.local/cluster.json --servers-memory 3G --timeout 240s",
+    "status": "passed",
+    "stdoutBytes": 1924
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/k3d kubeconfig get relay-m6-clean",
+    "status": "passed",
+    "stdoutBytes": 3024
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/kubectl wait node --all --for=condition=Ready --timeout=120s",
+    "status": "passed",
+    "stdoutBytes": 47
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/k3d cluster list -o json",
+    "status": "passed",
+    "stdoutBytes": 6898
+  },
+  {
+    "command": "[PROJECT_ROOT]/.tools/bin/k3d cluster delete relay-m6-clean",
+    "status": "passed",
+    "stdoutBytes": 416
+  }
+]

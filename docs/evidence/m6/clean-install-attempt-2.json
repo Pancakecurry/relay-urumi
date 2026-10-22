@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-22T13:16:35.227Z",
+  "checks": [
+    "Committed source passes lint, strict TypeScript, forty-two tests and production build"
+  ],
+  "modelTraffic": false,
+  "newSpending": 0,
+  "clusterName": "relay-m6-clean",
+  "sourceCommit": "41628c05f4a08fe1b26856201477f933ad249a6e",
+  "sourceDirectory": "[LOCAL_HOME]/Library/Caches/relay-m6-clean-7fjsTQ",
+  "frozenOfflineInstall": true,
+  "rootTests": 42,
+  "ownedTemporaryClusterRemoved": true,
+  "temporaryPrivateFixturesRemoved": true,
+  "logPath": "docs/evidence/m6/clean-install-commands.json"
+}
