@@ -1,6 +1,7 @@
 import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { parseEnv } from 'node:util';
+import { privateValues as collectPrivateValues } from './private-values.mjs';
 
 const git = args => execFileSync('git',args,{encoding:'utf8',stdio:['ignore','pipe','pipe'],maxBuffer:128*1024*1024});
 const tracked=process.env.RELAY_SCAN_SCOPE==='tracked';
@@ -40,8 +41,7 @@ const violations=[];
 // Include current M5 identities, revoked synthetic test passwords and generated
 // store Secrets. Values stay in memory; report filenames and reasons only.
 function privateValues(value,field=''){
- if(typeof value==='string'&&value.length>=16&&/password|token|cookie|(^|_)key$|^authorization$|verifier|newKey|^code$/i.test(field))secrets.push(value,Buffer.from(value).toString('base64'));
- else if(value&&typeof value==='object')for(const [key,child] of Object.entries(value))privateValues(child,key);
+ collectPrivateValues(value,secrets,field);
 }
 for(const file of readdirSync('.local').filter(n=>/^(?:m[56]|m10)-.*\.json$/.test(n))){try{privateValues(JSON.parse(readFileSync('.local/'+file,'utf8')));}catch(error){if(error.code!=='ENOENT')throw error;}}
 if(process.env.RELAY_SCAN_CLUSTER==='1'){

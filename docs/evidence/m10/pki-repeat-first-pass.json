@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-22T18:43:18.134Z",
+  "checks": [
+    "Pinned certificate controller issues an actual CA-signed leaf on k3s1.37",
+    "Modern and legacy pinned official MCP clients call real ping over verified TLS1.3 with the official Fastify guards",
+    "The same client rejects the untrusted development CA when explicit project trust is absent",
+    "A genuine certificate specification change issues a new serial/key and the live TLS server reloads the mounted projection"
+  ],
+  "systemTrustChanged": false,
+  "caSha256": "9f7b99a46f6e92c2733b909e1d6e3c62cf82c3487ad279a165ca997a8a03ac50",
+  "kubernetes": "v1.37.1+k3s1",
+  "certManager": "v1.21.2",
+  "vendorListedKubernetesMax": "1.36",
+  "vendorSupportClaim": false,
+  "path": "Operator loopback forward to isolated Kubernetes MCP server; Ingress integration follows",
+  "passed": true
+}

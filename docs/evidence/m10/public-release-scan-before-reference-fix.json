@@ -1,0 +1,74 @@
+{
+  "at": "2026-10-22T18:49:21.807Z",
+  "scope": "All tracked Git-index files plus optional historical text patches",
+  "historyChecked": true,
+  "filesChecked": 1007,
+  "privateValuesPrinted": false,
+  "passed": false,
+  "violations": [
+    {
+      "file": "apps/provisioner/src/controller.ts",
+      "reason": "private credential value found"
+    },
+    {
+      "file": "charts/store/templates/_helpers.tpl",
+      "reason": "private credential value found"
+    },
+    {
+      "file": "charts/store/templates/wordpress.yaml",
+      "reason": "private credential value found"
+    },
+    {
+      "file": "docs/evidence/m1/inventory.json",
+      "reason": "private credential value found"
+    },
+    {
+      "file": "docs/evidence/m1/inventory.txt",
+      "reason": "private credential value found"
+    },
+    {
+      "file": "docs/evidence/m1/manifests.yaml",
+      "reason": "private credential value found"
+    },
+    {
+      "file": "docs/evidence/m1/production-render.yaml",
+      "reason": "private credential value found"
+    },
+    {
+      "file": "docs/evidence/m10/helm/0-store-template.txt",
+      "reason": "private credential value found"
+    },
+    {
+      "file": "docs/evidence/m10/helm/1-store-template.txt",
+      "reason": "private credential value found"
+    },
+    {
+      "file": "docs/evidence/m4/clean-install.txt",
+      "reason": "private credential value found"
+    },
+    {
+      "file": "docs/evidence/m4/store-local-render.yaml",
+      "reason": "private credential value found"
+    },
+    {
+      "file": "docs/evidence/m4/store-prod-render.yaml",
+      "reason": "private credential value found"
+    },
+    {
+      "file": "docs/evidence/m5/resources-85079ca7.json",
+      "reason": "private credential value found"
+    },
+    {
+      "file": "docs/evidence/m5/resources-ec2a6b2c.json",
+      "reason": "private credential value found"
+    },
+    {
+      "file": "scripts/store-secrets.mjs",
+      "reason": "private credential value found"
+    },
+    {
+      "file": "Git history",
+      "reason": "private credential value or pattern in historical text patch"
+    }
+  ]
+}

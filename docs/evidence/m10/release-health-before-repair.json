@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-22T18:40:54.591Z",
+  "runningPods": 24,
+  "unreadyPods": [
+    {
+      "namespace": "relay-pki-proof",
+      "name": "tls-proof-67b5c9479-czfwc",
+      "phase": "Running"
+    }
+  ],
+  "node": "k3d-relay-m0-server-0   430m   5%    2876Mi   91%",
+  "orderReadThroughGateway": true,
+  "passed": false
+}

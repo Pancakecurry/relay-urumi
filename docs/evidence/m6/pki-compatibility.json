@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-15T23:09:43.199Z",
+  "at": "2026-10-22T18:44:03.811Z",
   "checks": [
     "Pinned certificate controller issues an actual CA-signed leaf on k3s1.37",
     "Modern and legacy pinned official MCP clients call real ping over verified TLS1.3 with the official Fastify guards",

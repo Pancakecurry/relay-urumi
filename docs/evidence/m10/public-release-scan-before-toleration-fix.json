@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-22T18:56:32.920Z",
+  "scope": "All tracked Git-index files plus optional historical text patches",
+  "historyChecked": true,
+  "filesChecked": 1012,
+  "privateValuesPrinted": false,
+  "passed": false,
+  "violations": [
+    {
+      "file": "docs/evidence/m4/clean-install.txt",
+      "reason": "private credential value found"
+    },
+    {
+      "file": "Git history",
+      "reason": "private credential value or pattern in historical text patch"
+    }
+  ]
+}

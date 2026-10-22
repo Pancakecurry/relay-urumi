@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-22T18:45:07.888Z",
+  "runningPods": 24,
+  "unreadyPods": [],
+  "node": "k3d-relay-m0-server-0   309m   3%    2902Mi   92%",
+  "orderReadThroughGateway": true,
+  "repair": {
+    "namespace": "relay-pki-proof",
+    "deployment": "tls-proof",
+    "previousImage": "relay/platform:m6-e06ddb899fdbb701",
+    "currentImage": "relay/platform:m6-99a36532c5ab56f3",
+    "reason": "Retained test fixture referenced an obsolete unavailable image",
+    "applicationDataChanged": false
+  },
+  "passed": true
+}

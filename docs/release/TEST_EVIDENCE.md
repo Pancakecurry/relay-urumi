@@ -68,3 +68,23 @@ The provider allowance is a conservative durable reservation, not an invoice. Th
 ## GitHub source verification
 
 [github-reproduction.json](../evidence/m10/github-reproduction.json) records a fresh real GitHub clone of `effabb7d39573b42b227d14110bef88860d98c2a`, with frozen offline installation,42 tests/lint/strict types/build, documentation validation and exact deployed fingerprint. No private fixture or provider key was copied and no model request was made. [repository.json](../evidence/m10/repository.json) records the actual remote commit, visibility, real progress count and milestone tags. The latest [credential scan](../evidence/m10/credential-scan.json) checks990 files plus all historical text patches; final publication is recorded after the visibility change rather than inferred from source upload.
+
+## Public publication and cloud preflight
+
+After explicit owner approval, anonymous GitHub metadata and raw README fetches pass for https://github.com/Pancakecurry/relay-urumi; browser Public status and actual progress history are captured in `m10/repository-public.png`. Exact checked source and authentic commit count are in `m10/repository.json`.
+
+Actual authenticated OCI CLI3.91.0 in Mumbai Cloud Shell listed zero existing instances/boot/block volumes across the one active accessible compartment. The read-only compute capacity report for A1 2 OCPUs/12 GB returned OUT_OF_HOST_CAPACITY in the only availability domain. `m10/cloud-capacity.json` records sanitized actual output. No VM/network/disk/public IP was provisioned, no provider key transferred and no cloud acceptance claimed.
+
+### Final retained TLS fixture repair and live health
+
+A final all-namespace check found the retained `relay-pki-proof/tls-proof` test fixture in ImagePullBackOff on an obsolete development tag. Its image was aligned with the verified `m6-99a36532c5ab56f3` runtime; application data and security settings were preserved. Repeating the PKI test exposed a pre-existing server-side-apply conflict on its prior renewal SAN. The test now preserves its owned Certificate's current SANs and toggles the dedicated renewal SAN, without force-conflicts or wider permissions. Two consecutive actual runs pass all four checks: real modern/legacy MCP over trusted TLS1.3, untrusted-CA rejection and actual certificate renewal/hot reload. Before-repair failure and both passing receipts are retained under `docs/evidence/m10/pki-repeat-*.json`.
+
+The final all-namespace health snapshot has 24 running pods, zero unready pods, node usage 309m CPU/2902MiB; the owned server container remains limited to 4GiB. The kubelet percentage uses its older allocatable denominator, not the container's 4GiB limit. See `docs/evidence/m10/release-health.json`. No model traffic or unrelated-resource removal was needed for this repair.
+
+### Credential scan reference classification
+
+The expanded final scan initially flagged existing templates because the new private Pod inventory contains a Secret-volume projection key named `SECURE_AUTH_SALT`. This is a public field reference, not its stored value; comparison against actual live Secret values found no matching credential. The scanner now excludes only structured Kubernetes Secret/ConfigMap key references while continuing to collect actual fixture passwords, personal keys, OAuth codes and headers, and independently scanning live Secret data plus Git history. Three focused negative/control tests pass (`node --test tests/security/private-values.test.mjs`). The failed scan and diagnostic classification remain recorded; the final passing full scan is required before the closing checkpoint.
+
+The remaining historical-transcript matches were eight public Kubernetes `spec.tolerations[].key` identifiers from that same Pod inventory. Their exact structural path is excluded alongside field projections; ordinary key objects and actual credential values remain tested and collected. Both failed scan receipts are retained.
+
+Final full public-release scan passes: 1,013 tracked Git-index files, complete historical text patches and live cluster credential values; zero violations (`docs/evidence/m10/public-release-scan.json`, October 23 IST). Earlier failed reference-classification scans are preserved as historical diagnostics, not current failures.
