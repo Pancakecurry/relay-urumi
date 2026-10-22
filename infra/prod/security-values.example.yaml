@@ -1,0 +1,21 @@
+# Rendered k3s security example, not a verified public deployment.
+mode: core
+platformHost: relay.example.invalid
+publicOrigin: https://relay.example.invalid
+platformTlsSecret: relay-public-edge
+storageClass: local-path
+kubeApiCidr: 192.0.2.1/32
+transportTls:
+  enabled: true
+  dataEnabled: true
+  requireUpstreams: true
+  issuer: relay-private-ca
+oauthEnabled: true
+dashboardEnabled: true
+modelEnabled: false
+provisionerEnabled: true
+storeImage: relay/store:m6-5698c668ea0141c1
+storeDomain: stores.example.invalid
+storeHttpsPort: "443"
+storeUrlSuffix: ""
+storefrontUrl: https://store.example.invalid/shop/

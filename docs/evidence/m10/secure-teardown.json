@@ -1,0 +1,49 @@
+{
+  "at": "2026-10-22T13:49:06.483Z",
+  "checks": [
+    "Explicit browser deletion removes current/cached tools immediately, rejects under the real member identity, and leaves the independent store callable",
+    "Both secure stores fully remove namespace/Helm histories/certificates/Secrets/PVCs/PVs/local-path data/vault references while retaining durable history and the original twelve core tools"
+  ],
+  "stores": [
+    {
+      "id": "385ff93e-1f6a-498f-871c-2764ec81d3be",
+      "namespace": "relay-store-385ff93e1f6a498f871c2764ec81d3be",
+      "namespaceAbsent": true,
+      "pvAndLocalPathsAbsent": true,
+      "vaultAndToolsAbsent": true,
+      "volumes": [
+        {
+          "name": "pvc-c3f3cd30-6a61-4ec6-a502-b188c70c1b86",
+          "path": "/var/lib/rancher/k3s/storage/pvc-c3f3cd30-6a61-4ec6-a502-b188c70c1b86_relay-store-385ff93e1f6a498f871c2764ec81d3be_store-content",
+          "reclaim": "Delete"
+        },
+        {
+          "name": "pvc-a2eabc94-3163-4a2b-aafc-dfa998290b5a",
+          "path": "/var/lib/rancher/k3s/storage/pvc-a2eabc94-3163-4a2b-aafc-dfa998290b5a_relay-store-385ff93e1f6a498f871c2764ec81d3be_store-db",
+          "reclaim": "Delete"
+        }
+      ]
+    },
+    {
+      "id": "c5975a95-1dc5-499e-b598-40f9e57f1892",
+      "namespace": "relay-store-c5975a951dc5499eb59840f9e57f1892",
+      "namespaceAbsent": true,
+      "pvAndLocalPathsAbsent": true,
+      "vaultAndToolsAbsent": true,
+      "volumes": [
+        {
+          "name": "pvc-95cabb44-636f-4236-9c43-68c0c3f27060",
+          "path": "/var/lib/rancher/k3s/storage/pvc-95cabb44-636f-4236-9c43-68c0c3f27060_relay-store-c5975a951dc5499eb59840f9e57f1892_store-content",
+          "reclaim": "Delete"
+        },
+        {
+          "name": "pvc-2212cd2e-de4c-4e57-a1e9-f890ef112780",
+          "path": "/var/lib/rancher/k3s/storage/pvc-2212cd2e-de4c-4e57-a1e9-f890ef112780_relay-store-c5975a951dc5499eb59840f9e57f1892_store-db",
+          "reclaim": "Delete"
+        }
+      ]
+    }
+  ],
+  "modelTraffic": false,
+  "passed": true
+}

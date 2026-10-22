@@ -1,0 +1,49 @@
+{
+  "at": "2026-10-22T14:39:58.823389+00:00",
+  "initialExpectedGuard": "Unpinned hosted-mcp image rejected; final checks supply the actual reviewed image overrides",
+  "checks": [
+    {
+      "chart": "store",
+      "values": "infra/local/store-values.yaml",
+      "reviewedImageOverrides": true,
+      "lint": true,
+      "render": true
+    },
+    {
+      "chart": "store",
+      "values": "infra/prod/store-values.example.yaml",
+      "reviewedImageOverrides": true,
+      "lint": true,
+      "render": true
+    },
+    {
+      "chart": "hosted-mcp",
+      "values": "infra/local/mcp-calendar.yaml",
+      "reviewedImageOverrides": true,
+      "lint": true,
+      "render": true
+    },
+    {
+      "chart": "hosted-mcp",
+      "values": "infra/prod/mcp-values.example.yaml",
+      "reviewedImageOverrides": true,
+      "lint": true,
+      "render": true
+    },
+    {
+      "chart": "platform",
+      "values": "infra/local/platform-values.yaml",
+      "reviewedImageOverrides": true,
+      "lint": true,
+      "render": true
+    },
+    {
+      "chart": "platform",
+      "values": "infra/prod/platform-values.yaml",
+      "reviewedImageOverrides": true,
+      "lint": true,
+      "render": true
+    }
+  ],
+  "passed": true
+}

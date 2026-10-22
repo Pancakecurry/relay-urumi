@@ -1,0 +1,5 @@
+==> Linting charts/platform
+[INFO] Chart.yaml: icon is recommended
+
+1 chart(s) linted, 0 chart(s) failed
+level=INFO msg="warning: cannot overwrite table with non table for image (map[pullPolicy:IfNotPresent repository:relay/m0-proof tag:0.0.0])"

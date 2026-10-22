@@ -12,6 +12,8 @@ image: rancher/k3s:v1.37.1-k3s1
 ports:
   - port: 127.0.0.1:18080:80
     nodeFilters: [loadbalancer]
+  - port: 127.0.0.1:18443:443
+    nodeFilters: [loadbalancer]
 options:
   k3s:
     extraArgs:

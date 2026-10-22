@@ -1,0 +1,2 @@
+// Real synthetic owner/member bootstrap; all credentials remain private.
+process.env.RELAY_TEST_ORIGIN??='https://relay.localhost:18443';const{securityFixture}=await import('./security-fixture.mjs');const{f,api}=await securityFixture();const tools=(await api('A','tools')).tools;console.log(JSON.stringify({passed:true,workspace:'M6 Security Acceptance',team:f.team,users:{admin:f.users.A.user,member:f.users.B.user},privateIdentityFile:'.local/m6-identity.json',coreUpstreams:Object.keys(f.upstreams),permittedTools:tools.length,credentialValuesPrinted:false}));

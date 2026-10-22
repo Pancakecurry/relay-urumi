@@ -1,0 +1,1053 @@
+---
+# Source: relay-platform/templates/core-network.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-core-default-deny}
+spec: {podSelector: {}, policyTypes: [Ingress, Egress], ingress: [], egress: []}
+
+---
+# Source: relay-platform/templates/core-network.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-core-dns}
+spec:
+  podSelector: {}
+  policyTypes: [Egress]
+  egress:
+    - to: [{namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: kube-system}}, podSelector: {matchLabels: {k8s-app: kube-dns}}}]
+      ports: [{protocol: UDP, port: 53}, {protocol: TCP, port: 53}]
+
+---
+# Source: relay-platform/templates/core-network.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-api}
+spec:
+  podSelector: {matchLabels: {relay.role: api}}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from: [{namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: kube-system}}, podSelector: {matchLabels: {app.kubernetes.io/name: traefik}}}]
+      ports: [{port: 3001}]
+    - from: [{podSelector: {matchLabels: {relay.role: gateway}}}]
+      ports: [{port: 3001}]
+  egress:
+    - to: [{podSelector: {matchLabels: {relay.role: postgres}}}]
+      ports: [{port: 5432}]
+    - to: [{podSelector: {matchLabels: {relay.role: gateway}}}]
+      ports: [{port: 3000}]
+    - to: [{podSelector: {matchLabels: {relay.role: provisioner}}}]
+      ports: [{port: 3003}]
+    - to: [{podSelector: {matchLabels: {relay.role: api}}}]
+      ports: [{port: 3001}]
+    - to: [{ipBlock: {cidr: "192.0.2.1/32"}}, {ipBlock: {cidr: 10.43.0.1/32}}]
+      ports: [{port: 6443}, {port: 443}]
+
+---
+# Source: relay-platform/templates/core-network.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-gateway}
+spec:
+  podSelector: {matchLabels: {relay.role: gateway}}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from: [{namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: kube-system}}, podSelector: {matchLabels: {app.kubernetes.io/name: traefik}}}]
+      ports: [{port: 3000}]
+    - from: [{podSelector: {matchLabels: {relay.role: api}}}]
+      ports: [{port: 3000}]
+  egress:
+    - to: [{podSelector: {matchLabels: {relay.role: postgres}}}]
+      ports: [{port: 5432}]
+    - to: [{podSelector: {matchLabels: {relay.role: api}}}]
+      ports: [{port: 3001}]
+    - to: [{podSelector: {matchLabels: {relay.role: redis}}}]
+      ports: [{port: 6379}]
+    - to:
+        - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: relay-store-m1}}
+          podSelector: {matchLabels: {role: adapter}}
+        - namespaceSelector: {matchLabels: {relay.store/managed: "true"}}
+          podSelector: {matchLabels: {role: adapter}}
+        - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: relay-upstreams}}
+          podSelector: {matchLabels: {role: utility}}
+      ports: [{port: 3000}]
+
+---
+# Source: relay-platform/templates/core-network.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-postgres}
+spec:
+  podSelector: {matchLabels: {relay.role: postgres}}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector: {matchLabels: {relay.role: gateway}}
+        - podSelector: {matchLabels: {relay.role: provisioner}}
+        - podSelector: {matchLabels: {relay.role: api}}
+        - podSelector: {matchLabels: {relay.role: migration}}
+      ports: [{port: 5432}]
+
+---
+# Source: relay-platform/templates/core-network.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-redis}
+spec:
+  podSelector: {matchLabels: {relay.role: redis}}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector: {matchLabels: {relay.role: gateway}}
+        - podSelector: {matchLabels: {relay.role: provisioner}}
+      ports: [{port: 6379}]
+
+---
+# Source: relay-platform/templates/core-network.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-migration}
+spec:
+  podSelector: {matchLabels: {relay.role: migration}}
+  policyTypes: [Egress]
+  egress: [{to: [{podSelector: {matchLabels: {relay.role: postgres}}}], ports: [{port: 5432}]}]
+
+---
+# Source: relay-platform/templates/dashboard.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-dashboard}
+spec:
+  podSelector: {matchLabels: {relay.role: dashboard}}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from: [{namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: kube-system}}, podSelector: {matchLabels: {app.kubernetes.io/name: traefik}}}]
+      ports: [{port: 3002}]
+  egress: []
+
+---
+# Source: relay-platform/templates/provisioner.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: relay-provisioner}
+spec:
+  podSelector: {matchLabels: {relay.role: provisioner}}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from: [{podSelector: {matchLabels: {relay.role: api}}}]
+      ports: [{port: 3003}]
+  egress:
+    - to: [{podSelector: {matchLabels: {relay.role: postgres}}}]
+      ports: [{port: 5432}]
+    - to: [{podSelector: {matchLabels: {relay.role: redis}}}]
+      ports: [{port: 6379}]
+    - to: [{ipBlock: {cidr: "192.0.2.1/32"}}, {ipBlock: {cidr: 10.43.0.1/32}}]
+      ports: [{port: 6443}, {port: 443}]
+    - to: [{namespaceSelector: {matchLabels: {relay.store/managed: "true"}}, podSelector: {matchLabels: {role: adapter}}}]
+      ports: [{port: 3000}]
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata: {name: relay-secret-manager}
+automountServiceAccountToken: false
+
+---
+# Source: relay-platform/templates/provisioner.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata: {name: relay-provisioner}
+
+---
+# Source: relay-platform/templates/transport.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata: {name: relay-postgres-tls-auth}
+data:
+  pg_hba.conf: |
+    local all all trust
+    hostnossl all all 0.0.0.0/0 reject
+    hostnossl all all ::/0 reject
+    hostssl relay all 0.0.0.0/0 scram-sha-256 clientcert=verify-full
+    hostssl relay all ::/0 scram-sha-256 clientcert=verify-full
+
+---
+# Source: relay-platform/templates/provisioner.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata: {name: relay-platform-relay-provisioner}
+rules:
+  - apiGroups: [""]
+    resources: [namespaces]
+    verbs: [get, create, delete]
+  - apiGroups: [""]
+    resources: [persistentvolumes]
+    verbs: [get]
+  - apiGroups: [rbac.authorization.k8s.io]
+    resources: [rolebindings]
+    resourceNames: [store-controller]
+    verbs: [get]
+  - apiGroups: [rbac.authorization.k8s.io]
+    resources: [rolebindings]
+    verbs: [create]
+  - apiGroups: [rbac.authorization.k8s.io]
+    resources: [clusterroles]
+    resourceNames: [relay-platform-relay-store-resources]
+    verbs: [bind]
+
+---
+# Source: relay-platform/templates/provisioner.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata: {name: relay-platform-relay-store-resources}
+rules:
+  - apiGroups: [""]
+    resources: [secrets, services, persistentvolumeclaims, resourcequotas, limitranges]
+    verbs: [get, list, watch, create, update, patch, delete]
+  - apiGroups: [""]
+    resources: [pods]
+    verbs: [get, list, watch]
+  - apiGroups: [metrics.k8s.io]
+    resources: [pods]
+    verbs: [get, list]
+  - apiGroups: [apps]
+    resources: [deployments, statefulsets, replicasets]
+    verbs: [get, list, watch, create, update, patch, delete]
+  - apiGroups: [batch]
+    resources: [jobs]
+    verbs: [get, list, watch, create, update, patch, delete]
+  - apiGroups: [cert-manager.io]
+    resources: [certificates]
+    verbs: [get, list, watch, create, update, patch, delete]
+  - apiGroups: [traefik.io]
+    resources: [middlewares, serverstransports]
+    verbs: [get, list, watch, create, update, patch, delete]
+  - apiGroups: [networking.k8s.io]
+    resources: [ingresses, networkpolicies]
+    verbs: [get, list, watch, create, update, patch, delete]
+
+---
+# Source: relay-platform/templates/provisioner.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata: {name: relay-platform-relay-provisioner}
+subjects: [{kind: ServiceAccount, name: relay-provisioner, namespace: relay-platform}]
+roleRef: {apiGroup: rbac.authorization.k8s.io, kind: ClusterRole, name: relay-platform-relay-provisioner}
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata: {name: relay-secret-manager}
+rules:
+  - apiGroups: [""]
+    resources: [secrets]
+    resourceNames: [gateway-upstream-credentials]
+    verbs: [get, update]
+
+---
+# Source: relay-platform/templates/provisioner.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata: {name: relay-provisioner-vault}
+rules:
+  - apiGroups: [""]
+    resources: [secrets]
+    resourceNames: [gateway-upstream-credentials]
+    verbs: [get, update]
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata: {name: relay-secret-manager}
+subjects: [{kind: ServiceAccount, name: relay-secret-manager, namespace: relay-platform}]
+roleRef: {apiGroup: rbac.authorization.k8s.io, kind: Role, name: relay-secret-manager}
+
+---
+# Source: relay-platform/templates/provisioner.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata: {name: relay-provisioner-vault}
+subjects: [{kind: ServiceAccount, name: relay-provisioner, namespace: relay-platform}]
+roleRef: {apiGroup: rbac.authorization.k8s.io, kind: Role, name: relay-provisioner-vault}
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: relay-api
+  annotations:
+    traefik.ingress.kubernetes.io/service.serversscheme: https
+    traefik.ingress.kubernetes.io/service.serverstransport: "relay-platform-relay-api@kubernetescrd"
+spec:
+  selector: {relay.role: api}
+  ports: [{port: 3001, targetPort: http}]
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: relay-gateway
+  annotations:
+    traefik.ingress.kubernetes.io/service.serversscheme: https
+    traefik.ingress.kubernetes.io/service.serverstransport: "relay-platform-relay-gateway@kubernetescrd"
+spec:
+  selector: {relay.role: gateway}
+  ports: [{port: 3000, targetPort: http}]
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: v1
+kind: Service
+metadata: {name: relay-postgres}
+spec: {selector: {relay.role: postgres}, ports: [{port: 5432, targetPort: pg}]}
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: v1
+kind: Service
+metadata: {name: relay-redis}
+spec: {selector: {relay.role: redis}, ports: [{port: 6379, targetPort: redis}]}
+
+---
+# Source: relay-platform/templates/dashboard.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: relay-dashboard
+  annotations:
+    traefik.ingress.kubernetes.io/service.serversscheme: https
+    traefik.ingress.kubernetes.io/service.serverstransport: "relay-platform-relay-dashboard@kubernetescrd"
+spec: {selector: {relay.role: dashboard}, ports: [{port: 3002, targetPort: http}]}
+
+---
+# Source: relay-platform/templates/provisioner.yaml
+apiVersion: v1
+kind: Service
+metadata: {name: relay-provisioner}
+spec: {selector: {relay.role: provisioner}, ports: [{port: 3003, targetPort: http}]}
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: relay-api}
+spec:
+  replicas: 1
+  selector: {matchLabels: {relay.role: api}}
+  template:
+    metadata: {labels: {relay.role: api}}
+    spec:
+      serviceAccountName: relay-secret-manager
+      automountServiceAccountToken: true
+      securityContext: {runAsNonRoot: true, runAsUser: 1000, runAsGroup: 1000, fsGroup: 1000, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: api
+          image: "relay/platform:m6-99a36532c5ab56f3"
+          imagePullPolicy: IfNotPresent
+          command: [node, "dist/apps/api/src/server.js"]
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          ports: [{name: http, containerPort: 3001}]
+          env:
+            - {name: RELAY_DATA_TLS, value: "true"}
+            - {name: REQUIRE_UPSTREAM_TLS, value: "true"}
+            - {name: RELAY_TLS_DIR, value: /run/tls}
+            - {name: OAUTH_ENABLED, value: "true"}
+            - {name: PUBLIC_ORIGIN, value: "https://relay.example.invalid"}
+            - {name: ALLOWED_UPSTREAM_URLS, value: "http://relay-woocommerce.relay-store-m1.svc.cluster.local:3000/mcp,http://relay-calendar.relay-upstreams.svc.cluster.local:3000/mcp,http://relay-totals.relay-upstreams.svc.cluster.local:3000/mcp"}
+            - {name: STORE_DOMAIN, value: "stores.example.invalid"}
+            - {name: STORE_URL_SUFFIX, value: ""}
+            - {name: STORE_USER_LIMIT, value: "2"}
+            - {name: STORE_TIMEOUT_SECONDS, value: "600"}
+            - {name: MODEL_ENABLED, value: "false"}
+            - {name: STOREFRONT_URL, value: "https://store.example.invalid/shop/"}
+          resources: {"limits":{"cpu":"500m","memory":"256Mi"},"requests":{"cpu":"50m","memory":"96Mi"}}
+          readinessProbe: {httpGet: {scheme: HTTPS, path: /health/ready, port: http, httpHeaders: [{name: Host, value: localhost}]}, initialDelaySeconds: 3, periodSeconds: 5}
+          livenessProbe: {httpGet: {scheme: HTTPS, path: /health/live, port: http, httpHeaders: [{name: Host, value: localhost}]}, initialDelaySeconds: 5, periodSeconds: 10}
+          volumeMounts:
+            - {name: secrets, mountPath: /run/platform, readOnly: true}
+            - {name: tls, mountPath: /run/tls, readOnly: true}
+            - {name: db-app-tls, mountPath: /run/db-tls/app, readOnly: true}
+            - {name: db-auth-tls, mountPath: /run/db-tls/auth, readOnly: true}
+      volumes:
+        - {name: tls, secret: {secretName: relay-api-tls, defaultMode: 0440}}
+        - {name: db-app-tls, secret: {secretName: relay-db-app-tls, defaultMode: 0440}}
+        - {name: db-auth-tls, secret: {secretName: relay-db-auth-tls, defaultMode: 0440}}
+        - {name: secrets, secret: {secretName: platform-api, defaultMode: 0440}}
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: relay-gateway}
+spec:
+  replicas: 1
+  selector: {matchLabels: {relay.role: gateway}}
+  template:
+    metadata: {labels: {relay.role: gateway}}
+    spec:
+      automountServiceAccountToken: false
+      securityContext: {runAsNonRoot: true, runAsUser: 1000, runAsGroup: 1000, fsGroup: 1000, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: gateway
+          image: "relay/platform:m6-99a36532c5ab56f3"
+          imagePullPolicy: IfNotPresent
+          command: [node, "dist/apps/gateway/src/server.js"]
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          ports: [{name: http, containerPort: 3000}]
+          env:
+            - {name: RELAY_DATA_TLS, value: "true"}
+            - {name: REQUIRE_UPSTREAM_TLS, value: "true"}
+            - {name: RELAY_TLS_DIR, value: /run/tls}
+            - {name: OAUTH_ENABLED, value: "true"}
+            - {name: PUBLIC_ORIGIN, value: "https://relay.example.invalid"}
+            - {name: ALLOWED_UPSTREAM_URLS, value: "http://relay-woocommerce.relay-store-m1.svc.cluster.local:3000/mcp,http://relay-calendar.relay-upstreams.svc.cluster.local:3000/mcp,http://relay-totals.relay-upstreams.svc.cluster.local:3000/mcp"}
+            - {name: STORE_DOMAIN, value: "stores.example.invalid"}
+            - {name: STORE_URL_SUFFIX, value: ""}
+            - {name: STORE_USER_LIMIT, value: "2"}
+            - {name: STORE_TIMEOUT_SECONDS, value: "600"}
+            - {name: MODEL_ENABLED, value: "false"}
+            - {name: STOREFRONT_URL, value: "https://store.example.invalid/shop/"}
+          resources: {"limits":{"cpu":"500m","memory":"256Mi"},"requests":{"cpu":"50m","memory":"96Mi"}}
+          readinessProbe: {httpGet: {scheme: HTTPS, path: /health/ready, port: http, httpHeaders: [{name: Host, value: localhost}]}, initialDelaySeconds: 3, periodSeconds: 5}
+          livenessProbe: {httpGet: {scheme: HTTPS, path: /health/live, port: http, httpHeaders: [{name: Host, value: localhost}]}, initialDelaySeconds: 5, periodSeconds: 10}
+          volumeMounts:
+            - {name: secrets, mountPath: /run/platform, readOnly: true}
+            - {name: tls, mountPath: /run/tls, readOnly: true}
+            - {name: db-app-tls, mountPath: /run/db-tls/app, readOnly: true}
+      volumes:
+        - {name: tls, secret: {secretName: relay-gateway-tls, defaultMode: 0440}}
+        - {name: db-app-tls, secret: {secretName: relay-db-app-tls, defaultMode: 0440}}
+        - {name: secrets, secret: {secretName: platform-gateway, defaultMode: 0440}}
+
+---
+# Source: relay-platform/templates/dashboard.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: relay-dashboard}
+spec:
+  replicas: 1
+  selector: {matchLabels: {relay.role: dashboard}}
+  template:
+    metadata: {labels: {relay.role: dashboard}}
+    spec:
+      automountServiceAccountToken: false
+      securityContext: {runAsNonRoot: true, runAsUser: 1000, runAsGroup: 1000, fsGroup: 1000, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: dashboard
+          image: "relay/platform:m6-99a36532c5ab56f3"
+          command: [node, static.mjs]
+          imagePullPolicy: IfNotPresent
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          ports: [{name: http, containerPort: 3002}]
+          env: [{name: RELAY_TLS_DIR, value: /run/tls}]
+          volumeMounts: [{name: tls, mountPath: /run/tls, readOnly: true}]
+          resources: {requests: {cpu: 20m, memory: 32Mi}, limits: {cpu: 200m, memory: 96Mi}}
+          readinessProbe: {httpGet: {scheme: HTTPS, path: /health/ready, port: http}, periodSeconds: 5}
+          livenessProbe: {httpGet: {scheme: HTTPS, path: /health/live, port: http}, initialDelaySeconds: 5, periodSeconds: 10}
+      volumes: [{name: tls, secret: {secretName: relay-dashboard-tls, defaultMode: 0440}}]
+
+---
+# Source: relay-platform/templates/provisioner.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: relay-provisioner}
+spec:
+  replicas: 1
+  selector: {matchLabels: {relay.role: provisioner}}
+  template:
+    metadata: {labels: {relay.role: provisioner}}
+    spec:
+      serviceAccountName: relay-provisioner
+      securityContext: {runAsNonRoot: true, runAsUser: 1000, runAsGroup: 1000, fsGroup: 1000, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: provisioner
+          image: "relay/provisioner:m6-99a36532c5ab56f3"
+          imagePullPolicy: IfNotPresent
+          command: [node, dist/apps/provisioner/src/server.js]
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          env:
+            - {name: RELAY_DATA_TLS, value: "true"}
+            - {name: RELAY_TLS_DIR, value: /run/tls}
+            - {name: STORE_TLS_ENABLED, value: "true"}
+            - {name: STORE_TLS_ISSUER, value: "relay-private-ca"}
+            - {name: STORE_HTTPS_PORT, value: "443"}
+            - {name: STORE_IMAGE, value: "relay/store:m6-5698c668ea0141c1"}
+            - {name: ADAPTER_IMAGE, value: "relay/platform:m6-99a36532c5ab56f3"}
+            - {name: STORE_STORAGE_CLASS, value: "local-path"}
+          ports: [{name: http, containerPort: 3003}]
+          resources: {requests: {cpu: 50m, memory: 96Mi}, limits: {cpu: "1", memory: 384Mi}}
+          readinessProbe: {httpGet: {scheme: HTTPS, path: /health/ready, port: http}, initialDelaySeconds: 5, periodSeconds: 5}
+          livenessProbe: {httpGet: {scheme: HTTPS, path: /health/live, port: http}, initialDelaySeconds: 5, periodSeconds: 10}
+          volumeMounts:
+            - {name: secrets, mountPath: /run/platform, readOnly: true}
+            - {name: tmp, mountPath: /tmp}
+            - {name: tls, mountPath: /run/tls, readOnly: true}
+            - {name: db-provisioner-tls, mountPath: /run/db-tls/provisioner, readOnly: true}
+      volumes:
+        - {name: secrets, secret: {secretName: platform-provisioner, defaultMode: 0440}}
+        - {name: tmp, emptyDir: {sizeLimit: 64Mi}}
+        - {name: tls, secret: {secretName: relay-provisioner-tls, defaultMode: 0440}}
+        - {name: db-provisioner-tls, secret: {secretName: relay-db-provisioner-tls, defaultMode: 0440}}
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata: {name: relay-postgres}
+spec:
+  serviceName: relay-postgres
+  replicas: 1
+  selector: {matchLabels: {relay.role: postgres}}
+  template:
+    metadata: {labels: {relay.role: postgres}}
+    spec:
+      automountServiceAccountToken: false
+      securityContext: {runAsNonRoot: true, runAsUser: 70, runAsGroup: 70, fsGroup: 70, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: postgres
+          image: "postgres:18.6-alpine3.23@sha256:885cf05d376c7cf27afef02073e6bdac3841252537f16e244fd1c1e6a7c99fb1"
+          args:
+            - -c
+            - shared_buffers=32MB
+            - -c
+            - max_connections=40
+            - -c
+            - log_statement=none
+            - -c
+            - log_min_error_statement=panic
+            - -c
+            - log_parameter_max_length_on_error=0
+            - -c
+            - ssl=on
+            - -c
+            - ssl_min_protocol_version=TLSv1.3
+            - -c
+            - ssl_cert_file=/run/tls/tls.crt
+            - -c
+            - ssl_key_file=/run/tls/tls.key
+            - -c
+            - ssl_ca_file=/run/tls/ca.crt
+            - -c
+            - hba_file=/run/tls-auth/pg_hba.conf
+          env:
+            - {name: POSTGRES_DB, value: relay}
+            - name: POSTGRES_PASSWORD
+              valueFrom: {secretKeyRef: {name: platform-db-admin, key: pg-postgres}}
+          ports: [{name: pg, containerPort: 5432}]
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          resources: {requests: {cpu: 50m, memory: 64Mi}, limits: {cpu: 500m, memory: 256Mi}}
+          readinessProbe: {exec: {command: [pg_isready, -U, postgres, -d, relay]}, periodSeconds: 5}
+          livenessProbe: {exec: {command: [pg_isready, -U, postgres, -d, relay]}, initialDelaySeconds: 15, periodSeconds: 10}
+          volumeMounts:
+            - {name: tls, mountPath: /run/tls, readOnly: true}
+            - {name: tls-auth, mountPath: /run/tls-auth, readOnly: true}
+            - {name: data, mountPath: /var/lib/postgresql}
+            - {name: tmp, mountPath: /tmp}
+            - {name: socket, mountPath: /var/run/postgresql}
+      volumes:
+        - {name: tmp, emptyDir: {sizeLimit: 64Mi}}
+        - {name: socket, emptyDir: {sizeLimit: 16Mi}}
+        - {name: tls, secret: {secretName: relay-postgres-tls, defaultMode: 0440}}
+        - {name: tls-auth, configMap: {name: relay-postgres-tls-auth, defaultMode: 0440}}
+  volumeClaimTemplates:
+    - metadata: {name: data}
+      spec: {accessModes: [ReadWriteOnce], storageClassName: "local-path", resources: {requests: {storage: 1Gi}}}
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata: {name: relay-redis}
+spec:
+  serviceName: relay-redis
+  replicas: 1
+  selector: {matchLabels: {relay.role: redis}}
+  template:
+    metadata: {labels: {relay.role: redis}}
+    spec:
+      automountServiceAccountToken: false
+      securityContext: {runAsNonRoot: true, runAsUser: 999, runAsGroup: 999, fsGroup: 999, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: redis
+          image: "redis:8.2.10-alpine3.22@sha256:b51665e66f00759be7c3152ad5ac3c66fb2f619c13ef62dea7cc1f9914524635"
+          command: [redis-server, /run/redis/redis.conf]
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          ports: [{name: redis, containerPort: 6379}]
+          resources: {requests: {cpu: 20m, memory: 24Mi}, limits: {cpu: 250m, memory: 96Mi}}
+          readinessProbe:
+            exec: {command: [sh, -c, 'REDISCLI_AUTH="$(cat /run/redis/password)" redis-cli --tls --sni relay-redis --cacert /run/tls/ca.crt --cert /run/tls/tls.crt --key /run/tls/tls.key ping | grep -q PONG']}
+            periodSeconds: 5
+          livenessProbe:
+            exec: {command: [sh, -c, 'REDISCLI_AUTH="$(cat /run/redis/password)" redis-cli --tls --sni relay-redis --cacert /run/tls/ca.crt --cert /run/tls/tls.crt --key /run/tls/tls.key ping | grep -q PONG']}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          volumeMounts:
+            - {name: data, mountPath: /data}
+            - {name: config, mountPath: /run/redis, readOnly: true}
+            - {name: tls, mountPath: /run/tls, readOnly: true}
+      volumes:
+        - {name: config, secret: {secretName: platform-redis-tls-config, defaultMode: 0440}}
+        - {name: tls, secret: {secretName: relay-redis-tls, defaultMode: 0440}}
+  volumeClaimTemplates:
+    - metadata: {name: data}
+      spec: {accessModes: [ReadWriteOnce], storageClassName: "local-path", resources: {requests: {storage: 128Mi}}}
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: batch/v1
+kind: Job
+metadata: {name: relay-migrate-1}
+spec:
+  backoffLimit: 6
+  activeDeadlineSeconds: 240
+  template:
+    metadata: {labels: {relay.role: migration}}
+    spec:
+      restartPolicy: OnFailure
+      automountServiceAccountToken: false
+      securityContext: {runAsNonRoot: true, runAsUser: 1000, runAsGroup: 1000, fsGroup: 1000, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: migration
+          image: "relay/platform:m6-99a36532c5ab56f3"
+          command: [node, dist/packages/db/src/migrate.js]
+          env:
+            - {name: RELAY_DATA_TLS, value: "true"}
+            - {name: RELAY_TLS_DIR, value: /run/tls}
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          resources: {requests: {cpu: 25m, memory: 64Mi}, limits: {cpu: 500m, memory: 192Mi}}
+          volumeMounts:
+            - {name: secrets, mountPath: /run/platform, readOnly: true}
+            - {name: tls, mountPath: /run/tls, readOnly: true}
+            - {name: db-postgres-tls, mountPath: /run/db-tls/postgres, readOnly: true}
+      volumes:
+        - {name: secrets, secret: {secretName: platform-db-admin, defaultMode: 0440}}
+        - {name: tls, secret: {secretName: relay-migration-tls, defaultMode: 0440}}
+        - {name: db-postgres-tls, secret: {secretName: relay-db-postgres-tls, defaultMode: 0440}}
+
+---
+# Source: relay-platform/templates/core.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata: {name: relay-core}
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts: ["relay.example.invalid"]
+      secretName: "relay-public-edge"
+  rules:
+    - host: "relay.example.invalid"
+      http:
+        paths:
+          - path: /mcp
+            pathType: Exact
+            backend: {service: {name: relay-gateway, port: {number: 3000}}}
+          - path: /.well-known
+            pathType: Prefix
+            backend: {service: {name: relay-api, port: {number: 3001}}}
+          - path: /api
+            pathType: Prefix
+            backend: {service: {name: relay-api, port: {number: 3001}}}
+
+---
+# Source: relay-platform/templates/dashboard.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: relay-dashboard
+  annotations: {traefik.ingress.kubernetes.io/router.priority: "1"}
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts: ["relay.example.invalid"]
+      secretName: "relay-public-edge"
+  rules:
+    - host: "relay.example.invalid"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend: {service: {name: relay-dashboard, port: {number: 3002}}}
+
+---
+# Source: relay-platform/templates/transport.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata: {name: relay-api-tls}
+spec:
+  secretName: relay-api-tls
+  commonName: relay-api
+  dnsNames: [relay-api, relay-api.relay-platform.svc.cluster.local]
+  duration: 168h
+  renewBefore: 48h
+  privateKey: {algorithm: ECDSA, size: 256, rotationPolicy: Always}
+  usages: [server auth, client auth]
+  issuerRef: {name: "relay-private-ca", kind: ClusterIssuer}
+  secretTemplate: {labels: {relay-owned: m6}}
+
+---
+# Source: relay-platform/templates/transport.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata: {name: relay-gateway-tls}
+spec:
+  secretName: relay-gateway-tls
+  commonName: relay-gateway
+  dnsNames: [relay-gateway, relay-gateway.relay-platform.svc.cluster.local]
+  duration: 168h
+  renewBefore: 48h
+  privateKey: {algorithm: ECDSA, size: 256, rotationPolicy: Always}
+  usages: [server auth, client auth]
+  issuerRef: {name: "relay-private-ca", kind: ClusterIssuer}
+  secretTemplate: {labels: {relay-owned: m6}}
+
+---
+# Source: relay-platform/templates/transport.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata: {name: relay-provisioner-tls}
+spec:
+  secretName: relay-provisioner-tls
+  commonName: relay-provisioner
+  dnsNames: [relay-provisioner, relay-provisioner.relay-platform.svc.cluster.local]
+  duration: 168h
+  renewBefore: 48h
+  privateKey: {algorithm: ECDSA, size: 256, rotationPolicy: Always}
+  usages: [server auth, client auth]
+  issuerRef: {name: "relay-private-ca", kind: ClusterIssuer}
+  secretTemplate: {labels: {relay-owned: m6}}
+
+---
+# Source: relay-platform/templates/transport.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata: {name: relay-dashboard-tls}
+spec:
+  secretName: relay-dashboard-tls
+  commonName: relay-dashboard
+  dnsNames: [relay-dashboard, relay-dashboard.relay-platform.svc.cluster.local]
+  duration: 168h
+  renewBefore: 48h
+  privateKey: {algorithm: ECDSA, size: 256, rotationPolicy: Always}
+  usages: [server auth, client auth]
+  issuerRef: {name: "relay-private-ca", kind: ClusterIssuer}
+  secretTemplate: {labels: {relay-owned: m6}}
+
+---
+# Source: relay-platform/templates/transport.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata: {name: relay-ingress-client-tls}
+spec:
+  secretName: relay-ingress-client-tls
+  commonName: relay-ingress-client
+  dnsNames: [relay-ingress-client, relay-ingress-client.relay-platform.svc.cluster.local]
+  duration: 168h
+  renewBefore: 48h
+  privateKey: {algorithm: ECDSA, size: 256, rotationPolicy: Always}
+  usages: [server auth, client auth]
+  issuerRef: {name: "relay-private-ca", kind: ClusterIssuer}
+  secretTemplate: {labels: {relay-owned: m6}}
+
+---
+# Source: relay-platform/templates/transport.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata: {name: relay-migration-tls}
+spec:
+  secretName: relay-migration-tls
+  commonName: relay-migration
+  dnsNames: [relay-migration, relay-migration.relay-platform.svc.cluster.local]
+  duration: 168h
+  renewBefore: 48h
+  privateKey: {algorithm: ECDSA, size: 256, rotationPolicy: Always}
+  usages: [server auth, client auth]
+  issuerRef: {name: "relay-private-ca", kind: ClusterIssuer}
+  secretTemplate: {labels: {relay-owned: m6}}
+
+---
+# Source: relay-platform/templates/transport.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata: {name: relay-postgres-tls}
+spec:
+  secretName: relay-postgres-tls
+  commonName: relay-postgres
+  dnsNames: [relay-postgres, relay-postgres.relay-platform.svc.cluster.local]
+  duration: 168h
+  renewBefore: 48h
+  privateKey: {algorithm: ECDSA, size: 256, rotationPolicy: Always}
+  usages: [server auth, client auth]
+  issuerRef: {name: "relay-private-ca", kind: ClusterIssuer}
+  secretTemplate: {labels: {relay-owned: m6}}
+
+---
+# Source: relay-platform/templates/transport.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata: {name: relay-redis-tls}
+spec:
+  secretName: relay-redis-tls
+  commonName: relay-redis
+  dnsNames: [relay-redis, relay-redis.relay-platform.svc.cluster.local]
+  duration: 168h
+  renewBefore: 48h
+  privateKey: {algorithm: ECDSA, size: 256, rotationPolicy: Always}
+  usages: [server auth, client auth]
+  issuerRef: {name: "relay-private-ca", kind: ClusterIssuer}
+  secretTemplate: {labels: {relay-owned: m6}}
+
+---
+# Source: relay-platform/templates/transport.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata: {name: relay-console-tls}
+spec:
+  secretName: relay-console-tls
+  commonName: "relay.example.invalid"
+  dnsNames: ["relay.example.invalid", localhost]
+  duration: 168h
+  renewBefore: 48h
+  privateKey: {algorithm: ECDSA, size: 256, rotationPolicy: Always}
+  usages: [server auth]
+  issuerRef: {name: "relay-private-ca", kind: ClusterIssuer}
+  secretTemplate: {labels: {relay-owned: m6}}
+
+---
+# Source: relay-platform/templates/transport.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata: {name: relay-db-app-tls}
+spec:
+  secretName: relay-db-app-tls
+  commonName: relay_app
+  duration: 168h
+  renewBefore: 48h
+  privateKey: {algorithm: ECDSA, size: 256, rotationPolicy: Always}
+  usages: [client auth]
+  issuerRef: {name: "relay-private-ca", kind: ClusterIssuer}
+  secretTemplate: {labels: {relay-owned: m6}}
+
+---
+# Source: relay-platform/templates/transport.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata: {name: relay-db-auth-tls}
+spec:
+  secretName: relay-db-auth-tls
+  commonName: relay_auth
+  duration: 168h
+  renewBefore: 48h
+  privateKey: {algorithm: ECDSA, size: 256, rotationPolicy: Always}
+  usages: [client auth]
+  issuerRef: {name: "relay-private-ca", kind: ClusterIssuer}
+  secretTemplate: {labels: {relay-owned: m6}}
+
+---
+# Source: relay-platform/templates/transport.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata: {name: relay-db-provisioner-tls}
+spec:
+  secretName: relay-db-provisioner-tls
+  commonName: relay_provisioner
+  duration: 168h
+  renewBefore: 48h
+  privateKey: {algorithm: ECDSA, size: 256, rotationPolicy: Always}
+  usages: [client auth]
+  issuerRef: {name: "relay-private-ca", kind: ClusterIssuer}
+  secretTemplate: {labels: {relay-owned: m6}}
+
+---
+# Source: relay-platform/templates/transport.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata: {name: relay-db-postgres-tls}
+spec:
+  secretName: relay-db-postgres-tls
+  commonName: postgres
+  duration: 168h
+  renewBefore: 48h
+  privateKey: {algorithm: ECDSA, size: 256, rotationPolicy: Always}
+  usages: [client auth]
+  issuerRef: {name: "relay-private-ca", kind: ClusterIssuer}
+  secretTemplate: {labels: {relay-owned: m6}}
+
+---
+# Source: relay-platform/templates/transport.yaml
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata: {name: relay-api}
+spec:
+  serverName: relay-api.relay-platform.svc.cluster.local
+  rootCAsSecrets: [relay-trust]
+  certificatesSecrets: [relay-ingress-client-tls]
+  maxIdleConnsPerHost: 8
+  forwardingTimeouts: {dialTimeout: 5s, responseHeaderTimeout: 15s, idleConnTimeout: 30s}
+
+---
+# Source: relay-platform/templates/transport.yaml
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata: {name: relay-gateway}
+spec:
+  serverName: relay-gateway.relay-platform.svc.cluster.local
+  rootCAsSecrets: [relay-trust]
+  certificatesSecrets: [relay-ingress-client-tls]
+  maxIdleConnsPerHost: 8
+  forwardingTimeouts: {dialTimeout: 5s, responseHeaderTimeout: 15s, idleConnTimeout: 30s}
+
+---
+# Source: relay-platform/templates/transport.yaml
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata: {name: relay-dashboard}
+spec:
+  serverName: relay-dashboard.relay-platform.svc.cluster.local
+  rootCAsSecrets: [relay-trust]
+  certificatesSecrets: [relay-ingress-client-tls]
+  maxIdleConnsPerHost: 8
+  forwardingTimeouts: {dialTimeout: 5s, responseHeaderTimeout: 15s, idleConnTimeout: 30s}
+
+---
+# Source: relay-platform/templates/certificate-boundary.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata: {name: relay-platform-store-certificate-boundary}
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [cert-manager.io]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [certificates]
+  matchConditions:
+    - name: controller-only
+      expression: "request.userInfo.username == 'system:serviceaccount:relay-platform:relay-provisioner'"
+  validations:
+    - expression: "namespaceObject != null && namespaceObject.metadata.name.matches('^relay-store-[a-f0-9]{32}$') && namespaceObject.metadata.labels['relay.store/managed'] == 'true'"
+      message: Certificate requests are restricted to managed store namespaces.
+    - expression: "object.metadata.name in ['store-wp-tls','store-db-tls','store-mcp-tls'] && object.spec.secretName == object.metadata.name && object.spec.commonName == object.metadata.name.replace('-tls','') + '.' + request.namespace"
+      message: A store can request only its three fixed service identities.
+    - expression: "(!has(object.spec.isCA) || !object.spec.isCA) && !has(object.spec.subject) && !has(object.spec.literalSubject) && !has(object.spec.ipAddresses) && !has(object.spec.uris) && !has(object.spec.emailAddresses) && !has(object.spec.keystores) && object.spec.issuerRef.name == 'relay-private-ca' && object.spec.issuerRef.kind == 'ClusterIssuer' && (!has(object.spec.issuerRef.group) || object.spec.issuerRef.group == 'cert-manager.io')"
+      message: Alternate issuers, CA identities and alternate subject forms are forbidden.
+    - expression: "object.spec.duration == '168h' && object.spec.renewBefore == '48h' && object.spec.privateKey.algorithm == 'ECDSA' && object.spec.privateKey.size == 256 && object.spec.privateKey.rotationPolicy == 'Always' && size(object.spec.usages) == 2 && object.spec.usages.all(x, x in ['server auth','client auth'])"
+      message: Store certificates must use the reviewed lifetime, key and usages.
+    - expression: "size(object.spec.dnsNames) == (object.metadata.name == 'store-wp-tls' ? 3 : 2) && object.spec.dnsNames.all(x, x in [object.metadata.name.replace('-tls',''),object.metadata.name.replace('-tls','') + '.' + request.namespace + '.svc.cluster.local'] || (object.metadata.name == 'store-wp-tls' && x == 's-' + request.namespace.replace('relay-store-','') + '.stores.example.invalid'))"
+      message: Certificate SANs must match the store's service and assigned storefront.
+
+---
+# Source: relay-platform/templates/provisioner.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata: {name: relay-platform-store-controller-boundary}
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE, DELETE]
+        resources: [namespaces]
+  matchConditions:
+    - name: controller-only
+      expression: "request.userInfo.username == 'system:serviceaccount:relay-platform:relay-provisioner'"
+  validations:
+    - expression: "request.resource.resource != 'namespaces' || (request.name.matches('^relay-store-[a-f0-9]{32}$') && (request.operation == 'DELETE' ? oldObject.metadata.labels['relay.store/managed'] == 'true' : object.metadata.labels['relay.store/managed'] == 'true'))"
+      message: Controller may only create/delete its generated managed store namespaces.
+
+
+---
+# Source: relay-platform/templates/provisioner.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata: {name: relay-platform-store-role-boundary}
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [rbac.authorization.k8s.io]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [rolebindings]
+  matchConditions:
+    - name: controller-only
+      expression: "request.userInfo.username == 'system:serviceaccount:relay-platform:relay-provisioner'"
+  validations:
+    - expression: "request.resource.resource != 'rolebindings' || (namespaceObject != null && has(namespaceObject.metadata.labels) && 'relay.store/managed' in namespaceObject.metadata.labels && namespaceObject.metadata.labels['relay.store/managed'] == 'true' && object.metadata.name == 'store-controller' && object.roleRef.kind == 'ClusterRole' && object.roleRef.name == 'relay-platform-relay-store-resources' && size(object.subjects) == 1 && object.subjects[0].kind == 'ServiceAccount' && object.subjects[0].name == 'relay-provisioner' && object.subjects[0].namespace == 'relay-platform')"
+      message: Controller may only bind its fixed store role within managed namespaces.
+
+---
+# Source: relay-platform/templates/workload-boundary.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata: {name: relay-platform-store-workload-boundary}
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [apps]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [deployments, statefulsets]
+      - apiGroups: [batch]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [jobs]
+  matchConditions:
+    - name: controller-only
+      expression: "request.userInfo.username == 'system:serviceaccount:relay-platform:relay-provisioner'"
+  variables:
+    - name: pod
+      expression: object.spec.template.spec
+    - name: containers
+      expression: "variables.pod.containers + (has(variables.pod.initContainers) ? variables.pod.initContainers : [])"
+  validations:
+    - expression: "namespaceObject != null && namespaceObject.metadata.labels['relay.store/managed'] == 'true' && request.namespace.matches('^relay-store-[a-f0-9]{32}$')"
+      message: Store workloads are restricted to managed namespaces.
+    - expression: "has(variables.pod.automountServiceAccountToken) && !variables.pod.automountServiceAccountToken && (!has(variables.pod.serviceAccountName) || variables.pod.serviceAccountName == 'default') && (!has(variables.pod.hostNetwork) || !variables.pod.hostNetwork) && (!has(variables.pod.hostPID) || !variables.pod.hostPID) && (!has(variables.pod.hostIPC) || !variables.pod.hostIPC) && (!has(variables.pod.volumes) || variables.pod.volumes.all(v, !has(v.hostPath) && !has(v.projected)))"
+      message: Host access and service-account token projection are forbidden.
+    - expression: "has(variables.pod.securityContext) && variables.pod.securityContext.runAsNonRoot && variables.pod.securityContext.runAsUser > 0 && variables.pod.securityContext.seccompProfile.type == 'RuntimeDefault' && variables.containers.all(c, has(c.securityContext) && c.securityContext.readOnlyRootFilesystem && !c.securityContext.allowPrivilegeEscalation && (!has(c.securityContext.privileged) || !c.securityContext.privileged) && c.securityContext.capabilities.drop.exists(x, x == 'ALL') && (!has(c.securityContext.capabilities.add) || size(c.securityContext.capabilities.add) == 0) && (!has(c.securityContext.runAsUser) || c.securityContext.runAsUser > 0) && (!has(c.securityContext.runAsNonRoot) || c.securityContext.runAsNonRoot))"
+      message: Every container must use the reviewed non-root restricted runtime.
+
+---
+# Source: relay-platform/templates/certificate-boundary.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata: {name: relay-platform-store-certificate-boundary}
+spec:
+  policyName: relay-platform-store-certificate-boundary
+  validationActions: [Deny]
+
+---
+# Source: relay-platform/templates/provisioner.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata: {name: relay-platform-store-controller-boundary}
+spec:
+  policyName: relay-platform-store-controller-boundary
+  validationActions: [Deny]
+
+
+---
+# Source: relay-platform/templates/provisioner.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata: {name: relay-platform-store-role-boundary}
+spec:
+  policyName: relay-platform-store-role-boundary
+  validationActions: [Deny]
+
+
+---
+# Source: relay-platform/templates/workload-boundary.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata: {name: relay-platform-store-workload-boundary}
+spec:
+  policyName: relay-platform-store-workload-boundary
+  validationActions: [Deny]

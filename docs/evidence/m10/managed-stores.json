@@ -1,0 +1,42 @@
+{
+  "at": "2026-10-22T13:38:05.347Z",
+  "checks": [
+    "Two concurrent HTTPS stores converge after a genuine provisioner restart; duplicate intent is idempotent and per-owner cap rejects a third store",
+    "Both stores expose distinct gateway tools, all five WooCommerce operations pass with real writes/orders, HTTPS COD/admin works, and both pods can be replaced without losing data"
+  ],
+  "modelTraffic": false,
+  "dashboardCreated": true,
+  "stores": [
+    {
+      "id": "385ff93e-1f6a-498f-871c-2764ec81d3be",
+      "namespace": "relay-store-385ff93e1f6a498f871c2764ec81d3be",
+      "url": "https://s-385ff93e1f6a498f871c2764ec81d3be.relay.localhost:18443",
+      "orderId": 17,
+      "tools": [
+        "store_385ff93e1f6a498f871c2764ec81d3be_info",
+        "store_385ff93e1f6a498f871c2764ec81d3be_list_products",
+        "store_385ff93e1f6a498f871c2764ec81d3be_create_product",
+        "store_385ff93e1f6a498f871c2764ec81d3be_list_orders",
+        "store_385ff93e1f6a498f871c2764ec81d3be_get_order",
+        "store_385ff93e1f6a498f871c2764ec81d3be_update_order_status"
+      ],
+      "checkoutAndPersistence": true
+    },
+    {
+      "id": "c5975a95-1dc5-499e-b598-40f9e57f1892",
+      "namespace": "relay-store-c5975a951dc5499eb59840f9e57f1892",
+      "url": "https://s-c5975a951dc5499eb59840f9e57f1892.relay.localhost:18443",
+      "orderId": 17,
+      "tools": [
+        "store_c5975a951dc5499eb59840f9e57f1892_info",
+        "store_c5975a951dc5499eb59840f9e57f1892_list_products",
+        "store_c5975a951dc5499eb59840f9e57f1892_create_product",
+        "store_c5975a951dc5499eb59840f9e57f1892_list_orders",
+        "store_c5975a951dc5499eb59840f9e57f1892_get_order",
+        "store_c5975a951dc5499eb59840f9e57f1892_update_order_status"
+      ],
+      "checkoutAndPersistence": true
+    }
+  ],
+  "passed": true
+}

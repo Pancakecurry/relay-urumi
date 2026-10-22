@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-22T13:48:47.570Z",
+  "checks": [
+    "Current member cannot register integrations or escalate management",
+    "Disabled server disappears from chat/external discovery; cached alias rejects and actual dashboard shows Disabled",
+    "Actual upstream pod deletion and a sustained outage preserve healthy Woo calls; dashboard reports Unreachable and recovery restores tools",
+    "Real failed and rejected calls have durable user/server/tool/time/duration/outcome attribution",
+    "B self-revokes the external personal key; the very next existing-client call and a fresh request reject",
+    "Public discovery and audit contain no stored upstream tokens"
+  ],
+  "modelTraffic": false,
+  "deletedPodUid": "26417949-3a6d-4801-afd1-63c8e97713c2",
+  "keyRevoked": true,
+  "passed": true
+}

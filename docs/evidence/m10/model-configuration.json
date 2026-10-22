@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-22T13:42:46.089Z",
+  "passed": true,
+  "api": "generativelanguage.googleapis.com",
+  "model": "gemini-3.5-flash-lite",
+  "existingSecretPreserved": true,
+  "approvedEligiblePaise": 26500,
+  "runtimeCapPaise": 16400,
+  "reservedPaise": 13800,
+  "remainingPaise": 2600,
+  "providerTraffic": false,
+  "budgetChanged": false,
+  "privateValuesPrinted": false
+}

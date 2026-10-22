@@ -1,27 +1,85 @@
 # Relay
 
-Relay is a Kubernetes-native WooCommerce platform with a team-authenticated MCP gateway and an inspectable real-model console. M0–M4 are verified locally. Gate A passes the real two-user core journey and exact committed-source empty-cluster installation. Public deployment and complete-product completion are not claimed. Full multi-store, nine differentiator areas and C1–C10 product scope remain active for later milestones.
+Relay hosts WooCommerce on Kubernetes and gives a team one MCP endpoint for store operations, Calendar and Decimal Totals. The React control room manages integrations, identities, personal keys, permissions, audits, real Gemini tool runs and isolated store provisioning.
 
-Open the [console](http://relay.localhost:18080/), [synthetic storefront](http://store.relay.localhost:18080/shop/) and [WooCommerce administration](http://store.relay.localhost:18080/wp-admin/). They run inside the owned local Kubernetes cluster, exposed only through loopback Ingress. Operator identity and store credentials are in ignored private `.local` files; never display or commit their contents.
+This assessment release covers **M0–M6**. Current verification and remaining gates are in [release status](docs/release/STATUS.md), the [requirement ledger](docs/REQUIREMENTS.md) and [feature inventory](docs/release/FEATURE_INVENTORY.md). M7–M9 and C1–C10 remain the [longer-term roadmap](docs/release/ROADMAP.md). A local test is not a VPS deployment, uploaded video or submission.
 
-Start with the [complete local console runbook](docs/runbooks/local-console.md). Read [M4 evidence](docs/evidence/m4.md), [design review](docs/design/REVIEW.md), [requirement ledger](docs/REQUIREMENTS.md), [architecture](docs/architecture/overview.md), [versions](docs/versions.md) and [two-user demo](docs/demo/DEMO_SCRIPT.md). Fresh machine tooling and cluster setup use [M0](docs/runbooks/local-m0.md). Store setup uses [M1](docs/runbooks/local-store.md); upstreams use [M2](docs/runbooks/mcp-upstreams.md); backend identity/security details use [M3](docs/runbooks/local-platform.md).
+## Architecture and stack
+
+Browser → Traefik → React/API or `/mcp` gateway → private handwritten MCP upstream → WooCommerce REST → MariaDB. PostgreSQL owns identity, registry, policies, audits, chat and desired store state. BullMQ/Redis dispatch work; the provisioner reconciles PostgreSQL state into isolated Helm releases. Chat discovers and executes through the gateway as the signed-in user.
+
+Pinned Node 24, pnpm 11, strict TypeScript, Fastify, official MCP SDK v 2, React/Vite/TanStack Query, Better Auth native OAuth, Drizzle/PostgreSQL, Redis/BullMQ, Helm/k3d/k3s, WordPress/WooCommerce/MariaDB and cert-manager. Exact resolved versions and image identities: [versions](docs/versions.md), lockfile and [M6 images](docs/evidence/m6/images.txt).
+
+Read [system design and tradeoffs](docs/SYSTEM_DESIGN.md), [threat model](docs/THREAT_MODEL.md) and the detailed [architecture/ADRs](docs/architecture/overview.md).
+
+## Prerequisites
+
+The verified workstation is Apple Silicon/macOS with 16GiB RAM, Docker Desktop and an owned 4GiB k3d server container. Keep ample disk headroom; a clean second cluster temporarily needs additional RAM/disk. Inspect first:
 
 ```sh
-pnpm install --frozen-lockfile
-pnpm check
-pnpm store:deploy
-pnpm mcp:deploy
-pnpm console:deploy
-pnpm console:bootstrap
+node scripts/environment.mjs
 ```
 
-Follow the runbook for prerequisite Secret generation, image imports, private identity storage and safe model opt-in. The bootstrap does not give arbitrary new users the operator's store credentials. A personal MCP client needs only `http://relay.localhost:18080/mcp` and its own Bearer key.
+Install the exact Node/pnpm/Kubernetes/Helm/k3d versions recorded in `docs/versions.md` from their official distributions. Chrome is used by the browser acceptance tests. Runtime/dependency downloads live outside synced Documents through `scripts/local-cache.mjs`. No paid cloud or software is required. Model traffic requires an explicitly approved eligible-credit allowance; no key is included.
 
-The console provides real upstream management, permission-filtered tools/schema inspection, invitations/member controls, reveal-once personal keys, audit records and durable owner-scoped chat runs. Chat discovery and calls use the gateway with the session-derived user's identity. The execution inspector shows actual arguments/results, durations, provider events and audit correlation; it is the M4 inspector, not the future complete C1 Flight Recorder.
+## Local setup and safe deployment
 
-The recorded Gemini journey created product 42, **Urumi Demo Mug / ₹199.00**, checked out COD order 43, and returned that order in the actual Asia/Kolkata today-orders page. A separate B external CLI model host used Calendar and WooCommerce in one prompt. Independent MCP Inspector compatibility is recorded separately. Disabled tools, pod outages, inactive memberships and revoked keys were tested against real services; there are no simulated production tool results.
+For the full current sequence use [the release installation runbook](docs/runbooks/release-install.md). Historical M0–M5 runbooks are preserved as dated implementation evidence; do not mix their HTTP-only deployment commands into the M6 TLS deployment.
 
+```sh
+node scripts/local-cache.mjs
+pnpm install --frozen-lockfile
+pnpm check
+export PATH="$PWD/.tools/bin:$PATH"
+export KUBECONFIG="$PWD/.local/kubeconfig"
+bash scripts/cluster-setup.sh
+```
 
-Only local native arm64 execution is verified. [Production-like k3s values](docs/runbooks/production-core.md) are linted/rendered configuration; there is no actual VPS deployment, public TLS, amd64 proof or publication. Node-local persistent volumes are not HA. WordPress/MariaDB entrypoint constraints are recorded in ADR 0006. OAuth, store lifecycle automation, advanced Flight Recorder, scaling and disaster recovery remain later milestones. Final video/submission are M10 and were not performed.
+The release runbook continues with ownership-checked Secret generation, reviewed images, PKI, data TLS, migrations, original store, three upstreams and platform Helm installation. Every generated credential stays in ignored `.local` and Kubernetes Secrets. Never copy a private backup into Git. Do not reuse this repository's synthetic test credentials for public deployment.
 
-No unrelated personal files, Docker images/volumes, clusters or repositories were removed during the authorized cache cleanup. Preserve `m0-verified`, `m0-model-verified`, `m1-verified`, `m2-verified` and `m3-verified` checkpoints while extending the product.
+## Access
+
+| Surface | Current local URL |
+|---|---|
+| Dashboard | `https://relay.localhost:18443/` |
+| Single gateway | `https://relay.localhost:18443/mcp` |
+| Storefront | `https://store.relay.localhost:18443/shop/` |
+| Woo administration | `https://store.relay.localhost:18443/wp-admin/` |
+
+The hosts select real Ingress routes; ports bind to loopback. Local TLS uses an explicitly scoped project CA, not a public certificate. Tests load `.local/relay-ca.crt`; browser automation pins the project leaf. No OS-wide trust root is installed. A normal browser requires the owner's chosen trust configuration; do not disable verification or click through a warning as a deployment procedure. Upstreams and databases have no public route.
+
+Create an owner through the documented bootstrap, then invite the second user in **Team**. In **API keys**, a member can generate a personal key, copy it once privately and revoke it. Reviewers should create their own identities and credentials.
+
+## Checkout, chat and external clients
+
+Open a synthetic product, **Add to cart** → **View cart** → **Proceed to checkout**. Use clearly synthetic details, **Cash on delivery**, then **Place order**. Capture the live order ID and verify it under Woo administration → Orders. This is test data; no payment or shipment is arranged.
+
+In **Agent workspace**, request a named product with price and a unique SKU, inspect the actual tool arguments/results, and verify the product on the storefront. After checkout ask for today's orders in Asia/Kolkata. Calendar returns UTC day bounds; WooCommerce returns actual paginated orders. Each result links to a durable audit under the logged-in user's identity. A run is bounded to four model steps/eight tool executions; failures and ambiguous writes are visible.
+
+An external MCP host needs the gateway URL and its user's Bearer key, plus ordinary local DNS/CA trust. It never receives upstream credentials. See [external clients](docs/runbooks/external-clients.md) for the tested official client, independent Inspector and native OAuth flow. Admin-managed OAuth public clients use exact loopback callbacks, S256 PKCE and signed browser consent. Open dynamic registration is intentionally disabled.
+
+## Verification
+
+```sh
+pnpm check
+export PATH="$PWD/.tools/bin:$PATH" KUBECONFIG="$PWD/.local/kubeconfig"
+export RELAY_TEST_ORIGIN=https://relay.localhost:18443
+node scripts/run-acceptance.mjs scripts/security-permissions.mjs
+node scripts/run-acceptance.mjs scripts/security-oauth-client.mjs
+node scripts/run-acceptance.mjs scripts/security-oauth-negative.mjs
+node scripts/run-acceptance.mjs scripts/security-console-ui.mjs
+```
+
+Use [test evidence](docs/release/TEST_EVIDENCE.md) for the exact complete release sequence and results. Tests with destructive synthetic-store cleanup, controlled outages or paid model calls must be run deliberately; do not run all historical scripts blindly. Historical scripts may require their original fixtures and transport profile. `run-acceptance.mjs` keeps raw failure diagnostics private because browser errors can include filled forms.
+
+The committed-source clean installer exports Git into a fresh nonsynced directory, installs offline with the frozen lockfile, checks/builds, creates an independent cluster with new credentials, exercises real services and removes only that temporary cluster. It preserves the working deployment and never copies the model key.
+
+## k3s deployment, upgrades and limitations
+
+[Production-like deployment](docs/runbooks/production-like.md) explains the **same chart templates** with environment overrides for domains, images, storage, API CIDR, TLS and Secrets. Production values are render-tested examples; no VPS is claimed. [Upgrade/rollback](docs/runbooks/upgrade-rollback.md) covers release history, persistence and database compatibility caveats. A Helm rollback does not undo an order, database migration or volume deletion.
+
+This is a single-node assessment system, not HA or a hostile-workload sandbox. Native database/cache/PHP clients need controlled reload after leaf renewal; Node HTTPS servers reload projected leaves. Root-CA rotation, automated backups/PITR, arbitrary image hosting, broad scaling and full observability are roadmap work. Upstream descriptions/results remain untrusted; redaction cannot prevent arbitrary covert encoding. Model reservations are conservative authorization limits, not an invoice.
+
+## Recording and submission
+
+Use [final speaking/click script](docs/demo/FINAL_DEMO_SCRIPT.md), [recording preparation](docs/demo/DEMO_RUNBOOK.md) and [technical review](docs/demo/WALKTHROUGH.md). The [delivery manifest](delivery/MANIFEST.md) identifies actual files, links, evidence and manual actions. Repository publication, video upload and the employer form remain owner-controlled actions. Never submit credentials.

@@ -1,6 +1,6 @@
 # Relay architecture
 
-Current M5 state: the core console/gateway/store and durable multi-store lifecycle are implemented and tested locally. See ADR0010 and `../evidence/m5.md` for current behavior and limits; the milestone sections below preserve earlier architectural history. M6 permissions/OAuth/security is authorized next, after the M5 release checkpoint.
+Current release: M0–M6 are implemented and tested locally, including the real two-user core, durable multi-store lifecycle, native OAuth, live permissions and TLS/vault/network/admission hardening. M10 evidence repeats the actual journey and clean installation. The milestone sections below preserve historical snapshots; their earlier pending/HTTP descriptions do not describe the current TLS release. M7–M9/C1–C10 remain longer-term roadmap work.
 
 This repository implements a persistent WooCommerce store, three independent private MCP upstreams, the durable authenticated gateway and management API, and the preserved transport proof. PostgreSQL owns identity, registry and audits; Redis enforces shared admission limits. Dashboard and model chat remain M4. The full assessment scope is tracked in [REQUIREMENTS.md](../REQUIREMENTS.md). Future-only directories contain explicit unimplemented notices.
 

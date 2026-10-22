@@ -1,0 +1,100 @@
+{
+  "at": "2026-10-22T13:48:29.984Z",
+  "passed": true,
+  "reason": "Native consumers reload automatically renewed projected leaves before the recording window",
+  "reloaded": [
+    {
+      "namespace": "relay-platform",
+      "resource": "statefulset/relay-postgres"
+    },
+    {
+      "namespace": "relay-platform",
+      "resource": "statefulset/relay-redis"
+    },
+    {
+      "namespace": "relay-platform",
+      "resource": "deployment/relay-api"
+    },
+    {
+      "namespace": "relay-platform",
+      "resource": "deployment/relay-gateway"
+    },
+    {
+      "namespace": "relay-platform",
+      "resource": "deployment/relay-provisioner"
+    },
+    {
+      "namespace": "relay-store-m1",
+      "resource": "statefulset/demo-store-db"
+    },
+    {
+      "namespace": "relay-store-m1",
+      "resource": "deployment/demo-store-wp"
+    },
+    {
+      "namespace": "relay-store-m1",
+      "resource": "deployment/relay-woocommerce"
+    },
+    {
+      "namespace": "relay-upstreams",
+      "resource": "deployment/relay-calendar"
+    },
+    {
+      "namespace": "relay-upstreams",
+      "resource": "deployment/relay-totals"
+    },
+    {
+      "namespace": "relay-store-85079ca72e6b440c96e3076794da1e31",
+      "resource": "statefulset/store-db"
+    },
+    {
+      "namespace": "relay-store-85079ca72e6b440c96e3076794da1e31",
+      "resource": "deployment/store-wp"
+    },
+    {
+      "namespace": "relay-store-85079ca72e6b440c96e3076794da1e31",
+      "resource": "deployment/store-mcp"
+    }
+  ],
+  "claimsPreserved": [
+    {
+      "namespace": "relay-platform",
+      "name": "data-relay-postgres-0",
+      "uid": "c3fed7a0-d0c7-4608-bc0e-ef02e58d1182",
+      "pv": "pvc-c3fed7a0-d0c7-4608-bc0e-ef02e58d1182"
+    },
+    {
+      "namespace": "relay-platform",
+      "name": "data-relay-redis-0",
+      "uid": "61ba13cb-6228-424f-8d09-080e27706975",
+      "pv": "pvc-61ba13cb-6228-424f-8d09-080e27706975"
+    },
+    {
+      "namespace": "relay-store-85079ca72e6b440c96e3076794da1e31",
+      "name": "store-content",
+      "uid": "9ff15c87-bc66-4205-af20-3ac1ef863830",
+      "pv": "pvc-9ff15c87-bc66-4205-af20-3ac1ef863830"
+    },
+    {
+      "namespace": "relay-store-85079ca72e6b440c96e3076794da1e31",
+      "name": "store-db",
+      "uid": "c469a708-3b46-4ab8-8598-b2caed0a876f",
+      "pv": "pvc-c469a708-3b46-4ab8-8598-b2caed0a876f"
+    },
+    {
+      "namespace": "relay-store-m1",
+      "name": "demo-store-content",
+      "uid": "c323ca17-2423-4e81-9b79-1cd99bf78036",
+      "pv": "pvc-c323ca17-2423-4e81-9b79-1cd99bf78036"
+    },
+    {
+      "namespace": "relay-store-m1",
+      "name": "demo-store-db",
+      "uid": "fc76be84-8c64-41fb-9590-b9eb7b7fc358",
+      "pv": "pvc-fc76be84-8c64-41fb-9590-b9eb7b7fc358"
+    }
+  ],
+  "privateKeysPrinted": false,
+  "caReplaced": false,
+  "automaticNativeReloadClaim": false
+}

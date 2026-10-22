@@ -1,0 +1,210 @@
+{
+  "at": "2026-10-22T14:08:33.529Z",
+  "checks": [],
+  "modelTraffic": false,
+  "newInfrastructureSpending": 0,
+  "evidence": [
+    {
+      "path": "docs/evidence/m6/clean-install.json",
+      "at": "2026-10-22T13:18:52.305Z",
+      "passed": true,
+      "groups": 6
+    },
+    {
+      "path": "docs/evidence/m6/permissions.json",
+      "at": "2026-10-22T13:33:09.161Z",
+      "passed": true,
+      "groups": 10
+    },
+    {
+      "path": "docs/evidence/m6/permission-replicas.json",
+      "at": "2026-10-22T13:33:14.128Z",
+      "passed": true,
+      "groups": 4
+    },
+    {
+      "path": "docs/evidence/m6/management-freshness.json",
+      "at": "2026-10-22T13:33:44.434Z",
+      "passed": true,
+      "groups": 2
+    },
+    {
+      "path": "docs/evidence/m6/permissions-ui.json",
+      "at": "2026-10-22T13:35:38.440Z",
+      "passed": true,
+      "groups": 4
+    },
+    {
+      "path": "docs/evidence/m6/oauth-client.json",
+      "at": "2026-10-22T13:20:58.358Z",
+      "passed": true,
+      "groups": 5
+    },
+    {
+      "path": "docs/evidence/m6/oauth-security.json",
+      "at": "2026-10-22T13:13:55.429Z",
+      "passed": true,
+      "groups": 12
+    },
+    {
+      "path": "docs/evidence/m6/oauth-concurrency.json",
+      "at": "2026-10-22T13:21:42.801Z",
+      "passed": true,
+      "groups": 5
+    },
+    {
+      "path": "docs/evidence/m6/vault.json",
+      "at": "2026-10-22T13:35:02.339Z",
+      "passed": true,
+      "groups": 5
+    },
+    {
+      "path": "docs/evidence/m6/vault-rotation.json",
+      "at": "2026-10-15T23:08:49.185Z",
+      "passed": true,
+      "groups": 4
+    },
+    {
+      "path": "docs/evidence/m6/admission.json",
+      "at": "2026-10-22T13:35:08.800Z",
+      "passed": true,
+      "groups": 16
+    },
+    {
+      "path": "docs/evidence/m6/malicious-upstreams.json",
+      "at": "2026-10-22T13:35:13.312Z",
+      "passed": true,
+      "groups": 14
+    },
+    {
+      "path": "docs/evidence/m6/data-tls.json",
+      "at": "2026-10-22T13:35:26.632Z",
+      "passed": true,
+      "groups": 4
+    },
+    {
+      "path": "docs/evidence/m6/secret-at-rest.json",
+      "at": "2026-10-22T13:35:32.084Z",
+      "passed": true,
+      "groups": 2
+    },
+    {
+      "path": "docs/evidence/m6/console-ui.json",
+      "at": "2026-10-22T13:35:53.145Z",
+      "passed": true,
+      "groups": 3
+    },
+    {
+      "path": "docs/evidence/m10/core/regression.json",
+      "at": "2026-10-22T13:36:57.963Z",
+      "passed": true,
+      "groups": 5
+    },
+    {
+      "path": "docs/evidence/m10/core/security.json",
+      "at": "2026-10-22T13:38:03.472Z",
+      "passed": true,
+      "groups": 6
+    },
+    {
+      "path": "docs/evidence/m10/chat-create.json",
+      "at": "2026-10-22T13:29:41.534Z",
+      "passed": true,
+      "groups": null
+    },
+    {
+      "path": "docs/evidence/m10/chat-orders.json",
+      "at": "2026-10-22T13:31:08.585Z",
+      "passed": true,
+      "groups": null
+    },
+    {
+      "path": "docs/evidence/m10/managed-stores.json",
+      "at": "2026-10-22T13:38:05.347Z",
+      "passed": true,
+      "groups": 2
+    },
+    {
+      "path": "docs/evidence/m10/external-agent.json",
+      "at": "2026-10-22T13:45:30.982Z",
+      "passed": true,
+      "groups": null
+    },
+    {
+      "path": "docs/evidence/m10/inspector.json",
+      "at": "2026-10-22T13:45:31.997Z",
+      "passed": true,
+      "groups": null
+    },
+    {
+      "path": "docs/evidence/m10/network.json",
+      "at": "2026-10-22T13:45:44.524Z",
+      "passed": true,
+      "groups": 3
+    },
+    {
+      "path": "docs/evidence/m10/tls-peers.json",
+      "at": "2026-10-22T13:48:35.492Z",
+      "passed": true,
+      "groups": 2
+    },
+    {
+      "path": "docs/evidence/m10/identity-reload.json",
+      "at": "2026-10-22T13:48:29.984Z",
+      "passed": true,
+      "groups": null
+    },
+    {
+      "path": "docs/evidence/m10/controls.json",
+      "at": "2026-10-22T13:48:47.570Z",
+      "passed": true,
+      "groups": 6
+    },
+    {
+      "path": "docs/evidence/m10/secure-teardown.json",
+      "at": "2026-10-22T13:49:06.483Z",
+      "passed": true,
+      "groups": 2
+    }
+  ],
+  "root": {
+    "tests": 42,
+    "lint": true,
+    "strictTypes": true,
+    "productionBuild": true
+  },
+  "images": [
+    "relay/platform:m6-99a36532c5ab56f3",
+    "relay/provisioner:m6-99a36532c5ab56f3"
+  ],
+  "deletedStores": [
+    {
+      "id": "385ff93e-1f6a-498f-871c-2764ec81d3be",
+      "status": "Deleted"
+    },
+    {
+      "id": "c5975a95-1dc5-499e-b598-40f9e57f1892",
+      "status": "Deleted"
+    }
+  ],
+  "retainedBorealReady": true,
+  "preservedOrderIds": [
+    17,
+    43,
+    53
+  ],
+  "product52Preserved": true,
+  "resources": {
+    "hostRAMBytes": 17179869184,
+    "freeDiskBytes": 8990892032,
+    "serverContainerLimitBytes": 4294967296,
+    "nodeUsage": "NAME                    CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   \nk3d-relay-m0-server-0   277m         3%       2874Mi          91%",
+    "podUsage": "NAME                                 CPU(cores)   MEMORY(bytes)   \nrelay-api-7b95d9d47c-4gzfd           6m           79Mi            \nrelay-dashboard-566f58b6b9-4fsn8     3m           48Mi            \nrelay-gateway-776797c858-bnjtn       15m          71Mi            \nrelay-postgres-0                     10m          40Mi            \nrelay-provisioner-66db7f959d-dzg46   5m           56Mi            \nrelay-redis-0                        16m          11Mi"
+  },
+  "publicVPSVerified": false,
+  "repositoryURLVerified": false,
+  "narratedUploadedVideoVerified": false,
+  "submitted": false,
+  "applicationVerifiedLocally": true,
+  "passed": true
+}

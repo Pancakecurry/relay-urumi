@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-22T13:48:35.492Z",
+  "checks": [
+    "The actual PostgreSQL socket serves the renewed server serial and PostgreSQL identifies the exact renewed SQL-client serial",
+    "Actual Redis, WordPress and adapter handshakes expose the renewed leaf serials with CA/SAN verification and the permitted real client identities"
+  ],
+  "operatorForwardUsed": false,
+  "postgres": {
+    "ssl": true,
+    "version": "TLSv1.3",
+    "client_serial": "516111056172188898640617434759162502601364599146",
+    "peerSerial": "777758093C1F5E13D700D295BA2261563C8EEC4D"
+  },
+  "redis": {
+    "authorized": true,
+    "protocol": "TLSv1.3",
+    "serial": "04E8A78C3559888CB397A625B85D528739403EB0"
+  },
+  "wordpress": {
+    "authorized": true,
+    "protocol": "TLSv1.3",
+    "serial": "79C5DB63081BCFC234676967CDD1BA6F23C5A013"
+  },
+  "adapter": {
+    "authorized": true,
+    "protocol": "TLSv1.3",
+    "serial": "6DC1C924D72670CC0DC5E872357414583B986E05"
+  },
+  "passed": true
+}

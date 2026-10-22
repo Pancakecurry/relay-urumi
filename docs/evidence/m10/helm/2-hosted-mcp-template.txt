@@ -1,0 +1,87 @@
+---
+# Source: hosted-mcp/templates/upstream.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: release-check-private
+spec:
+  podSelector: {matchLabels: {relay.upstream: release-check}}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+        - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: relay-platform}}
+          podSelector: {matchLabels: {relay.role: gateway}}
+      ports: [{protocol: TCP, port: 3000}]
+  egress:
+    - to:
+        - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: kube-system}}
+          podSelector: {matchLabels: {k8s-app: kube-dns}}
+      ports: [{protocol: UDP, port: 53}, {protocol: TCP, port: 53}]
+
+---
+# Source: hosted-mcp/templates/upstream.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-check
+spec:
+  type: ClusterIP
+  selector: {relay.upstream: release-check}
+  ports: [{name: http, port: 3000, targetPort: http}]
+
+---
+# Source: hosted-mcp/templates/upstream.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-check
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {relay.upstream: release-check}
+  template:
+    metadata:
+      labels: {relay.upstream: release-check, role: utility}
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: mcp
+          image: "relay/platform:m6-99a36532c5ab56f3"
+          imagePullPolicy: IfNotPresent
+          command: [node, "dist/apps/calendar-mcp/src/server.js"]
+          ports: [{name: http, containerPort: 3000}]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          resources: 
+            limits:
+              cpu: 500m
+              memory: 192Mi
+            requests:
+              cpu: 25m
+              memory: 64Mi
+          livenessProbe:
+            httpGet: {scheme: HTTP, path: /health/live, port: http, httpHeaders: [{name: Host, value: localhost}]}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet: {scheme: HTTP, path: /health/ready, port: http, httpHeaders: [{name: Host, value: localhost}]}
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          env:
+            - {name: MCP_SECRET_FILE, value: /secrets/mcp/token}
+            - {name: MCP_SERVICE_HOST, value: release-check}
+            - name: POD_NAMESPACE
+              valueFrom: {fieldRef: {fieldPath: metadata.namespace}}
+          volumeMounts:
+            - {name: mcp-secret, mountPath: /secrets/mcp, readOnly: true}
+      volumes:
+        - name: mcp-secret
+          secret: {secretName: calendar-mcp-auth, defaultMode: 0440}
