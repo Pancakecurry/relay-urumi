@@ -1,0 +1,37 @@
+{
+  "publicationReviewDate": "2026-10-24",
+  "parentRevision": "b6c04243244df51672f8494820023cfadf034951",
+  "nodeVersion": "v24.16.0",
+  "pnpmVersion": "11.25.0",
+  "lockfileSha256": "46ee76b97fe7c5eee77544ba449927cd5075efe6497be133aea0e98f934ba752",
+  "frozenOfflineInstall": true,
+  "lint": true,
+  "strictTypes": true,
+  "unitTestFiles": 14,
+  "unitTestsPassed": 42,
+  "productionBuild": true,
+  "additionalCredentialControlsPassed": 3,
+  "liveKubernetesNodeReady": true,
+  "coreDeploymentsReady": [
+    "relay-api",
+    "relay-dashboard",
+    "relay-gateway",
+    "relay-provisioner"
+  ],
+  "persistentServicesReady": [
+    "relay-postgres",
+    "relay-redis"
+  ],
+  "actualGatewayOrderRead": {
+    "orderId": 53,
+    "isError": false
+  },
+  "runtimeSourceCompared": 155,
+  "runtimeSourceUnchanged": true,
+  "providerTraffic": false,
+  "cloudDeployed": false,
+  "passed": true,
+  "knownWarnings": [
+    "Vite main JavaScript chunk exceeds its 500 kB advisory warning threshold; production build succeeds."
+  ]
+}

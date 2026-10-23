@@ -80,6 +80,12 @@ The committed-source clean installer exports Git into a fresh nonsynced director
 
 This is a single-node assessment system, not HA or a hostile-workload sandbox. Native database/cache/PHP clients need controlled reload after leaf renewal; Node HTTPS servers reload projected leaves. Root-CA rotation, automated backups/PITR, arbitrary image hosting, broad scaling and full observability are roadmap work. Upstream descriptions/results remain untrusted; redaction cannot prevent arbitrary covert encoding. Model reservations are conservative authorization limits, not an invoice.
 
-## Recording and submission
+## Demonstration and release status
 
-Use [final speaking/click script](docs/demo/FINAL_DEMO_SCRIPT.md), [recording preparation](docs/demo/DEMO_RUNBOOK.md) and [technical review](docs/demo/WALKTHROUGH.md). The [delivery manifest](delivery/MANIFEST.md) identifies actual files, links, evidence and manual actions. Repository publication, video upload and the employer form remain owner-controlled actions. Never submit credentials.
+The [technical walkthrough](docs/demo/WALKTHROUGH.md) covers the two-user store, gateway, chat, failure and provisioning journeys. See [release status](docs/release/STATUS.md), [test evidence](docs/release/TEST_EVIDENCE.md) and [feature inventory](docs/release/FEATURE_INVENTORY.md) for actual results and limitations.
+
+The application is verified locally. Public cloud hosting and a complete uploaded demonstration video are not claimed. M7–M9 and C1–C10 remain roadmap work.
+
+## Evidence publication
+
+Historical test logs retain real commands and outcomes. Workstation paths are replaced with `[PROJECT_ROOT]` or `[LOCAL_HOME]`; private account/approval metadata is omitted. The application source and pinned dependency configuration are preserved. Historical source IDs can be mapped through [the publication source map](docs/evidence/publication/source-map.json). Public commit hashes changed when private material was removed from history; commit dates, generic authorship and genuine progress were retained.

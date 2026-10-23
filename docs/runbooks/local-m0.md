@@ -30,4 +30,4 @@ Inspector reads a private generated configuration and exercises the real bearer 
 
 If something fails, inspect `pnpm check`, the dedicated cluster’s pods/events and the proof’s logs. Do not delete unrelated Docker resources to recover storage. Neither uninstall nor cluster deletion is part of these reproduction commands.
 
-Additional acceptance scripts and actual output paths are listed in [M0 report](../evidence/M0_REPORT.md). Production example values are unverified and cannot yet deploy the full assessment.
+Additional acceptance scripts and actual output paths are listed in [M0 report](../evidence/m0.md). Production example values are unverified and cannot yet deploy the full assessment.

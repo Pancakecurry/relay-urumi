@@ -10,3 +10,6 @@ dist/
 coverage/
 *.log
 .DS_Store
+
+# Ignore runtime directories even when represented by local symlinks.
+.local

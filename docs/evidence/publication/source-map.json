@@ -1,0 +1,101 @@
+{
+  "purpose": "Historical evidence source IDs mapped to privacy-cleaned genuine progress commits; no runtime behavior was changed by redaction.",
+  "commits": [
+    {
+      "original": "0f21a0b55bf203612bbfb8a2dcd27f0f256b7392",
+      "public": "b6c04243244df51672f8494820023cfadf034951"
+    },
+    {
+      "original": "1c3aca0b366cf18a8cc28c0c6d362e63f04bc886",
+      "public": "7ca0d99c5d7919e39cc3779134f8f37c71680ce6"
+    },
+    {
+      "original": "286c7faf2981ad67f03113188d8bdbc8f36426be",
+      "public": "9c3e14f41df8793efab42dc1135838bedbb19773"
+    },
+    {
+      "original": "2cdd17ae04100e6a83cccc6bdfbdeeeba773d7c5",
+      "public": "cc9a77f96c0c9c51ca80402744cf4f0e4955be61"
+    },
+    {
+      "original": "2f7f51e3b678e00319c025475b8ada56af1daea3",
+      "public": "f5c0fd32742d4189b7b1f2d115d1034ad1a8210e"
+    },
+    {
+      "original": "35e8c3732997b6d851bed9d4e436d1cd8b6284a5",
+      "public": "ad5491ef79c2a0583c264fcffe6e86805b9f216e"
+    },
+    {
+      "original": "41628c05f4a08fe1b26856201477f933ad249a6e",
+      "public": "284568e083163e18ff3247b6c74855c2995654a2"
+    },
+    {
+      "original": "645893d26a21c40af97fd8131ea7a92df87f19a0",
+      "public": "cce59c8e928b5f75ff16e753453e5aa78d4da67a"
+    },
+    {
+      "original": "6ef47d4593fa437281b545d7dce30e98e4d72713",
+      "public": "5a3006ba4719d9bdfe3d1c2c1eeaaeeaa88983e6"
+    },
+    {
+      "original": "6f6a442e15437eb24848df063ca98b06b2b1b146",
+      "public": "5de8276bf36366adc9281879f70c822f094c35f2"
+    },
+    {
+      "original": "70902cbe1dbd43dd3a76d694ec3e6f2b7b5fbdbc",
+      "public": "c41cf8a748a84f0bb0cecf9ec0af63b4286e0d00"
+    },
+    {
+      "original": "7730aa2f9277b7e9fa652912ea3fb5bfd1b7e813",
+      "public": "2d3634c276764563b4ba8c10ffc0c89731ea1c01"
+    },
+    {
+      "original": "a5c8eb35125e18c0a0f0abeecbfb982096098477",
+      "public": "ec88d2d3a3865596cf4a0d5ca3db5d12ee77ba55"
+    },
+    {
+      "original": "a88dd7e8b0475cffcf048f46b1e45722c88c16e5",
+      "public": "e4cddfeafb3a2dd978646cecd9283c2684407121"
+    },
+    {
+      "original": "ab9411424b831a14db355016904b4b5706591c21",
+      "public": "722dfdc34b77d374da79633a3873f487f213a74e"
+    },
+    {
+      "original": "ac08c1d43a3fc0bdf2144411d8723e017042f69d",
+      "public": "431ed9e06102b1f5afeb8b276c102205b74df605"
+    },
+    {
+      "original": "b2ed73ccf20c5e71dc464c40c002c284aba0496e",
+      "public": "a0ee37f45a06e3438ce19867be7f1304d706a1c0"
+    },
+    {
+      "original": "c5769b2b3b21bface3c70b382aea475df385062e",
+      "public": "c21effc3ca5e341561f780ce743bdcb61339986d"
+    },
+    {
+      "original": "cb6be7f5d0cfa1be5087ca49891b42f6e9ddb118",
+      "public": "ceb2ac4dbc304ea726d022829b20e5ebffd09ce6"
+    },
+    {
+      "original": "d3f904c7a5ff2be98aeebffa002e6a55e61a1911",
+      "public": "0d6d4ec42b67514eb92e21c0798b91733b3f14a4"
+    },
+    {
+      "original": "dbcbee34d17f1d7f8880a4e9b7fc2b8e8b7da628",
+      "public": "1cccb14400d4a63a619757a6dd2845ad8ad9661b"
+    },
+    {
+      "original": "effabb7d39573b42b227d14110bef88860d98c2a",
+      "public": "14f30723c6c608ef77aea959f9f72689cfa4c451"
+    },
+    {
+      "original": "f075f36854d2228871cb1b064b17355639d6de7d",
+      "public": "abbaafbfa8d671162e249af92e8a65603d0d6ae8"
+    },
+    {
+      "original": "f175866f02e2c563e278c9fb425f7873f3b906dd",
+      "public": "7e300e79552ed582e9321431318f42bb263f94e7"
+    }
+  ]
+}

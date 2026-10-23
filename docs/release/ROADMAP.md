@@ -1,6 +1,6 @@
 # Preserved longer-term roadmap
 
-The owner's October 22 final-delivery instruction makes M0–M6 plus M10 the assessment submission scope. It does not delete any part of `Urumi_Full_Scope_Plan.md`.
+The current assessment release covers M0–M6 and final integration. The complete technical roadmap remains preserved in the requirement ledger and milestone specifications.
 
 M7 remains D04 handling many tools and D05 arbitrary image-hosted MCP lifecycle. M8 remains D07 full shared admission/scaling/session failure matrix and D08 complete metrics/alerts/observability. M9 remains actual D01 free-capacity VPS deployment and D09 complete upgrade/rollback/backup-recovery matrix. Supporting pieces in earlier milestones are not full completion of these gates.
 
